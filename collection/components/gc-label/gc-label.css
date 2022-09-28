@@ -1,0 +1,8 @@
+label {
+  font-family: var(--gc-font-family);
+  font-weight: var(--gc-font-weight-label);
+  font-size: var(--gc-font-size-label);
+  color: var(--gc-color-label-grey);
+  line-height: var(--gc-line-height-label);
+  text-transform: uppercase;
+}

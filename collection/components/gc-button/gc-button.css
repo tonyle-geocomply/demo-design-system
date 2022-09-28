@@ -1,0 +1,39 @@
+button {
+  padding: 0 30px;
+  height: 41px;
+  border-radius: var(--border-radius-btn);
+  box-shadow: none;
+  border: 0px;
+  font-size: var(--gc-font-size);
+  cursor: pointer;
+}
+
+button.disabled {
+  opacity: 0.5;
+  cursor: not-allowed;
+}
+
+button.gc__btn--primary {
+  background: var( --gc-color-primary);
+  color: var(--gc-color-contrast-white);
+}
+
+button.gc__btn--danger {
+  background: var(--gc-color-danger);
+  color: var(--gc-color-contrast-white);
+}
+
+button.gc__btn--secondary {
+  background: #E8ECF0;
+  color: #35383D;
+  border: 1px solid var(--gc-color-second-grey);
+}
+
+button > .gc__button-text {
+  line-height: 41px;
+}
+
+button > .gc__button-icon {
+  vertical-align: middle;
+  margin-right: 8px;
+}

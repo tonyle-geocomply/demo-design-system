@@ -1,0 +1,16 @@
+:host {
+  display: inline-block;
+}
+
+
+.menu {
+  background-color: var(--gc-color-contrast-white);
+  border: 1px solid var(--gc-color-second-grey);
+  box-sizing: border-box;
+  border-bottom-left-radius: 5px;
+  border-bottom-right-radius: 5px;
+}
+
+::slotted(*:last-child) {
+  border-bottom: 0px;
+}

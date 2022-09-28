@@ -1,0 +1,168 @@
+.input-container {
+  position: relative;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  overflow: hidden;
+  background: var(--gc-color-contrast-white);
+  border-color: var(--gc-color-second-grey);
+  border-style: solid;
+  border-bottom-width: 1px;
+  border-top-width: 1px;
+  border-left-width: 1px;
+  border-right-width: 1px;
+  border-radius: 5px;
+  padding: 12px;
+}
+.input-container .input {
+  flex: 1;
+  border: none;
+  outline: none;
+  background: none;
+  width: 100%;
+  cursor: inherit;
+  padding: 0;
+  color: v(--text-primary);
+}
+.input-container .input::placeholder {
+  color: v(--text-placeholder);
+}
+.input-container .slot-container {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  line-height: 0;
+}
+.input-container .slot-container slot::slotted(*) {
+  padding-bottom: 0 !important;
+  margin-bottom: 0 !important;
+  color: v(--color-neutral-400);
+}
+.input-container .slot-container slot::slotted(*) goat-icon {
+  --color: v(--color-neutral-400);
+}
+.input-container.start-slot-has-content .input {
+  padding-left: 0.5rem;
+}
+.input-container.end-slot-has-content .input {
+  padding-right: 0.5rem;
+}
+.input-container:not(.start-slot-has-content) .slot-container.start {
+  display: none;
+}
+.input-container:not(.end-slot-has-content) .slot-container.end {
+  display: none;
+}
+.input-container .input-action {
+  cursor: pointer;
+}
+.input-container .input-action:hover {
+  --text-color: var(--text-secondary);
+}
+
+.dropdown {
+  position: relative;
+}
+.dropdown .dropdown-content {
+  z-index: var(--gc-z-index-dropdown-content);
+  position: absolute;
+  width: max-content;
+  transition: transform 0.1s ease-out 0s;
+}
+.dropdown .caret-down {
+  transition: transform 0.1s ease-out 0s;
+}
+.dropdown.is-open .dropdown-content {
+  transform: scale(1);
+}
+.dropdown.is-open .caret-down {
+  transform: rotate(180deg);
+}
+.dropdown.bottom-right .dropdown-content {
+  top: calc(100%);
+  left: 0;
+  transform-origin: top;
+}
+.dropdown.bottom-left .dropdown-content {
+  top: calc(100%);
+  right: 0;
+  transform-origin: top;
+}
+.dropdown.top-right .dropdown-content {
+  bottom: calc(100%);
+  left: 0;
+  transform-origin: bottom;
+}
+.dropdown.top-left .dropdown-content {
+  bottom: calc(100%);
+  right: 0;
+  transform-origin: bottom;
+}
+.dropdown.center .dropdown-content {
+  top: 0;
+  left: 0;
+  position: fixed;
+  transform-origin: center;
+  display: flex;
+  align-items: center;
+  width: 100vw;
+  height: 100vh;
+  justify-content: center;
+  background: rgba(0, 0, 0, 0.5);
+  pointer-events: none;
+}
+.select .dropdown-content {
+  width: 100%;
+  min-width: 10rem;
+}
+.select .menu {
+  width: 100%;
+}
+.select .display-value {
+  overflow: hidden;
+  white-space: nowrap;
+  text-overflow: ellipsis;
+  cursor: pointer;
+}
+.select .multi-select-value {
+  padding-inline-end: 0.5rem;
+}
+.select .multi-select-value:last-child {
+  padding-inline-end: 0;
+}
+.select .input-container:not(.has-value) .display-value {
+  color: v(--text-placeholder);
+}
+.select .start-search {
+  height: 10rem;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  flex-direction: column;
+}
+.dropdown.bottom-right.is-open .input-container, .dropdown.bottom-left.is-open .input-container  {
+  border-bottom-width: 0;
+  border-bottom-right-radius: 0;
+  border-bottom-left-radius: 0;
+}
+
+.dropdown.top-right.is-open .input-container, .dropdown.top-left.is-open .input-container {
+  border-top-width: 0;
+  border-top-right-radius: 0;
+  border-top-left-radius: 0;
+}
+
+.dropdown.bottom-right.is-open .menu, .dropdown.bottom-left.is-open .menu {
+  box-shadow: 0 3px 8px 0 rgb(0 0 0 / 10%);
+}
+
+.dropdown.top-right.is-open .menu, .dropdown.top-left.is-open .menu {
+  box-shadow: 0px -3px 8px rgb(0 0 0 / 10%);
+}
+
+.dropdown.top-right.is-open gc-menu::part(custom) {
+  border-top-right-radius: 5px;
+  border-top-left-radius: 5px;
+  border-bottom-right-radius: 0;
+  border-bottom-left-radius: 0;
+}
