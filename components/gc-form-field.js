@@ -13,11 +13,12 @@ const GcFormField$1 = /*@__PURE__*/ proxyCustomElement(class extends HTMLElement
     this.type = 'text';
   }
   render() {
-    return (h(Host, null, h("gc-label", { "gc-for": this.gcName }, this.label), h("gc-input", { "gc-name": this.gcName, value: this.value, disabled: this.disabled, type: this.type, placeholder: this.placeholder })));
+    return (h(Host, null, h("gc-label", { "gc-for": this.gcName }, this.label), h("gc-input", { "gc-id": this.gcId, "gc-name": this.gcName, value: this.value, disabled: this.disabled, type: this.type, placeholder: this.placeholder })));
   }
 }, [1, "gc-form-field", {
     "label": [1],
     "gcName": [1, "gc-name"],
+    "gcId": [1, "gc-id"],
     "type": [1],
     "placeholder": [1],
     "disabled": [4],

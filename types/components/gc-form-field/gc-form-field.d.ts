@@ -8,6 +8,10 @@ export declare class GcFormField {
    */
   gcName?: string;
   /**
+   * The field id
+   */
+  gcId?: string;
+  /**
    * The input type
    */
   type: string;

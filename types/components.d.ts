@@ -60,6 +60,10 @@ export namespace Components {
          */
         "disabled"?: boolean;
         /**
+          * The field id
+         */
+        "gcId"?: string;
+        /**
           * The field name
          */
         "gcName"?: string;
@@ -516,6 +520,10 @@ declare namespace LocalJSX {
           * Is disabled ?
          */
         "disabled"?: boolean;
+        /**
+          * The field id
+         */
+        "gcId"?: string;
         /**
           * The field name
          */
