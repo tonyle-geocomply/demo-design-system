@@ -11,8 +11,17 @@ export declare class GcButton {
    * Is disabled
    */
   disabled?: boolean;
+  /**
+   * The id
+   */
+  gcId: string;
+  /**
+   * Icon name
+   */
+  icon?: string;
   private getClassNameFromType;
   private getClassName;
+  private getColorIcon;
   handleClick(ev: any): void;
   render(): any;
 }

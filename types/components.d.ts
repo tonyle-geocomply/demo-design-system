@@ -16,19 +16,312 @@ export namespace Components {
          */
         "disabled"?: boolean;
         /**
+          * The id
+         */
+        "gcId": string;
+        /**
+          * Icon name
+         */
+        "icon"?: string;
+        /**
           * The type name
          */
         "type": string;
     }
+    interface GcCheckbox {
+        /**
+          * Is checked ?
+         */
+        "checked": boolean;
+        /**
+          * The class name
+         */
+        "class"?: string;
+        /**
+          * Is disabled ?
+         */
+        "disabled": boolean;
+        /**
+          * The id
+         */
+        "gcId": string;
+        /**
+          * The name of checkbox
+         */
+        "gcName": string;
+        /**
+          * The label of checkbox
+         */
+        "label"?: string;
+    }
+    interface GcFormField {
+        /**
+          * Is disabled ?
+         */
+        "disabled"?: boolean;
+        /**
+          * The field name
+         */
+        "gcName"?: string;
+        /**
+          * The label name
+         */
+        "label"?: string;
+        /**
+          * The placeholder
+         */
+        "placeholder"?: string;
+        /**
+          * The input type
+         */
+        "type": string;
+        /**
+          * The input value
+         */
+        "value"?: string;
+    }
     interface GcH1 {
+        /**
+          * The class name
+         */
+        "class"?: string;
+        /**
+          * The id
+         */
+        "gcId": string;
     }
     interface GcH2 {
+        /**
+          * The class name
+         */
+        "class"?: string;
+        /**
+          * The id
+         */
+        "gcId": string;
     }
     interface GcH3 {
+        /**
+          * The class name
+         */
+        "class"?: string;
+        /**
+          * The id
+         */
+        "gcId": string;
+    }
+    interface GcIcon {
+        "color": string;
+        "name": string;
+        /**
+          * The Icon size. Possible values are: `"sm"`, `"md"`, `"lg"`, `"xl"` and size in pixel. Defaults to `"md"`.
+         */
+        "size": 'sm' | 'md' | 'lg' | 'xl' | string;
+    }
+    interface GcInput {
+        /**
+          * The class name
+         */
+        "class"?: string;
+        /**
+          * Is disabled ?
+         */
+        "disabled"?: boolean;
+        /**
+          * The id
+         */
+        "gcId"?: string;
+        /**
+          * The name of input
+         */
+        "gcName"?: string;
+        /**
+          * The placeholder
+         */
+        "placeholder"?: string;
+        /**
+          * The input type
+         */
+        "type": string;
+        /**
+          * The input value
+         */
+        "value"?: string;
+    }
+    interface GcLabel {
+        /**
+          * The class name
+         */
+        "class"?: string;
+        /**
+          * Label for what component
+         */
+        "gcFor": string;
+        /**
+          * The id
+         */
+        "gcId": string;
+    }
+    interface GcMenu {
+        "empty": boolean;
+        "emptyState": any;
+        /**
+          * Sets focus on first menu item. Use this method instead of the global `element.focus()`.
+         */
+        "setFocus": () => Promise<void>;
+        "showLoader": boolean;
+        "value"?: string | number;
+    }
+    interface GcMenuItem {
+        /**
+          * The class name
+         */
+        "class"?: string;
+        /**
+          * If true, the user cannot interact with the button. Defaults to `false`.
+         */
+        "disabled": boolean;
+        /**
+          * The id
+         */
+        "gcId": string;
+        /**
+          * Menu item selection state.
+         */
+        "selected": boolean;
+        /**
+          * Sets blur on the native `input` in `goat-input`. Use this method instead of the global `input.blur()`.
+         */
+        "setBlur": () => Promise<void>;
+        /**
+          * Sets focus on the native `input` in `goat-input`. Use this method instead of the global `input.focus()`.
+         */
+        "setFocus": () => Promise<void>;
+        /**
+          * The menu item value.
+         */
+        "value"?: string | number | null;
     }
     interface GcOl {
+        /**
+          * The class name
+         */
+        "class"?: string;
+        /**
+          * The id
+         */
+        "gcId": string;
+    }
+    interface GcSelect {
+        /**
+          * The class name
+         */
+        "class"?: string;
+        /**
+          * If `true`, a clear icon will appear in the input when there is a value. Clicking it clears the input.
+         */
+        "clearable": boolean;
+        "configAria": any;
+        /**
+          * Set the amount of time, in milliseconds, to wait to trigger the `goatChange` event after each keystroke.
+         */
+        "debounce": number;
+        /**
+          * If true, the user cannot interact with the button. Defaults to `false`.
+         */
+        "disabled": boolean;
+        /**
+          * The id
+         */
+        "gcId": string;
+        "isOpen": boolean;
+        /**
+          * [{   label: 'Shivaji Varma',   value: 'shivaji-varma' }]
+         */
+        "items": string | [];
+        "multiple": boolean;
+        /**
+          * The input field placeholder.
+         */
+        "placeholder": string;
+        "positions": string;
+        /**
+          * If true, the user cannot interact with the button. Defaults to `false`.
+         */
+        "readonly": boolean;
+        /**
+          * If true, required icon is show. Defaults to `false`.
+         */
+        "required": boolean;
+        /**
+          * Search type Possible values are `"none"`, `"initial"`, `"contains"`, `"managed"`. Defaults to `"none"`.
+         */
+        "search": 'none' | 'initial' | 'contains' | 'managed';
+        /**
+          * Sets blur on the native `input` in `goat-input`. Use this method instead of the global `input.blur()`.
+         */
+        "setBlur": () => Promise<void>;
+        /**
+          * Sets focus on the native `input` in `ion-input`. Use this method instead of the global `input.focus()`.
+         */
+        "setFocus": () => Promise<void>;
+        "showLoader": boolean;
+        /**
+          * The select input size. Possible values are: `"sm"`, `"md"`, `"lg"`. Defaults to `"md"`.
+         */
+        "size": 'sm' | 'md' | 'lg';
+        /**
+          * The input state. Possible values are: `"success"`, `"error"`, `"warning"`, 'default'. Defaults to `"default"`.
+         */
+        "state": 'success' | 'error' | 'warning' | 'default';
+        /**
+          * The input field value.
+         */
+        "value"?: string | number;
+    }
+    interface GcTag {
+        /**
+          * The background of badge
+         */
+        "background": string;
+        /**
+          * The border color of badge
+         */
+        "borderColor": string;
+        /**
+          * The border width of badge
+         */
+        "borderWidth": string;
+        /**
+          * The class name
+         */
+        "class"?: string;
+        /**
+          * The color of badge
+         */
+        "color": string;
+        /**
+          * The id
+         */
+        "gcId": string;
+        /**
+          * The type name
+         */
+        "type": string;
+        /**
+          * The width of badge
+         */
+        "width": string;
     }
     interface GcUl {
+        /**
+          * The class name
+         */
+        "class"?: string;
+        /**
+          * The id
+         */
+        "gcId": string;
     }
     interface MyComponent {
         /**
@@ -45,12 +338,32 @@ export namespace Components {
         "middle": string;
     }
 }
+export interface GcMenuItemCustomEvent<T> extends CustomEvent<T> {
+    detail: T;
+    target: HTMLGcMenuItemElement;
+}
+export interface GcSelectCustomEvent<T> extends CustomEvent<T> {
+    detail: T;
+    target: HTMLGcSelectElement;
+}
 declare global {
     interface HTMLGcButtonElement extends Components.GcButton, HTMLStencilElement {
     }
     var HTMLGcButtonElement: {
         prototype: HTMLGcButtonElement;
         new (): HTMLGcButtonElement;
+    };
+    interface HTMLGcCheckboxElement extends Components.GcCheckbox, HTMLStencilElement {
+    }
+    var HTMLGcCheckboxElement: {
+        prototype: HTMLGcCheckboxElement;
+        new (): HTMLGcCheckboxElement;
+    };
+    interface HTMLGcFormFieldElement extends Components.GcFormField, HTMLStencilElement {
+    }
+    var HTMLGcFormFieldElement: {
+        prototype: HTMLGcFormFieldElement;
+        new (): HTMLGcFormFieldElement;
     };
     interface HTMLGcH1Element extends Components.GcH1, HTMLStencilElement {
     }
@@ -70,11 +383,53 @@ declare global {
         prototype: HTMLGcH3Element;
         new (): HTMLGcH3Element;
     };
+    interface HTMLGcIconElement extends Components.GcIcon, HTMLStencilElement {
+    }
+    var HTMLGcIconElement: {
+        prototype: HTMLGcIconElement;
+        new (): HTMLGcIconElement;
+    };
+    interface HTMLGcInputElement extends Components.GcInput, HTMLStencilElement {
+    }
+    var HTMLGcInputElement: {
+        prototype: HTMLGcInputElement;
+        new (): HTMLGcInputElement;
+    };
+    interface HTMLGcLabelElement extends Components.GcLabel, HTMLStencilElement {
+    }
+    var HTMLGcLabelElement: {
+        prototype: HTMLGcLabelElement;
+        new (): HTMLGcLabelElement;
+    };
+    interface HTMLGcMenuElement extends Components.GcMenu, HTMLStencilElement {
+    }
+    var HTMLGcMenuElement: {
+        prototype: HTMLGcMenuElement;
+        new (): HTMLGcMenuElement;
+    };
+    interface HTMLGcMenuItemElement extends Components.GcMenuItem, HTMLStencilElement {
+    }
+    var HTMLGcMenuItemElement: {
+        prototype: HTMLGcMenuItemElement;
+        new (): HTMLGcMenuItemElement;
+    };
     interface HTMLGcOlElement extends Components.GcOl, HTMLStencilElement {
     }
     var HTMLGcOlElement: {
         prototype: HTMLGcOlElement;
         new (): HTMLGcOlElement;
+    };
+    interface HTMLGcSelectElement extends Components.GcSelect, HTMLStencilElement {
+    }
+    var HTMLGcSelectElement: {
+        prototype: HTMLGcSelectElement;
+        new (): HTMLGcSelectElement;
+    };
+    interface HTMLGcTagElement extends Components.GcTag, HTMLStencilElement {
+    }
+    var HTMLGcTagElement: {
+        prototype: HTMLGcTagElement;
+        new (): HTMLGcTagElement;
     };
     interface HTMLGcUlElement extends Components.GcUl, HTMLStencilElement {
     }
@@ -90,10 +445,19 @@ declare global {
     };
     interface HTMLElementTagNameMap {
         "gc-button": HTMLGcButtonElement;
+        "gc-checkbox": HTMLGcCheckboxElement;
+        "gc-form-field": HTMLGcFormFieldElement;
         "gc-h1": HTMLGcH1Element;
         "gc-h2": HTMLGcH2Element;
         "gc-h3": HTMLGcH3Element;
+        "gc-icon": HTMLGcIconElement;
+        "gc-input": HTMLGcInputElement;
+        "gc-label": HTMLGcLabelElement;
+        "gc-menu": HTMLGcMenuElement;
+        "gc-menu-item": HTMLGcMenuItemElement;
         "gc-ol": HTMLGcOlElement;
+        "gc-select": HTMLGcSelectElement;
+        "gc-tag": HTMLGcTagElement;
         "gc-ul": HTMLGcUlElement;
         "my-component": HTMLMyComponentElement;
     }
@@ -109,19 +473,308 @@ declare namespace LocalJSX {
          */
         "disabled"?: boolean;
         /**
+          * The id
+         */
+        "gcId"?: string;
+        /**
+          * Icon name
+         */
+        "icon"?: string;
+        /**
           * The type name
          */
         "type"?: string;
     }
+    interface GcCheckbox {
+        /**
+          * Is checked ?
+         */
+        "checked"?: boolean;
+        /**
+          * The class name
+         */
+        "class"?: string;
+        /**
+          * Is disabled ?
+         */
+        "disabled"?: boolean;
+        /**
+          * The id
+         */
+        "gcId"?: string;
+        /**
+          * The name of checkbox
+         */
+        "gcName"?: string;
+        /**
+          * The label of checkbox
+         */
+        "label"?: string;
+    }
+    interface GcFormField {
+        /**
+          * Is disabled ?
+         */
+        "disabled"?: boolean;
+        /**
+          * The field name
+         */
+        "gcName"?: string;
+        /**
+          * The label name
+         */
+        "label"?: string;
+        /**
+          * The placeholder
+         */
+        "placeholder"?: string;
+        /**
+          * The input type
+         */
+        "type"?: string;
+        /**
+          * The input value
+         */
+        "value"?: string;
+    }
     interface GcH1 {
+        /**
+          * The class name
+         */
+        "class"?: string;
+        /**
+          * The id
+         */
+        "gcId"?: string;
     }
     interface GcH2 {
+        /**
+          * The class name
+         */
+        "class"?: string;
+        /**
+          * The id
+         */
+        "gcId"?: string;
     }
     interface GcH3 {
+        /**
+          * The class name
+         */
+        "class"?: string;
+        /**
+          * The id
+         */
+        "gcId"?: string;
+    }
+    interface GcIcon {
+        "color"?: string;
+        "name"?: string;
+        /**
+          * The Icon size. Possible values are: `"sm"`, `"md"`, `"lg"`, `"xl"` and size in pixel. Defaults to `"md"`.
+         */
+        "size"?: 'sm' | 'md' | 'lg' | 'xl' | string;
+    }
+    interface GcInput {
+        /**
+          * The class name
+         */
+        "class"?: string;
+        /**
+          * Is disabled ?
+         */
+        "disabled"?: boolean;
+        /**
+          * The id
+         */
+        "gcId"?: string;
+        /**
+          * The name of input
+         */
+        "gcName"?: string;
+        /**
+          * The placeholder
+         */
+        "placeholder"?: string;
+        /**
+          * The input type
+         */
+        "type"?: string;
+        /**
+          * The input value
+         */
+        "value"?: string;
+    }
+    interface GcLabel {
+        /**
+          * The class name
+         */
+        "class"?: string;
+        /**
+          * Label for what component
+         */
+        "gcFor"?: string;
+        /**
+          * The id
+         */
+        "gcId"?: string;
+    }
+    interface GcMenu {
+        "empty"?: boolean;
+        "emptyState"?: any;
+        "showLoader"?: boolean;
+        "value"?: string | number;
+    }
+    interface GcMenuItem {
+        /**
+          * The class name
+         */
+        "class"?: string;
+        /**
+          * If true, the user cannot interact with the button. Defaults to `false`.
+         */
+        "disabled"?: boolean;
+        /**
+          * The id
+         */
+        "gcId"?: string;
+        /**
+          * Emitted when the menu item is clicked.
+         */
+        "onGoat:menu-item-click"?: (event: GcMenuItemCustomEvent<any>) => void;
+        /**
+          * Menu item selection state.
+         */
+        "selected"?: boolean;
+        /**
+          * The menu item value.
+         */
+        "value"?: string | number | null;
     }
     interface GcOl {
+        /**
+          * The class name
+         */
+        "class"?: string;
+        /**
+          * The id
+         */
+        "gcId"?: string;
+    }
+    interface GcSelect {
+        /**
+          * The class name
+         */
+        "class"?: string;
+        /**
+          * If `true`, a clear icon will appear in the input when there is a value. Clicking it clears the input.
+         */
+        "clearable"?: boolean;
+        "configAria"?: any;
+        /**
+          * Set the amount of time, in milliseconds, to wait to trigger the `goatChange` event after each keystroke.
+         */
+        "debounce"?: number;
+        /**
+          * If true, the user cannot interact with the button. Defaults to `false`.
+         */
+        "disabled"?: boolean;
+        /**
+          * The id
+         */
+        "gcId"?: string;
+        "isOpen"?: boolean;
+        /**
+          * [{   label: 'Shivaji Varma',   value: 'shivaji-varma' }]
+         */
+        "items"?: string | [];
+        "multiple"?: boolean;
+        /**
+          * Emitted when the action button is clicked..
+         */
+        "onGoat:action-click"?: (event: GcSelectCustomEvent<any>) => void;
+        /**
+          * Emitted when the value has changed.
+         */
+        "onGoat:change"?: (event: GcSelectCustomEvent<any>) => void;
+        /**
+          * Emitted when a keyboard input occurred.
+         */
+        "onGoat:search"?: (event: GcSelectCustomEvent<any>) => void;
+        /**
+          * The input field placeholder.
+         */
+        "placeholder"?: string;
+        "positions"?: string;
+        /**
+          * If true, the user cannot interact with the button. Defaults to `false`.
+         */
+        "readonly"?: boolean;
+        /**
+          * If true, required icon is show. Defaults to `false`.
+         */
+        "required"?: boolean;
+        /**
+          * Search type Possible values are `"none"`, `"initial"`, `"contains"`, `"managed"`. Defaults to `"none"`.
+         */
+        "search"?: 'none' | 'initial' | 'contains' | 'managed';
+        "showLoader"?: boolean;
+        /**
+          * The select input size. Possible values are: `"sm"`, `"md"`, `"lg"`. Defaults to `"md"`.
+         */
+        "size"?: 'sm' | 'md' | 'lg';
+        /**
+          * The input state. Possible values are: `"success"`, `"error"`, `"warning"`, 'default'. Defaults to `"default"`.
+         */
+        "state"?: 'success' | 'error' | 'warning' | 'default';
+        /**
+          * The input field value.
+         */
+        "value"?: string | number;
+    }
+    interface GcTag {
+        /**
+          * The background of badge
+         */
+        "background"?: string;
+        /**
+          * The border color of badge
+         */
+        "borderColor"?: string;
+        /**
+          * The border width of badge
+         */
+        "borderWidth"?: string;
+        /**
+          * The class name
+         */
+        "class"?: string;
+        /**
+          * The color of badge
+         */
+        "color"?: string;
+        /**
+          * The id
+         */
+        "gcId"?: string;
+        /**
+          * The type name
+         */
+        "type"?: string;
+        /**
+          * The width of badge
+         */
+        "width"?: string;
     }
     interface GcUl {
+        /**
+          * The class name
+         */
+        "class"?: string;
+        /**
+          * The id
+         */
+        "gcId"?: string;
     }
     interface MyComponent {
         /**
@@ -139,10 +792,19 @@ declare namespace LocalJSX {
     }
     interface IntrinsicElements {
         "gc-button": GcButton;
+        "gc-checkbox": GcCheckbox;
+        "gc-form-field": GcFormField;
         "gc-h1": GcH1;
         "gc-h2": GcH2;
         "gc-h3": GcH3;
+        "gc-icon": GcIcon;
+        "gc-input": GcInput;
+        "gc-label": GcLabel;
+        "gc-menu": GcMenu;
+        "gc-menu-item": GcMenuItem;
         "gc-ol": GcOl;
+        "gc-select": GcSelect;
+        "gc-tag": GcTag;
         "gc-ul": GcUl;
         "my-component": MyComponent;
     }
@@ -152,10 +814,19 @@ declare module "@stencil/core" {
     export namespace JSX {
         interface IntrinsicElements {
             "gc-button": LocalJSX.GcButton & JSXBase.HTMLAttributes<HTMLGcButtonElement>;
+            "gc-checkbox": LocalJSX.GcCheckbox & JSXBase.HTMLAttributes<HTMLGcCheckboxElement>;
+            "gc-form-field": LocalJSX.GcFormField & JSXBase.HTMLAttributes<HTMLGcFormFieldElement>;
             "gc-h1": LocalJSX.GcH1 & JSXBase.HTMLAttributes<HTMLGcH1Element>;
             "gc-h2": LocalJSX.GcH2 & JSXBase.HTMLAttributes<HTMLGcH2Element>;
             "gc-h3": LocalJSX.GcH3 & JSXBase.HTMLAttributes<HTMLGcH3Element>;
+            "gc-icon": LocalJSX.GcIcon & JSXBase.HTMLAttributes<HTMLGcIconElement>;
+            "gc-input": LocalJSX.GcInput & JSXBase.HTMLAttributes<HTMLGcInputElement>;
+            "gc-label": LocalJSX.GcLabel & JSXBase.HTMLAttributes<HTMLGcLabelElement>;
+            "gc-menu": LocalJSX.GcMenu & JSXBase.HTMLAttributes<HTMLGcMenuElement>;
+            "gc-menu-item": LocalJSX.GcMenuItem & JSXBase.HTMLAttributes<HTMLGcMenuItemElement>;
             "gc-ol": LocalJSX.GcOl & JSXBase.HTMLAttributes<HTMLGcOlElement>;
+            "gc-select": LocalJSX.GcSelect & JSXBase.HTMLAttributes<HTMLGcSelectElement>;
+            "gc-tag": LocalJSX.GcTag & JSXBase.HTMLAttributes<HTMLGcTagElement>;
             "gc-ul": LocalJSX.GcUl & JSXBase.HTMLAttributes<HTMLGcUlElement>;
             "my-component": LocalJSX.MyComponent & JSXBase.HTMLAttributes<HTMLMyComponentElement>;
         }

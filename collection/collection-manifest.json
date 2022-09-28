@@ -1,0 +1,27 @@
+{
+  "entries": [
+    "./components/gc-button/gc-button.js",
+    "./components/gc-checkbox/gc-checkbox.js",
+    "./components/gc-form-field/gc-form-field.js",
+    "./components/gc-h1/gc-h1.js",
+    "./components/gc-h2/gc-h2.js",
+    "./components/gc-h3/gc-h3.js",
+    "./components/gc-icon/gc-icon.js",
+    "./components/gc-input/gc-input.js",
+    "./components/gc-label/gc-label.js",
+    "./components/gc-menu/gc-menu.js",
+    "./components/gc-menu-item/gc-menu-item.js",
+    "./components/gc-ol/gc-ol.js",
+    "./components/gc-select/gc-select.js",
+    "./components/gc-tag/gc-tag.js",
+    "./components/gc-ul/gc-ul.js",
+    "./components/my-component/my-component.js"
+  ],
+  "compiler": {
+    "name": "@stencil/core",
+    "version": "2.17.4",
+    "typescriptVersion": "4.5.4"
+  },
+  "collections": [],
+  "bundles": []
+}

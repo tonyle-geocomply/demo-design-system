@@ -1,0 +1,27 @@
+export declare class GcFormField {
+  /**
+   * The label name
+   */
+  label?: string;
+  /**
+   * The field name
+   */
+  gcName?: string;
+  /**
+   * The input type
+   */
+  type: string;
+  /**
+   * The placeholder
+   */
+  placeholder?: string;
+  /**
+   * Is disabled ?
+   */
+  disabled?: boolean;
+  /**
+   * The input value
+   */
+  value?: string;
+  render(): any;
+}
