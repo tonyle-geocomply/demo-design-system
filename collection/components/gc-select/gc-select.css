@@ -1,5 +1,4 @@
 .input-container {
-  position: relative;
   display: flex;
   align-items: center;
   justify-content: center;
@@ -7,12 +6,14 @@
   background: var(--gc-color-contrast-white);
   border-color: var(--gc-color-second-grey);
   border-style: solid;
-  border-bottom-width: 1px;
-  border-top-width: 1px;
-  border-left-width: 1px;
-  border-right-width: 1px;
   border-radius: 5px;
+  border-width: 1px;
+  height: 42px;
+  width: 100%;
+  min-width: 0;
   padding: 12px;
+  box-sizing: border-box;
+  position: relative;
 }
 .input-container .input {
   flex: 1;
@@ -22,10 +23,6 @@
   width: 100%;
   cursor: inherit;
   padding: 0;
-  color: v(--text-primary);
-}
-.input-container .input::placeholder {
-  color: v(--text-placeholder);
 }
 .input-container .slot-container {
   display: flex;
@@ -36,10 +33,6 @@
 .input-container .slot-container slot::slotted(*) {
   padding-bottom: 0 !important;
   margin-bottom: 0 !important;
-  color: v(--color-neutral-400);
-}
-.input-container .slot-container slot::slotted(*) goat-icon {
-  --color: v(--color-neutral-400);
 }
 .input-container.start-slot-has-content .input {
   padding-left: 0.5rem;
@@ -123,15 +116,13 @@
   white-space: nowrap;
   text-overflow: ellipsis;
   cursor: pointer;
+  color: var(--gc-color-placeholder);
 }
 .select .multi-select-value {
   padding-inline-end: 0.5rem;
 }
 .select .multi-select-value:last-child {
   padding-inline-end: 0;
-}
-.select .input-container:not(.has-value) .display-value {
-  color: v(--text-placeholder);
 }
 .select .start-search {
   height: 10rem;
@@ -166,3 +157,8 @@
   border-bottom-right-radius: 0;
   border-bottom-left-radius: 0;
 }
+
+div.input-container.search-none.sc-gc-select.has-value > div.input.display-value.sc-gc-select {
+  color: var(--gc-color-grey-text);
+}
+

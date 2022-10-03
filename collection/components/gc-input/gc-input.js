@@ -10,7 +10,7 @@ export class GcInput {
     return h("input", { class: this.class, name: this.gcName, id: this.gcId, type: this.type, value: this.value, placeholder: this.placeholder, disabled: this.disabled });
   }
   static get is() { return "gc-input"; }
-  static get encapsulation() { return "shadow"; }
+  static get encapsulation() { return "scoped"; }
   static get originalStyleUrls() { return {
     "$": ["gc-input.css"]
   }; }

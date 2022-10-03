@@ -28,13 +28,13 @@ input:focus {
 }
 
 ::placeholder { /* Chrome, Firefox, Opera, Safari 10.1+ */
-  color: var(--gc-color-second-grey);
+  color: var(--gc-color-placeholder);
 }
 
 :-ms-input-placeholder { /* Internet Explorer 10-11 */
-  color: var(--gc-color-second-grey);
+  color: var(--gc-color-placeholder);
 }
 
 ::-ms-input-placeholder { /* Microsoft Edge */
-  color: var(--gc-color-second-grey);
+  color: var(--gc-color-placeholder);
 }

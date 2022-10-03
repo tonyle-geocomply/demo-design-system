@@ -1,6 +1,7 @@
 export { setAssetPath, setPlatformOptions } from '@stencil/core/internal/client';
 export { GcButton, defineCustomElement as defineCustomElementGcButton } from './gc-button.js';
 export { GcCheckbox, defineCustomElement as defineCustomElementGcCheckbox } from './gc-checkbox.js';
+export { GcDropdown, defineCustomElement as defineCustomElementGcDropdown } from './gc-dropdown.js';
 export { GcFormField, defineCustomElement as defineCustomElementGcFormField } from './gc-form-field.js';
 export { GcH1, defineCustomElement as defineCustomElementGcH1 } from './gc-h1.js';
 export { GcH2, defineCustomElement as defineCustomElementGcH2 } from './gc-h2.js';
@@ -8,10 +9,13 @@ export { GcH3, defineCustomElement as defineCustomElementGcH3 } from './gc-h3.js
 export { GcIcon, defineCustomElement as defineCustomElementGcIcon } from './gc-icon.js';
 export { GcInput, defineCustomElement as defineCustomElementGcInput } from './gc-input.js';
 export { GcLabel, defineCustomElement as defineCustomElementGcLabel } from './gc-label.js';
+export { GcLink, defineCustomElement as defineCustomElementGcLink } from './gc-link.js';
 export { GcMenu, defineCustomElement as defineCustomElementGcMenu } from './gc-menu.js';
 export { GcMenuItem, defineCustomElement as defineCustomElementGcMenuItem } from './gc-menu-item.js';
 export { GcOl, defineCustomElement as defineCustomElementGcOl } from './gc-ol.js';
+export { GcPagination, defineCustomElement as defineCustomElementGcPagination } from './gc-pagination.js';
 export { GcSelect, defineCustomElement as defineCustomElementGcSelect } from './gc-select.js';
+export { GcSpinner, defineCustomElement as defineCustomElementGcSpinner } from './gc-spinner.js';
+export { GcTable, defineCustomElement as defineCustomElementGcTable } from './gc-table.js';
 export { GcTag, defineCustomElement as defineCustomElementGcTag } from './gc-tag.js';
 export { GcUl, defineCustomElement as defineCustomElementGcUl } from './gc-ul.js';
-export { MyComponent, defineCustomElement as defineCustomElementMyComponent } from './my-component.js';

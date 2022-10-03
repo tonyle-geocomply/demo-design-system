@@ -42,3 +42,8 @@
   position: relative;
   line-height: var(--gc-list-style-line-height)
 }
+
+.gc-link {
+  text-decoration-line: underline;
+  color: var(--gc-color-primary);
+}

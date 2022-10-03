@@ -16,7 +16,7 @@ export class GcCheckbox {
       h("label", { htmlFor: this.gcName }, this.label)));
   }
   static get is() { return "gc-checkbox"; }
-  static get encapsulation() { return "shadow"; }
+  static get encapsulation() { return "scoped"; }
   static get originalStyleUrls() { return {
     "$": ["gc-checkbox.css"]
   }; }

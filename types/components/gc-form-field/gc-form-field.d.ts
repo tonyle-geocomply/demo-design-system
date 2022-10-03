@@ -27,5 +27,12 @@ export declare class GcFormField {
    * The input value
    */
   value?: string;
+  /**
+   *  [{
+   *    label: 'Shivaji Varma',
+   *    value: 'shivaji-varma'
+   *  }]
+   */
+  items: string | [];
   render(): any;
 }

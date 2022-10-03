@@ -11,6 +11,6 @@ const Template = args => `<gc-button type="${args.type}" icon="${args.icon}" dis
 export const Default = Template.bind({});
 Default.args = {
   type: 'primary',
-  icon: 'search',
+  icon: 'fa-solid fa-magnifying-glass',
   disabled: false,
 };

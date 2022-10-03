@@ -1,6 +1,3 @@
-function format(first, middle, last) {
-  return (first || '') + (middle ? ` ${middle}` : '') + (last ? ` ${last}` : '');
-}
 const isMobile = function () {
   let check = false;
   (function (a) {
@@ -45,6 +42,14 @@ var ElementSize;
   ElementSize["XX_LARGE"] = "xxl";
   ElementSize["XXX_LARGE"] = "xxxl";
 })(ElementSize || (ElementSize = {}));
+function isEventTriggerByElement(event, element) {
+  const path = event.composedPath();
+  for (const elm of path) {
+    if (elm === element)
+      return true;
+  }
+  return false;
+}
 const debounceEvent = (event, wait) => {
   const original = event._original || event;
   return {
@@ -60,4 +65,4 @@ const debounce = (func, wait = 0) => {
   };
 };
 
-export { isOutOfViewport as a, debounceEvent as d, format as f, isMobile as i };
+export { isMobile as a, isOutOfViewport as b, debounceEvent as d, isEventTriggerByElement as i };

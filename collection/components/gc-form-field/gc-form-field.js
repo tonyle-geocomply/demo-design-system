@@ -5,14 +5,22 @@ export class GcFormField {
      * The input type
      */
     this.type = 'text';
+    /**
+     *  [{
+     *    label: 'Shivaji Varma',
+     *    value: 'shivaji-varma'
+     *  }]
+     */
+    this.items = [];
   }
   render() {
+    const input = this.type === 'select' ? (h("gc-select", { items: this.items, "gc-id": this.gcId, "gc-name": this.gcName, value: this.value, disabled: this.disabled, placeholder: this.placeholder })) : (h("gc-input", { "gc-id": this.gcId, "gc-name": this.gcName, value: this.value, disabled: this.disabled, type: this.type, placeholder: this.placeholder }));
     return (h(Host, null,
       h("gc-label", { "gc-for": this.gcName }, this.label),
-      h("gc-input", { "gc-id": this.gcId, "gc-name": this.gcName, value: this.value, disabled: this.disabled, type: this.type, placeholder: this.placeholder })));
+      input));
   }
   static get is() { return "gc-form-field"; }
-  static get encapsulation() { return "shadow"; }
+  static get encapsulation() { return "scoped"; }
   static get properties() { return {
     "label": {
       "type": "string",
@@ -133,6 +141,24 @@ export class GcFormField {
       },
       "attribute": "value",
       "reflect": false
+    },
+    "items": {
+      "type": "string",
+      "mutable": false,
+      "complexType": {
+        "original": "string | []",
+        "resolved": "[] | string",
+        "references": {}
+      },
+      "required": false,
+      "optional": false,
+      "docs": {
+        "tags": [],
+        "text": "[{\n  label: 'Shivaji Varma',\n  value: 'shivaji-varma'\n}]"
+      },
+      "attribute": "items",
+      "reflect": false,
+      "defaultValue": "[]"
     }
   }; }
 }

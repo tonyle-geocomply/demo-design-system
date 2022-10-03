@@ -289,7 +289,7 @@ export class GcSelect {
     this.debounceChanged();
   }
   render() {
-    return (h(Host, { "has-value": this.hasValue(), "has-focus": this.hasFocus, "is-open": this.isOpen, position: this.position },
+    return (h(Host, { id: this.gcId, "has-value": this.hasValue(), "has-focus": this.hasFocus, "is-open": this.isOpen, position: this.position },
       h("div", { class: { 'dropdown': true, 'select': true, [this.position]: true, 'is-open': this.isOpen } },
         h("div", { class: {
             'input-container': true,
@@ -321,7 +321,7 @@ export class GcSelect {
   }
   getModeIcon() {
     if (!this.disabled && !this.readonly)
-      return h("gc-icon", { name: "caret-down", size: "10px", class: "input-action caret-down", role: "button", onClick: this.toggleList });
+      return h("gc-icon", { color: "var(--gc-color-primary)", name: "fa-solid fa-caret-down", size: "10px", class: "input-action caret-down", role: "button", onClick: this.toggleList });
   }
   renderDropdownList() {
     // if (this.search === 'managed' && !this.items.length) {
@@ -352,7 +352,7 @@ export class GcSelect {
     });
   }
   static get is() { return "gc-select"; }
-  static get encapsulation() { return "shadow"; }
+  static get encapsulation() { return "scoped"; }
   static get originalStyleUrls() { return {
     "$": ["gc-select.css"]
   }; }

@@ -6,9 +6,6 @@ export declare class GcIcon {
    */
   size: 'sm' | 'md' | 'lg' | 'xl' | string;
   color: string;
-  svg: string;
-  fetchSvg(): Promise<void>;
-  componentWillLoad(): Promise<void>;
   private getSize;
   render(): any;
 }

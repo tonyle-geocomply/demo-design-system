@@ -5,7 +5,7 @@ export default {
   },
 };
 const Template = (args) => `
-  <div style='height: 300px;'>
+  <div style='width: 300px;'>
     <gc-select
       id='select'
       placeholder='Select'
