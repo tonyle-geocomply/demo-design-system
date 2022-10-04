@@ -175,7 +175,8 @@ export class GcSelect {
         value = [];
       value.push(selectItemValue);
       this.value = value.join(',');
-      this.goatChange.emit({ value: this.value, newItem: this.getItemByValue(selectItemValue) });
+      this.goatChange.emit({ value: this.value });
+      // this.goatChange.emit({ value: this.value, newItem: this.getItemByValue(selectItemValue) });
     }
   }
   removeItem(selectItemValue) {
@@ -183,7 +184,8 @@ export class GcSelect {
     if (value.includes(selectItemValue)) {
       value = value.filter(item => item !== selectItemValue);
       this.value = value.join(',');
-      this.goatChange.emit({ value: this.value, removedItem: this.getItemByValue(selectItemValue) });
+      this.goatChange.emit({ value: this.value });
+      // this.goatChange.emit({ value: this.value, removedItem: this.getItemByValue(selectItemValue) });
     }
   }
   hasValue() {
@@ -691,7 +693,7 @@ export class GcSelect {
   }; }
   static get events() { return [{
       "method": "goatChange",
-      "name": "goat:change",
+      "name": "gc:change",
       "bubbles": true,
       "cancelable": true,
       "composed": true,
@@ -706,7 +708,7 @@ export class GcSelect {
       }
     }, {
       "method": "p4ActionClick",
-      "name": "goat:action-click",
+      "name": "gc:action-click",
       "bubbles": true,
       "cancelable": true,
       "composed": true,
@@ -721,7 +723,7 @@ export class GcSelect {
       }
     }, {
       "method": "goatSearch",
-      "name": "goat:search",
+      "name": "gc:search",
       "bubbles": true,
       "cancelable": true,
       "composed": true,
@@ -781,13 +783,13 @@ export class GcSelect {
       "capture": false,
       "passive": false
     }, {
-      "name": "goat:menu-item-click",
+      "name": "gc:menu-item-click",
       "method": "menuItemClick",
       "target": undefined,
       "capture": false,
       "passive": false
     }, {
-      "name": "goat:tag-dismiss",
+      "name": "gc:tag-dismiss",
       "method": "tagDismissClick",
       "target": undefined,
       "capture": false,

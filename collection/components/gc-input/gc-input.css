@@ -38,3 +38,13 @@ input:focus {
 ::-ms-input-placeholder { /* Microsoft Edge */
   color: var(--gc-color-placeholder);
 }
+
+gc-icon {
+  position: relative;
+  top: -28px;
+  left: 12px;
+}
+
+input.has-prefix {
+  padding-left: 36px;
+}

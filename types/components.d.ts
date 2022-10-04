@@ -94,6 +94,14 @@ export namespace Components {
          */
         "placeholder"?: string;
         /**
+          * Prefix icon
+         */
+        "prefixIcon": string;
+        /**
+          * Search type Possible values are `"none"`, `"initial"`, `"contains"`, `"managed"`. Defaults to `"none"`.
+         */
+        "search": 'none' | 'initial' | 'contains' | 'managed';
+        /**
           * The input type
          */
         "type": string;
@@ -161,6 +169,10 @@ export namespace Components {
           * The placeholder
          */
         "placeholder"?: string;
+        /**
+          * The name of input
+         */
+        "prefixIcon"?: string;
         /**
           * The input type
          */
@@ -410,6 +422,10 @@ export namespace Components {
         "gcId": string;
     }
 }
+export interface GcInputCustomEvent<T> extends CustomEvent<T> {
+    detail: T;
+    target: HTMLGcInputElement;
+}
 export interface GcMenuItemCustomEvent<T> extends CustomEvent<T> {
     detail: T;
     target: HTMLGcMenuItemElement;
@@ -654,6 +670,14 @@ declare namespace LocalJSX {
          */
         "placeholder"?: string;
         /**
+          * Prefix icon
+         */
+        "prefixIcon"?: string;
+        /**
+          * Search type Possible values are `"none"`, `"initial"`, `"contains"`, `"managed"`. Defaults to `"none"`.
+         */
+        "search"?: 'none' | 'initial' | 'contains' | 'managed';
+        /**
           * The input type
          */
         "type"?: string;
@@ -718,9 +742,17 @@ declare namespace LocalJSX {
          */
         "gcName"?: string;
         /**
+          * Emitted when the value has changed.
+         */
+        "onGc:change"?: (event: GcInputCustomEvent<any>) => void;
+        /**
           * The placeholder
          */
         "placeholder"?: string;
+        /**
+          * The name of input
+         */
+        "prefixIcon"?: string;
         /**
           * The input type
          */
@@ -788,7 +820,7 @@ declare namespace LocalJSX {
         /**
           * Emitted when the menu item is clicked.
          */
-        "onGoat:menu-item-click"?: (event: GcMenuItemCustomEvent<any>) => void;
+        "onGc:menu-item-click"?: (event: GcMenuItemCustomEvent<any>) => void;
         /**
           * Menu item selection state.
          */
@@ -853,15 +885,15 @@ declare namespace LocalJSX {
         /**
           * Emitted when the action button is clicked..
          */
-        "onGoat:action-click"?: (event: GcSelectCustomEvent<any>) => void;
+        "onGc:action-click"?: (event: GcSelectCustomEvent<any>) => void;
         /**
           * Emitted when the value has changed.
          */
-        "onGoat:change"?: (event: GcSelectCustomEvent<any>) => void;
+        "onGc:change"?: (event: GcSelectCustomEvent<any>) => void;
         /**
           * Emitted when a keyboard input occurred.
          */
-        "onGoat:search"?: (event: GcSelectCustomEvent<any>) => void;
+        "onGc:search"?: (event: GcSelectCustomEvent<any>) => void;
         /**
           * The input field placeholder.
          */

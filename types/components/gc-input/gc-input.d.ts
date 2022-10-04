@@ -1,3 +1,4 @@
+import { EventEmitter } from '../../stencil-public-runtime';
 export declare class GcInput {
   /**
    * The class name
@@ -27,5 +28,14 @@ export declare class GcInput {
    * The name of input
    */
   gcName?: string;
+  /**
+   * The name of input
+   */
+  prefixIcon?: string;
+  /**
+   * Emitted when the value has changed.
+   */
+  gcChange: EventEmitter;
+  private onInput;
   render(): any;
 }

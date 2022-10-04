@@ -308,9 +308,14 @@ const GcFormField = class {
      *  }]
      */
     this.items = [];
+    /**
+     * Search type
+     * Possible values are `"none"`, `"initial"`, `"contains"`, `"managed"`. Defaults to `"none"`.
+     */
+    this.search = 'none';
   }
   render() {
-    const input = this.type === 'select' ? (h("gc-select", { items: this.items, "gc-id": this.gcId, "gc-name": this.gcName, value: this.value, disabled: this.disabled, placeholder: this.placeholder })) : (h("gc-input", { "gc-id": this.gcId, "gc-name": this.gcName, value: this.value, disabled: this.disabled, type: this.type, placeholder: this.placeholder }));
+    const input = this.type === 'select' ? (h("gc-select", { search: this.search, items: this.items, "gc-id": this.gcId, "gc-name": this.gcName, value: this.value, disabled: this.disabled, placeholder: this.placeholder })) : (h("gc-input", { "prefix-icon": this.prefixIcon, "gc-id": this.gcId, "gc-name": this.gcName, value: this.value, disabled: this.disabled, type: this.type, placeholder: this.placeholder }));
     return (h(Host, null, h("gc-label", { "gc-for": this.gcName }, this.label), input));
   }
 };
@@ -392,18 +397,23 @@ const GcIcon = class {
 };
 GcIcon.style = allMinCss;
 
-const gcInputCss = "input.sc-gc-input{background:var(--gc-color-contrast-white);border:1px solid var(--gc-color-second-grey);border-radius:5px;height:42px;width:100%;min-width:0;padding:12px;box-sizing:border-box;position:relative;display:inline-block;margin:0}input[disabled].sc-gc-input{color:#00000040;background-color:#f5f5f5;box-shadow:none;cursor:not-allowed;opacity:1}input.sc-gc-input:focus{background-color:var(--gc-color-contrast-white);border-color:var(--gc-color-primary);outline:0;box-shadow:0 3px 8px 0 rgb(0 0 0 / 10%)}.sc-gc-input::placeholder{color:var(--gc-color-placeholder)}.sc-gc-input:-ms-input-placeholder{color:var(--gc-color-placeholder)}.sc-gc-input::-ms-input-placeholder{color:var(--gc-color-placeholder)}";
+const gcInputCss = "input.sc-gc-input{background:var(--gc-color-contrast-white);border:1px solid var(--gc-color-second-grey);border-radius:5px;height:42px;width:100%;min-width:0;padding:12px;box-sizing:border-box;position:relative;display:inline-block;margin:0}input[disabled].sc-gc-input{color:#00000040;background-color:#f5f5f5;box-shadow:none;cursor:not-allowed;opacity:1}input.sc-gc-input:focus{background-color:var(--gc-color-contrast-white);border-color:var(--gc-color-primary);outline:0;box-shadow:0 3px 8px 0 rgb(0 0 0 / 10%)}.sc-gc-input::placeholder{color:var(--gc-color-placeholder)}.sc-gc-input:-ms-input-placeholder{color:var(--gc-color-placeholder)}.sc-gc-input::-ms-input-placeholder{color:var(--gc-color-placeholder)}gc-icon.sc-gc-input{position:relative;top:-28px;left:12px}input.has-prefix.sc-gc-input{padding-left:36px}";
 
 const GcInput = class {
   constructor(hostRef) {
     registerInstance(this, hostRef);
+    this.gcChange = createEvent(this, "gc:change", 7);
     /**
      * The input type
      */
     this.type = 'text';
+    this.onInput = (ev) => {
+      const input = ev.target;
+      this.gcChange.emit({ value: input.value || '' });
+    };
   }
   render() {
-    return h("input", { class: this.class, name: this.gcName, id: this.gcId, type: this.type, value: this.value, placeholder: this.placeholder, disabled: this.disabled });
+    return (h(Host, null, h("input", { class: this.prefixIcon ? `has-prefix ${this.class}` : this.class, name: this.gcName, onInput: this.onInput, id: this.gcId, type: this.type, value: this.value, placeholder: this.placeholder, disabled: this.disabled }), this.prefixIcon && h("gc-icon", { color: "var(--gc-color-primary)", name: this.prefixIcon })));
   }
 };
 GcInput.style = gcInputCss;
@@ -522,8 +532,13 @@ const GcMenu = class {
   componentDidLoad() {
     this.parseEmptyState();
   }
+  renderEmptyState() {
+    if (this.empty) {
+      return h("div", { style: { textAlign: 'center', padding: '12px' } }, "Empty data");
+    }
+  }
   render() {
-    return (h("div", { part: "custom", class: "menu" }, h("slot", null)));
+    return (h("div", { part: "custom", class: "menu" }, h("slot", null), this.renderEmptyState()));
   }
   get elm() { return getElement(this); }
   static get watchers() { return {
@@ -537,7 +552,7 @@ const gcMenuItemCss = ":host{display:block;border-bottom:1px solid var(--gc-colo
 const GcMenuItem = class {
   constructor(hostRef) {
     registerInstance(this, hostRef);
-    this.goatMenuItemClick = createEvent(this, "goat:menu-item-click", 7);
+    this.goatMenuItemClick = createEvent(this, "gc:menu-item-click", 7);
     this.tabindex = 1;
     /**
      * If true, the user cannot interact with the button. Defaults to `false`.
@@ -658,14 +673,14 @@ const GcPagination = class {
 };
 GcPagination.style = gcPaginationCss;
 
-const gcSelectCss = ".input-container.sc-gc-select{display:flex;align-items:center;justify-content:center;overflow:hidden;background:var(--gc-color-contrast-white);border-color:var(--gc-color-second-grey);border-style:solid;border-radius:5px;border-width:1px;height:42px;width:100%;min-width:0;padding:12px;box-sizing:border-box;position:relative}.input-container.sc-gc-select .input.sc-gc-select{flex:1;border:none;outline:none;background:none;width:100%;cursor:inherit;padding:0}.input-container.sc-gc-select .slot-container.sc-gc-select{display:flex;align-items:center;justify-content:center;line-height:0}.input-container .slot-container slot.sc-gc-select-s>*{padding-bottom:0 !important;margin-bottom:0 !important}.input-container.start-slot-has-content.sc-gc-select .input.sc-gc-select{padding-left:0.5rem}.input-container.end-slot-has-content.sc-gc-select .input.sc-gc-select{padding-right:0.5rem}.input-container.sc-gc-select:not(.start-slot-has-content) .slot-container.start.sc-gc-select{display:none}.input-container.sc-gc-select:not(.end-slot-has-content) .slot-container.end.sc-gc-select{display:none}.input-container.sc-gc-select .input-action.sc-gc-select{cursor:pointer}.input-container.sc-gc-select .input-action.sc-gc-select:hover{--text-color:var(--text-secondary)}.dropdown.sc-gc-select{position:relative}.dropdown.sc-gc-select .dropdown-content.sc-gc-select{z-index:var(--gc-z-index-dropdown-content);position:absolute;width:max-content;transition:transform 0.1s ease-out 0s}.dropdown.sc-gc-select .caret-down.sc-gc-select{transition:transform 0.1s ease-out 0s}.dropdown.is-open.sc-gc-select .dropdown-content.sc-gc-select{transform:scale(1)}.dropdown.is-open.sc-gc-select .caret-down.sc-gc-select{transform:rotate(180deg)}.dropdown.bottom-right.sc-gc-select .dropdown-content.sc-gc-select{top:calc(100%);left:0;transform-origin:top}.dropdown.bottom-left.sc-gc-select .dropdown-content.sc-gc-select{top:calc(100%);right:0;transform-origin:top}.dropdown.top-right.sc-gc-select .dropdown-content.sc-gc-select{bottom:calc(100%);left:0;transform-origin:bottom}.dropdown.top-left.sc-gc-select .dropdown-content.sc-gc-select{bottom:calc(100%);right:0;transform-origin:bottom}.dropdown.center.sc-gc-select .dropdown-content.sc-gc-select{top:0;left:0;position:fixed;transform-origin:center;display:flex;align-items:center;width:100vw;height:100vh;justify-content:center;background:rgba(0, 0, 0, 0.5);pointer-events:none}.select.sc-gc-select .dropdown-content.sc-gc-select{width:100%;min-width:10rem}.select.sc-gc-select .menu.sc-gc-select{width:100%}.select.sc-gc-select .display-value.sc-gc-select{overflow:hidden;white-space:nowrap;text-overflow:ellipsis;cursor:pointer;color:var(--gc-color-placeholder)}.select.sc-gc-select .multi-select-value.sc-gc-select{padding-inline-end:0.5rem}.select.sc-gc-select .multi-select-value.sc-gc-select:last-child{padding-inline-end:0}.select.sc-gc-select .start-search.sc-gc-select{height:10rem;display:flex;align-items:center;justify-content:center;flex-direction:column}.dropdown.bottom-right.is-open.sc-gc-select .input-container.sc-gc-select,.dropdown.bottom-left.is-open.sc-gc-select .input-container.sc-gc-select{border-bottom-width:0;border-bottom-right-radius:0;border-bottom-left-radius:0}.dropdown.top-right.is-open.sc-gc-select .input-container.sc-gc-select,.dropdown.top-left.is-open.sc-gc-select .input-container.sc-gc-select{border-top-width:0;border-top-right-radius:0;border-top-left-radius:0}.dropdown.bottom-right.is-open.sc-gc-select .menu.sc-gc-select,.dropdown.bottom-left.is-open.sc-gc-select .menu.sc-gc-select{box-shadow:0 3px 8px 0 rgb(0 0 0 / 10%)}.dropdown.top-right.is-open.sc-gc-select .menu.sc-gc-select,.dropdown.top-left.is-open.sc-gc-select .menu.sc-gc-select{box-shadow:0px -3px 8px rgb(0 0 0 / 10%)}.dropdown.top-right.is-open.sc-gc-select gc-menu.sc-gc-select::part(custom){border-top-right-radius:5px;border-top-left-radius:5px;border-bottom-right-radius:0;border-bottom-left-radius:0}div.input-container.search-none.sc-gc-select.has-value.sc-gc-select>div.input.display-value.sc-gc-select.sc-gc-select{color:var(--gc-color-grey-text)}";
+const gcSelectCss = ".input-container.sc-gc-select{display:flex;align-items:center;justify-content:center;overflow:hidden;background:var(--gc-color-contrast-white);border-color:var(--gc-color-second-grey);border-style:solid;border-radius:5px;border-width:1px;height:42px;width:100%;min-width:0;padding:12px;box-sizing:border-box;position:relative}.input-container.sc-gc-select .input.sc-gc-select{flex:1;border:none;outline:none;background:none;width:100%;cursor:inherit;padding:0}.input-container.sc-gc-select .slot-container.sc-gc-select{display:flex;align-items:center;justify-content:center;line-height:0}.input-container .slot-container slot.sc-gc-select-s>*{padding-bottom:0 !important;margin-bottom:0 !important}.input-container.start-slot-has-content.sc-gc-select .input.sc-gc-select{padding-left:0.5rem}.input-container.end-slot-has-content.sc-gc-select .input.sc-gc-select{padding-right:0.5rem}.input-container.sc-gc-select:not(.start-slot-has-content) .slot-container.start.sc-gc-select{display:none}.input-container.sc-gc-select:not(.end-slot-has-content) .slot-container.end.sc-gc-select{display:none}.input-container.sc-gc-select .input-action.sc-gc-select{cursor:pointer}.input-container.sc-gc-select .input-action.sc-gc-select:hover{--text-color:var(--text-secondary)}.dropdown.sc-gc-select{position:relative}.dropdown.sc-gc-select .dropdown-content.sc-gc-select{z-index:var(--gc-z-index-dropdown-content);position:absolute;width:max-content;transition:transform 0.1s ease-out 0s}.dropdown.sc-gc-select .caret-down.sc-gc-select{transition:transform 0.1s ease-out 0s}.dropdown.is-open.sc-gc-select .dropdown-content.sc-gc-select{transform:scale(1)}.dropdown.is-open.sc-gc-select .caret-down.sc-gc-select{transform:rotate(180deg)}.dropdown.bottom-right.sc-gc-select .dropdown-content.sc-gc-select{top:calc(100%);left:0;transform-origin:top}.dropdown.bottom-left.sc-gc-select .dropdown-content.sc-gc-select{top:calc(100%);right:0;transform-origin:top}.dropdown.top-right.sc-gc-select .dropdown-content.sc-gc-select{bottom:calc(100%);left:0;transform-origin:bottom}.dropdown.top-left.sc-gc-select .dropdown-content.sc-gc-select{bottom:calc(100%);right:0;transform-origin:bottom}.dropdown.center.sc-gc-select .dropdown-content.sc-gc-select{top:0;left:0;position:fixed;transform-origin:center;display:flex;align-items:center;width:100vw;height:100vh;justify-content:center;background:rgba(0, 0, 0, 0.5);pointer-events:none}.select.sc-gc-select .dropdown-content.sc-gc-select{width:100%;min-width:10rem}.select.sc-gc-select .menu.sc-gc-select{width:100%}.select.sc-gc-select .display-value.sc-gc-select{overflow:hidden;white-space:nowrap;text-overflow:ellipsis;cursor:pointer;color:var(--gc-color-placeholder)}.select.sc-gc-select .multi-select-value.sc-gc-select{padding-inline-end:0.5rem}.select.sc-gc-select .multi-select-value.sc-gc-select:last-child{padding-inline-end:0}.select.sc-gc-select .start-search.sc-gc-select{height:10rem;display:flex;align-items:center;justify-content:center;flex-direction:column}.dropdown.bottom-right.is-open.sc-gc-select .input-container.sc-gc-select,.dropdown.bottom-left.is-open.sc-gc-select .input-container.sc-gc-select{border-bottom-width:0;border-bottom-right-radius:0;border-bottom-left-radius:0}.dropdown.top-right.is-open.sc-gc-select .input-container.sc-gc-select,.dropdown.top-left.is-open.sc-gc-select .input-container.sc-gc-select{border-top-width:0;border-top-right-radius:0;border-top-left-radius:0}.dropdown.bottom-right.is-open.sc-gc-select .menu.sc-gc-select,.dropdown.bottom-left.is-open.sc-gc-select .menu.sc-gc-select{box-shadow:0 3px 8px 0 rgb(0 0 0 / 10%)}.dropdown.top-right.is-open.sc-gc-select .menu.sc-gc-select,.dropdown.top-left.is-open.sc-gc-select .menu.sc-gc-select{box-shadow:0px -3px 8px rgb(0 0 0 / 10%)}.dropdown.top-right.is-open.sc-gc-select gc-menu.sc-gc-select::part(custom){border-top-right-radius:5px;border-top-left-radius:5px;border-bottom-right-radius:0;border-bottom-left-radius:0}div.input-container.search-none.sc-gc-select.has-value.sc-gc-select>div.input.display-value.sc-gc-select.sc-gc-select{color:var(--gc-color-grey-text)}div.input-container.search-contains.sc-gc-select.has-value.sc-gc-select>div.input.display-value.sc-gc-select.sc-gc-select{color:var(--gc-color-grey-text)}";
 
 const GcSelect = class {
   constructor(hostRef) {
     registerInstance(this, hostRef);
-    this.goatChange = createEvent(this, "goat:change", 7);
-    this.p4ActionClick = createEvent(this, "goat:action-click", 7);
-    this.goatSearch = createEvent(this, "goat:search", 7);
+    this.goatChange = createEvent(this, "gc:change", 7);
+    this.p4ActionClick = createEvent(this, "gc:action-click", 7);
+    this.goatSearch = createEvent(this, "gc:search", 7);
     /**
      * The input field value.
      */
@@ -839,7 +854,8 @@ const GcSelect = class {
         value = [];
       value.push(selectItemValue);
       this.value = value.join(',');
-      this.goatChange.emit({ value: this.value, newItem: this.getItemByValue(selectItemValue) });
+      this.goatChange.emit({ value: this.value });
+      // this.goatChange.emit({ value: this.value, newItem: this.getItemByValue(selectItemValue) });
     }
   }
   removeItem(selectItemValue) {
@@ -847,7 +863,8 @@ const GcSelect = class {
     if (value.includes(selectItemValue)) {
       value = value.filter(item => item !== selectItemValue);
       this.value = value.join(',');
-      this.goatChange.emit({ value: this.value, removedItem: this.getItemByValue(selectItemValue) });
+      this.goatChange.emit({ value: this.value });
+      // this.goatChange.emit({ value: this.value, removedItem: this.getItemByValue(selectItemValue) });
     }
   }
   hasValue() {
@@ -1013,7 +1030,7 @@ const GcSelect = class {
 };
 GcSelect.style = gcSelectCss;
 
-const gcSpinnerCss = ":root{--z-index-floating:9999999999;--background-color-behind:rgba(255,255,255, 0.3)}.gc__spinner{display:flex;align-items:center;justify-content:center}.gc__spinner-float{position:fixed;left:0px;top:0px;width:100%;height:100%;z-index:var(--z-index-floating);overflow:hidden;background:var(--background-color-behind)}.gc__spinner-loading{display:inline-block}.gc__spinner-loading>svg{display:inline-block;width:49px;height:58px;animation:lds-circle 2s cubic-bezier(0, 0.2, 0.8, 1) infinite}@keyframes lds-circle{0%,100%{animation-timing-function:cubic-bezier(0.5, 0, 1, 0.5)}0%{transform:rotateY(0deg)}50%{transform:rotateY(0deg);animation-timing-function:cubic-bezier(0, 0.5, 0.5, 1)}100%{transform:rotateY(360deg)}}";
+const gcSpinnerCss = ":host{--z-index-floating:9999999999;--background-color-behind:rgba(255,255,255, 0.5)}.gc__spinner{display:flex;align-items:center;justify-content:center}.gc__spinner-float{position:fixed;left:0px;top:0px;width:100%;height:100%;z-index:var(--z-index-floating);overflow:hidden;background:var(--background-color-behind)}.gc__spinner-loading{display:inline-block}.gc__spinner-loading>svg{display:inline-block;width:49px;height:58px;animation:lds-circle 2s cubic-bezier(0, 0.2, 0.8, 1) infinite}@keyframes lds-circle{0%,100%{animation-timing-function:cubic-bezier(0.5, 0, 1, 0.5)}0%{transform:rotateY(0deg)}50%{transform:rotateY(0deg);animation-timing-function:cubic-bezier(0, 0.5, 0.5, 1)}100%{transform:rotateY(360deg)}}";
 
 const GcSpinner = class {
   constructor(hostRef) {

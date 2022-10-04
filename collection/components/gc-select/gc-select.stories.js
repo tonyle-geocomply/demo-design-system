@@ -5,6 +5,7 @@ export default {
   },
 };
 const Template = (args) => `
+<div style="height: 400px;">
   <div style='width: 300px;'>
     <gc-select
       id='select'
@@ -12,7 +13,7 @@ const Template = (args) => `
       items='${args.items}'
     </gc-select>
   </div>
-
+</div>
 `;
 export const Default = Template.bind({});
 Default.args = {

@@ -162,3 +162,6 @@ div.input-container.search-none.sc-gc-select.has-value > div.input.display-value
   color: var(--gc-color-grey-text);
 }
 
+div.input-container.search-contains.sc-gc-select.has-value > div.input.display-value.sc-gc-select {
+  color: var(--gc-color-grey-text);
+}

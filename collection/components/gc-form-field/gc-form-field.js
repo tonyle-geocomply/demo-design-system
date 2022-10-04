@@ -12,9 +12,14 @@ export class GcFormField {
      *  }]
      */
     this.items = [];
+    /**
+     * Search type
+     * Possible values are `"none"`, `"initial"`, `"contains"`, `"managed"`. Defaults to `"none"`.
+     */
+    this.search = 'none';
   }
   render() {
-    const input = this.type === 'select' ? (h("gc-select", { items: this.items, "gc-id": this.gcId, "gc-name": this.gcName, value: this.value, disabled: this.disabled, placeholder: this.placeholder })) : (h("gc-input", { "gc-id": this.gcId, "gc-name": this.gcName, value: this.value, disabled: this.disabled, type: this.type, placeholder: this.placeholder }));
+    const input = this.type === 'select' ? (h("gc-select", { search: this.search, items: this.items, "gc-id": this.gcId, "gc-name": this.gcName, value: this.value, disabled: this.disabled, placeholder: this.placeholder })) : (h("gc-input", { "prefix-icon": this.prefixIcon, "gc-id": this.gcId, "gc-name": this.gcName, value: this.value, disabled: this.disabled, type: this.type, placeholder: this.placeholder }));
     return (h(Host, null,
       h("gc-label", { "gc-for": this.gcName }, this.label),
       input));
@@ -159,6 +164,41 @@ export class GcFormField {
       "attribute": "items",
       "reflect": false,
       "defaultValue": "[]"
+    },
+    "search": {
+      "type": "string",
+      "mutable": false,
+      "complexType": {
+        "original": "'none' | 'initial' | 'contains' | 'managed'",
+        "resolved": "\"contains\" | \"initial\" | \"managed\" | \"none\"",
+        "references": {}
+      },
+      "required": false,
+      "optional": false,
+      "docs": {
+        "tags": [],
+        "text": "Search type\nPossible values are `\"none\"`, `\"initial\"`, `\"contains\"`, `\"managed\"`. Defaults to `\"none\"`."
+      },
+      "attribute": "search",
+      "reflect": false,
+      "defaultValue": "'none'"
+    },
+    "prefixIcon": {
+      "type": "string",
+      "mutable": false,
+      "complexType": {
+        "original": "string",
+        "resolved": "string",
+        "references": {}
+      },
+      "required": false,
+      "optional": false,
+      "docs": {
+        "tags": [],
+        "text": "Prefix icon"
+      },
+      "attribute": "prefix-icon",
+      "reflect": false
     }
   }; }
 }

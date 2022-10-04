@@ -34,5 +34,14 @@ export declare class GcFormField {
    *  }]
    */
   items: string | [];
+  /**
+   * Search type
+   * Possible values are `"none"`, `"initial"`, `"contains"`, `"managed"`. Defaults to `"none"`.
+   */
+  search: 'none' | 'initial' | 'contains' | 'managed';
+  /**
+   * Prefix icon
+   */
+  prefixIcon: string;
   render(): any;
 }

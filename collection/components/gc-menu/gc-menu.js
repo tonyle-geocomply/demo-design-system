@@ -77,9 +77,15 @@ export class GcMenu {
   componentDidLoad() {
     this.parseEmptyState();
   }
+  renderEmptyState() {
+    if (this.empty) {
+      return h("div", { style: { textAlign: 'center', padding: '12px' } }, "Empty data");
+    }
+  }
   render() {
     return (h("div", { part: "custom", class: "menu" },
-      h("slot", null)));
+      h("slot", null),
+      this.renderEmptyState()));
   }
   static get is() { return "gc-menu"; }
   static get encapsulation() { return "shadow"; }

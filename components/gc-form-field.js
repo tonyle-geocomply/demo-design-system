@@ -21,9 +21,14 @@ const GcFormField$1 = /*@__PURE__*/ proxyCustomElement(class extends HTMLElement
      *  }]
      */
     this.items = [];
+    /**
+     * Search type
+     * Possible values are `"none"`, `"initial"`, `"contains"`, `"managed"`. Defaults to `"none"`.
+     */
+    this.search = 'none';
   }
   render() {
-    const input = this.type === 'select' ? (h("gc-select", { items: this.items, "gc-id": this.gcId, "gc-name": this.gcName, value: this.value, disabled: this.disabled, placeholder: this.placeholder })) : (h("gc-input", { "gc-id": this.gcId, "gc-name": this.gcName, value: this.value, disabled: this.disabled, type: this.type, placeholder: this.placeholder }));
+    const input = this.type === 'select' ? (h("gc-select", { search: this.search, items: this.items, "gc-id": this.gcId, "gc-name": this.gcName, value: this.value, disabled: this.disabled, placeholder: this.placeholder })) : (h("gc-input", { "prefix-icon": this.prefixIcon, "gc-id": this.gcId, "gc-name": this.gcName, value: this.value, disabled: this.disabled, type: this.type, placeholder: this.placeholder }));
     return (h(Host, null, h("gc-label", { "gc-for": this.gcName }, this.label), input));
   }
 }, [2, "gc-form-field", {
@@ -34,7 +39,9 @@ const GcFormField$1 = /*@__PURE__*/ proxyCustomElement(class extends HTMLElement
     "placeholder": [1],
     "disabled": [4],
     "value": [1],
-    "items": [1]
+    "items": [1],
+    "search": [1],
+    "prefixIcon": [1, "prefix-icon"]
   }]);
 function defineCustomElement$1() {
   if (typeof customElements === "undefined") {
