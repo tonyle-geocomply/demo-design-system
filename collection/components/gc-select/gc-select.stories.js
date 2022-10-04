@@ -5,14 +5,15 @@ export default {
   },
 };
 const Template = (args) => `
-  <div style='height: 300px;'>
+<div style="height: 400px;">
+  <div style='width: 300px;'>
     <gc-select
       id='select'
       placeholder='Select'
       items='${args.items}'
     </gc-select>
   </div>
-
+</div>
 `;
 export const Default = Template.bind({});
 Default.args = {

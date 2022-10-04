@@ -1,16 +1,22 @@
-import { Component, Prop, h } from '@stencil/core';
+import { Component, Prop, h, Host, Event } from '@stencil/core';
 export class GcInput {
   constructor() {
     /**
      * The input type
      */
     this.type = 'text';
+    this.onInput = (ev) => {
+      const input = ev.target;
+      this.gcChange.emit({ value: input.value || '' });
+    };
   }
   render() {
-    return h("input", { class: this.class, name: this.gcName, id: this.gcId, type: this.type, value: this.value, placeholder: this.placeholder, disabled: this.disabled });
+    return (h(Host, null,
+      h("input", { class: this.prefixIcon ? `has-prefix ${this.class}` : this.class, name: this.gcName, onInput: this.onInput, id: this.gcId, type: this.type, value: this.value, placeholder: this.placeholder, disabled: this.disabled }),
+      this.prefixIcon && h("gc-icon", { color: "var(--gc-color-primary)", name: this.prefixIcon })));
   }
   static get is() { return "gc-input"; }
-  static get encapsulation() { return "shadow"; }
+  static get encapsulation() { return "scoped"; }
   static get originalStyleUrls() { return {
     "$": ["gc-input.css"]
   }; }
@@ -137,6 +143,39 @@ export class GcInput {
       },
       "attribute": "gc-name",
       "reflect": false
+    },
+    "prefixIcon": {
+      "type": "string",
+      "mutable": false,
+      "complexType": {
+        "original": "string",
+        "resolved": "string",
+        "references": {}
+      },
+      "required": false,
+      "optional": true,
+      "docs": {
+        "tags": [],
+        "text": "The name of input"
+      },
+      "attribute": "prefix-icon",
+      "reflect": false
     }
   }; }
+  static get events() { return [{
+      "method": "gcChange",
+      "name": "gc:change",
+      "bubbles": true,
+      "cancelable": true,
+      "composed": true,
+      "docs": {
+        "tags": [],
+        "text": "Emitted when the value has changed."
+      },
+      "complexType": {
+        "original": "any",
+        "resolved": "any",
+        "references": {}
+      }
+    }]; }
 }

@@ -7,7 +7,7 @@ const GcMenuItem = /*@__PURE__*/ proxyCustomElement(class extends HTMLElement {
     super();
     this.__registerHost();
     this.__attachShadow();
-    this.goatMenuItemClick = createEvent(this, "goat:menu-item-click", 7);
+    this.goatMenuItemClick = createEvent(this, "gc:menu-item-click", 7);
     this.tabindex = 1;
     /**
      * If true, the user cannot interact with the button. Defaults to `false`.

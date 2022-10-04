@@ -7,6 +7,6 @@ export default {
 const Template = (args) => `<gc-icon name="${args.name}" size="${args.size}" />`;
 export const Default = Template.bind({});
 Default.args = {
-  name: 'caret-down',
+  name: 'fa-regular fa-house',
   size: 'md',
 };

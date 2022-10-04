@@ -201,7 +201,7 @@ export class GcMenuItem {
   }; }
   static get events() { return [{
       "method": "goatMenuItemClick",
-      "name": "goat:menu-item-click",
+      "name": "gc:menu-item-click",
       "bubbles": true,
       "cancelable": true,
       "composed": true,

@@ -17,5 +17,6 @@ export declare class GcMenu implements ComponentInterface {
   private focusNextItem;
   private focusPreviousItem;
   componentDidLoad(): void;
+  private renderEmptyState;
   render(): any;
 }

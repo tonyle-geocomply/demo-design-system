@@ -54,6 +54,20 @@ export namespace Components {
          */
         "label"?: string;
     }
+    interface GcDropdown {
+        /**
+          * If true, the user cannot interact with the button. Defaults to `false`.
+         */
+        "disabled": boolean;
+        "isOpen": boolean;
+        "items": any[];
+        "positions": string;
+        "setFocus": (elm?: HTMLElement) => Promise<void>;
+        /**
+          * The button size. Possible values are: `"sm"`, `"md"`, `"lg"`. Defaults to `"md"`.
+         */
+        "size": 'sm' | 'md' | 'lg';
+    }
     interface GcFormField {
         /**
           * Is disabled ?
@@ -68,6 +82,10 @@ export namespace Components {
          */
         "gcName"?: string;
         /**
+          * [{   label: 'Shivaji Varma',   value: 'shivaji-varma' }]
+         */
+        "items": string | [];
+        /**
           * The label name
          */
         "label"?: string;
@@ -75,6 +93,14 @@ export namespace Components {
           * The placeholder
          */
         "placeholder"?: string;
+        /**
+          * Prefix icon
+         */
+        "prefixIcon": string;
+        /**
+          * Search type Possible values are `"none"`, `"initial"`, `"contains"`, `"managed"`. Defaults to `"none"`.
+         */
+        "search": 'none' | 'initial' | 'contains' | 'managed';
         /**
           * The input type
          */
@@ -144,6 +170,10 @@ export namespace Components {
          */
         "placeholder"?: string;
         /**
+          * The name of input
+         */
+        "prefixIcon"?: string;
+        /**
           * The input type
          */
         "type": string;
@@ -165,6 +195,28 @@ export namespace Components {
           * The id
          */
         "gcId": string;
+    }
+    interface GcLink {
+        /**
+          * The class name
+         */
+        "class"?: string;
+        /**
+          * The color of link
+         */
+        "color": string;
+        /**
+          * The id
+         */
+        "gcId"?: string;
+        /**
+          * Go to link
+         */
+        "gcTo"?: string;
+        /**
+          * Icon name
+         */
+        "icon"?: string;
     }
     interface GcMenu {
         "empty": boolean;
@@ -211,6 +263,20 @@ export namespace Components {
           * The class name
          */
         "class"?: string;
+        /**
+          * The id
+         */
+        "gcId": string;
+    }
+    interface GcPagination {
+        /**
+          * The class name
+         */
+        "class"?: string;
+        /**
+          * Label for what component
+         */
+        "gcFor": string;
         /**
           * The id
          */
@@ -283,6 +349,34 @@ export namespace Components {
          */
         "value"?: string | number;
     }
+    interface GcSpinner {
+        /**
+          * Is float above background
+         */
+        "isFloat": boolean;
+    }
+    interface GcTable {
+        /**
+          * Grid columns configuration. [ {   "name":"name",   "label":"Name",   "width":300,   "fixed":true  }, {   "name":"age",   "label":"Age" } ]
+         */
+        "columns": string | any[];
+        /**
+          * Grid data to display on table [{  'id': '5e7118ddce4b3d577956457f',  'age': 21,  'name': 'John',  'company': 'India',  'email': 'john@example.com',  'phone': '+1 (839) 560-3581',  'address': '326 Irving Street, Grimsley, Texas, 4048'  }]
+         */
+        "data": string | any[];
+        "emptyState": any;
+        "keyField": string;
+        "managed": boolean;
+        "page": number;
+        "pageSize": number;
+        "paginate": boolean;
+        "selectedRowKeys": string[];
+        "selectionType": 'checkbox' | undefined;
+        "sortBy": string;
+        "sortOrder": 'asc' | 'desc' | '';
+        "sortable": boolean;
+        "totalItems": any;
+    }
     interface GcTag {
         /**
           * The background of badge
@@ -327,20 +421,10 @@ export namespace Components {
          */
         "gcId": string;
     }
-    interface MyComponent {
-        /**
-          * The first name
-         */
-        "first": string;
-        /**
-          * The last name
-         */
-        "last": string;
-        /**
-          * The middle name
-         */
-        "middle": string;
-    }
+}
+export interface GcInputCustomEvent<T> extends CustomEvent<T> {
+    detail: T;
+    target: HTMLGcInputElement;
 }
 export interface GcMenuItemCustomEvent<T> extends CustomEvent<T> {
     detail: T;
@@ -349,6 +433,10 @@ export interface GcMenuItemCustomEvent<T> extends CustomEvent<T> {
 export interface GcSelectCustomEvent<T> extends CustomEvent<T> {
     detail: T;
     target: HTMLGcSelectElement;
+}
+export interface GcTableCustomEvent<T> extends CustomEvent<T> {
+    detail: T;
+    target: HTMLGcTableElement;
 }
 declare global {
     interface HTMLGcButtonElement extends Components.GcButton, HTMLStencilElement {
@@ -362,6 +450,12 @@ declare global {
     var HTMLGcCheckboxElement: {
         prototype: HTMLGcCheckboxElement;
         new (): HTMLGcCheckboxElement;
+    };
+    interface HTMLGcDropdownElement extends Components.GcDropdown, HTMLStencilElement {
+    }
+    var HTMLGcDropdownElement: {
+        prototype: HTMLGcDropdownElement;
+        new (): HTMLGcDropdownElement;
     };
     interface HTMLGcFormFieldElement extends Components.GcFormField, HTMLStencilElement {
     }
@@ -405,6 +499,12 @@ declare global {
         prototype: HTMLGcLabelElement;
         new (): HTMLGcLabelElement;
     };
+    interface HTMLGcLinkElement extends Components.GcLink, HTMLStencilElement {
+    }
+    var HTMLGcLinkElement: {
+        prototype: HTMLGcLinkElement;
+        new (): HTMLGcLinkElement;
+    };
     interface HTMLGcMenuElement extends Components.GcMenu, HTMLStencilElement {
     }
     var HTMLGcMenuElement: {
@@ -423,11 +523,29 @@ declare global {
         prototype: HTMLGcOlElement;
         new (): HTMLGcOlElement;
     };
+    interface HTMLGcPaginationElement extends Components.GcPagination, HTMLStencilElement {
+    }
+    var HTMLGcPaginationElement: {
+        prototype: HTMLGcPaginationElement;
+        new (): HTMLGcPaginationElement;
+    };
     interface HTMLGcSelectElement extends Components.GcSelect, HTMLStencilElement {
     }
     var HTMLGcSelectElement: {
         prototype: HTMLGcSelectElement;
         new (): HTMLGcSelectElement;
+    };
+    interface HTMLGcSpinnerElement extends Components.GcSpinner, HTMLStencilElement {
+    }
+    var HTMLGcSpinnerElement: {
+        prototype: HTMLGcSpinnerElement;
+        new (): HTMLGcSpinnerElement;
+    };
+    interface HTMLGcTableElement extends Components.GcTable, HTMLStencilElement {
+    }
+    var HTMLGcTableElement: {
+        prototype: HTMLGcTableElement;
+        new (): HTMLGcTableElement;
     };
     interface HTMLGcTagElement extends Components.GcTag, HTMLStencilElement {
     }
@@ -441,15 +559,10 @@ declare global {
         prototype: HTMLGcUlElement;
         new (): HTMLGcUlElement;
     };
-    interface HTMLMyComponentElement extends Components.MyComponent, HTMLStencilElement {
-    }
-    var HTMLMyComponentElement: {
-        prototype: HTMLMyComponentElement;
-        new (): HTMLMyComponentElement;
-    };
     interface HTMLElementTagNameMap {
         "gc-button": HTMLGcButtonElement;
         "gc-checkbox": HTMLGcCheckboxElement;
+        "gc-dropdown": HTMLGcDropdownElement;
         "gc-form-field": HTMLGcFormFieldElement;
         "gc-h1": HTMLGcH1Element;
         "gc-h2": HTMLGcH2Element;
@@ -457,13 +570,16 @@ declare global {
         "gc-icon": HTMLGcIconElement;
         "gc-input": HTMLGcInputElement;
         "gc-label": HTMLGcLabelElement;
+        "gc-link": HTMLGcLinkElement;
         "gc-menu": HTMLGcMenuElement;
         "gc-menu-item": HTMLGcMenuItemElement;
         "gc-ol": HTMLGcOlElement;
+        "gc-pagination": HTMLGcPaginationElement;
         "gc-select": HTMLGcSelectElement;
+        "gc-spinner": HTMLGcSpinnerElement;
+        "gc-table": HTMLGcTableElement;
         "gc-tag": HTMLGcTagElement;
         "gc-ul": HTMLGcUlElement;
-        "my-component": HTMLMyComponentElement;
     }
 }
 declare namespace LocalJSX {
@@ -515,6 +631,19 @@ declare namespace LocalJSX {
          */
         "label"?: string;
     }
+    interface GcDropdown {
+        /**
+          * If true, the user cannot interact with the button. Defaults to `false`.
+         */
+        "disabled"?: boolean;
+        "isOpen"?: boolean;
+        "items"?: any[];
+        "positions"?: string;
+        /**
+          * The button size. Possible values are: `"sm"`, `"md"`, `"lg"`. Defaults to `"md"`.
+         */
+        "size"?: 'sm' | 'md' | 'lg';
+    }
     interface GcFormField {
         /**
           * Is disabled ?
@@ -529,6 +658,10 @@ declare namespace LocalJSX {
          */
         "gcName"?: string;
         /**
+          * [{   label: 'Shivaji Varma',   value: 'shivaji-varma' }]
+         */
+        "items"?: string | [];
+        /**
           * The label name
          */
         "label"?: string;
@@ -536,6 +669,14 @@ declare namespace LocalJSX {
           * The placeholder
          */
         "placeholder"?: string;
+        /**
+          * Prefix icon
+         */
+        "prefixIcon"?: string;
+        /**
+          * Search type Possible values are `"none"`, `"initial"`, `"contains"`, `"managed"`. Defaults to `"none"`.
+         */
+        "search"?: 'none' | 'initial' | 'contains' | 'managed';
         /**
           * The input type
          */
@@ -601,9 +742,17 @@ declare namespace LocalJSX {
          */
         "gcName"?: string;
         /**
+          * Emitted when the value has changed.
+         */
+        "onGc:change"?: (event: GcInputCustomEvent<any>) => void;
+        /**
           * The placeholder
          */
         "placeholder"?: string;
+        /**
+          * The name of input
+         */
+        "prefixIcon"?: string;
         /**
           * The input type
          */
@@ -627,6 +776,28 @@ declare namespace LocalJSX {
          */
         "gcId"?: string;
     }
+    interface GcLink {
+        /**
+          * The class name
+         */
+        "class"?: string;
+        /**
+          * The color of link
+         */
+        "color"?: string;
+        /**
+          * The id
+         */
+        "gcId"?: string;
+        /**
+          * Go to link
+         */
+        "gcTo"?: string;
+        /**
+          * Icon name
+         */
+        "icon"?: string;
+    }
     interface GcMenu {
         "empty"?: boolean;
         "emptyState"?: any;
@@ -649,7 +820,7 @@ declare namespace LocalJSX {
         /**
           * Emitted when the menu item is clicked.
          */
-        "onGoat:menu-item-click"?: (event: GcMenuItemCustomEvent<any>) => void;
+        "onGc:menu-item-click"?: (event: GcMenuItemCustomEvent<any>) => void;
         /**
           * Menu item selection state.
          */
@@ -664,6 +835,20 @@ declare namespace LocalJSX {
           * The class name
          */
         "class"?: string;
+        /**
+          * The id
+         */
+        "gcId"?: string;
+    }
+    interface GcPagination {
+        /**
+          * The class name
+         */
+        "class"?: string;
+        /**
+          * Label for what component
+         */
+        "gcFor"?: string;
         /**
           * The id
          */
@@ -700,15 +885,15 @@ declare namespace LocalJSX {
         /**
           * Emitted when the action button is clicked..
          */
-        "onGoat:action-click"?: (event: GcSelectCustomEvent<any>) => void;
+        "onGc:action-click"?: (event: GcSelectCustomEvent<any>) => void;
         /**
           * Emitted when the value has changed.
          */
-        "onGoat:change"?: (event: GcSelectCustomEvent<any>) => void;
+        "onGc:change"?: (event: GcSelectCustomEvent<any>) => void;
         /**
           * Emitted when a keyboard input occurred.
          */
-        "onGoat:search"?: (event: GcSelectCustomEvent<any>) => void;
+        "onGc:search"?: (event: GcSelectCustomEvent<any>) => void;
         /**
           * The input field placeholder.
          */
@@ -739,6 +924,38 @@ declare namespace LocalJSX {
           * The input field value.
          */
         "value"?: string | number;
+    }
+    interface GcSpinner {
+        /**
+          * Is float above background
+         */
+        "isFloat"?: boolean;
+    }
+    interface GcTable {
+        /**
+          * Grid columns configuration. [ {   "name":"name",   "label":"Name",   "width":300,   "fixed":true  }, {   "name":"age",   "label":"Age" } ]
+         */
+        "columns"?: string | any[];
+        /**
+          * Grid data to display on table [{  'id': '5e7118ddce4b3d577956457f',  'age': 21,  'name': 'John',  'company': 'India',  'email': 'john@example.com',  'phone': '+1 (839) 560-3581',  'address': '326 Irving Street, Grimsley, Texas, 4048'  }]
+         */
+        "data"?: string | any[];
+        "emptyState"?: any;
+        "keyField"?: string;
+        "managed"?: boolean;
+        "onGc:page"?: (event: GcTableCustomEvent<any>) => void;
+        "onGc:sort"?: (event: GcTableCustomEvent<any>) => void;
+        "onGc:table-cell-click"?: (event: GcTableCustomEvent<any>) => void;
+        "onGc:table-select-change"?: (event: GcTableCustomEvent<any>) => void;
+        "page"?: number;
+        "pageSize"?: number;
+        "paginate"?: boolean;
+        "selectedRowKeys"?: string[];
+        "selectionType"?: 'checkbox' | undefined;
+        "sortBy"?: string;
+        "sortOrder"?: 'asc' | 'desc' | '';
+        "sortable"?: boolean;
+        "totalItems"?: any;
     }
     interface GcTag {
         /**
@@ -784,23 +1001,10 @@ declare namespace LocalJSX {
          */
         "gcId"?: string;
     }
-    interface MyComponent {
-        /**
-          * The first name
-         */
-        "first"?: string;
-        /**
-          * The last name
-         */
-        "last"?: string;
-        /**
-          * The middle name
-         */
-        "middle"?: string;
-    }
     interface IntrinsicElements {
         "gc-button": GcButton;
         "gc-checkbox": GcCheckbox;
+        "gc-dropdown": GcDropdown;
         "gc-form-field": GcFormField;
         "gc-h1": GcH1;
         "gc-h2": GcH2;
@@ -808,13 +1012,16 @@ declare namespace LocalJSX {
         "gc-icon": GcIcon;
         "gc-input": GcInput;
         "gc-label": GcLabel;
+        "gc-link": GcLink;
         "gc-menu": GcMenu;
         "gc-menu-item": GcMenuItem;
         "gc-ol": GcOl;
+        "gc-pagination": GcPagination;
         "gc-select": GcSelect;
+        "gc-spinner": GcSpinner;
+        "gc-table": GcTable;
         "gc-tag": GcTag;
         "gc-ul": GcUl;
-        "my-component": MyComponent;
     }
 }
 export { LocalJSX as JSX };
@@ -823,6 +1030,7 @@ declare module "@stencil/core" {
         interface IntrinsicElements {
             "gc-button": LocalJSX.GcButton & JSXBase.HTMLAttributes<HTMLGcButtonElement>;
             "gc-checkbox": LocalJSX.GcCheckbox & JSXBase.HTMLAttributes<HTMLGcCheckboxElement>;
+            "gc-dropdown": LocalJSX.GcDropdown & JSXBase.HTMLAttributes<HTMLGcDropdownElement>;
             "gc-form-field": LocalJSX.GcFormField & JSXBase.HTMLAttributes<HTMLGcFormFieldElement>;
             "gc-h1": LocalJSX.GcH1 & JSXBase.HTMLAttributes<HTMLGcH1Element>;
             "gc-h2": LocalJSX.GcH2 & JSXBase.HTMLAttributes<HTMLGcH2Element>;
@@ -830,13 +1038,16 @@ declare module "@stencil/core" {
             "gc-icon": LocalJSX.GcIcon & JSXBase.HTMLAttributes<HTMLGcIconElement>;
             "gc-input": LocalJSX.GcInput & JSXBase.HTMLAttributes<HTMLGcInputElement>;
             "gc-label": LocalJSX.GcLabel & JSXBase.HTMLAttributes<HTMLGcLabelElement>;
+            "gc-link": LocalJSX.GcLink & JSXBase.HTMLAttributes<HTMLGcLinkElement>;
             "gc-menu": LocalJSX.GcMenu & JSXBase.HTMLAttributes<HTMLGcMenuElement>;
             "gc-menu-item": LocalJSX.GcMenuItem & JSXBase.HTMLAttributes<HTMLGcMenuItemElement>;
             "gc-ol": LocalJSX.GcOl & JSXBase.HTMLAttributes<HTMLGcOlElement>;
+            "gc-pagination": LocalJSX.GcPagination & JSXBase.HTMLAttributes<HTMLGcPaginationElement>;
             "gc-select": LocalJSX.GcSelect & JSXBase.HTMLAttributes<HTMLGcSelectElement>;
+            "gc-spinner": LocalJSX.GcSpinner & JSXBase.HTMLAttributes<HTMLGcSpinnerElement>;
+            "gc-table": LocalJSX.GcTable & JSXBase.HTMLAttributes<HTMLGcTableElement>;
             "gc-tag": LocalJSX.GcTag & JSXBase.HTMLAttributes<HTMLGcTagElement>;
             "gc-ul": LocalJSX.GcUl & JSXBase.HTMLAttributes<HTMLGcUlElement>;
-            "my-component": LocalJSX.MyComponent & JSXBase.HTMLAttributes<HTMLMyComponentElement>;
         }
     }
 }

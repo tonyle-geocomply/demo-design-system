@@ -5,14 +5,27 @@ export class GcFormField {
      * The input type
      */
     this.type = 'text';
+    /**
+     *  [{
+     *    label: 'Shivaji Varma',
+     *    value: 'shivaji-varma'
+     *  }]
+     */
+    this.items = [];
+    /**
+     * Search type
+     * Possible values are `"none"`, `"initial"`, `"contains"`, `"managed"`. Defaults to `"none"`.
+     */
+    this.search = 'none';
   }
   render() {
+    const input = this.type === 'select' ? (h("gc-select", { search: this.search, items: this.items, "gc-id": this.gcId, "gc-name": this.gcName, value: this.value, disabled: this.disabled, placeholder: this.placeholder })) : (h("gc-input", { "prefix-icon": this.prefixIcon, "gc-id": this.gcId, "gc-name": this.gcName, value: this.value, disabled: this.disabled, type: this.type, placeholder: this.placeholder }));
     return (h(Host, null,
       h("gc-label", { "gc-for": this.gcName }, this.label),
-      h("gc-input", { "gc-id": this.gcId, "gc-name": this.gcName, value: this.value, disabled: this.disabled, type: this.type, placeholder: this.placeholder })));
+      input));
   }
   static get is() { return "gc-form-field"; }
-  static get encapsulation() { return "shadow"; }
+  static get encapsulation() { return "scoped"; }
   static get properties() { return {
     "label": {
       "type": "string",
@@ -132,6 +145,59 @@ export class GcFormField {
         "text": "The input value"
       },
       "attribute": "value",
+      "reflect": false
+    },
+    "items": {
+      "type": "string",
+      "mutable": false,
+      "complexType": {
+        "original": "string | []",
+        "resolved": "[] | string",
+        "references": {}
+      },
+      "required": false,
+      "optional": false,
+      "docs": {
+        "tags": [],
+        "text": "[{\n  label: 'Shivaji Varma',\n  value: 'shivaji-varma'\n}]"
+      },
+      "attribute": "items",
+      "reflect": false,
+      "defaultValue": "[]"
+    },
+    "search": {
+      "type": "string",
+      "mutable": false,
+      "complexType": {
+        "original": "'none' | 'initial' | 'contains' | 'managed'",
+        "resolved": "\"contains\" | \"initial\" | \"managed\" | \"none\"",
+        "references": {}
+      },
+      "required": false,
+      "optional": false,
+      "docs": {
+        "tags": [],
+        "text": "Search type\nPossible values are `\"none\"`, `\"initial\"`, `\"contains\"`, `\"managed\"`. Defaults to `\"none\"`."
+      },
+      "attribute": "search",
+      "reflect": false,
+      "defaultValue": "'none'"
+    },
+    "prefixIcon": {
+      "type": "string",
+      "mutable": false,
+      "complexType": {
+        "original": "string",
+        "resolved": "string",
+        "references": {}
+      },
+      "required": false,
+      "optional": false,
+      "docs": {
+        "tags": [],
+        "text": "Prefix icon"
+      },
+      "attribute": "prefix-icon",
       "reflect": false
     }
   }; }
