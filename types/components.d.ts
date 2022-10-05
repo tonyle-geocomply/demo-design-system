@@ -270,17 +270,17 @@ export namespace Components {
     }
     interface GcPagination {
         /**
-          * The class name
+          * The page size
          */
-        "class"?: string;
+        "activePage": number;
         /**
-          * Label for what component
+          * The page size
          */
-        "gcFor": string;
+        "pageSize": number;
         /**
-          * The id
+          * The total
          */
-        "gcId": string;
+        "total": number;
     }
     interface GcSelect {
         /**
@@ -372,6 +372,7 @@ export namespace Components {
         "paginate": boolean;
         "selectedRowKeys": string[];
         "selectionType": 'checkbox' | undefined;
+        "settingColumns"?: boolean;
         "sortBy": string;
         "sortOrder": 'asc' | 'desc' | '';
         "sortable": boolean;
@@ -422,6 +423,10 @@ export namespace Components {
         "gcId": string;
     }
 }
+export interface GcCheckboxCustomEvent<T> extends CustomEvent<T> {
+    detail: T;
+    target: HTMLGcCheckboxElement;
+}
 export interface GcInputCustomEvent<T> extends CustomEvent<T> {
     detail: T;
     target: HTMLGcInputElement;
@@ -429,6 +434,10 @@ export interface GcInputCustomEvent<T> extends CustomEvent<T> {
 export interface GcMenuItemCustomEvent<T> extends CustomEvent<T> {
     detail: T;
     target: HTMLGcMenuItemElement;
+}
+export interface GcPaginationCustomEvent<T> extends CustomEvent<T> {
+    detail: T;
+    target: HTMLGcPaginationElement;
 }
 export interface GcSelectCustomEvent<T> extends CustomEvent<T> {
     detail: T;
@@ -630,6 +639,10 @@ declare namespace LocalJSX {
           * The label of checkbox
          */
         "label"?: string;
+        /**
+          * Emitted when the value has changed.
+         */
+        "onGc:change"?: (event: GcCheckboxCustomEvent<any>) => void;
     }
     interface GcDropdown {
         /**
@@ -842,17 +855,21 @@ declare namespace LocalJSX {
     }
     interface GcPagination {
         /**
-          * The class name
+          * The page size
          */
-        "class"?: string;
+        "activePage"?: number;
         /**
-          * Label for what component
+          * Emitted when the value has changed.
          */
-        "gcFor"?: string;
+        "onGc:change-page"?: (event: GcPaginationCustomEvent<any>) => void;
         /**
-          * The id
+          * The page size
          */
-        "gcId"?: string;
+        "pageSize"?: number;
+        /**
+          * The total
+         */
+        "total"?: number;
     }
     interface GcSelect {
         /**
@@ -943,7 +960,7 @@ declare namespace LocalJSX {
         "emptyState"?: any;
         "keyField"?: string;
         "managed"?: boolean;
-        "onGc:page"?: (event: GcTableCustomEvent<any>) => void;
+        "onGc:change-page"?: (event: GcTableCustomEvent<any>) => void;
         "onGc:sort"?: (event: GcTableCustomEvent<any>) => void;
         "onGc:table-cell-click"?: (event: GcTableCustomEvent<any>) => void;
         "onGc:table-select-change"?: (event: GcTableCustomEvent<any>) => void;
@@ -952,6 +969,7 @@ declare namespace LocalJSX {
         "paginate"?: boolean;
         "selectedRowKeys"?: string[];
         "selectionType"?: 'checkbox' | undefined;
+        "settingColumns"?: boolean;
         "sortBy"?: string;
         "sortOrder"?: 'asc' | 'desc' | '';
         "sortable"?: boolean;

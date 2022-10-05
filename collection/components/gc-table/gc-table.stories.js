@@ -4,7 +4,7 @@ export default {
     viewMode: 'docs',
   },
 };
-let data = [];
+const data = [];
 for (let i = 0; i < 20; i += 1) {
   data.push({
     _id: '5e7118ddce4b3d577956457f',
@@ -84,6 +84,7 @@ const Template = args => `
   key-field='_id'
   selection-type='checkbox'
   sortable
+  setting-columns='${args.settingColumns}'
   data='${args.data || JSON.stringify(data)}'
   columns='${args.columns || JSON.stringify(columns)}'
   >
@@ -93,4 +94,5 @@ export const Default = Template.bind({});
 Default.args = {
   data: '',
   columns: '',
+  settingColumns: false,
 };

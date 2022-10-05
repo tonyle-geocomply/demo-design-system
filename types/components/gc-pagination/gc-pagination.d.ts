@@ -1,15 +1,23 @@
+import { EventEmitter } from '../../stencil-public-runtime';
 export declare class GcPagination {
   /**
-   * The class name
+   * The page size
    */
-  class?: string;
+  pageSize: number;
   /**
-   * The id
+   * The page size
    */
-  gcId: string;
+  activePage: number;
   /**
-   * Label for what component
+   * The total
    */
-  gcFor: string;
+  total: number;
+  /**
+   * Emitted when the value has changed.
+   */
+  gcChangePage: EventEmitter;
+  private onChange;
+  private getMaxPage;
+  private renderPagination;
   render(): any;
 }

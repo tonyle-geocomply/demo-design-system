@@ -1,3 +1,4 @@
+import { EventEmitter } from '../../stencil-public-runtime';
 export declare class GcCheckbox {
   /**
    * The class name
@@ -23,5 +24,10 @@ export declare class GcCheckbox {
    * Is disabled ?
    */
   disabled: boolean;
+  /**
+   * Emitted when the value has changed.
+   */
+  gcChange: EventEmitter;
+  private onInput;
   render(): any;
 }

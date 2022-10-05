@@ -122,7 +122,6 @@ const GcSelect = /*@__PURE__*/ proxyCustomElement(class extends HTMLElement {
       }
       else if (evt.key === 'ArrowDown') {
         if (this.isOpen) {
-          console.log('inside select');
           evt.preventDefault();
           this.menuElm.setFocus();
         }

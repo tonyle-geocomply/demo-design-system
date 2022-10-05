@@ -67,6 +67,7 @@
   display: flex;
   align-items: center;
   height: 100%;
+  justify-content: space-between;
 }
 .row .col .col-content .col-text {
   padding: 0 14px 0 14px;
@@ -204,4 +205,43 @@ gc-icon.down-arrow {
 }
 .col-center {
   text-align: center;
+}
+.gc__table-setting {
+  margin-top: 26px;
+  margin-bottom: 8px;
+  font-weight: bold;;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+}
+
+.gc__table-setting .dropdown {
+  width: 473px;
+}
+
+.gc__table-setting .gc__table-setting-cols-text {
+  padding: 0 20px;
+  display: flex;
+  align-items: center;
+  border-bottom: 1px solid var(--gc-color-second-grey);
+}
+
+.gc__table-setting .gc__table-setting-cols-title {
+  margin-left: 12px;
+}
+
+.gc__table-setting .gc__table-setting-cols {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  padding: 15px 20px;
+  row-gap: 9px;
+}
+
+.gc__table-setting .gc__table-setting-col-item {
+  display: flex;
+}
+
+.gc__table-setting .gc__table-setting-col-item .sc-gc-checkbox-h {
+  margin-bottom: 0;
+  margin-left: 8px;
 }

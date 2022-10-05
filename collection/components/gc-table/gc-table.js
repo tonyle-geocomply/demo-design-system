@@ -1,4 +1,4 @@
-import { Component, Element, Event, h, Host, Prop, State } from '@stencil/core';
+import { Component, Element, Event, h, Host, Prop, State, Watch } from '@stencil/core';
 const DEFAULT_CELL_WIDTH = '16rem'; // in rem
 /**
  * @name Table
@@ -48,8 +48,10 @@ export class GcTable {
       title: 'No items',
       description: 'There are no items to display',
     };
+    this.settingColumns = false;
     this.hoveredCell = {};
     this.isSelectAll = false;
+    this.showingColumns = [];
     this.onSelectAllClick = () => {
       let selectedRowKeys = [];
       this.isSelectAll = !this.isSelectAll;
@@ -72,12 +74,23 @@ export class GcTable {
       this.hoveredCell = { row, column };
     };
   }
+  getShowingColumnsState() {
+    if (this.columns) {
+      return this.getColumns().reduce((res, col) => {
+        res = Object.assign(Object.assign({}, res), { [col.name]: true });
+        return res;
+      }, {});
+    }
+  }
   onSelectChange(selectedRowKeys) {
     this.selectedRowKeys = selectedRowKeys;
     this.gcSelectChange.emit({ value: this.selectedRowKeys, isSelectAll: this.isSelectAll });
   }
   onCellClick(row, col) {
     this.gcCellClick.emit({ record: row, column: col });
+  }
+  onCheck(e, name) {
+    this.showingColumns = Object.assign(Object.assign({}, this.showingColumns), { [name]: e.detail.value });
   }
   renderHeader() {
     const fixedCols = [];
@@ -87,33 +100,35 @@ export class GcTable {
         h("div", { class: "col-content" })));
     }
     this.getColumns().forEach(col => {
-      let colWidth = DEFAULT_CELL_WIDTH;
-      if (col.width)
-        colWidth = col.width;
-      const colEl = (h("div", { onClick: () => {
-          if (this.sortBy === col.name) {
-            if (this.sortOrder === 'asc')
-              this.sortOrder = 'desc';
-            else {
-              this.sortBy = null;
+      if (this.showingColumns[col.name]) {
+        let colWidth = DEFAULT_CELL_WIDTH;
+        if (col.width)
+          colWidth = col.width;
+        const colEl = (h("div", { onClick: () => {
+            if (this.sortBy === col.name) {
+              if (this.sortOrder === 'asc')
+                this.sortOrder = 'desc';
+              else {
+                this.sortBy = null;
+              }
             }
-          }
-          else {
-            this.sortBy = col.name;
-            this.sortOrder = 'asc';
-          }
-          this.gcSort.emit({ sortBy: this.sortBy, sortOrder: this.sortOrder });
-        }, class: { col: true, sort: this.sortBy === col.name }, style: { width: colWidth } },
-        h("div", { class: "col-content" },
-          h("div", { class: "col-text" }, col.label),
-          h("div", { class: "col-actions" }, (() => {
-            if (!this.sortable)
-              return;
-            return (h("div", { class: "gc__table-arrow" },
-              h("gc-icon", { class: { disabled: this.sortBy === col.name && this.sortOrder === 'desc' }, name: "fa-regular fa-chevron-up", size: "10px" }),
-              h("gc-icon", { class: { 'disabled': this.sortBy === col.name && this.sortOrder === 'asc', 'down-arrow': true }, name: "fa-regular fa-chevron-down", size: "10px" })));
-          })()))));
-      col.fixed ? fixedCols.push(colEl) : scrollCols.push(colEl);
+            else {
+              this.sortBy = col.name;
+              this.sortOrder = 'asc';
+            }
+            this.gcSort.emit({ sortBy: this.sortBy, sortOrder: this.sortOrder });
+          }, class: { col: true, sort: this.sortBy === col.name }, style: { width: colWidth } },
+          h("div", { class: "col-content" },
+            h("div", { class: "col-text" }, col.label),
+            h("div", { class: "col-actions" }, (() => {
+              if (!this.sortable)
+                return;
+              return (h("div", { class: "gc__table-arrow" },
+                h("gc-icon", { class: { disabled: this.sortBy === col.name && this.sortOrder === 'desc' }, name: "fa-regular fa-chevron-up", size: "10px" }),
+                h("gc-icon", { class: { 'disabled': this.sortBy === col.name && this.sortOrder === 'asc', 'down-arrow': true }, name: "fa-regular fa-chevron-down", size: "10px" })));
+            })()))));
+        col.fixed ? fixedCols.push(colEl) : scrollCols.push(colEl);
+      }
     });
     return (h("div", { class: "header" },
       h("div", { class: "row" },
@@ -144,17 +159,19 @@ export class GcTable {
         fixedCols.push(h("div", { class: { col: true, center: true } },
           h("div", { class: "col-content" })));
       this.getColumns().forEach(column => {
-        let colWidth = DEFAULT_CELL_WIDTH;
-        if (column.width)
-          colWidth = column.width;
-        const colEl = (h("div", { tabindex: "1", class: { 'col': true, 'col-hover': this.hoveredCell.row === row && this.hoveredCell.column === column, 'col-center': column.center }, style: { width: colWidth }, onMouseOver: () => this.onCellMouseOver(row, column), onClick: () => {
-            const selection = window.getSelection();
-            if (selection.type != 'Range')
-              this.onCellClick(row, column);
-          } },
-          h("div", { class: "col-content" },
-            h("div", { class: "col-text", title: row === null || row === void 0 ? void 0 : row[column.name], innerHTML: row === null || row === void 0 ? void 0 : row[column.name] }))));
-        column.fixed ? fixedCols.push(colEl) : scrollCols.push(colEl);
+        if (this.showingColumns[column.name]) {
+          let colWidth = DEFAULT_CELL_WIDTH;
+          if (column.width)
+            colWidth = column.width;
+          const colEl = (h("div", { tabindex: "1", class: { 'col': true, 'col-hover': this.hoveredCell.row === row && this.hoveredCell.column === column, 'col-center': column.center }, style: { width: colWidth }, onMouseOver: () => this.onCellMouseOver(row, column), onClick: () => {
+              const selection = window.getSelection();
+              if (selection.type != 'Range')
+                this.onCellClick(row, column);
+            } },
+            h("div", { class: "col-content" },
+              h("div", { class: "col-text", title: row === null || row === void 0 ? void 0 : row[column.name], innerHTML: row === null || row === void 0 ? void 0 : row[column.name] }))));
+          column.fixed ? fixedCols.push(colEl) : scrollCols.push(colEl);
+        }
       });
       rows.push(h("div", { class: { 'row': true, 'row-hover': this.hoveredCell.row === row } },
         h("div", { class: "fixed-columns columns-container" }, fixedCols),
@@ -166,7 +183,7 @@ export class GcTable {
     let totalItems = this.totalItems;
     if (this.paginate && !this.managed)
       totalItems = this.getData().length;
-    return totalItems;
+    return totalItems || this.getData().length;
   }
   getData() {
     if (this.data) {
@@ -195,7 +212,7 @@ export class GcTable {
     }
   }
   renderPagination() {
-    if (this.paginate)
+    if (this.paginate) {
       return (h("div", { class: "pagination" },
         h("div", { class: "page-sizes-select" }),
         h("div", { class: "pagination-item-count" },
@@ -210,10 +227,36 @@ export class GcTable {
         h("div", { class: "pagination-right" },
           h("div", { class: "table-footer-right-content" },
             h("div", { class: "table-footer-right-content-pagination" },
-              h("gc-pagination", null))))));
+              h("gc-pagination", { total: this.getTotalItems(), pageSize: this.pageSize }))))));
+    }
+  }
+  renderSettingColumns() {
+    if (this.settingColumns) {
+      const totalItems = this.getTotalItems();
+      const columns = this.getColumns();
+      return (h("div", { class: "gc__table-setting" },
+        h("div", null,
+          "Results: ",
+          totalItems,
+          " entries found matching applied filters:"),
+        h("div", null,
+          h("gc-dropdown", { id: "dropdown" },
+            h("gc-link", { icon: "fa-solid fa-table-layout", color: "var(--gc-color-text-grey)" }, "Manage Table Columns"),
+            h("div", { slot: "dropdown-content", class: "dropdown" },
+              h("div", { class: "gc__table-setting-cols-text" },
+                h("gc-icon", { color: "red", name: "fa-regular fa-square-info" }),
+                h("gc-h2", { class: "gc__table-setting-cols-title" }, "Manage Table Columns")),
+              h("div", { class: "gc__table-setting-cols" }, columns.map(col => (h("div", { class: "gc__table-setting-col-item" },
+                h("gc-icon", { color: "var(--gc-color-secondary-grey)", name: "fa-solid fa-grip-dots-vertical" }),
+                h("gc-checkbox", { "gc-name": col.name, label: col.label, checked: true, "onGc:change": e => this.onCheck(e, col.name) }))))))))));
+    }
+  }
+  componentDidLoad() {
+    this.showingColumns = this.getShowingColumnsState();
   }
   render() {
     return (h(Host, null,
+      this.renderSettingColumns(),
       h("div", { class: { table: true, sortable: this.sortable, paginate: this.paginate } },
         h("div", { class: "table-scroll-container" },
           this.renderHeader(),
@@ -410,7 +453,7 @@ export class GcTable {
     },
     "page": {
       "type": "number",
-      "mutable": false,
+      "mutable": true,
       "complexType": {
         "original": "number",
         "resolved": "number",
@@ -478,11 +521,30 @@ export class GcTable {
       "attribute": "empty-state",
       "reflect": false,
       "defaultValue": "{\n    title: 'No items',\n    description: 'There are no items to display',\n  }"
+    },
+    "settingColumns": {
+      "type": "boolean",
+      "mutable": false,
+      "complexType": {
+        "original": "boolean",
+        "resolved": "boolean",
+        "references": {}
+      },
+      "required": false,
+      "optional": true,
+      "docs": {
+        "tags": [],
+        "text": ""
+      },
+      "attribute": "setting-columns",
+      "reflect": false,
+      "defaultValue": "false"
     }
   }; }
   static get states() { return {
     "hoveredCell": {},
-    "isSelectAll": {}
+    "isSelectAll": {},
+    "showingColumns": {}
   }; }
   static get events() { return [{
       "method": "gcCellClick",
@@ -530,8 +592,8 @@ export class GcTable {
         "references": {}
       }
     }, {
-      "method": "gcPage",
-      "name": "gc:page",
+      "method": "gcChangePage",
+      "name": "gc:change-page",
       "bubbles": true,
       "cancelable": true,
       "composed": true,
@@ -546,4 +608,8 @@ export class GcTable {
       }
     }]; }
   static get elementRef() { return "elm"; }
+  static get watchers() { return [{
+      "propName": "columns",
+      "methodName": "getShowingColumnsState"
+    }]; }
 }

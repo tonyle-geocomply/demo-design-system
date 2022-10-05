@@ -1,4 +1,4 @@
-import { Component, Prop, Host, h } from '@stencil/core';
+import { Component, Prop, Host, h, Event } from '@stencil/core';
 export class GcCheckbox {
   constructor() {
     /**
@@ -9,10 +9,14 @@ export class GcCheckbox {
      * Is disabled ?
      */
     this.disabled = false;
+    this.onInput = (ev) => {
+      const input = ev.target;
+      this.gcChange.emit({ value: input.checked || false });
+    };
   }
   render() {
     return (h(Host, null,
-      h("input", { class: this.class, id: this.gcName, type: "checkbox", checked: this.checked, disabled: this.disabled }),
+      h("input", { class: this.class, id: this.gcName, type: "checkbox", onInput: this.onInput, checked: this.checked, disabled: this.disabled }),
       h("label", { htmlFor: this.gcName }, this.label)));
   }
   static get is() { return "gc-checkbox"; }
@@ -129,4 +133,20 @@ export class GcCheckbox {
       "defaultValue": "false"
     }
   }; }
+  static get events() { return [{
+      "method": "gcChange",
+      "name": "gc:change",
+      "bubbles": true,
+      "cancelable": true,
+      "composed": true,
+      "docs": {
+        "tags": [],
+        "text": "Emitted when the value has changed."
+      },
+      "complexType": {
+        "original": "any",
+        "resolved": "any",
+        "references": {}
+      }
+    }]; }
 }
