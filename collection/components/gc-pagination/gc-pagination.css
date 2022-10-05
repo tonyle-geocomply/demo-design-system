@@ -5,7 +5,7 @@
 
 .gc__pagination .gc__pagination-page {
   background: #FFFFFF;
-  border: 1px solid #DAE1E8;
+  border: 1px solid var(--gc-color-second-grey);
   border-radius: 6px;
   color: var(--gc-color-primary);
   padding: 2px;

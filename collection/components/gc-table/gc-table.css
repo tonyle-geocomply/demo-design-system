@@ -2,7 +2,7 @@
   display: block;
   height: 100%;
   min-height: 20em;
-  --table-border-color: #DAE1E8;
+  --table-border-color: var(--gc-color-second-grey);
   --z-index-table-header: 12;
 }
 .table {
@@ -15,11 +15,13 @@
   overflow: auto;
   height: 100%;
 }
-.table .empty-table {
-  height: 80%;
+.empty-table {
   display: flex;
   align-items: center;
   justify-content: center;
+  flex-direction: column;
+  padding: 18px;
+  border: 1px solid var(--gc-color-second-grey);
 }
 .table.paginate .table-scroll-container {
   height: calc(100% - 2.4375rem);
@@ -60,8 +62,8 @@
   box-sizing: border-box;
   vertical-align: middle;
   line-height: normal;
-  border-right: 1px solid #DAE1E8;
-  border-bottom: 1px solid #DAE1E8;
+  border-right: 1px solid var(--gc-color-second-grey);
+  border-bottom: 1px solid var(--gc-color-second-grey);
 }
 .row .col .col-content {
   display: flex;
@@ -101,10 +103,10 @@
   left: 0;
 }
 .body .row:nth-child(odd) .fixed-columns {
-  background-color: #FFFEFF;
+  background-color: var(--gc-color-second-white);
 }
 .body .row:nth-child(even) .fixed-columns {
-  background-color: #F4F7FA;
+  background-color: var(--gc-color-contrast-grey);
 }
 .header .fixed-columns {
   background: #397FF7;
@@ -138,13 +140,13 @@
 .body .row {
   height: 66px;
 }
-.body .row:nth-child(even) {background-color: #F4F7FA;}
-.body .row:nth-child(odd) {background-color: #FFFEFF;}
+.body .row:nth-child(even) {background-color: var(--gc-color-contrast-grey);}
+.body .row:nth-child(odd) {background-color: var(--gc-color-contrast-grey);}
 .body > div > div.fixed-columns.columns-container > div:nth-child(even) > div {
-  background-color: #F4F7FA;
+  background-color: var(--gc-color-contrast-grey);
 }
 .body > div > div.fixed-columns.columns-container > div:nth-child(odd) > div {
-  background-color: #FFFEFF;
+  background-color: var(--gc-color-second-white);
 }
 .body .row:hover {
   /* background-color: blue; */
@@ -207,12 +209,14 @@ gc-icon.down-arrow {
   text-align: center;
 }
 .gc__table-setting {
-  margin-top: 26px;
-  margin-bottom: 8px;
   font-weight: bold;;
   display: flex;
   align-items: center;
   justify-content: space-between;
+  background: var(--gc-color-contrast-white);
+  padding: 26px 30px 8px 30px;
+  border-left: 1px solid var(--gc-color-second-grey);
+  border-right: 1px solid var(--gc-color-second-grey);
 }
 
 .gc__table-setting .dropdown {
@@ -244,4 +248,5 @@ gc-icon.down-arrow {
 .gc__table-setting .gc__table-setting-col-item .sc-gc-checkbox-h {
   margin-bottom: 0;
   margin-left: 8px;
+  line-height: 13px;
 }

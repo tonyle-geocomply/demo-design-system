@@ -55,6 +55,7 @@ export declare class GcTable {
   gcSelectChange: EventEmitter;
   gcSort: EventEmitter;
   gcChangePage: EventEmitter;
+  gcClearEmptyState: EventEmitter;
   getShowingColumnsState(): any;
   onSelectAllClick: () => void;
   onRowSelectClick: (row: any) => void;
@@ -62,6 +63,7 @@ export declare class GcTable {
   onSelectChange(selectedRowKeys: any): void;
   onCellClick(row: any, col: any): void;
   onCheck(e: any, name: string): void;
+  onClearEmptyState(): void;
   renderHeader(): any;
   renderBody(): any;
   getTotalItems(): any;

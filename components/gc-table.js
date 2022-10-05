@@ -1,4 +1,5 @@
 import { proxyCustomElement, HTMLElement, createEvent, h, Host } from '@stencil/core/internal/client';
+import { d as defineCustomElement$a } from './gc-button2.js';
 import { d as defineCustomElement$9 } from './gc-checkbox2.js';
 import { d as defineCustomElement$8 } from './gc-dropdown2.js';
 import { d as defineCustomElement$7 } from './gc-h22.js';
@@ -8,7 +9,7 @@ import { d as defineCustomElement$4 } from './gc-menu2.js';
 import { d as defineCustomElement$3 } from './gc-menu-item2.js';
 import { d as defineCustomElement$2 } from './gc-pagination2.js';
 
-const gcTableCss = ":host{display:block;height:100%;min-height:20em;--table-border-color:#DAE1E8;--z-index-table-header:12}.table{height:100%;border:1px solid var(--table-border-color);font-size:12px}.table .table-scroll-container{position:relative;overflow:auto;height:100%}.table .empty-table{height:80%;display:flex;align-items:center;justify-content:center}.table.paginate .table-scroll-container{height:calc(100% - 2.4375rem)}.table .pagination{display:flex;border-top:1px solid var(--table-border-color)}.table .pagination .form-control{margin:0}.table .pagination .select{margin:0;--input-border-radius:none;--input-border-style:none;border-left:1px solid var(--table-border-color);border-right:1px solid var(--table-border-color)}.table .pagination .page-sizes-select{margin-inline-start:v(--spacing-3)}.table .pagination .pagination-item-count{margin-inline-start:v(--spacing-4);flex:1;display:flex;align-items:center}.row{display:flex;box-sizing:border-box;height:100%}.row .columns-container{display:flex}.row .col{margin:0;box-sizing:border-box;vertical-align:middle;line-height:normal;border-right:1px solid #DAE1E8;border-bottom:1px solid #DAE1E8}.row .col .col-content{display:flex;align-items:center;height:100%;justify-content:space-between}.row .col .col-content .col-text{padding:0 14px 0 14px;flex:1;display:block;display:-webkit-box;max-width:400px;-webkit-box-orient:vertical;overflow:hidden;text-overflow:ellipsis;display:-webkit-box;-webkit-line-clamp:3}.row .col .col-content .col-action{--button-border-radius:none}.row .col .col-content .col-action.has-focus{z-index:12}.row .col .col-content .checkbox{}.row .col.center .col-content{justify-content:center}.row .col:last-child{flex:1}.row .fixed-columns{position:sticky;left:0}.body .row:nth-child(odd) .fixed-columns{background-color:#FFFEFF}.body .row:nth-child(even) .fixed-columns{background-color:#F4F7FA}.header .fixed-columns{background:#397FF7}.row .scrollable-columns{flex:1}.header{z-index:var(--z-index-table-header);font-weight:bold;text-transform:uppercase;position:sticky;top:0;background:#397FF7;color:white;height:50px;min-width:fit-content}.body{min-width:fit-content}.header .left-panel{position:sticky;top:0;left:0}.header .col{border-bottom:1px solid var(--table-border-color);cursor:pointer}.body .row{height:66px}.body .row:nth-child(even){background-color:#F4F7FA}.body .row:nth-child(odd){background-color:#FFFEFF}.body>div>div.fixed-columns.columns-container>div:nth-child(even)>div{background-color:#F4F7FA}.body>div>div.fixed-columns.columns-container>div:nth-child(odd)>div{background-color:#FFFEFF}.body .row:hover{}.body .row:hover .col{}.body .row .col{}.body .row .col:focus{outline:none;z-index:1}.body .left-panel{position:sticky;left:0}.table-footer{height:66px}.table-footer .pagination{height:100%;padding:0 14px}.table-footer .pagination .pagination-right{display:flex;align-items:center}:host(.show-full-content) .body .col-text{overflow:initial;white-space:initial;text-overflow:initial}.empty-data{text-align:center;position:absolute;margin:auto;top:46px;right:0;bottom:0;left:0;border-radius:3px;height:max-content;}.gc__table-arrow{display:grid}gc-icon.disabled{opacity:0.5}gc-icon.down-arrow{margin-top:4px}.row .col .col-content .col-actions{margin-right:14px}.col-center{text-align:center}.gc__table-setting{margin-top:26px;margin-bottom:8px;font-weight:bold;display:flex;align-items:center;justify-content:space-between}.gc__table-setting .dropdown{width:473px}.gc__table-setting .gc__table-setting-cols-text{padding:0 20px;display:flex;align-items:center;border-bottom:1px solid var(--gc-color-second-grey)}.gc__table-setting .gc__table-setting-cols-title{margin-left:12px}.gc__table-setting .gc__table-setting-cols{display:grid;grid-template-columns:1fr 1fr;padding:15px 20px;row-gap:9px}.gc__table-setting .gc__table-setting-col-item{display:flex}.gc__table-setting .gc__table-setting-col-item .sc-gc-checkbox-h{margin-bottom:0;margin-left:8px}";
+const gcTableCss = ":host{display:block;height:100%;min-height:20em;--table-border-color:var(--gc-color-second-grey);--z-index-table-header:12}.table{height:100%;border:1px solid var(--table-border-color);font-size:12px}.table .table-scroll-container{position:relative;overflow:auto;height:100%}.empty-table{display:flex;align-items:center;justify-content:center;flex-direction:column;padding:18px;border:1px solid var(--gc-color-second-grey)}.table.paginate .table-scroll-container{height:calc(100% - 2.4375rem)}.table .pagination{display:flex;border-top:1px solid var(--table-border-color)}.table .pagination .form-control{margin:0}.table .pagination .select{margin:0;--input-border-radius:none;--input-border-style:none;border-left:1px solid var(--table-border-color);border-right:1px solid var(--table-border-color)}.table .pagination .page-sizes-select{margin-inline-start:v(--spacing-3)}.table .pagination .pagination-item-count{margin-inline-start:v(--spacing-4);flex:1;display:flex;align-items:center}.row{display:flex;box-sizing:border-box;height:100%}.row .columns-container{display:flex}.row .col{margin:0;box-sizing:border-box;vertical-align:middle;line-height:normal;border-right:1px solid var(--gc-color-second-grey);border-bottom:1px solid var(--gc-color-second-grey)}.row .col .col-content{display:flex;align-items:center;height:100%;justify-content:space-between}.row .col .col-content .col-text{padding:0 14px 0 14px;flex:1;display:block;display:-webkit-box;max-width:400px;-webkit-box-orient:vertical;overflow:hidden;text-overflow:ellipsis;display:-webkit-box;-webkit-line-clamp:3}.row .col .col-content .col-action{--button-border-radius:none}.row .col .col-content .col-action.has-focus{z-index:12}.row .col .col-content .checkbox{}.row .col.center .col-content{justify-content:center}.row .col:last-child{flex:1}.row .fixed-columns{position:sticky;left:0}.body .row:nth-child(odd) .fixed-columns{background-color:var(--gc-color-second-white)}.body .row:nth-child(even) .fixed-columns{background-color:var(--gc-color-contrast-grey)}.header .fixed-columns{background:#397FF7}.row .scrollable-columns{flex:1}.header{z-index:var(--z-index-table-header);font-weight:bold;text-transform:uppercase;position:sticky;top:0;background:#397FF7;color:white;height:50px;min-width:fit-content}.body{min-width:fit-content}.header .left-panel{position:sticky;top:0;left:0}.header .col{border-bottom:1px solid var(--table-border-color);cursor:pointer}.body .row{height:66px}.body .row:nth-child(even){background-color:var(--gc-color-contrast-grey)}.body .row:nth-child(odd){background-color:var(--gc-color-contrast-grey)}.body>div>div.fixed-columns.columns-container>div:nth-child(even)>div{background-color:var(--gc-color-contrast-grey)}.body>div>div.fixed-columns.columns-container>div:nth-child(odd)>div{background-color:var(--gc-color-second-white)}.body .row:hover{}.body .row:hover .col{}.body .row .col{}.body .row .col:focus{outline:none;z-index:1}.body .left-panel{position:sticky;left:0}.table-footer{height:66px}.table-footer .pagination{height:100%;padding:0 14px}.table-footer .pagination .pagination-right{display:flex;align-items:center}:host(.show-full-content) .body .col-text{overflow:initial;white-space:initial;text-overflow:initial}.empty-data{text-align:center;position:absolute;margin:auto;top:46px;right:0;bottom:0;left:0;border-radius:3px;height:max-content;}.gc__table-arrow{display:grid}gc-icon.disabled{opacity:0.5}gc-icon.down-arrow{margin-top:4px}.row .col .col-content .col-actions{margin-right:14px}.col-center{text-align:center}.gc__table-setting{font-weight:bold;display:flex;align-items:center;justify-content:space-between;background:var(--gc-color-contrast-white);padding:26px 30px 8px 30px;border-left:1px solid var(--gc-color-second-grey);border-right:1px solid var(--gc-color-second-grey)}.gc__table-setting .dropdown{width:473px}.gc__table-setting .gc__table-setting-cols-text{padding:0 20px;display:flex;align-items:center;border-bottom:1px solid var(--gc-color-second-grey)}.gc__table-setting .gc__table-setting-cols-title{margin-left:12px}.gc__table-setting .gc__table-setting-cols{display:grid;grid-template-columns:1fr 1fr;padding:15px 20px;row-gap:9px}.gc__table-setting .gc__table-setting-col-item{display:flex}.gc__table-setting .gc__table-setting-col-item .sc-gc-checkbox-h{margin-bottom:0;margin-left:8px;line-height:13px}";
 
 const DEFAULT_CELL_WIDTH = '16rem'; // in rem
 const GcTable$1 = /*@__PURE__*/ proxyCustomElement(class extends HTMLElement {
@@ -20,6 +21,7 @@ const GcTable$1 = /*@__PURE__*/ proxyCustomElement(class extends HTMLElement {
     this.gcSelectChange = createEvent(this, "gc:table-select-change", 7);
     this.gcSort = createEvent(this, "gc:sort", 7);
     this.gcChangePage = createEvent(this, "gc:change-page", 7);
+    this.gcClearEmptyState = createEvent(this, "gc:clear-empty-state", 7);
     /**
      * Grid columns configuration.
      * [
@@ -104,6 +106,11 @@ const GcTable$1 = /*@__PURE__*/ proxyCustomElement(class extends HTMLElement {
   }
   onCheck(e, name) {
     this.showingColumns = Object.assign(Object.assign({}, this.showingColumns), { [name]: e.detail.value });
+  }
+  onClearEmptyState() {
+    if (this.gcClearEmptyState) {
+      this.gcClearEmptyState.emit({});
+    }
   }
   renderHeader() {
     const fixedCols = [];
@@ -216,7 +223,7 @@ const GcTable$1 = /*@__PURE__*/ proxyCustomElement(class extends HTMLElement {
     }
   }
   renderSettingColumns() {
-    if (this.settingColumns) {
+    if (this.settingColumns && this.getData().length > 0) {
       const totalItems = this.getTotalItems();
       const columns = this.getColumns();
       return (h("div", { class: "gc__table-setting" }, h("div", null, "Results: ", totalItems, " entries found matching applied filters:"), h("div", null, h("gc-dropdown", { id: "dropdown" }, h("gc-link", { icon: "fa-solid fa-table-layout", color: "var(--gc-color-text-grey)" }, "Manage Table Columns"), h("div", { slot: "dropdown-content", class: "dropdown" }, h("div", { class: "gc__table-setting-cols-text" }, h("gc-icon", { color: "red", name: "fa-regular fa-square-info" }), h("gc-h2", { class: "gc__table-setting-cols-title" }, "Manage Table Columns")), h("div", { class: "gc__table-setting-cols" }, columns.map(col => (h("div", { class: "gc__table-setting-col-item" }, h("gc-icon", { color: "var(--gc-color-secondary-grey)", name: "fa-solid fa-grip-dots-vertical" }), h("gc-checkbox", { "gc-name": col.name, label: col.label, checked: true, "onGc:change": e => this.onCheck(e, col.name) }))))))))));
@@ -226,10 +233,10 @@ const GcTable$1 = /*@__PURE__*/ proxyCustomElement(class extends HTMLElement {
     this.showingColumns = this.getShowingColumnsState();
   }
   render() {
-    return (h(Host, null, this.renderSettingColumns(), h("div", { class: { table: true, sortable: this.sortable, paginate: this.paginate } }, h("div", { class: "table-scroll-container" }, this.renderHeader(), this.getData().length ? this.renderBody() : this.renderEmptyState()), h("div", { class: "table-footer" }, this.renderPagination()))));
+    return (h(Host, null, this.renderSettingColumns(), this.getData().length > 0 ? (h("div", { class: { table: true, sortable: this.sortable, paginate: this.paginate } }, h("div", { class: "table-scroll-container" }, this.renderHeader(), this.renderBody()), h("div", { class: "table-footer" }, this.renderPagination()))) : (this.renderEmptyState())));
   }
   renderEmptyState() {
-    return h("div", { class: "empty-table" });
+    return (h("div", { class: "empty-table" }, h("gc-h2", null, "There is no records found matching applied filters"), h("gc-button", { onClick: () => this.onClearEmptyState(), type: "secondary", icon: "fa-regular fa-filter-slash" }, "Clear applied filters")));
   }
   get elm() { return this; }
   static get watchers() { return {
@@ -260,11 +267,16 @@ function defineCustomElement$1() {
   if (typeof customElements === "undefined") {
     return;
   }
-  const components = ["gc-table", "gc-checkbox", "gc-dropdown", "gc-h2", "gc-icon", "gc-link", "gc-menu", "gc-menu-item", "gc-pagination"];
+  const components = ["gc-table", "gc-button", "gc-checkbox", "gc-dropdown", "gc-h2", "gc-icon", "gc-link", "gc-menu", "gc-menu-item", "gc-pagination"];
   components.forEach(tagName => { switch (tagName) {
     case "gc-table":
       if (!customElements.get(tagName)) {
         customElements.define(tagName, GcTable$1);
+      }
+      break;
+    case "gc-button":
+      if (!customElements.get(tagName)) {
+        defineCustomElement$a();
       }
       break;
     case "gc-checkbox":

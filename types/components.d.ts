@@ -961,6 +961,7 @@ declare namespace LocalJSX {
         "keyField"?: string;
         "managed"?: boolean;
         "onGc:change-page"?: (event: GcTableCustomEvent<any>) => void;
+        "onGc:clear-empty-state"?: (event: GcTableCustomEvent<any>) => void;
         "onGc:sort"?: (event: GcTableCustomEvent<any>) => void;
         "onGc:table-cell-click"?: (event: GcTableCustomEvent<any>) => void;
         "onGc:table-select-change"?: (event: GcTableCustomEvent<any>) => void;

@@ -92,6 +92,11 @@ export class GcTable {
   onCheck(e, name) {
     this.showingColumns = Object.assign(Object.assign({}, this.showingColumns), { [name]: e.detail.value });
   }
+  onClearEmptyState() {
+    if (this.gcClearEmptyState) {
+      this.gcClearEmptyState.emit({});
+    }
+  }
   renderHeader() {
     const fixedCols = [];
     const scrollCols = [];
@@ -231,7 +236,7 @@ export class GcTable {
     }
   }
   renderSettingColumns() {
-    if (this.settingColumns) {
+    if (this.settingColumns && this.getData().length > 0) {
       const totalItems = this.getTotalItems();
       const columns = this.getColumns();
       return (h("div", { class: "gc__table-setting" },
@@ -257,14 +262,16 @@ export class GcTable {
   render() {
     return (h(Host, null,
       this.renderSettingColumns(),
-      h("div", { class: { table: true, sortable: this.sortable, paginate: this.paginate } },
+      this.getData().length > 0 ? (h("div", { class: { table: true, sortable: this.sortable, paginate: this.paginate } },
         h("div", { class: "table-scroll-container" },
           this.renderHeader(),
-          this.getData().length ? this.renderBody() : this.renderEmptyState()),
-        h("div", { class: "table-footer" }, this.renderPagination()))));
+          this.renderBody()),
+        h("div", { class: "table-footer" }, this.renderPagination()))) : (this.renderEmptyState())));
   }
   renderEmptyState() {
-    return h("div", { class: "empty-table" });
+    return (h("div", { class: "empty-table" },
+      h("gc-h2", null, "There is no records found matching applied filters"),
+      h("gc-button", { onClick: () => this.onClearEmptyState(), type: "secondary", icon: "fa-regular fa-filter-slash" }, "Clear applied filters")));
   }
   static get is() { return "gc-table"; }
   static get encapsulation() { return "shadow"; }
@@ -594,6 +601,21 @@ export class GcTable {
     }, {
       "method": "gcChangePage",
       "name": "gc:change-page",
+      "bubbles": true,
+      "cancelable": true,
+      "composed": true,
+      "docs": {
+        "tags": [],
+        "text": ""
+      },
+      "complexType": {
+        "original": "any",
+        "resolved": "any",
+        "references": {}
+      }
+    }, {
+      "method": "gcClearEmptyState",
+      "name": "gc:clear-empty-state",
       "bubbles": true,
       "cancelable": true,
       "composed": true,
