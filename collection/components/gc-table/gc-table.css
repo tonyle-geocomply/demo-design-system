@@ -101,12 +101,7 @@
 .row .fixed-columns {
   position: sticky;
   left: 0;
-}
-.body .row:nth-child(odd) .fixed-columns {
-  background-color: var(--gc-color-second-white);
-}
-.body .row:nth-child(even) .fixed-columns {
-  background-color: var(--gc-color-contrast-grey);
+  background: inherit;
 }
 .header .fixed-columns {
   background: #397FF7;
@@ -140,12 +135,12 @@
 .body .row {
   height: 66px;
 }
-.body .row:nth-child(even) {background-color: var(--gc-color-contrast-grey);}
-.body .row:nth-child(odd) {background-color: var(--gc-color-contrast-grey);}
-.body > div > div.fixed-columns.columns-container > div:nth-child(even) > div {
+.body > .row:nth-child(even) {background-color: var(--gc-color-contrast-grey);}
+.body > .row:nth-child(odd) {background-color: var(--gc-color-contrast-white);}
+.body > div.row::nth-child(even) > div.fixed-columns.columns-container > div > div {
   background-color: var(--gc-color-contrast-grey);
 }
-.body > div > div.fixed-columns.columns-container > div:nth-child(odd) > div {
+.body > div.row:nth-child(odd) > div.fixed-columns.columns-container > div > div {
   background-color: var(--gc-color-second-white);
 }
 .body .row:hover {
@@ -200,7 +195,7 @@ gc-icon.disabled {
   opacity: 0.5;
 }
 gc-icon.down-arrow {
-  margin-top: 4px;
+  margin-top: -4px;
 }
 .row .col .col-content .col-actions {
   margin-right: 14px;

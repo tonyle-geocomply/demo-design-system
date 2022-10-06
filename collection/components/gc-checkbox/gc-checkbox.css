@@ -60,3 +60,14 @@ input:disabled + label {
   text-decoration: line-through;
   color: var(--gc-color-disabled);
 }
+
+input:disabled:checked + label:before {
+  border: 1px solid var(--gc-color-second-grey);
+  opacity: 0.6;
+  cursor: not-allowed;
+}
+
+input:disabled:checked + label {
+  cursor: not-allowed;
+  text-decoration: none;
+}

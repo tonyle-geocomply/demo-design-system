@@ -1,4 +1,4 @@
-import { Component, Element, Event, h, Host, Prop, State, Watch } from '@stencil/core';
+import { Component, Element, Event, h, Host, Prop, State, Listen } from '@stencil/core';
 const DEFAULT_CELL_WIDTH = '16rem'; // in rem
 /**
  * @name Table
@@ -82,6 +82,9 @@ export class GcTable {
       }, {});
     }
   }
+  handleChangePage(ev) {
+    this.page = ev.detail.value;
+  }
   onSelectChange(selectedRowKeys) {
     this.selectedRowKeys = selectedRowKeys;
     this.gcSelectChange.emit({ value: this.selectedRowKeys, isSelectAll: this.isSelectAll });
@@ -129,8 +132,8 @@ export class GcTable {
               if (!this.sortable)
                 return;
               return (h("div", { class: "gc__table-arrow" },
-                h("gc-icon", { class: { disabled: this.sortBy === col.name && this.sortOrder === 'desc' }, name: "fa-regular fa-chevron-up", size: "10px" }),
-                h("gc-icon", { class: { 'disabled': this.sortBy === col.name && this.sortOrder === 'asc', 'down-arrow': true }, name: "fa-regular fa-chevron-down", size: "10px" })));
+                h("gc-icon", { class: { disabled: this.sortBy === col.name && this.sortOrder === 'desc' }, name: "fa-regular fa-chevron-up", size: "sm" }),
+                h("gc-icon", { class: { 'disabled': this.sortBy === col.name && this.sortOrder === 'asc', 'down-arrow': true }, name: "fa-regular fa-chevron-down", size: "sm" })));
             })()))));
         col.fixed ? fixedCols.push(colEl) : scrollCols.push(colEl);
       }
@@ -253,7 +256,7 @@ export class GcTable {
                 h("gc-h2", { class: "gc__table-setting-cols-title" }, "Manage Table Columns")),
               h("div", { class: "gc__table-setting-cols" }, columns.map(col => (h("div", { class: "gc__table-setting-col-item" },
                 h("gc-icon", { color: "var(--gc-color-secondary-grey)", name: "fa-solid fa-grip-dots-vertical" }),
-                h("gc-checkbox", { "gc-name": col.name, label: col.label, checked: true, "onGc:change": e => this.onCheck(e, col.name) }))))))))));
+                h("gc-checkbox", { disabled: col.alwaysDisplay, "gc-name": col.name, label: col.label, checked: true, "onGc:change": e => this.onCheck(e, col.name) }))))))))));
     }
   }
   componentDidLoad() {
@@ -630,8 +633,11 @@ export class GcTable {
       }
     }]; }
   static get elementRef() { return "elm"; }
-  static get watchers() { return [{
-      "propName": "columns",
-      "methodName": "getShowingColumnsState"
+  static get listeners() { return [{
+      "name": "gc:change-page",
+      "method": "handleChangePage",
+      "target": undefined,
+      "capture": false,
+      "passive": false
     }]; }
 }

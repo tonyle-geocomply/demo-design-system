@@ -57,6 +57,7 @@ export declare class GcTable {
   gcChangePage: EventEmitter;
   gcClearEmptyState: EventEmitter;
   getShowingColumnsState(): any;
+  handleChangePage(ev: any): void;
   onSelectAllClick: () => void;
   onRowSelectClick: (row: any) => void;
   onCellMouseOver: (row: any, column: any) => void;

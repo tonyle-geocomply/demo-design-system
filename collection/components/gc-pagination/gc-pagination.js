@@ -24,8 +24,8 @@ export class GcPagination {
     }
     return Math.floor(this.total / this.pageSize) + 1;
   }
-  renderPagination(c, m) {
-    const current = c, last = m, delta = 2, left = current - delta, right = current + delta + 1, range = [], rangeWithDots = [];
+  renderPagination(c, m, d = 3) {
+    const current = c, last = m, delta = d, left = current - delta, right = current + delta + 1, range = [], rangeWithDots = [];
     let l;
     for (let i = 1; i <= last; i++) {
       if (i == 1 || i == last || (i >= left && i < right)) {
@@ -49,10 +49,10 @@ export class GcPagination {
   render() {
     return (h("div", { class: "gc__pagination" },
       this.activePage !== 1 && (h("div", { onClick: () => this.onChange(this.activePage - 1), class: "gc__pagination-page" },
-        h("gc-icon", { color: "var(--gc-color-primary)", name: "fa-regular fa-chevron-left" }))),
+        h("gc-icon", { color: "var(--gc-color-primary)", name: "fa-regular fa-chevron-left", size: "sm" }))),
       this.renderPagination(this.activePage, this.getMaxPage()),
       this.activePage !== this.getMaxPage() && (h("div", { onClick: () => this.onChange(this.activePage + 1), class: "gc__pagination-page" },
-        h("gc-icon", { color: "var(--gc-color-primary)", name: "fa-regular fa-chevron-right" })))));
+        h("gc-icon", { color: "var(--gc-color-primary)", name: "fa-regular fa-chevron-right", size: "sm" })))));
   }
   static get is() { return "gc-pagination"; }
   static get encapsulation() { return "shadow"; }
