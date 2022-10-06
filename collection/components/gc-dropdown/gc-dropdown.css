@@ -1,7 +1,6 @@
 :host {
   display: inline-block;
   height: var(--dropdown-height, auto);
-  cursor: pointer;
 }
 .dropdown {
   position: relative;

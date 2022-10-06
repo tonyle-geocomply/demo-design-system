@@ -291,7 +291,7 @@ export class GcSelect {
   }
   render() {
     return (h(Host, { id: this.gcId, "has-value": this.hasValue(), "has-focus": this.hasFocus, "is-open": this.isOpen, position: this.position },
-      h("div", { class: { 'gc__dropdown': true, 'select': true, [this.position]: true, 'is-open': this.isOpen } },
+      h("div", { class: { 'dropdown': true, 'select': true, [this.position]: true, 'is-open': this.isOpen } },
         h("div", { class: {
             'input-container': true,
             [`search-${this.search}`]: true,
