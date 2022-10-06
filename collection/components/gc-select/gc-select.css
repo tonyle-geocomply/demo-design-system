@@ -53,45 +53,45 @@
   --text-color: var(--text-secondary);
 }
 
-.dropdown {
+.gc__dropdown {
   position: relative;
 }
-.dropdown .dropdown-content {
+.gc__dropdown .dropdown-content {
   z-index: var(--gc-z-index-dropdown-content);
   position: absolute;
   width: max-content;
   transition: transform 0.1s ease-out 0s;
 }
-.dropdown .caret-down {
+.gc__dropdown .caret-down {
   transition: transform 0.1s ease-out 0s;
 }
-.dropdown.is-open .dropdown-content {
+.gc__dropdown.is-open .dropdown-content {
   transform: scale(1);
 }
-.dropdown.is-open .caret-down {
+.gc__dropdown.is-open .caret-down {
   transform: rotate(180deg);
 }
-.dropdown.bottom-right .dropdown-content {
+.gc__dropdown.bottom-right .dropdown-content {
   top: calc(100%);
   left: 0;
   transform-origin: top;
 }
-.dropdown.bottom-left .dropdown-content {
+.gc__dropdown.bottom-left .dropdown-content {
   top: calc(100%);
   right: 0;
   transform-origin: top;
 }
-.dropdown.top-right .dropdown-content {
+.gc__dropdown.top-right .dropdown-content {
   bottom: calc(100%);
   left: 0;
   transform-origin: bottom;
 }
-.dropdown.top-left .dropdown-content {
+.gc__dropdown.top-left .dropdown-content {
   bottom: calc(100%);
   right: 0;
   transform-origin: bottom;
 }
-.dropdown.center .dropdown-content {
+.gc__dropdown.center .dropdown-content {
   top: 0;
   left: 0;
   position: fixed;
@@ -131,27 +131,27 @@
   justify-content: center;
   flex-direction: column;
 }
-.dropdown.bottom-right.is-open .input-container, .dropdown.bottom-left.is-open .input-container  {
+.gc__dropdown.bottom-right.is-open .input-container, .gc__dropdown.bottom-left.is-open .input-container  {
   border-bottom-width: 0;
   border-bottom-right-radius: 0;
   border-bottom-left-radius: 0;
 }
 
-.dropdown.top-right.is-open .input-container, .dropdown.top-left.is-open .input-container {
+.gc__dropdown.top-right.is-open .input-container, .gc__dropdown.top-left.is-open .input-container {
   border-top-width: 0;
   border-top-right-radius: 0;
   border-top-left-radius: 0;
 }
 
-.dropdown.bottom-right.is-open .menu, .dropdown.bottom-left.is-open .menu {
+.gc__dropdown.bottom-right.is-open .menu, .gc__dropdown.bottom-left.is-open .menu {
   box-shadow: 0 3px 8px 0 rgb(0 0 0 / 10%);
 }
 
-.dropdown.top-right.is-open .menu, .dropdown.top-left.is-open .menu {
+.gc__dropdown.top-right.is-open .menu, .gc__dropdown.top-left.is-open .menu {
   box-shadow: 0px -3px 8px rgb(0 0 0 / 10%);
 }
 
-.dropdown.top-right.is-open gc-menu::part(custom) {
+.gc__dropdown.top-right.is-open gc-menu::part(custom) {
   border-top-right-radius: 5px;
   border-top-left-radius: 5px;
   border-bottom-right-radius: 0;
