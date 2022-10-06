@@ -3,6 +3,32 @@ export default {
   parameters: {
     viewMode: 'docs',
   },
+  argTypes: {
+    data: {
+      name: 'data',
+      description: 'Data input',
+    },
+    columns: {
+      name: 'columns',
+      description: 'Columns input',
+    },
+    settingColumns: {
+      name: 'setting-columns',
+      description: 'Is toggle Managed Columns ?',
+    },
+    gcSort: {
+      name: 'gc-sort',
+      description: 'Sort event',
+    },
+    gcChangePage: {
+      name: 'gc-change-page',
+      description: 'Change page event',
+    },
+    gcClearEmptyState: {
+      name: 'gc-clear-empty-state',
+      description: 'Clear empty state event',
+    },
+  },
 };
 const data = [];
 for (let i = 0; i < 20; i += 1) {
@@ -96,3 +122,33 @@ Default.args = {
   columns: '',
   settingColumns: false,
 };
+export const EmptyState = Template.bind({});
+EmptyState.args = {
+  data: '[]',
+  columns: '',
+  settingColumns: false,
+};
+const EventTemplate = () => `
+  <pre>
+    <gc-h2>Integrate Event Handler With JS</gc-h2>
+    <code>
+        const $table = document.getElementById('table');
+
+        // Event Sort
+        $table.addEventListener('gc:sort', function(evt) {
+
+        });
+
+        // Event Change Page
+        $table.addEventListener('gc:change-page', function(evt) {
+
+        });
+
+        // Event Clear Empty State
+        $table.addEventListener('gc:clear-empty-state', function(evt) {
+
+        });
+    </code>
+  </pre>
+`;
+export const Events = EventTemplate.bind({});

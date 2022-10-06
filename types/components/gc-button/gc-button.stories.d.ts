@@ -14,3 +14,4 @@ declare const _default: {
 };
 export default _default;
 export declare const Default: any;
+export declare const Events: any;
