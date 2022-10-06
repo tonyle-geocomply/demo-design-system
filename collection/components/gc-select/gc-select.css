@@ -55,7 +55,7 @@
 
 .dropdown {
   position: relative;
-  display: inherit;
+  display: block;
 }
 .dropdown .dropdown-content {
   z-index: var(--gc-z-index-dropdown-content);
