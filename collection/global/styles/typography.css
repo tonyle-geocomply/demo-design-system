@@ -1,6 +1,7 @@
 .gc-h1, .gc-h2, .gc-h3 {
   font-family: var(--gc-font-family);
   color: var(--gc-color-text-grey);
+  margin: 0;
 }
 
 .gc-h1 {

@@ -28,7 +28,7 @@ export class GcButton {
   render() {
     return (h("button", { class: this.getClassName(), id: this.gcId },
       this.icon && (h("span", { class: "gc__button-icon" },
-        h("gc-icon", { color: this.getColorIcon(), name: this.icon }))),
+        h("gc-icon", { color: this.getColorIcon(), name: this.icon, size: "1rem" }))),
       h("span", { class: "gc__button-text" },
         h("slot", null))));
   }
