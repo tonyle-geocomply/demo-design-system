@@ -1,4 +1,4 @@
-import { Component, Element, Event, h, Host, Prop, State, Listen } from '@stencil/core';
+import { Component, Element, Event, h, Host, Prop, State, Listen, Watch } from '@stencil/core';
 const DEFAULT_CELL_WIDTH = '16rem'; // in rem
 /**
  * @name Table
@@ -74,13 +74,20 @@ export class GcTable {
       this.hoveredCell = { row, column };
     };
   }
-  getShowingColumnsState() {
-    if (this.columns) {
-      return this.getColumns().reduce((res, col) => {
-        res = Object.assign(Object.assign({}, res), { [col.name]: true });
-        return res;
-      }, {});
+  watchColumnsPropHandler(newValue) {
+    let currentColumns = [];
+    if (typeof newValue === 'string') {
+      try {
+        currentColumns = JSON.parse(newValue);
+      }
+      catch (e) {
+        currentColumns = [];
+      }
     }
+    this.showingColumns = currentColumns.reduce((res, col) => {
+      res = Object.assign(Object.assign({}, res), { [col.name]: true });
+      return res;
+    }, {});
   }
   handleChangePage(ev) {
     this.page = ev.detail.value;
@@ -219,6 +226,12 @@ export class GcTable {
       return this.columns;
     }
   }
+  componentWillLoad() {
+    this.showingColumns = this.getColumns().reduce((res, col) => {
+      res = Object.assign(Object.assign({}, res), { [col.name]: true });
+      return res;
+    }, {});
+  }
   renderPagination() {
     if (this.paginate) {
       return (h("div", { class: "pagination" },
@@ -258,9 +271,6 @@ export class GcTable {
                 h("gc-icon", { color: "var(--gc-color-secondary-grey)", name: "fa-solid fa-grip-dots-vertical" }),
                 h("gc-checkbox", { disabled: col.alwaysDisplay, "gc-name": col.name, label: col.label, checked: true, "onGc:change": e => this.onCheck(e, col.name) }))))))))));
     }
-  }
-  componentWillLoad() {
-    this.showingColumns = this.getShowingColumnsState();
   }
   render() {
     return (h(Host, null,
@@ -633,6 +643,10 @@ export class GcTable {
       }
     }]; }
   static get elementRef() { return "elm"; }
+  static get watchers() { return [{
+      "propName": "columns",
+      "methodName": "watchColumnsPropHandler"
+    }]; }
   static get listeners() { return [{
       "name": "gc:change-page",
       "method": "handleChangePage",

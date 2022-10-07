@@ -56,7 +56,7 @@ export declare class GcTable {
   gcSort: EventEmitter;
   gcChangePage: EventEmitter;
   gcClearEmptyState: EventEmitter;
-  getShowingColumnsState(): any;
+  watchColumnsPropHandler(newValue: any): void;
   handleChangePage(ev: any): void;
   onSelectAllClick: () => void;
   onRowSelectClick: (row: any) => void;
@@ -70,9 +70,9 @@ export declare class GcTable {
   getTotalItems(): any;
   private getData;
   private getColumns;
+  componentWillLoad(): void;
   renderPagination(): any;
   renderSettingColumns(): any;
-  componentWillLoad(): void;
   render(): any;
   private renderEmptyState;
 }

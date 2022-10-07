@@ -1180,13 +1180,20 @@ const GcTable = class {
       this.hoveredCell = { row, column };
     };
   }
-  getShowingColumnsState() {
-    if (this.columns) {
-      return this.getColumns().reduce((res, col) => {
-        res = Object.assign(Object.assign({}, res), { [col.name]: true });
-        return res;
-      }, {});
+  watchColumnsPropHandler(newValue) {
+    let currentColumns = [];
+    if (typeof newValue === 'string') {
+      try {
+        currentColumns = JSON.parse(newValue);
+      }
+      catch (e) {
+        currentColumns = [];
+      }
     }
+    this.showingColumns = currentColumns.reduce((res, col) => {
+      res = Object.assign(Object.assign({}, res), { [col.name]: true });
+      return res;
+    }, {});
   }
   handleChangePage(ev) {
     this.page = ev.detail.value;
@@ -1311,6 +1318,12 @@ const GcTable = class {
       return this.columns;
     }
   }
+  componentWillLoad() {
+    this.showingColumns = this.getColumns().reduce((res, col) => {
+      res = Object.assign(Object.assign({}, res), { [col.name]: true });
+      return res;
+    }, {});
+  }
   renderPagination() {
     if (this.paginate) {
       return (h("div", { class: "pagination" }, h("div", { class: "page-sizes-select" }), h("div", { class: "pagination-item-count" }, h("span", null, "Showing"), "\u00A0", this.pageSize * (this.page - 1) + 1, "\u00A0 to\u00A0", this.pageSize * this.page < this.getTotalItems() ? this.pageSize * this.page : this.getTotalItems(), "\u00A0 of\u00A0", this.getTotalItems(), "\u00A0 entries"), h("div", { class: "pagination-right" }, h("div", { class: "table-footer-right-content" }, h("div", { class: "table-footer-right-content-pagination" }, h("gc-pagination", { total: this.getTotalItems(), pageSize: this.pageSize }))))));
@@ -1323,9 +1336,6 @@ const GcTable = class {
       return (h("div", { class: "gc__table-setting" }, h("div", null, "Results: ", totalItems, " entries found matching applied filters:"), h("div", null, h("gc-dropdown", { id: "dropdown" }, h("gc-link", { icon: "fa-solid fa-table-layout", color: "var(--gc-color-text-grey)" }, "Manage Table Columns"), h("div", { slot: "dropdown-content", class: "dropdown" }, h("div", { class: "gc__table-setting-cols-text" }, h("gc-icon", { color: "red", name: "fa-regular fa-square-info" }), h("gc-h2", { class: "gc__table-setting-cols-title" }, "Manage Table Columns")), h("div", { class: "gc__table-setting-cols" }, columns.map(col => (h("div", { class: "gc__table-setting-col-item" }, h("gc-icon", { color: "var(--gc-color-secondary-grey)", name: "fa-solid fa-grip-dots-vertical" }), h("gc-checkbox", { disabled: col.alwaysDisplay, "gc-name": col.name, label: col.label, checked: true, "onGc:change": e => this.onCheck(e, col.name) }))))))))));
     }
   }
-  componentWillLoad() {
-    this.showingColumns = this.getShowingColumnsState();
-  }
   render() {
     return (h(Host, null, this.renderSettingColumns(), this.getData().length > 0 ? (h("div", { class: { table: true, sortable: this.sortable, paginate: this.paginate } }, h("div", { class: "table-scroll-container" }, this.renderHeader(), this.renderBody()), h("div", { class: "table-footer" }, this.renderPagination()))) : (this.renderEmptyState())));
   }
@@ -1333,6 +1343,9 @@ const GcTable = class {
     return (h("div", { class: "empty-table" }, h("gc-h2", null, "There is no records found matching applied filters"), h("gc-button", { onClick: () => this.onClearEmptyState(), type: "secondary", icon: "fa-regular fa-filter-slash" }, "Clear applied filters")));
   }
   get elm() { return getElement(this); }
+  static get watchers() { return {
+    "columns": ["watchColumnsPropHandler"]
+  }; }
 };
 GcTable.style = gcTableCss;
 
