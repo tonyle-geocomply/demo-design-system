@@ -143,15 +143,6 @@
 .body > div.row:nth-child(odd) > div.fixed-columns.columns-container > div > div {
   background-color: var(--gc-color-second-white);
 }
-.body .row:hover {
-  /* background-color: blue; */
-}
-.body .row:hover .col {
-  /* background-color: blue; */
-}
-.body .row .col {
-  /* cursor: pointer; */
-}
 .body .row .col:focus {
   outline: none;
   z-index: 1;
@@ -162,6 +153,7 @@
 }
 .table-footer {
   height: 66px;
+  background-color: var(--gc-color-contrast-white);
 }
 .table-footer .pagination {
   height: 100%;

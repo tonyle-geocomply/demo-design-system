@@ -7,6 +7,7 @@ export class GcIcon {
      */
     this.size = 'md';
     this.color = '';
+    this.fontWeight = '';
   }
   getSize() {
     let size;
@@ -24,7 +25,7 @@ export class GcIcon {
   }
   render() {
     return (h(Host, null,
-      h("i", { class: this.name, style: { fontSize: this.getSize(), color: this.color } })));
+      h("i", { class: this.name, style: { fontSize: this.getSize(), color: this.color, fontWeight: this.fontWeight } })));
   }
   static get is() { return "gc-icon"; }
   static get originalStyleUrls() { return {
@@ -84,6 +85,24 @@ export class GcIcon {
         "text": ""
       },
       "attribute": "color",
+      "reflect": true,
+      "defaultValue": "''"
+    },
+    "fontWeight": {
+      "type": "string",
+      "mutable": false,
+      "complexType": {
+        "original": "string",
+        "resolved": "string",
+        "references": {}
+      },
+      "required": false,
+      "optional": false,
+      "docs": {
+        "tags": [],
+        "text": ""
+      },
+      "attribute": "font-weight",
       "reflect": true,
       "defaultValue": "''"
     }

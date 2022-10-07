@@ -12,6 +12,7 @@ const GcIcon = /*@__PURE__*/ proxyCustomElement(class extends HTMLElement {
      */
     this.size = 'md';
     this.color = '';
+    this.fontWeight = '';
   }
   getSize() {
     let size;
@@ -28,13 +29,14 @@ const GcIcon = /*@__PURE__*/ proxyCustomElement(class extends HTMLElement {
     return size;
   }
   render() {
-    return (h(Host, null, h("i", { class: this.name, style: { fontSize: this.getSize(), color: this.color } })));
+    return (h(Host, null, h("i", { class: this.name, style: { fontSize: this.getSize(), color: this.color, fontWeight: this.fontWeight } })));
   }
   static get style() { return allMinCss; }
 }, [0, "gc-icon", {
     "name": [513],
     "size": [513],
-    "color": [513]
+    "color": [513],
+    "fontWeight": [513, "font-weight"]
   }]);
 function defineCustomElement() {
   if (typeof customElements === "undefined") {

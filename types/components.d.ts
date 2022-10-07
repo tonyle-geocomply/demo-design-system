@@ -142,6 +142,7 @@ export namespace Components {
     }
     interface GcIcon {
         "color": string;
+        "fontWeight": string;
         "name": string;
         /**
           * The Icon size. Possible values are: `"sm"`, `"md"`, `"lg"`, `"xl"` and size in pixel. Defaults to `"md"`.
@@ -731,6 +732,7 @@ declare namespace LocalJSX {
     }
     interface GcIcon {
         "color"?: string;
+        "fontWeight"?: string;
         "name"?: string;
         /**
           * The Icon size. Possible values are: `"sm"`, `"md"`, `"lg"`, `"xl"` and size in pixel. Defaults to `"md"`.
