@@ -1326,7 +1326,7 @@ const GcTable = class {
       return (index.h("div", { class: "gc__table-setting" }, index.h("div", null, "Results: ", totalItems, " entries found matching applied filters:"), index.h("div", null, index.h("gc-dropdown", { id: "dropdown" }, index.h("gc-link", { icon: "fa-solid fa-table-layout", color: "var(--gc-color-text-grey)" }, "Manage Table Columns"), index.h("div", { slot: "dropdown-content", class: "dropdown" }, index.h("div", { class: "gc__table-setting-cols-text" }, index.h("gc-icon", { color: "red", name: "fa-regular fa-square-info" }), index.h("gc-h2", { class: "gc__table-setting-cols-title" }, "Manage Table Columns")), index.h("div", { class: "gc__table-setting-cols" }, columns.map(col => (index.h("div", { class: "gc__table-setting-col-item" }, index.h("gc-icon", { color: "var(--gc-color-secondary-grey)", name: "fa-solid fa-grip-dots-vertical" }), index.h("gc-checkbox", { disabled: col.alwaysDisplay, "gc-name": col.name, label: col.label, checked: true, "onGc:change": e => this.onCheck(e, col.name) }))))))))));
     }
   }
-  componentDidLoad() {
+  componentWillLoad() {
     this.showingColumns = this.getShowingColumnsState();
   }
   render() {

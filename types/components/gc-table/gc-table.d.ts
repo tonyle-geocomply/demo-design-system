@@ -72,7 +72,7 @@ export declare class GcTable {
   private getColumns;
   renderPagination(): any;
   renderSettingColumns(): any;
-  componentDidLoad(): void;
+  componentWillLoad(): void;
   render(): any;
   private renderEmptyState;
 }

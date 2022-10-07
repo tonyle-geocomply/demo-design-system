@@ -259,7 +259,7 @@ export class GcTable {
                 h("gc-checkbox", { disabled: col.alwaysDisplay, "gc-name": col.name, label: col.label, checked: true, "onGc:change": e => this.onCheck(e, col.name) }))))))))));
     }
   }
-  componentDidLoad() {
+  componentWillLoad() {
     this.showingColumns = this.getShowingColumnsState();
   }
   render() {

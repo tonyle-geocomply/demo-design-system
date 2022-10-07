@@ -232,7 +232,7 @@ const GcTable$1 = /*@__PURE__*/ proxyCustomElement(class extends HTMLElement {
       return (h("div", { class: "gc__table-setting" }, h("div", null, "Results: ", totalItems, " entries found matching applied filters:"), h("div", null, h("gc-dropdown", { id: "dropdown" }, h("gc-link", { icon: "fa-solid fa-table-layout", color: "var(--gc-color-text-grey)" }, "Manage Table Columns"), h("div", { slot: "dropdown-content", class: "dropdown" }, h("div", { class: "gc__table-setting-cols-text" }, h("gc-icon", { color: "red", name: "fa-regular fa-square-info" }), h("gc-h2", { class: "gc__table-setting-cols-title" }, "Manage Table Columns")), h("div", { class: "gc__table-setting-cols" }, columns.map(col => (h("div", { class: "gc__table-setting-col-item" }, h("gc-icon", { color: "var(--gc-color-secondary-grey)", name: "fa-solid fa-grip-dots-vertical" }), h("gc-checkbox", { disabled: col.alwaysDisplay, "gc-name": col.name, label: col.label, checked: true, "onGc:change": e => this.onCheck(e, col.name) }))))))))));
     }
   }
-  componentDidLoad() {
+  componentWillLoad() {
     this.showingColumns = this.getShowingColumnsState();
   }
   render() {
