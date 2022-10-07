@@ -1,6 +1,6 @@
 import { proxyCustomElement, HTMLElement, h } from '@stencil/core/internal/client';
 
-const gcMenuCss = ":host{display:inline-block}.menu{background-color:var(--gc-color-contrast-white);border:1px solid var(--gc-color-second-grey);box-sizing:border-box;border-bottom-left-radius:5px;border-bottom-right-radius:5px}::slotted(*:last-child){border-bottom:0px}";
+const gcMenuCss = ":host{display:inline-block}.menu{background:var(--gc-color-contrast-grey);border:1px solid var(--gc-color-second-grey);box-sizing:border-box;border-bottom-left-radius:5px;border-bottom-right-radius:5px}::slotted(*:last-child){border-bottom:0px}";
 
 const GcMenu = /*@__PURE__*/ proxyCustomElement(class extends HTMLElement {
   constructor() {

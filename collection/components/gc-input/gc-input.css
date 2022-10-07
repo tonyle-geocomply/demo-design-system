@@ -1,5 +1,5 @@
 input {
-  background: var(--gc-color-contrast-white);
+  background: var(--gc-color-contrast-grey);
   border: 1px solid var(--gc-color-second-grey);
   border-radius: 5px;
   height: 42px;
@@ -21,7 +21,7 @@ input[disabled] {
 }
 
 input:focus {
-  background-color: var(--gc-color-contrast-white);
+  background-color: var(--gc-color-contrast-grey);
   border-color: var(--gc-color-primary);
   outline: 0;
   box-shadow: 0 3px 8px 0 rgb(0 0 0 / 10%);

@@ -4,7 +4,7 @@
 
 
 .menu {
-  background-color: var(--gc-color-contrast-white);
+  background: var(--gc-color-contrast-grey);
   border: 1px solid var(--gc-color-second-grey);
   box-sizing: border-box;
   border-bottom-left-radius: 5px;
