@@ -1157,7 +1157,7 @@ const GcTable = class {
     this.settingColumns = false;
     this.hoveredCell = {};
     this.isSelectAll = false;
-    this.showingColumns = [];
+    this.showingColumns = {};
     this.onSelectAllClick = () => {
       let selectedRowKeys = [];
       this.isSelectAll = !this.isSelectAll;

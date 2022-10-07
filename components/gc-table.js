@@ -66,7 +66,7 @@ const GcTable$1 = /*@__PURE__*/ proxyCustomElement(class extends HTMLElement {
     this.settingColumns = false;
     this.hoveredCell = {};
     this.isSelectAll = false;
-    this.showingColumns = [];
+    this.showingColumns = {};
     this.onSelectAllClick = () => {
       let selectedRowKeys = [];
       this.isSelectAll = !this.isSelectAll;
