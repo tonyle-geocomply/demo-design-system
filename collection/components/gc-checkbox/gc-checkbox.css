@@ -64,7 +64,7 @@ input:disabled + label {
 }
 
 input:disabled:checked + label:before {
-  border: 1px solid var(--gc-color-second-grey);
+  border: 0;
   opacity: 0.6;
   cursor: not-allowed;
 }
