@@ -21,6 +21,7 @@ const GcMenuItem = /*@__PURE__*/ proxyCustomElement(class extends HTMLElement {
     this.endSlotHasContent = false;
     this.hasFocus = false;
     this.isActive = false;
+    this.isHover = false;
     this.clickHandler = event => {
       if (!this.disabled) {
         this.goatMenuItemClick.emit({
@@ -42,12 +43,26 @@ const GcMenuItem = /*@__PURE__*/ proxyCustomElement(class extends HTMLElement {
     this.mouseDownHandler = () => {
       this.isActive = true;
     };
+    this.mouseEnterHandler = () => {
+      this.isHover = true;
+    };
+    this.mouseLeaveHandler = () => {
+      this.isHover = false;
+    };
     this.keyDownHandler = evt => {
       if (evt.key == ' ') {
         evt.preventDefault();
         this.isActive = true;
         this.clickHandler(evt);
       }
+    };
+    this.getStyles = () => {
+      if (this.color) {
+        return {
+          color: this.isHover ? 'var(--gc-color-contrast-white)' : this.color,
+        };
+      }
+      return {};
     };
     this.render = () => {
       return (h(Host, { active: this.isActive, "has-focus": this.hasFocus }, h("div", { id: this.gcId, ref: el => (this.nativeInput = el), class: {
@@ -59,7 +74,7 @@ const GcMenuItem = /*@__PURE__*/ proxyCustomElement(class extends HTMLElement {
           'start-slot-has-content': this.startSlotHasContent,
           'end-slot-has-content': this.endSlotHasContent,
           [this.class]: this.class ? true : false,
-        }, tabindex: this.tabindex, onBlur: this.blurHandler, onFocus: this.focusHandler, onClick: this.clickHandler, onMouseDown: this.mouseDownHandler, onKeyDown: this.keyDownHandler, "aria-disabled": this.disabled }, h("div", { class: "item-section slot-main" }, h("slot", null)))));
+        }, tabindex: this.tabindex, onBlur: this.blurHandler, onFocus: this.focusHandler, onClick: this.clickHandler, onMouseDown: this.mouseDownHandler, onKeyDown: this.keyDownHandler, onMouseEnter: this.mouseEnterHandler, onMouseLeave: this.mouseLeaveHandler, "aria-disabled": this.disabled }, h("div", { style: this.getStyles(), class: "item-section slot-main" }, h("slot", null)))));
     };
   }
   /**
@@ -105,6 +120,7 @@ const GcMenuItem = /*@__PURE__*/ proxyCustomElement(class extends HTMLElement {
 }, [1, "gc-menu-item", {
     "class": [1],
     "gcId": [1, "gc-id"],
+    "color": [1],
     "value": [1032],
     "disabled": [516],
     "selected": [516],
@@ -112,6 +128,7 @@ const GcMenuItem = /*@__PURE__*/ proxyCustomElement(class extends HTMLElement {
     "endSlotHasContent": [32],
     "hasFocus": [32],
     "isActive": [32],
+    "isHover": [32],
     "setFocus": [64],
     "setBlur": [64]
   }, [[9, "mouseup", "windowMouseUp"], [8, "keyup", "windowKeyUp"]]]);

@@ -11,6 +11,10 @@ export declare class GcMenuItem {
    */
   gcId: string;
   /**
+   * The color of text
+   */
+  color?: string;
+  /**
    * The menu item value.
    */
   value?: string | number | null;
@@ -42,12 +46,16 @@ export declare class GcMenuItem {
   windowKeyUp(evt: any): void;
   hasFocus: boolean;
   isActive: boolean;
+  isHover: boolean;
   elm: HTMLElement;
   private clickHandler;
   private blurHandler;
   private focusHandler;
   private mouseDownHandler;
+  private mouseEnterHandler;
+  private mouseLeaveHandler;
   private keyDownHandler;
+  private getStyles;
   componentWillLoad(): void;
   render: () => any;
 }

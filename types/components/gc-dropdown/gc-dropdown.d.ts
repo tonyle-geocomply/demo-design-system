@@ -12,6 +12,7 @@ export declare class GcDropdown implements ComponentInterface {
   disabled: boolean;
   positions: string;
   items: any[];
+  trigger: 'click' | 'hover';
   windowClick(evt: any): void;
   setFocus(elm?: HTMLElement): Promise<void>;
   listenMenuItemClick(evt: any): void;
@@ -30,6 +31,8 @@ export declare class GcDropdown implements ComponentInterface {
   private blurHandler;
   private focusHandler;
   private keyDownHandler;
+  private mouseEnterHandler;
+  private mouseLeaveHandler;
   private getMenuElement;
   renderItems(): any;
   render(): any;

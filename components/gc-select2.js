@@ -341,7 +341,7 @@ const GcSelect = /*@__PURE__*/ proxyCustomElement(class extends HTMLElement {
       const filteredItems = this.filterItems();
       return (h("gc-menu", { class: "menu", empty: filteredItems.length == 0, ref: el => (this.menuElm = el) }, (() => {
         return filteredItems.map(item => {
-          return h("gc-menu-item", { value: item.value }, item.label || item.value);
+          return (h("gc-menu-item", { color: item.color, value: item.value }, item.label || item.value));
         });
       })()));
     }

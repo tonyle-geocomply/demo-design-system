@@ -148,6 +148,7 @@ const GcDropdown = class {
     this.disabled = false;
     this.positions = 'bottom-right,top-right,bottom-left,top-left';
     this.items = null;
+    this.trigger = 'click';
     this.hasFocus = false;
     this.openList = () => {
       if (!this.disabled && !this.isOpen) {
@@ -189,6 +190,16 @@ const GcDropdown = class {
           evt.preventDefault();
           $menuElm === null || $menuElm === void 0 ? void 0 : $menuElm.setFocus(); // focus on previous item
         }
+      }
+    };
+    this.mouseEnterHandler = () => {
+      if (this.trigger === 'hover') {
+        this.isOpen = true;
+      }
+    };
+    this.mouseLeaveHandler = () => {
+      if (this.trigger === 'hover') {
+        this.isOpen = false;
       }
     };
   }
@@ -295,7 +306,7 @@ const GcDropdown = class {
         'dropdown': true,
         [this.position]: true,
         'is-open': this.isOpen,
-      } }, index.h("button", { class: "dropdown-button", onKeyDown: this.keyDownHandler, tabindex: "-1", onBlur: this.blurHandler, onFocus: this.focusHandler, disabled: this.disabled, onClick: () => {
+      }, onMouseEnter: this.mouseEnterHandler, onMouseLeave: this.mouseLeaveHandler }, index.h("button", { class: "dropdown-button", onKeyDown: this.keyDownHandler, tabindex: "-1", onBlur: this.blurHandler, onFocus: this.focusHandler, disabled: this.disabled, onClick: () => {
         this.toggleList();
       } }, index.h("div", { class: "slot-container" }, index.h("slot", null))), index.h("div", { class: "gc__dropdown-content" }, this.renderItems(), index.h("slot", { name: "gc__dropdown-content" })))));
   }
@@ -576,6 +587,7 @@ const GcMenuItem = class {
     this.endSlotHasContent = false;
     this.hasFocus = false;
     this.isActive = false;
+    this.isHover = false;
     this.clickHandler = event => {
       if (!this.disabled) {
         this.goatMenuItemClick.emit({
@@ -597,12 +609,26 @@ const GcMenuItem = class {
     this.mouseDownHandler = () => {
       this.isActive = true;
     };
+    this.mouseEnterHandler = () => {
+      this.isHover = true;
+    };
+    this.mouseLeaveHandler = () => {
+      this.isHover = false;
+    };
     this.keyDownHandler = evt => {
       if (evt.key == ' ') {
         evt.preventDefault();
         this.isActive = true;
         this.clickHandler(evt);
       }
+    };
+    this.getStyles = () => {
+      if (this.color) {
+        return {
+          color: this.isHover ? 'var(--gc-color-contrast-white)' : this.color,
+        };
+      }
+      return {};
     };
     this.render = () => {
       return (index.h(index.Host, { active: this.isActive, "has-focus": this.hasFocus }, index.h("div", { id: this.gcId, ref: el => (this.nativeInput = el), class: {
@@ -614,7 +640,7 @@ const GcMenuItem = class {
           'start-slot-has-content': this.startSlotHasContent,
           'end-slot-has-content': this.endSlotHasContent,
           [this.class]: this.class ? true : false,
-        }, tabindex: this.tabindex, onBlur: this.blurHandler, onFocus: this.focusHandler, onClick: this.clickHandler, onMouseDown: this.mouseDownHandler, onKeyDown: this.keyDownHandler, "aria-disabled": this.disabled }, index.h("div", { class: "item-section slot-main" }, index.h("slot", null)))));
+        }, tabindex: this.tabindex, onBlur: this.blurHandler, onFocus: this.focusHandler, onClick: this.clickHandler, onMouseDown: this.mouseDownHandler, onKeyDown: this.keyDownHandler, onMouseEnter: this.mouseEnterHandler, onMouseLeave: this.mouseLeaveHandler, "aria-disabled": this.disabled }, index.h("div", { style: this.getStyles(), class: "item-section slot-main" }, index.h("slot", null)))));
     };
   }
   /**
@@ -1064,7 +1090,7 @@ const GcSelect = class {
       const filteredItems = this.filterItems();
       return (index.h("gc-menu", { class: "menu", empty: filteredItems.length == 0, ref: el => (this.menuElm = el) }, (() => {
         return filteredItems.map(item => {
-          return index.h("gc-menu-item", { value: item.value }, item.label || item.value);
+          return (index.h("gc-menu-item", { color: item.color, value: item.value }, item.label || item.value));
         });
       })()));
     }
@@ -1106,7 +1132,7 @@ const GcSpinner = class {
 };
 GcSpinner.style = gcSpinnerCss;
 
-const gcTableCss = ":host{display:block;height:100%;min-height:20em;--table-border-color:var(--gc-color-second-grey);--z-index-table-header:12;--font-weight-table-header:600}.table{height:100%;border:1px solid var(--table-border-color);font-size:12px}.table .table-scroll-container{position:relative;overflow:auto;height:100%}.empty-table{display:flex;align-items:center;justify-content:center;flex-direction:column;padding:18px;border:1px solid var(--gc-color-second-grey)}.table.paginate .table-scroll-container{height:calc(100% - 2.4375rem)}.table .pagination{display:flex;border-top:1px solid var(--table-border-color)}.table .pagination .form-control{margin:0}.table .pagination .select{margin:0;--input-border-radius:none;--input-border-style:none;border-left:1px solid var(--table-border-color);border-right:1px solid var(--table-border-color)}.table .pagination .page-sizes-select{margin-inline-start:v(--spacing-3)}.table .pagination .pagination-item-count{margin-inline-start:v(--spacing-4);flex:1;display:flex;align-items:center}.row{display:flex;box-sizing:border-box;height:100%}.row .columns-container{display:flex}.row .col{margin:0;box-sizing:border-box;vertical-align:middle;line-height:normal;border-right:1px solid var(--gc-color-second-grey);border-bottom:1px solid var(--gc-color-second-grey)}.row .col .col-content{display:flex;align-items:center;height:100%;justify-content:space-between}.row .col .col-content .col-text{padding:0 14px 0 14px;flex:1;display:block;display:-webkit-box;max-width:400px;-webkit-box-orient:vertical;overflow:hidden;text-overflow:ellipsis;display:-webkit-box;-webkit-line-clamp:3}.row .col .col-content .col-action{--button-border-radius:none}.row .col .col-content .col-action.has-focus{z-index:12}.row .col .col-content .checkbox{}.row .col.center .col-content{justify-content:center}.row .col:last-child{flex:1}.row .fixed-columns{position:sticky;left:0;background:inherit}.header .fixed-columns{background:var(--gc-color-second-blue)}.row .scrollable-columns{flex:1}.header{z-index:var(--z-index-table-header);font-weight:var(--font-weight-table-header);text-transform:uppercase;position:sticky;top:0;background:var(--gc-color-second-blue);color:var(--gc-color-contrast-white);height:50px;min-width:fit-content}.body{min-width:fit-content}.header .left-panel{position:sticky;top:0;left:0}.header .col{border-bottom:1px solid var(--table-border-color);cursor:pointer}.body .row{height:66px}.body>.row:nth-child(even){background-color:var(--gc-color-contrast-grey)}.body>.row:nth-child(odd){background-color:var(--gc-color-contrast-white)}.body>div.row::nth-child(even)>div.fixed-columns.columns-container>div>div{background-color:var(--gc-color-contrast-grey)}.body>div.row:nth-child(odd)>div.fixed-columns.columns-container>div>div{background-color:var(--gc-color-second-white)}.body .row .col:focus{outline:none;z-index:1}.body .left-panel{position:sticky;left:0}.table-footer{height:66px;background-color:var(--gc-color-contrast-white)}.table-footer .pagination{height:100%;padding:0 30px}.table-footer .pagination .pagination-right{display:flex;align-items:center}:host(.show-full-content) .body .col-text{overflow:initial;white-space:initial;text-overflow:initial}.empty-data{text-align:center;position:absolute;margin:auto;top:46px;right:0;bottom:0;left:0;border-radius:3px;height:max-content;}.gc__table-arrow{display:grid}gc-icon.disabled{opacity:0.5}gc-icon.down-arrow{margin-top:-4px}.row .col .col-content .col-actions{margin-right:14px}.col-center{text-align:center}.gc__table-setting{font-weight:600;display:flex;align-items:center;justify-content:space-between;background:var(--gc-color-contrast-white);padding:12px 30px 8px 30px;border-left:1px solid var(--gc-color-second-grey);border-right:1px solid var(--gc-color-second-grey)}.gc__table-setting .dropdown{width:473px}.gc__table-setting .gc__table-setting-cols-text{padding:14px 20px;display:flex;align-items:center;border-bottom:1px solid var(--gc-color-second-grey)}.gc__table-setting .gc__table-setting-cols-title{margin-left:12px}.gc__table-setting .gc__table-setting-cols{display:grid;grid-template-columns:1fr 1fr;padding:15px 20px;row-gap:9px}.gc__table-setting .gc__table-setting-col-item{display:flex}.gc__table-setting .gc__table-setting-col-item .sc-gc-checkbox-h{margin-bottom:0;margin-left:8px;line-height:13px}";
+const gcTableCss = ":host{display:block;height:100%;min-height:20em;--table-border-color:var(--gc-color-second-grey);--z-index-table-header:12;--font-weight-table-header:600}.table{height:100%;border:1px solid var(--table-border-color);font-size:12px}.table .table-scroll-container{position:relative;overflow:auto;height:100%}.empty-table{display:flex;align-items:center;justify-content:center;flex-direction:column;padding:18px;border:1px solid var(--gc-color-second-grey)}.table.paginate .table-scroll-container{height:calc(100% - 2.4375rem)}.table .pagination{display:flex;border-top:1px solid var(--table-border-color)}.table .pagination .form-control{margin:0}.table .pagination .select{margin:0;--input-border-radius:none;--input-border-style:none;border-left:1px solid var(--table-border-color);border-right:1px solid var(--table-border-color)}.table .pagination .page-sizes-select{margin-inline-start:v(--spacing-3)}.table .pagination .pagination-item-count{margin-inline-start:v(--spacing-4);flex:1;display:flex;align-items:center}.row{display:flex;box-sizing:border-box;height:100%}.row .columns-container{display:flex}.row .col{margin:0;box-sizing:border-box;vertical-align:middle;line-height:normal;border-right:1px solid var(--gc-color-second-grey);border-bottom:1px solid var(--gc-color-second-grey)}.row .col .col-content{display:flex;align-items:center;height:100%;justify-content:space-between}.row .col .col-content .col-text{padding:0 14px 0 14px;flex:1;display:block;display:-webkit-box;max-width:400px;-webkit-box-orient:vertical;overflow:hidden;text-overflow:ellipsis;display:-webkit-box;-webkit-line-clamp:3}.row .col .col-content .col-action{--button-border-radius:none}.row .col .col-content .col-action.has-focus{z-index:12}.row .col .col-content .checkbox{}.row .col.center .col-content{justify-content:center}.row .col:last-child{flex:1}.row .fixed-columns{position:sticky;left:0;background:inherit}.header .fixed-columns{background:var(--gc-color-second-blue)}.row .scrollable-columns{flex:1}.header{z-index:var(--z-index-table-header);font-weight:var(--font-weight-table-header);text-transform:uppercase;position:sticky;top:0;background:var(--gc-color-second-blue);color:var(--gc-color-contrast-white);height:50px;min-width:fit-content}.body{min-width:fit-content}.header .left-panel{position:sticky;top:0;left:0}.header .col{border-bottom:1px solid var(--table-border-color);cursor:pointer}.body .row{height:66px}.body>.row:nth-child(even){background-color:var(--gc-color-contrast-grey)}.body>.row:nth-child(odd){background-color:var(--gc-color-contrast-white)}.body>div.row::nth-child(even)>div.fixed-columns.columns-container>div>div{background-color:var(--gc-color-contrast-grey)}.body>div.row:nth-child(odd)>div.fixed-columns.columns-container>div>div{background-color:var(--gc-color-second-white)}.body .row .col:focus{outline:none;z-index:1}.body .left-panel{position:sticky;left:0}.table-footer{height:66px;background-color:var(--gc-color-contrast-white)}.table-footer .pagination{height:100%;padding:0 30px}.table-footer .pagination .pagination-right{display:flex;align-items:center}:host(.show-full-content) .body .col-text{overflow:initial;white-space:initial;text-overflow:initial}.empty-data{text-align:center;position:absolute;margin:auto;top:46px;right:0;bottom:0;left:0;border-radius:3px;height:max-content;}.gc__table-arrow{display:grid}gc-icon.disabled{opacity:0.5}gc-icon.down-arrow{margin-top:-4px}.row .col .col-content .col-actions{margin-right:14px}.col-center{text-align:center}.gc__table-setting{font-weight:600;display:flex;align-items:center;justify-content:space-between;background:var(--gc-color-contrast-white);padding:12px 30px 8px 30px;border-left:1px solid var(--gc-color-second-grey);border-right:1px solid var(--gc-color-second-grey)}.gc__table-setting .dropdown{width:473px}.gc__table-setting .gc__table-setting-cols-text{padding:14px 20px;display:flex;align-items:center;border-bottom:1px solid var(--gc-color-second-grey)}.gc__table-setting .gc__table-setting-cols-title{margin-left:12px}.gc__table-setting .gc__table-setting-cols{display:grid;grid-template-columns:1fr 1fr;padding:15px 20px;row-gap:9px}.gc__table-setting .gc__table-setting-col-item{display:flex}.gc__table-setting .gc__table-setting-col-item .sc-gc-checkbox-h{margin-bottom:0;margin-left:8px;line-height:13px}.gc__table-no-stripe .body>.row:nth-child(odd){background-color:inherit}.gc__table-no-stripe .body>.row:nth-child(even){background-color:inherit}.gc__table-no-stripe .body>div.row:nth-child(odd)>div.fixed-columns.columns-container>div>div{background-color:inherit}.gc__table-no-stripe .body>div.row:nth-child(even)>div.fixed-columns.columns-container>div>div{background-color:inherit}.gc__table-no-stripe .header,.gc__table-no-stripe .header .fixed-columns{background-color:inherit;color:var(--gc-color-text-grey)}.gc__table-no-border .row .col{border-right:0}";
 
 const DEFAULT_CELL_WIDTH = '16rem'; // in rem
 const GcTable = class {
@@ -1117,6 +1143,7 @@ const GcTable = class {
     this.gcSort = index.createEvent(this, "gc:sort", 7);
     this.gcChangePage = index.createEvent(this, "gc:change-page", 7);
     this.gcClearEmptyState = index.createEvent(this, "gc:clear-empty-state", 7);
+    this.gcTableSettingChange = index.createEvent(this, "gc:table-setting-change", 7);
     /**
      * Grid columns configuration.
      * [
@@ -1159,6 +1186,8 @@ const GcTable = class {
       description: 'There are no items to display',
     };
     this.settingColumns = false;
+    this.isStripe = true;
+    this.isBordered = true;
     this.hoveredCell = {};
     this.isSelectAll = false;
     this.showingColumns = {};
@@ -1199,6 +1228,14 @@ const GcTable = class {
       return res;
     }, {});
   }
+  watchHiddenColumnsPropHandler(hiddenCols) {
+    if (hiddenCols) {
+      this.showingColumns = this.getColumns().reduce((res, col) => {
+        res = Object.assign(Object.assign({}, res), { [col.name]: hiddenCols.includes(col.name) ? false : true });
+        return res;
+      }, {});
+    }
+  }
   handleChangePage(ev) {
     this.page = ev.detail.value;
   }
@@ -1211,6 +1248,7 @@ const GcTable = class {
   }
   onCheck(e, name) {
     this.showingColumns = Object.assign(Object.assign({}, this.showingColumns), { [name]: e.detail.value });
+    this.gcTableSettingChange.emit({ [name]: e.detail.value });
   }
   onClearEmptyState() {
     if (this.gcClearEmptyState) {
@@ -1241,7 +1279,7 @@ const GcTable = class {
               this.sortOrder = 'asc';
             }
             this.gcSort.emit({ sortBy: this.sortBy, sortOrder: this.sortOrder });
-          }, class: { col: true, sort: this.sortBy === col.name }, style: { width: colWidth } }, index.h("div", { class: "col-content" }, index.h("div", { class: "col-text" }, col.label), index.h("div", { class: "col-actions" }, (() => {
+          }, class: { col: true, sort: this.sortBy === col.name }, style: { width: colWidth, background: this.background } }, index.h("div", { class: "col-content" }, index.h("div", { class: "col-text" }, col.label), index.h("div", { class: "col-actions" }, (() => {
           if (!this.sortable)
             return;
           return (index.h("div", { class: "gc__table-arrow" }, index.h("gc-icon", { class: { disabled: this.sortBy === col.name && this.sortOrder === 'desc' }, name: "fa-regular fa-chevron-up", size: "11px", "font-weight": "bold" }), index.h("gc-icon", { class: { 'disabled': this.sortBy === col.name && this.sortOrder === 'asc', 'down-arrow': true }, name: "fa-regular fa-chevron-down", size: "11px", "font-weight": "bold" })));
@@ -1268,7 +1306,7 @@ const GcTable = class {
         data = data.slice((this.page - 1) * this.pageSize, this.page * this.pageSize);
       }
     }
-    data.forEach(row => {
+    data.forEach((row, idx) => {
       const fixedCols = [];
       const scrollCols = [];
       if (this.selectionType === 'checkbox')
@@ -1278,7 +1316,10 @@ const GcTable = class {
           let colWidth = DEFAULT_CELL_WIDTH;
           if (column.width)
             colWidth = column.width;
-          const colEl = (index.h("div", { tabindex: "1", class: { 'col': true, 'col-hover': this.hoveredCell.row === row && this.hoveredCell.column === column, 'col-center': column.center }, style: { width: colWidth }, onMouseOver: () => this.onCellMouseOver(row, column), onClick: () => {
+          const colEl = (index.h("div", { tabindex: "1", class: { 'col': true, 'col-hover': this.hoveredCell.row === row && this.hoveredCell.column === column, 'col-center': column.center }, style: {
+              width: colWidth,
+              background: this.customRows && this.customRowsBackground && this.customRows.includes(`${idx}`) ? this.customRowsBackground : this.background,
+            }, onMouseOver: () => this.onCellMouseOver(row, column), onClick: () => {
               const selection = window.getSelection();
               if (selection.type != 'Range')
                 this.onCellClick(row, column);
@@ -1286,7 +1327,10 @@ const GcTable = class {
           column.fixed ? fixedCols.push(colEl) : scrollCols.push(colEl);
         }
       });
-      rows.push(index.h("div", { class: { 'row': true, 'row-hover': this.hoveredCell.row === row } }, index.h("div", { class: "fixed-columns columns-container" }, fixedCols), index.h("div", { class: "scrollable-columns columns-container" }, scrollCols)));
+      rows.push(index.h("div", { class: { 'row': true, 'row-hover': this.hoveredCell.row === row }, style: {
+          background: this.customRows && this.customRowsBackground && this.customRows.includes(`${idx}`) ? this.customRowsBackground : '',
+          border: this.customRows && this.customRowsBorder && this.customRows.includes(`${idx}`) ? this.customRowsBorder : '',
+        } }, index.h("div", { class: "fixed-columns columns-container" }, fixedCols), index.h("div", { class: "scrollable-columns columns-container" }, scrollCols)));
     });
     return index.h("div", { class: "body" }, rows);
   }
@@ -1324,7 +1368,7 @@ const GcTable = class {
   }
   componentWillLoad() {
     this.showingColumns = this.getColumns().reduce((res, col) => {
-      res = Object.assign(Object.assign({}, res), { [col.name]: true });
+      res = Object.assign(Object.assign({}, res), { [col.name]: this.hiddenColumns && this.hiddenColumns.includes(col.name) ? false : true });
       return res;
     }, {});
   }
@@ -1337,18 +1381,19 @@ const GcTable = class {
     if (this.settingColumns && this.getData().length > 0) {
       const totalItems = this.getTotalItems();
       const columns = this.getColumns();
-      return (index.h("div", { class: "gc__table-setting" }, index.h("div", null, "Results: ", totalItems, " entries found matching applied filters:"), index.h("div", null, index.h("gc-dropdown", { id: "dropdown" }, index.h("gc-link", { icon: "fa-solid fa-table-layout", color: "var(--gc-color-text-grey)" }, "Manage Table Columns"), index.h("div", { slot: "gc__dropdown-content", class: "dropdown" }, index.h("div", { class: "gc__table-setting-cols-text" }, index.h("gc-icon", { color: "red", name: "fa-regular fa-square-info" }), index.h("gc-h2", { class: "gc__table-setting-cols-title" }, "Manage Table Columns")), index.h("div", { class: "gc__table-setting-cols" }, columns.map(col => (index.h("div", { class: "gc__table-setting-col-item" }, index.h("gc-icon", { color: "var(--gc-color-secondary-grey)", name: "fa-solid fa-grip-dots-vertical" }), index.h("gc-checkbox", { disabled: col.alwaysDisplay, "gc-name": col.name, label: col.label, checked: true, "onGc:change": e => this.onCheck(e, col.name) }))))))))));
+      return (index.h("div", { class: "gc__table-setting" }, index.h("slot", { name: "gc__table-setting-title" }, index.h("div", null, "Results: ", totalItems, " entries found matching applied filters:")), index.h("div", null, index.h("gc-dropdown", { id: "dropdown" }, index.h("gc-link", { icon: "fa-solid fa-table-layout", color: "var(--gc-color-text-grey)" }, "Manage Table Columns"), index.h("div", { slot: "gc__dropdown-content", class: "dropdown" }, index.h("div", { class: "gc__table-setting-cols-text" }, index.h("gc-icon", { color: "red", name: "fa-regular fa-square-info" }), index.h("gc-h2", { class: "gc__table-setting-cols-title" }, "Manage Table Columns")), index.h("div", { class: "gc__table-setting-cols" }, columns.map(col => (index.h("div", { class: "gc__table-setting-col-item" }, index.h("gc-icon", { color: "var(--gc-color-secondary-grey)", name: "fa-solid fa-grip-dots-vertical" }), index.h("gc-checkbox", { disabled: col.alwaysDisplay, "gc-name": col.name, label: col.label, checked: this.showingColumns[col.name], "onGc:change": e => this.onCheck(e, col.name) }))))))))));
     }
   }
   render() {
-    return (index.h(index.Host, null, this.renderSettingColumns(), this.getData().length > 0 ? (index.h("div", { class: { table: true, sortable: this.sortable, paginate: this.paginate } }, index.h("div", { class: "table-scroll-container" }, this.renderHeader(), this.renderBody()), index.h("div", { class: "table-footer" }, this.renderPagination()))) : (this.renderEmptyState())));
+    return (index.h(index.Host, null, this.renderSettingColumns(), this.getData().length > 0 ? (index.h("div", { class: { 'table': true, 'sortable': this.sortable, 'paginate': this.paginate, 'gc__table-no-stripe': !this.isStripe, 'gc__table-no-border': !this.isBordered } }, index.h("div", { class: "table-scroll-container" }, this.renderHeader(), this.renderBody()), index.h("div", { class: "table-footer" }, this.renderPagination()))) : (this.renderEmptyState())));
   }
   renderEmptyState() {
     return (index.h("div", { class: "empty-table" }, index.h("gc-h2", null, "There is no records found matching applied filters"), index.h("gc-button", { onClick: () => this.onClearEmptyState(), type: "secondary", icon: "fa-regular fa-filter-slash" }, "Clear applied filters")));
   }
   get elm() { return index.getElement(this); }
   static get watchers() { return {
-    "columns": ["watchColumnsPropHandler"]
+    "columns": ["watchColumnsPropHandler"],
+    "hiddenColumns": ["watchHiddenColumnsPropHandler"]
   }; }
 };
 GcTable.style = gcTableCss;

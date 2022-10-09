@@ -49,6 +49,8 @@ export class GcTable {
       description: 'There are no items to display',
     };
     this.settingColumns = false;
+    this.isStripe = true;
+    this.isBordered = true;
     this.hoveredCell = {};
     this.isSelectAll = false;
     this.showingColumns = {};
@@ -89,6 +91,14 @@ export class GcTable {
       return res;
     }, {});
   }
+  watchHiddenColumnsPropHandler(hiddenCols) {
+    if (hiddenCols) {
+      this.showingColumns = this.getColumns().reduce((res, col) => {
+        res = Object.assign(Object.assign({}, res), { [col.name]: hiddenCols.includes(col.name) ? false : true });
+        return res;
+      }, {});
+    }
+  }
   handleChangePage(ev) {
     this.page = ev.detail.value;
   }
@@ -101,6 +111,7 @@ export class GcTable {
   }
   onCheck(e, name) {
     this.showingColumns = Object.assign(Object.assign({}, this.showingColumns), { [name]: e.detail.value });
+    this.gcTableSettingChange.emit({ [name]: e.detail.value });
   }
   onClearEmptyState() {
     if (this.gcClearEmptyState) {
@@ -132,7 +143,7 @@ export class GcTable {
               this.sortOrder = 'asc';
             }
             this.gcSort.emit({ sortBy: this.sortBy, sortOrder: this.sortOrder });
-          }, class: { col: true, sort: this.sortBy === col.name }, style: { width: colWidth } },
+          }, class: { col: true, sort: this.sortBy === col.name }, style: { width: colWidth, background: this.background } },
           h("div", { class: "col-content" },
             h("div", { class: "col-text" }, col.label),
             h("div", { class: "col-actions" }, (() => {
@@ -167,7 +178,7 @@ export class GcTable {
         data = data.slice((this.page - 1) * this.pageSize, this.page * this.pageSize);
       }
     }
-    data.forEach(row => {
+    data.forEach((row, idx) => {
       const fixedCols = [];
       const scrollCols = [];
       if (this.selectionType === 'checkbox')
@@ -178,7 +189,10 @@ export class GcTable {
           let colWidth = DEFAULT_CELL_WIDTH;
           if (column.width)
             colWidth = column.width;
-          const colEl = (h("div", { tabindex: "1", class: { 'col': true, 'col-hover': this.hoveredCell.row === row && this.hoveredCell.column === column, 'col-center': column.center }, style: { width: colWidth }, onMouseOver: () => this.onCellMouseOver(row, column), onClick: () => {
+          const colEl = (h("div", { tabindex: "1", class: { 'col': true, 'col-hover': this.hoveredCell.row === row && this.hoveredCell.column === column, 'col-center': column.center }, style: {
+              width: colWidth,
+              background: this.customRows && this.customRowsBackground && this.customRows.includes(`${idx}`) ? this.customRowsBackground : this.background,
+            }, onMouseOver: () => this.onCellMouseOver(row, column), onClick: () => {
               const selection = window.getSelection();
               if (selection.type != 'Range')
                 this.onCellClick(row, column);
@@ -188,7 +202,10 @@ export class GcTable {
           column.fixed ? fixedCols.push(colEl) : scrollCols.push(colEl);
         }
       });
-      rows.push(h("div", { class: { 'row': true, 'row-hover': this.hoveredCell.row === row } },
+      rows.push(h("div", { class: { 'row': true, 'row-hover': this.hoveredCell.row === row }, style: {
+          background: this.customRows && this.customRowsBackground && this.customRows.includes(`${idx}`) ? this.customRowsBackground : '',
+          border: this.customRows && this.customRowsBorder && this.customRows.includes(`${idx}`) ? this.customRowsBorder : '',
+        } },
         h("div", { class: "fixed-columns columns-container" }, fixedCols),
         h("div", { class: "scrollable-columns columns-container" }, scrollCols)));
     });
@@ -228,7 +245,7 @@ export class GcTable {
   }
   componentWillLoad() {
     this.showingColumns = this.getColumns().reduce((res, col) => {
-      res = Object.assign(Object.assign({}, res), { [col.name]: true });
+      res = Object.assign(Object.assign({}, res), { [col.name]: this.hiddenColumns && this.hiddenColumns.includes(col.name) ? false : true });
       return res;
     }, {});
   }
@@ -256,10 +273,11 @@ export class GcTable {
       const totalItems = this.getTotalItems();
       const columns = this.getColumns();
       return (h("div", { class: "gc__table-setting" },
-        h("div", null,
-          "Results: ",
-          totalItems,
-          " entries found matching applied filters:"),
+        h("slot", { name: "gc__table-setting-title" },
+          h("div", null,
+            "Results: ",
+            totalItems,
+            " entries found matching applied filters:")),
         h("div", null,
           h("gc-dropdown", { id: "dropdown" },
             h("gc-link", { icon: "fa-solid fa-table-layout", color: "var(--gc-color-text-grey)" }, "Manage Table Columns"),
@@ -269,13 +287,13 @@ export class GcTable {
                 h("gc-h2", { class: "gc__table-setting-cols-title" }, "Manage Table Columns")),
               h("div", { class: "gc__table-setting-cols" }, columns.map(col => (h("div", { class: "gc__table-setting-col-item" },
                 h("gc-icon", { color: "var(--gc-color-secondary-grey)", name: "fa-solid fa-grip-dots-vertical" }),
-                h("gc-checkbox", { disabled: col.alwaysDisplay, "gc-name": col.name, label: col.label, checked: true, "onGc:change": e => this.onCheck(e, col.name) }))))))))));
+                h("gc-checkbox", { disabled: col.alwaysDisplay, "gc-name": col.name, label: col.label, checked: this.showingColumns[col.name], "onGc:change": e => this.onCheck(e, col.name) }))))))))));
     }
   }
   render() {
     return (h(Host, null,
       this.renderSettingColumns(),
-      this.getData().length > 0 ? (h("div", { class: { table: true, sortable: this.sortable, paginate: this.paginate } },
+      this.getData().length > 0 ? (h("div", { class: { 'table': true, 'sortable': this.sortable, 'paginate': this.paginate, 'gc__table-no-stripe': !this.isStripe, 'gc__table-no-border': !this.isBordered } },
         h("div", { class: "table-scroll-container" },
           this.renderHeader(),
           this.renderBody()),
@@ -559,6 +577,123 @@ export class GcTable {
       "attribute": "setting-columns",
       "reflect": false,
       "defaultValue": "false"
+    },
+    "hiddenColumns": {
+      "type": "unknown",
+      "mutable": true,
+      "complexType": {
+        "original": "string[]",
+        "resolved": "string[]",
+        "references": {}
+      },
+      "required": false,
+      "optional": true,
+      "docs": {
+        "tags": [],
+        "text": ""
+      }
+    },
+    "customRows": {
+      "type": "unknown",
+      "mutable": true,
+      "complexType": {
+        "original": "string[]",
+        "resolved": "string[]",
+        "references": {}
+      },
+      "required": false,
+      "optional": true,
+      "docs": {
+        "tags": [],
+        "text": ""
+      }
+    },
+    "customRowsBackground": {
+      "type": "string",
+      "mutable": false,
+      "complexType": {
+        "original": "string",
+        "resolved": "string",
+        "references": {}
+      },
+      "required": false,
+      "optional": true,
+      "docs": {
+        "tags": [],
+        "text": ""
+      },
+      "attribute": "custom-rows-background",
+      "reflect": false
+    },
+    "customRowsBorder": {
+      "type": "string",
+      "mutable": false,
+      "complexType": {
+        "original": "string",
+        "resolved": "string",
+        "references": {}
+      },
+      "required": false,
+      "optional": true,
+      "docs": {
+        "tags": [],
+        "text": ""
+      },
+      "attribute": "custom-rows-border",
+      "reflect": false
+    },
+    "isStripe": {
+      "type": "boolean",
+      "mutable": false,
+      "complexType": {
+        "original": "boolean",
+        "resolved": "boolean",
+        "references": {}
+      },
+      "required": false,
+      "optional": true,
+      "docs": {
+        "tags": [],
+        "text": ""
+      },
+      "attribute": "is-stripe",
+      "reflect": false,
+      "defaultValue": "true"
+    },
+    "isBordered": {
+      "type": "boolean",
+      "mutable": false,
+      "complexType": {
+        "original": "boolean",
+        "resolved": "boolean",
+        "references": {}
+      },
+      "required": false,
+      "optional": true,
+      "docs": {
+        "tags": [],
+        "text": ""
+      },
+      "attribute": "is-bordered",
+      "reflect": false,
+      "defaultValue": "true"
+    },
+    "background": {
+      "type": "string",
+      "mutable": false,
+      "complexType": {
+        "original": "string",
+        "resolved": "string",
+        "references": {}
+      },
+      "required": false,
+      "optional": true,
+      "docs": {
+        "tags": [],
+        "text": ""
+      },
+      "attribute": "background",
+      "reflect": false
     }
   }; }
   static get states() { return {
@@ -641,11 +776,29 @@ export class GcTable {
         "resolved": "any",
         "references": {}
       }
+    }, {
+      "method": "gcTableSettingChange",
+      "name": "gc:table-setting-change",
+      "bubbles": true,
+      "cancelable": true,
+      "composed": true,
+      "docs": {
+        "tags": [],
+        "text": ""
+      },
+      "complexType": {
+        "original": "any",
+        "resolved": "any",
+        "references": {}
+      }
     }]; }
   static get elementRef() { return "elm"; }
   static get watchers() { return [{
       "propName": "columns",
       "methodName": "watchColumnsPropHandler"
+    }, {
+      "propName": "hiddenColumns",
+      "methodName": "watchHiddenColumnsPropHandler"
     }]; }
   static get listeners() { return [{
       "name": "gc:change-page",

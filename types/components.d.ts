@@ -67,6 +67,7 @@ export namespace Components {
           * The button size. Possible values are: `"sm"`, `"md"`, `"lg"`. Defaults to `"md"`.
          */
         "size": 'sm' | 'md' | 'lg';
+        "trigger": 'click' | 'hover';
     }
     interface GcFormField {
         /**
@@ -235,6 +236,10 @@ export namespace Components {
          */
         "class"?: string;
         /**
+          * The color of text
+         */
+        "color"?: string;
+        /**
           * If true, the user cannot interact with the button. Defaults to `false`.
          */
         "disabled": boolean;
@@ -357,15 +362,22 @@ export namespace Components {
         "isFloat": boolean;
     }
     interface GcTable {
+        "background"?: string;
         /**
           * Grid columns configuration. [ {   "name":"name",   "label":"Name",   "width":300,   "fixed":true  }, {   "name":"age",   "label":"Age" } ]
          */
         "columns": string | any[];
+        "customRows"?: string[];
+        "customRowsBackground"?: string;
+        "customRowsBorder"?: string;
         /**
           * Grid data to display on table [{  'id': '5e7118ddce4b3d577956457f',  'age': 21,  'name': 'John',  'company': 'India',  'email': 'john@example.com',  'phone': '+1 (839) 560-3581',  'address': '326 Irving Street, Grimsley, Texas, 4048'  }]
          */
         "data": string | any[];
         "emptyState": any;
+        "hiddenColumns"?: string[];
+        "isBordered"?: boolean;
+        "isStripe"?: boolean;
         "keyField": string;
         "managed": boolean;
         "page": number;
@@ -657,6 +669,7 @@ declare namespace LocalJSX {
           * The button size. Possible values are: `"sm"`, `"md"`, `"lg"`. Defaults to `"md"`.
          */
         "size"?: 'sm' | 'md' | 'lg';
+        "trigger"?: 'click' | 'hover';
     }
     interface GcFormField {
         /**
@@ -825,6 +838,10 @@ declare namespace LocalJSX {
          */
         "class"?: string;
         /**
+          * The color of text
+         */
+        "color"?: string;
+        /**
           * If true, the user cannot interact with the button. Defaults to `false`.
          */
         "disabled"?: boolean;
@@ -951,15 +968,22 @@ declare namespace LocalJSX {
         "isFloat"?: boolean;
     }
     interface GcTable {
+        "background"?: string;
         /**
           * Grid columns configuration. [ {   "name":"name",   "label":"Name",   "width":300,   "fixed":true  }, {   "name":"age",   "label":"Age" } ]
          */
         "columns"?: string | any[];
+        "customRows"?: string[];
+        "customRowsBackground"?: string;
+        "customRowsBorder"?: string;
         /**
           * Grid data to display on table [{  'id': '5e7118ddce4b3d577956457f',  'age': 21,  'name': 'John',  'company': 'India',  'email': 'john@example.com',  'phone': '+1 (839) 560-3581',  'address': '326 Irving Street, Grimsley, Texas, 4048'  }]
          */
         "data"?: string | any[];
         "emptyState"?: any;
+        "hiddenColumns"?: string[];
+        "isBordered"?: boolean;
+        "isStripe"?: boolean;
         "keyField"?: string;
         "managed"?: boolean;
         "onGc:change-page"?: (event: GcTableCustomEvent<any>) => void;
@@ -967,6 +991,7 @@ declare namespace LocalJSX {
         "onGc:sort"?: (event: GcTableCustomEvent<any>) => void;
         "onGc:table-cell-click"?: (event: GcTableCustomEvent<any>) => void;
         "onGc:table-select-change"?: (event: GcTableCustomEvent<any>) => void;
+        "onGc:table-setting-change"?: (event: GcTableCustomEvent<any>) => void;
         "page"?: number;
         "pageSize"?: number;
         "paginate"?: boolean;

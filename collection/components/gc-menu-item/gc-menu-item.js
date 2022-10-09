@@ -14,6 +14,7 @@ export class GcMenuItem {
     this.endSlotHasContent = false;
     this.hasFocus = false;
     this.isActive = false;
+    this.isHover = false;
     this.clickHandler = event => {
       if (!this.disabled) {
         this.goatMenuItemClick.emit({
@@ -35,12 +36,26 @@ export class GcMenuItem {
     this.mouseDownHandler = () => {
       this.isActive = true;
     };
+    this.mouseEnterHandler = () => {
+      this.isHover = true;
+    };
+    this.mouseLeaveHandler = () => {
+      this.isHover = false;
+    };
     this.keyDownHandler = evt => {
       if (evt.key == ' ') {
         evt.preventDefault();
         this.isActive = true;
         this.clickHandler(evt);
       }
+    };
+    this.getStyles = () => {
+      if (this.color) {
+        return {
+          color: this.isHover ? 'var(--gc-color-contrast-white)' : this.color,
+        };
+      }
+      return {};
     };
     this.render = () => {
       return (h(Host, { active: this.isActive, "has-focus": this.hasFocus },
@@ -53,8 +68,8 @@ export class GcMenuItem {
             'start-slot-has-content': this.startSlotHasContent,
             'end-slot-has-content': this.endSlotHasContent,
             [this.class]: this.class ? true : false,
-          }, tabindex: this.tabindex, onBlur: this.blurHandler, onFocus: this.focusHandler, onClick: this.clickHandler, onMouseDown: this.mouseDownHandler, onKeyDown: this.keyDownHandler, "aria-disabled": this.disabled },
-          h("div", { class: "item-section slot-main" },
+          }, tabindex: this.tabindex, onBlur: this.blurHandler, onFocus: this.focusHandler, onClick: this.clickHandler, onMouseDown: this.mouseDownHandler, onKeyDown: this.keyDownHandler, onMouseEnter: this.mouseEnterHandler, onMouseLeave: this.mouseLeaveHandler, "aria-disabled": this.disabled },
+          h("div", { style: this.getStyles(), class: "item-section slot-main" },
             h("slot", null)))));
     };
   }
@@ -139,6 +154,23 @@ export class GcMenuItem {
       "attribute": "gc-id",
       "reflect": false
     },
+    "color": {
+      "type": "string",
+      "mutable": false,
+      "complexType": {
+        "original": "string",
+        "resolved": "string",
+        "references": {}
+      },
+      "required": false,
+      "optional": true,
+      "docs": {
+        "tags": [],
+        "text": "The color of text"
+      },
+      "attribute": "color",
+      "reflect": false
+    },
     "value": {
       "type": "any",
       "mutable": true,
@@ -197,7 +229,8 @@ export class GcMenuItem {
     "startSlotHasContent": {},
     "endSlotHasContent": {},
     "hasFocus": {},
-    "isActive": {}
+    "isActive": {},
+    "isHover": {}
   }; }
   static get events() { return [{
       "method": "goatMenuItemClick",

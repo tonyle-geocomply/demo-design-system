@@ -14,6 +14,7 @@ export class GcDropdown {
     this.disabled = false;
     this.positions = 'bottom-right,top-right,bottom-left,top-left';
     this.items = null;
+    this.trigger = 'click';
     this.hasFocus = false;
     this.openList = () => {
       if (!this.disabled && !this.isOpen) {
@@ -55,6 +56,16 @@ export class GcDropdown {
           evt.preventDefault();
           $menuElm === null || $menuElm === void 0 ? void 0 : $menuElm.setFocus(); // focus on previous item
         }
+      }
+    };
+    this.mouseEnterHandler = () => {
+      if (this.trigger === 'hover') {
+        this.isOpen = true;
+      }
+    };
+    this.mouseLeaveHandler = () => {
+      if (this.trigger === 'hover') {
+        this.isOpen = false;
       }
     };
   }
@@ -165,7 +176,7 @@ export class GcDropdown {
           'dropdown': true,
           [this.position]: true,
           'is-open': this.isOpen,
-        } },
+        }, onMouseEnter: this.mouseEnterHandler, onMouseLeave: this.mouseLeaveHandler },
         h("button", { class: "dropdown-button", onKeyDown: this.keyDownHandler, tabindex: "-1", onBlur: this.blurHandler, onFocus: this.focusHandler, disabled: this.disabled, onClick: () => {
             this.toggleList();
           } },
@@ -271,6 +282,24 @@ export class GcDropdown {
         "text": ""
       },
       "defaultValue": "null"
+    },
+    "trigger": {
+      "type": "string",
+      "mutable": false,
+      "complexType": {
+        "original": "'click' | 'hover'",
+        "resolved": "\"click\" | \"hover\"",
+        "references": {}
+      },
+      "required": false,
+      "optional": false,
+      "docs": {
+        "tags": [],
+        "text": ""
+      },
+      "attribute": "trigger",
+      "reflect": false,
+      "defaultValue": "'click'"
     }
   }; }
   static get states() { return {

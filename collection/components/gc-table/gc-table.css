@@ -238,3 +238,29 @@ gc-icon.down-arrow {
   margin-left: 8px;
   line-height: 13px;
 }
+
+.gc__table-no-stripe .body>.row:nth-child(odd) {
+  background-color: inherit;
+}
+
+.gc__table-no-stripe .body>.row:nth-child(even) {
+  background-color: inherit;
+}
+
+.gc__table-no-stripe .body>div.row:nth-child(odd)>div.fixed-columns.columns-container>div>div {
+  background-color: inherit;
+}
+
+.gc__table-no-stripe .body>div.row:nth-child(even)>div.fixed-columns.columns-container>div>div {
+  background-color: inherit;
+}
+
+.gc__table-no-stripe .header,
+.gc__table-no-stripe .header .fixed-columns {
+  background-color: inherit;
+  color: var(--gc-color-text-grey);
+}
+
+.gc__table-no-border .row .col {
+  border-right: 0;
+}

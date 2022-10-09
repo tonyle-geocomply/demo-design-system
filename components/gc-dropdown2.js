@@ -23,6 +23,7 @@ const GcDropdown = /*@__PURE__*/ proxyCustomElement(class extends HTMLElement {
     this.disabled = false;
     this.positions = 'bottom-right,top-right,bottom-left,top-left';
     this.items = null;
+    this.trigger = 'click';
     this.hasFocus = false;
     this.openList = () => {
       if (!this.disabled && !this.isOpen) {
@@ -64,6 +65,16 @@ const GcDropdown = /*@__PURE__*/ proxyCustomElement(class extends HTMLElement {
           evt.preventDefault();
           $menuElm === null || $menuElm === void 0 ? void 0 : $menuElm.setFocus(); // focus on previous item
         }
+      }
+    };
+    this.mouseEnterHandler = () => {
+      if (this.trigger === 'hover') {
+        this.isOpen = true;
+      }
+    };
+    this.mouseLeaveHandler = () => {
+      if (this.trigger === 'hover') {
+        this.isOpen = false;
       }
     };
   }
@@ -170,7 +181,7 @@ const GcDropdown = /*@__PURE__*/ proxyCustomElement(class extends HTMLElement {
         'dropdown': true,
         [this.position]: true,
         'is-open': this.isOpen,
-      } }, h("button", { class: "dropdown-button", onKeyDown: this.keyDownHandler, tabindex: "-1", onBlur: this.blurHandler, onFocus: this.focusHandler, disabled: this.disabled, onClick: () => {
+      }, onMouseEnter: this.mouseEnterHandler, onMouseLeave: this.mouseLeaveHandler }, h("button", { class: "dropdown-button", onKeyDown: this.keyDownHandler, tabindex: "-1", onBlur: this.blurHandler, onFocus: this.focusHandler, disabled: this.disabled, onClick: () => {
         this.toggleList();
       } }, h("div", { class: "slot-container" }, h("slot", null))), h("div", { class: "gc__dropdown-content" }, this.renderItems(), h("slot", { name: "gc__dropdown-content" })))));
   }
@@ -182,6 +193,7 @@ const GcDropdown = /*@__PURE__*/ proxyCustomElement(class extends HTMLElement {
     "disabled": [4],
     "positions": [1],
     "items": [16],
+    "trigger": [1],
     "hasFocus": [32],
     "position": [32],
     "setFocus": [64]

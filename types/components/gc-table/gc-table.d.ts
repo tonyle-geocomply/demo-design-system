@@ -48,6 +48,13 @@ export declare class GcTable {
   totalItems: any;
   emptyState: any;
   settingColumns?: boolean;
+  hiddenColumns?: string[];
+  customRows?: string[];
+  customRowsBackground?: string;
+  customRowsBorder?: string;
+  isStripe?: boolean;
+  isBordered?: boolean;
+  background?: string;
   private hoveredCell;
   private isSelectAll;
   private showingColumns;
@@ -56,7 +63,9 @@ export declare class GcTable {
   gcSort: EventEmitter;
   gcChangePage: EventEmitter;
   gcClearEmptyState: EventEmitter;
+  gcTableSettingChange: EventEmitter;
   watchColumnsPropHandler(newValue: any): void;
+  watchHiddenColumnsPropHandler(hiddenCols: string[]): void;
   handleChangePage(ev: any): void;
   onSelectAllClick: () => void;
   onRowSelectClick: (row: any) => void;
