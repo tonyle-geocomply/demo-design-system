@@ -19,7 +19,7 @@ export class GcDropdown {
       if (!this.disabled && !this.isOpen) {
         this.isOpen = true;
         setTimeout(() => {
-          const dropdownContent = this.elm.querySelector('[slot="dropdown-content"]');
+          const dropdownContent = this.elm.querySelector('[slot="gc__dropdown-content"]');
           this.dropdownContentHeight = dropdownContent.getBoundingClientRect().height;
           this.dropdownContentWidth = dropdownContent.getBoundingClientRect().width;
           this.fixPosition();
@@ -171,9 +171,9 @@ export class GcDropdown {
           } },
           h("div", { class: "slot-container" },
             h("slot", null))),
-        h("div", { class: "dropdown-content" },
+        h("div", { class: "gc__dropdown-content" },
           this.renderItems(),
-          h("slot", { name: "dropdown-content" })))));
+          h("slot", { name: "gc__dropdown-content" })))));
   }
   static get is() { return "gc-dropdown"; }
   static get encapsulation() { return "shadow"; }

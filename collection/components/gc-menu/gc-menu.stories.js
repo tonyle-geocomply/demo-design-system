@@ -5,7 +5,7 @@ export default {
   },
 };
 const Template = () => `
-<gc-menu slot='dropdown-content' class='menu' style='width: 200px'>
+<gc-menu slot='gc__dropdown-content' class='menu' style='width: 200px'>
   <gc-menu-item value='cut'>
     Cut
   </gc-menu-item>

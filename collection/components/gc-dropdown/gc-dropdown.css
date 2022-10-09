@@ -17,37 +17,37 @@
 .dropdown .dropdown-button .slot-container {
   height: 100%;
 }
-.dropdown .dropdown-content {
-  z-index: var(--gc-z-index-dropdown-content);
+.dropdown .gc__dropdown-content {
+  z-index: var(--gc-z-index-gc__dropdown-content);
   position: absolute;
   width: max-content;
   transform: scale(0);
   transition: transform 0.1s ease-out 0s;
 }
-.dropdown.is-open .dropdown-content {
+.dropdown.is-open .gc__dropdown-content {
   transform: scale(1);
 }
-.dropdown.bottom-right .dropdown-content {
+.dropdown.bottom-right .gc__dropdown-content {
   top: calc(100% + 0.5rem);
   left: 0;
   transform-origin: top;
 }
-.dropdown.bottom-left .dropdown-content {
+.dropdown.bottom-left .gc__dropdown-content {
   top: calc(100% + 0.5rem);
   right: 0;
   transform-origin: top;
 }
-.dropdown.top-right .dropdown-content {
+.dropdown.top-right .gc__dropdown-content {
   bottom: calc(100% + 0.5rem);
   left: 0;
   transform-origin: bottom;
 }
-.dropdown.top-left .dropdown-content {
+.dropdown.top-left .gc__dropdown-content {
   bottom: calc(100% + 0.5rem);
   right: 0;
   transform-origin: bottom;
 }
-.dropdown.center .dropdown-content {
+.dropdown.center .gc__dropdown-content {
   top: 0;
   left: 0;
   position: fixed;
@@ -66,12 +66,12 @@
 :host([has-focus]) .dropdown {
   outline: none;
 }
-div.dropdown-content {
+div.gc__dropdown-content {
   border: 1px solid var(--gc-color-second-grey);
   border-radius: 5px;
   background-color: var(--gc-color-contrast-white);
 }
-.bottom-right div.dropdown-content::before {
+.bottom-right div.gc__dropdown-content::before {
   content: "";
   position: absolute;
   border-left: 8px solid transparent;
@@ -82,7 +82,7 @@ div.dropdown-content {
   border-top: 0px;
   border-bottom: 8px solid var(--gc-color-second-grey);
 }
-.bottom-right div.dropdown-content::after {
+.bottom-right div.gc__dropdown-content::after {
   border-bottom: 8px solid white;
   margin-top: 2px;
   z-index: 1;
@@ -94,7 +94,7 @@ div.dropdown-content {
   left: 15%;
   margin-left: -10px;
 }
-.bottom-left div.dropdown-content::before {
+.bottom-left div.gc__dropdown-content::before {
   content: "";
   position: absolute;
   border-left: 8px solid transparent;
@@ -105,7 +105,7 @@ div.dropdown-content {
   border-top: 0px;
   border-bottom: 8px solid var(--gc-color-second-grey);
 }
-.bottom-left div.dropdown-content::after {
+.bottom-left div.gc__dropdown-content::after {
   border-bottom: 8px solid white;
   margin-top: 2px;
   z-index: 1;

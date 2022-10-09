@@ -263,7 +263,7 @@ export class GcTable {
         h("div", null,
           h("gc-dropdown", { id: "dropdown" },
             h("gc-link", { icon: "fa-solid fa-table-layout", color: "var(--gc-color-text-grey)" }, "Manage Table Columns"),
-            h("div", { slot: "dropdown-content", class: "dropdown" },
+            h("div", { slot: "gc__dropdown-content", class: "dropdown" },
               h("div", { class: "gc__table-setting-cols-text" },
                 h("gc-icon", { color: "red", name: "fa-regular fa-square-info" }),
                 h("gc-h2", { class: "gc__table-setting-cols-title" }, "Manage Table Columns")),

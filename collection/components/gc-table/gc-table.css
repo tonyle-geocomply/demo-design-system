@@ -212,7 +212,7 @@ gc-icon.down-arrow {
 }
 
 .gc__table-setting .gc__table-setting-cols-text {
-  padding: 0 20px;
+  padding: 14px 20px;
   display: flex;
   align-items: center;
   border-bottom: 1px solid var(--gc-color-second-grey);

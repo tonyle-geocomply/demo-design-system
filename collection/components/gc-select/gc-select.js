@@ -318,7 +318,7 @@ export class GcSelect {
           h("div", { class: "slot-container end" },
             h("slot", { name: "end" })),
           this.getModeIcon()),
-        h("div", { class: "dropdown-content", ref: elm => (this.dropdownContentElm = elm) }, this.isOpen && this.renderDropdownList()))));
+        h("div", { class: "gc__dropdown-content", ref: elm => (this.dropdownContentElm = elm) }, this.isOpen && this.renderDropdownList()))));
   }
   getModeIcon() {
     if (!this.disabled && !this.readonly)

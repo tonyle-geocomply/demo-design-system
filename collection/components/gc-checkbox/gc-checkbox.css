@@ -33,6 +33,8 @@ label:before {
 
 input:checked + label:before {
   background-color: var(--gc-color-primary);
+  border: 0;
+  padding: 8px;
 }
 
 input:checked + label:after {
