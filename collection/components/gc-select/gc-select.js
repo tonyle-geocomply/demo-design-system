@@ -309,10 +309,12 @@ export class GcSelect {
               return (h("input", Object.assign({ class: "input input-native", ref: input => (this.nativeInput = input), type: "text", value: this.searchString, placeholder: this.placeholder, onBlur: this.blurHandler, onFocus: this.focusHandler, onInput: this.onInput, onKeyDown: this.keyDownHandler }, this.configAria)));
             }
             else {
-              return (h("div", Object.assign({ class: "input display-value", tabindex: "0", ref: input => (this.displayElement = input), "aria-disabled": this.disabled ? 'true' : null, onFocus: this.focusHandler, onBlur: this.blurHandler, onKeyDown: this.keyDownHandler, onClick: evt => {
-                  evt.preventDefault();
-                  this.toggleList();
-                } }, this.configAria), this.getDisplayValue()));
+              return (h("div", { class: "gc__section-hidden" },
+                h("div", Object.assign({ class: "input display-value", tabindex: "0", ref: input => (this.displayElement = input), "aria-disabled": this.disabled ? 'true' : null, onFocus: this.focusHandler, onBlur: this.blurHandler, onKeyDown: this.keyDownHandler, onClick: evt => {
+                    evt.preventDefault();
+                    this.toggleList();
+                  } }, this.configAria), this.getDisplayValue()),
+                h("input", { id: this.gcId, style: { display: 'none' }, value: this.value })));
             }
           })(),
           h("div", { class: "slot-container end" },
