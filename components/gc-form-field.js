@@ -1,4 +1,4 @@
-import { proxyCustomElement, HTMLElement, h, Host } from '@stencil/core/internal/client';
+import { proxyCustomElement, HTMLElement, createEvent, h, Host } from '@stencil/core/internal/client';
 import { d as defineCustomElement$7 } from './gc-icon2.js';
 import { d as defineCustomElement$6 } from './gc-input2.js';
 import { d as defineCustomElement$5 } from './gc-label2.js';
@@ -10,6 +10,7 @@ const GcFormField$1 = /*@__PURE__*/ proxyCustomElement(class extends HTMLElement
   constructor() {
     super();
     this.__registerHost();
+    this.gcFieldChange = createEvent(this, "gc:field-change", 7);
     /**
      * The input type
      */
@@ -27,10 +28,19 @@ const GcFormField$1 = /*@__PURE__*/ proxyCustomElement(class extends HTMLElement
      */
     this.search = 'none';
   }
+  watchPropHandler(newValue) {
+    this.value = newValue;
+  }
+  handleChange(evt) {
+    this.gcFieldChange.emit({ value: evt.detail.value });
+  }
   render() {
-    const input = this.type === 'select' ? (h("gc-select", { search: this.search, items: this.items, "gc-id": this.gcId, "gc-name": this.gcName, value: this.value, disabled: this.disabled, placeholder: this.placeholder })) : (h("gc-input", { "prefix-icon": this.prefixIcon, "gc-id": this.gcId, "gc-name": this.gcName, value: this.value, disabled: this.disabled, type: this.type, placeholder: this.placeholder }));
+    const input = this.type === 'select' ? (h("gc-select", { search: this.search, items: this.items, "gc-id": this.gcId, "gc-name": this.gcName, value: this.value, disabled: this.disabled, placeholder: this.placeholder, "onGc:change": e => this.handleChange(e) })) : (h("gc-input", { "prefix-icon": this.prefixIcon, "gc-id": this.gcId, "gc-name": this.gcName, value: this.value, disabled: this.disabled, type: this.type, placeholder: this.placeholder, "onGc:change": e => this.handleChange(e) }));
     return (h(Host, null, h("gc-label", { "gc-for": this.gcName }, this.label), input));
   }
+  static get watchers() { return {
+    "value": ["watchPropHandler"]
+  }; }
 }, [2, "gc-form-field", {
     "label": [1],
     "gcName": [1, "gc-name"],
@@ -38,7 +48,7 @@ const GcFormField$1 = /*@__PURE__*/ proxyCustomElement(class extends HTMLElement
     "type": [1],
     "placeholder": [1],
     "disabled": [4],
-    "value": [1],
+    "value": [1537],
     "items": [1],
     "search": [1],
     "prefixIcon": [1, "prefix-icon"]

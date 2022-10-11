@@ -1,4 +1,4 @@
-import { Component, Prop, Host, h } from '@stencil/core';
+import { Component, Prop, Host, h, Watch, Event } from '@stencil/core';
 export class GcFormField {
   constructor() {
     /**
@@ -18,8 +18,14 @@ export class GcFormField {
      */
     this.search = 'none';
   }
+  watchPropHandler(newValue) {
+    this.value = newValue;
+  }
+  handleChange(evt) {
+    this.gcFieldChange.emit({ value: evt.detail.value });
+  }
   render() {
-    const input = this.type === 'select' ? (h("gc-select", { search: this.search, items: this.items, "gc-id": this.gcId, "gc-name": this.gcName, value: this.value, disabled: this.disabled, placeholder: this.placeholder })) : (h("gc-input", { "prefix-icon": this.prefixIcon, "gc-id": this.gcId, "gc-name": this.gcName, value: this.value, disabled: this.disabled, type: this.type, placeholder: this.placeholder }));
+    const input = this.type === 'select' ? (h("gc-select", { search: this.search, items: this.items, "gc-id": this.gcId, "gc-name": this.gcName, value: this.value, disabled: this.disabled, placeholder: this.placeholder, "onGc:change": e => this.handleChange(e) })) : (h("gc-input", { "prefix-icon": this.prefixIcon, "gc-id": this.gcId, "gc-name": this.gcName, value: this.value, disabled: this.disabled, type: this.type, placeholder: this.placeholder, "onGc:change": e => this.handleChange(e) }));
     return (h(Host, null,
       h("gc-label", { "gc-for": this.gcName }, this.label),
       input));
@@ -132,7 +138,7 @@ export class GcFormField {
     },
     "value": {
       "type": "string",
-      "mutable": false,
+      "mutable": true,
       "complexType": {
         "original": "string",
         "resolved": "string",
@@ -145,7 +151,7 @@ export class GcFormField {
         "text": "The input value"
       },
       "attribute": "value",
-      "reflect": false
+      "reflect": true
     },
     "items": {
       "type": "string",
@@ -201,4 +207,24 @@ export class GcFormField {
       "reflect": false
     }
   }; }
+  static get events() { return [{
+      "method": "gcFieldChange",
+      "name": "gc:field-change",
+      "bubbles": true,
+      "cancelable": true,
+      "composed": true,
+      "docs": {
+        "tags": [],
+        "text": "Emitted when the value has changed."
+      },
+      "complexType": {
+        "original": "any",
+        "resolved": "any",
+        "references": {}
+      }
+    }]; }
+  static get watchers() { return [{
+      "propName": "value",
+      "methodName": "watchPropHandler"
+    }]; }
 }

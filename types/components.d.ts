@@ -440,6 +440,10 @@ export interface GcCheckboxCustomEvent<T> extends CustomEvent<T> {
     detail: T;
     target: HTMLGcCheckboxElement;
 }
+export interface GcFormFieldCustomEvent<T> extends CustomEvent<T> {
+    detail: T;
+    target: HTMLGcFormFieldElement;
+}
 export interface GcInputCustomEvent<T> extends CustomEvent<T> {
     detail: T;
     target: HTMLGcInputElement;
@@ -692,6 +696,10 @@ declare namespace LocalJSX {
           * The label name
          */
         "label"?: string;
+        /**
+          * Emitted when the value has changed.
+         */
+        "onGc:field-change"?: (event: GcFormFieldCustomEvent<any>) => void;
         /**
           * The placeholder
          */

@@ -1,3 +1,4 @@
+import { EventEmitter } from '../../stencil-public-runtime';
 export declare class GcFormField {
   /**
    * The label name
@@ -43,5 +44,11 @@ export declare class GcFormField {
    * Prefix icon
    */
   prefixIcon: string;
+  /**
+ * Emitted when the value has changed.
+ */
+  gcFieldChange: EventEmitter;
+  watchPropHandler(newValue: string): void;
+  handleChange(evt: any): void;
   render(): any;
 }
