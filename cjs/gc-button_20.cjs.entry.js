@@ -478,7 +478,7 @@ const GcLink = class {
   }
   render() {
     if (this.icon) {
-      return (index.h("div", { style: { display: 'flex', alignItems: 'center', cursor: 'pointer' } }, index.h("gc-icon", { name: this.icon, size: "sm", color: "#397FF7" }), index.h("a", { style: { color: this.color || 'var(--gc-color-primary)', marginLeft: '8px' }, class: this.getClassName(), id: this.gcId, href: this.gcTo }, index.h("slot", null))));
+      return (index.h("div", { style: { display: 'flex', alignItems: 'baseline', cursor: 'pointer' } }, index.h("gc-icon", { name: this.icon, size: "sm", color: "#397FF7" }), index.h("a", { style: { color: this.color || 'var(--gc-color-primary)', marginLeft: '8px' }, class: this.getClassName(), id: this.gcId, href: this.gcTo }, index.h("slot", null))));
     }
     return (index.h("a", { style: { color: this.color || 'var(--gc-color-primary)' }, class: this.getClassName(), id: this.gcId, href: this.gcTo }, index.h("slot", null)));
   }

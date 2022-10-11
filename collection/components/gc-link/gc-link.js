@@ -5,7 +5,7 @@ export class GcLink {
   }
   render() {
     if (this.icon) {
-      return (h("div", { style: { display: 'flex', alignItems: 'center', cursor: 'pointer' } },
+      return (h("div", { style: { display: 'flex', alignItems: 'baseline', cursor: 'pointer' } },
         h("gc-icon", { name: this.icon, size: "sm", color: "#397FF7" }),
         h("a", { style: { color: this.color || 'var(--gc-color-primary)', marginLeft: '8px' }, class: this.getClassName(), id: this.gcId, href: this.gcTo },
           h("slot", null))));
