@@ -57,8 +57,15 @@ export class GcSelect {
     this.searchString = '';
     this.startSlotHasContent = false;
     this.endSlotHasContent = false;
+    this.stateItems = [];
+    this.selectedColorItem = '';
     this.selectHandler = selectItemValue => {
       if (!this.disabled && !this.readonly) {
+        // if (this.search !== 'none') {
+        //   const item = this.getItemByValue(selectItemValue);
+        //   this.searchString = item.label;
+        // }
+        this.stateItems = this.getItems().filter(item => item.value !== selectItemValue);
         this.addItem(selectItemValue);
       }
       this.closeList();
@@ -157,6 +164,7 @@ export class GcSelect {
   }
   menuItemClick(evt) {
     this.selectHandler(evt.detail.value);
+    this.selectedColorItem = evt.detail.color;
   }
   tagDismissClick(evt) {
     this.removeItem(evt.detail.value);
@@ -175,7 +183,6 @@ export class GcSelect {
       value.push(selectItemValue);
       this.value = value.join(',');
       this.goatChange.emit({ value: this.value });
-      // this.goatChange.emit({ value: this.value, newItem: this.getItemByValue(selectItemValue) });
     }
   }
   removeItem(selectItemValue) {
@@ -184,7 +191,6 @@ export class GcSelect {
       value = value.filter(item => item !== selectItemValue);
       this.value = value.join(',');
       this.goatChange.emit({ value: this.value });
-      // this.goatChange.emit({ value: this.value, removedItem: this.getItemByValue(selectItemValue) });
     }
   }
   hasValue() {
@@ -211,7 +217,7 @@ export class GcSelect {
       if (this.items) {
         const item = this.getItemByValue(this.value);
         if (item) {
-          return item.label;
+          return h("span", { style: { color: this.selectedColorItem } }, item.label);
         }
       }
       if (!this.disabled && !this.readonly) {
@@ -289,6 +295,9 @@ export class GcSelect {
   connectedCallback() {
     this.debounceChanged();
   }
+  componentDidLoad() {
+    this.stateItems = this.getItems();
+  }
   render() {
     return (h(Host, { id: this.gcId, "has-value": this.hasValue(), "has-focus": this.hasFocus, "is-open": this.isOpen, position: this.position },
       h("div", { class: { 'dropdown': true, 'select': true, [this.position]: true, 'is-open': this.isOpen } },
@@ -341,15 +350,15 @@ export class GcSelect {
       const filteredItems = this.filterItems();
       return (h("gc-menu", { class: "menu", empty: filteredItems.length == 0, ref: el => (this.menuElm = el) }, (() => {
         return filteredItems.map(item => {
-          return (h("gc-menu-item", { color: item.color, value: item.value }, item.label || item.value));
+          return (h("gc-menu-item", { disabled: item.disabled, color: item.color, value: item.value }, item.label || item.value));
         });
       })()));
     }
   }
   filterItems() {
     if (this.search === 'managed')
-      return this.items;
-    const items = this.getItems();
+      return this.getItems();
+    const items = this.search !== 'none' ? this.getItems() : this.stateItems;
     return items.filter(item => {
       return !this.searchString || item.label.toLocaleLowerCase().includes(this.searchString.toLocaleLowerCase());
     });
@@ -690,7 +699,9 @@ export class GcSelect {
     "searchString": {},
     "startSlotHasContent": {},
     "endSlotHasContent": {},
-    "position": {}
+    "position": {},
+    "stateItems": {},
+    "selectedColorItem": {}
   }; }
   static get events() { return [{
       "method": "goatChange",

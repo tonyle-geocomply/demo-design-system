@@ -389,7 +389,7 @@ export namespace Components {
         "sortBy": string;
         "sortOrder": 'asc' | 'desc' | '';
         "sortable": boolean;
-        "totalItems": any;
+        "totalItems": number;
     }
     interface GcTag {
         /**
@@ -1001,7 +1001,7 @@ declare namespace LocalJSX {
         "sortBy"?: string;
         "sortOrder"?: 'asc' | 'desc' | '';
         "sortable"?: boolean;
-        "totalItems"?: any;
+        "totalItems"?: number;
     }
     interface GcTag {
         /**

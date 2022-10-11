@@ -60,6 +60,7 @@ const GcTable$1 = /*@__PURE__*/ proxyCustomElement(class extends HTMLElement {
     this.paginate = true;
     this.page = 1;
     this.pageSize = 20;
+    this.totalItems = 0;
     this.emptyState = {
       title: 'No items',
       description: 'There are no items to display',
@@ -216,7 +217,7 @@ const GcTable$1 = /*@__PURE__*/ proxyCustomElement(class extends HTMLElement {
   getTotalItems() {
     let totalItems = this.totalItems;
     if (this.paginate && !this.managed)
-      totalItems = this.getData().length;
+      totalItems = this.totalItems || this.getData().length;
     return totalItems || this.getData().length;
   }
   getData() {
@@ -288,7 +289,7 @@ const GcTable$1 = /*@__PURE__*/ proxyCustomElement(class extends HTMLElement {
     "paginate": [4],
     "page": [1026],
     "pageSize": [2, "page-size"],
-    "totalItems": [1032, "total-items"],
+    "totalItems": [1026, "total-items"],
     "emptyState": [1032, "empty-state"],
     "settingColumns": [4, "setting-columns"],
     "hiddenColumns": [1040],

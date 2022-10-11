@@ -99,6 +99,8 @@ export declare class GcSelect implements ComponentInterface {
   startSlotHasContent: boolean;
   endSlotHasContent: boolean;
   position: string;
+  stateItems: any[];
+  selectedColorItem: string;
   private displayElement?;
   tagDismissClick(evt: any): void;
   private getValues;
@@ -119,6 +121,7 @@ export declare class GcSelect implements ComponentInterface {
   componentWillLoad(): void;
   fixPosition(): void;
   connectedCallback(): void;
+  componentDidLoad(): void;
   render(): any;
   private getModeIcon;
   private renderDropdownList;

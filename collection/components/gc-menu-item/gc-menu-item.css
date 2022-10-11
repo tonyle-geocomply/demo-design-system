@@ -38,16 +38,17 @@
 }
 .menu-item.disabled {
   cursor: not-allowed;
-  color: var(--gc-color-disabled);;
-  background-color: var(--gc-color-contrast-white);
+  color: var(--gc-color-disabled);
+  background-color: var(--gc-color-background-disabled);
+  opacity: 0.2;
 }
 .menu-item.disabled:hover, .menu-item.disabled.has-focus:not(.active) {
-  color: var(--gc-color-disabled);;
-  background-color: var(--gc-color-contrast-white);
+  color: var(--gc-color-disabled);
+  background-color: var(--gc-color-background-disabled);
 }
 .menu-item.disabled.active, .menu-item.disabled.selected {
-  color: var(-gc-color-contrast-white);
-  background-color: var(--gc-color-disabled);
+  color: var(--gc-color-disabled);
+  background-color: var(--gc-color-background-disabled);
 }
 .menu-item:not(.start-slot-has-content) .slot-start {
   display: none;

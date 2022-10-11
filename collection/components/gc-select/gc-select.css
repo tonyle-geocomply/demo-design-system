@@ -120,6 +120,9 @@
   cursor: pointer;
   color: var(--gc-color-placeholder);
 }
+.select .has-value .display-value {
+  color: var(--gc-color-text-grey);
+}
 .select .multi-select-value {
   padding-inline-end: 0.5rem;
 }

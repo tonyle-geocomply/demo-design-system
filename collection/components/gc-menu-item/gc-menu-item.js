@@ -19,6 +19,7 @@ export class GcMenuItem {
       if (!this.disabled) {
         this.goatMenuItemClick.emit({
           value: this.value || this.elm.innerText,
+          color: this.color || '',
         });
       }
       else {
@@ -52,7 +53,7 @@ export class GcMenuItem {
     this.getStyles = () => {
       if (this.color) {
         return {
-          color: this.isHover ? 'var(--gc-color-contrast-white)' : this.color,
+          color: this.disabled ? 'var(--gc-color-disabled)' : this.isHover ? 'var(--gc-color-contrast-white)' : this.color,
         };
       }
       return {};

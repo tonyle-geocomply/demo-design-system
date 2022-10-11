@@ -45,7 +45,7 @@ export declare class GcTable {
   paginate: boolean;
   page: number;
   pageSize: number;
-  totalItems: any;
+  totalItems: number;
   emptyState: any;
   settingColumns?: boolean;
   hiddenColumns?: string[];

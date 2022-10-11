@@ -44,6 +44,7 @@ export class GcTable {
     this.paginate = true;
     this.page = 1;
     this.pageSize = 20;
+    this.totalItems = 0;
     this.emptyState = {
       title: 'No items',
       description: 'There are no items to display',
@@ -214,7 +215,7 @@ export class GcTable {
   getTotalItems() {
     let totalItems = this.totalItems;
     if (this.paginate && !this.managed)
-      totalItems = this.getData().length;
+      totalItems = this.totalItems || this.getData().length;
     return totalItems || this.getData().length;
   }
   getData() {
@@ -526,11 +527,11 @@ export class GcTable {
       "defaultValue": "20"
     },
     "totalItems": {
-      "type": "any",
+      "type": "number",
       "mutable": true,
       "complexType": {
-        "original": "any",
-        "resolved": "any",
+        "original": "number",
+        "resolved": "number",
         "references": {}
       },
       "required": false,
@@ -540,7 +541,8 @@ export class GcTable {
         "text": ""
       },
       "attribute": "total-items",
-      "reflect": false
+      "reflect": false,
+      "defaultValue": "0"
     },
     "emptyState": {
       "type": "any",
