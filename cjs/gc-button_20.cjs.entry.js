@@ -591,7 +591,7 @@ const GcMenuItem = class {
     this.clickHandler = event => {
       if (!this.disabled) {
         this.goatMenuItemClick.emit({
-          value: this.value || this.elm.innerText,
+          value: this.value || '',
           color: this.color || '',
         });
       }
@@ -938,6 +938,11 @@ const GcSelect = class {
   }
   addItem(selectItemValue) {
     let value = this.getValues();
+    if (!selectItemValue) {
+      this.value = '';
+      this.goatChange.emit({ value: selectItemValue });
+      return;
+    }
     if (!value.includes(selectItemValue)) {
       if (!this.multiple)
         value = [];
@@ -955,11 +960,11 @@ const GcSelect = class {
     }
   }
   hasValue() {
-    return (this.value || '').toString().length > 0 && this.value !== 'null';
+    return (this.value || '').toString().length > 0;
   }
   getItems() {
     if (this.items) {
-      if (typeof (this.items) === 'string') {
+      if (typeof this.items === 'string') {
         return JSON.parse(this.items);
       }
       return this.items;
@@ -977,7 +982,7 @@ const GcSelect = class {
     if (!this.multiple) {
       if (this.items) {
         const item = this.getItemByValue(this.value);
-        if (item && item.value !== 'null') {
+        if (item && item.value) {
           return index.h("span", { style: { color: this.selectedColorItem } }, item.label);
         }
       }
@@ -989,7 +994,7 @@ const GcSelect = class {
       }
     }
     else {
-      if ((!this.value || (this.value && this.value === 'null')) && !this.disabled && !this.readonly) {
+      if (!this.value && !this.disabled && !this.readonly) {
         return this.placeholder;
       }
       else {

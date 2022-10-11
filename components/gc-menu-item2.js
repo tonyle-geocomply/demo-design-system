@@ -25,7 +25,7 @@ const GcMenuItem = /*@__PURE__*/ proxyCustomElement(class extends HTMLElement {
     this.clickHandler = event => {
       if (!this.disabled) {
         this.goatMenuItemClick.emit({
-          value: this.value || this.elm.innerText,
+          value: this.value || '',
           color: this.color || '',
         });
       }
