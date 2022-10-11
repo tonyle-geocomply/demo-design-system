@@ -6,6 +6,8 @@ import { d as defineCustomElement$4 } from './gc-menu2.js';
 import { d as defineCustomElement$3 } from './gc-menu-item2.js';
 import { d as defineCustomElement$2 } from './gc-select2.js';
 
+const gcFormFieldCss = "gc-label.sc-gc-form-field{white-space:nowrap;overflow:hidden;text-overflow:ellipsis}";
+
 const GcFormField$1 = /*@__PURE__*/ proxyCustomElement(class extends HTMLElement {
   constructor() {
     super();
@@ -41,6 +43,7 @@ const GcFormField$1 = /*@__PURE__*/ proxyCustomElement(class extends HTMLElement
   static get watchers() { return {
     "value": ["watchPropHandler"]
   }; }
+  static get style() { return gcFormFieldCss; }
 }, [2, "gc-form-field", {
     "label": [1],
     "gcName": [1, "gc-name"],

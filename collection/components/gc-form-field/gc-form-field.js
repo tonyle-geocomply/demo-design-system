@@ -32,6 +32,12 @@ export class GcFormField {
   }
   static get is() { return "gc-form-field"; }
   static get encapsulation() { return "scoped"; }
+  static get originalStyleUrls() { return {
+    "$": ["gc-form-field.css"]
+  }; }
+  static get styleUrls() { return {
+    "$": ["gc-form-field.css"]
+  }; }
   static get properties() { return {
     "label": {
       "type": "string",

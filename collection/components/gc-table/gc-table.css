@@ -83,6 +83,7 @@
   text-overflow: ellipsis;
   display: -webkit-box;
   -webkit-line-clamp: 3;
+  word-break: break-word;
 }
 .row .col .col-content .col-action {
   --button-border-radius: none;
