@@ -205,7 +205,7 @@ const GcSelect = /*@__PURE__*/ proxyCustomElement(class extends HTMLElement {
     }
   }
   hasValue() {
-    return (this.value || '').toString().length > 0;
+    return (this.value || '').toString().length > 0 && this.value !== 'null';
   }
   getItems() {
     if (this.items) {
@@ -227,7 +227,7 @@ const GcSelect = /*@__PURE__*/ proxyCustomElement(class extends HTMLElement {
     if (!this.multiple) {
       if (this.items) {
         const item = this.getItemByValue(this.value);
-        if (item) {
+        if (item && item.value !== 'null') {
           return h("span", { style: { color: this.selectedColorItem } }, item.label);
         }
       }
@@ -239,7 +239,7 @@ const GcSelect = /*@__PURE__*/ proxyCustomElement(class extends HTMLElement {
       }
     }
     else {
-      if (!this.value && !this.disabled && !this.readonly) {
+      if ((!this.value || (this.value && this.value === 'null')) && !this.disabled && !this.readonly) {
         return this.placeholder;
       }
       else {

@@ -38,7 +38,7 @@ export class GcTable {
     this.data = [];
     this.selectedRowKeys = [];
     this.keyField = 'id';
-    this.managed = false;
+    this.serverSide = false;
     this.sortable = true;
     this.sortOrder = '';
     this.paginate = true;
@@ -165,7 +165,7 @@ export class GcTable {
   renderBody() {
     const rows = [];
     let data = [...this.getData()];
-    if (!this.managed) {
+    if (!this.serverSide) {
       if (this.sortable && this.sortBy) {
         data = data.sort((a, b) => {
           if (a[this.sortBy] < b[this.sortBy])
@@ -214,7 +214,7 @@ export class GcTable {
   }
   getTotalItems() {
     let totalItems = this.totalItems;
-    if (this.paginate && !this.managed)
+    if (this.paginate && !this.serverSide)
       totalItems = this.totalItems || this.getData().length;
     return totalItems || this.getData().length;
   }
@@ -266,7 +266,7 @@ export class GcTable {
         h("div", { class: "pagination-right" },
           h("div", { class: "table-footer-right-content" },
             h("div", { class: "table-footer-right-content-pagination" },
-              h("gc-pagination", { total: this.getTotalItems(), pageSize: this.pageSize }))))));
+              h("gc-pagination", { activePage: this.page, total: this.getTotalItems(), pageSize: this.pageSize }))))));
     }
   }
   renderSettingColumns() {
@@ -401,7 +401,7 @@ export class GcTable {
       "reflect": false,
       "defaultValue": "'id'"
     },
-    "managed": {
+    "serverSide": {
       "type": "boolean",
       "mutable": false,
       "complexType": {
@@ -415,7 +415,7 @@ export class GcTable {
         "tags": [],
         "text": ""
       },
-      "attribute": "managed",
+      "attribute": "server-side",
       "reflect": false,
       "defaultValue": "false"
     },

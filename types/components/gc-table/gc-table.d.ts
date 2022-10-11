@@ -38,7 +38,7 @@ export declare class GcTable {
   selectionType: 'checkbox' | undefined;
   selectedRowKeys: string[];
   keyField: string;
-  managed: boolean;
+  serverSide: boolean;
   sortable: boolean;
   sortBy: string;
   sortOrder: 'asc' | 'desc' | '';

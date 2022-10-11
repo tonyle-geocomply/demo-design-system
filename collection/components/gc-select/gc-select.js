@@ -194,7 +194,7 @@ export class GcSelect {
     }
   }
   hasValue() {
-    return (this.value || '').toString().length > 0;
+    return (this.value || '').toString().length > 0 && this.value !== 'null';
   }
   getItems() {
     if (this.items) {
@@ -216,7 +216,7 @@ export class GcSelect {
     if (!this.multiple) {
       if (this.items) {
         const item = this.getItemByValue(this.value);
-        if (item) {
+        if (item && item.value !== 'null') {
           return h("span", { style: { color: this.selectedColorItem } }, item.label);
         }
       }
@@ -228,7 +228,7 @@ export class GcSelect {
       }
     }
     else {
-      if (!this.value && !this.disabled && !this.readonly) {
+      if ((!this.value || (this.value && this.value === 'null')) && !this.disabled && !this.readonly) {
         return this.placeholder;
       }
       else {

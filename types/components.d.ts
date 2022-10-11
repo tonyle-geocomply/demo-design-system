@@ -379,12 +379,12 @@ export namespace Components {
         "isBordered"?: boolean;
         "isStripe"?: boolean;
         "keyField": string;
-        "managed": boolean;
         "page": number;
         "pageSize": number;
         "paginate": boolean;
         "selectedRowKeys": string[];
         "selectionType": 'checkbox' | undefined;
+        "serverSide": boolean;
         "settingColumns"?: boolean;
         "sortBy": string;
         "sortOrder": 'asc' | 'desc' | '';
@@ -985,7 +985,6 @@ declare namespace LocalJSX {
         "isBordered"?: boolean;
         "isStripe"?: boolean;
         "keyField"?: string;
-        "managed"?: boolean;
         "onGc:change-page"?: (event: GcTableCustomEvent<any>) => void;
         "onGc:clear-empty-state"?: (event: GcTableCustomEvent<any>) => void;
         "onGc:sort"?: (event: GcTableCustomEvent<any>) => void;
@@ -997,6 +996,7 @@ declare namespace LocalJSX {
         "paginate"?: boolean;
         "selectedRowKeys"?: string[];
         "selectionType"?: 'checkbox' | undefined;
+        "serverSide"?: boolean;
         "settingColumns"?: boolean;
         "sortBy"?: string;
         "sortOrder"?: 'asc' | 'desc' | '';

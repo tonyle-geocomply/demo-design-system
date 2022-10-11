@@ -54,7 +54,7 @@ const GcTable$1 = /*@__PURE__*/ proxyCustomElement(class extends HTMLElement {
     this.data = [];
     this.selectedRowKeys = [];
     this.keyField = 'id';
-    this.managed = false;
+    this.serverSide = false;
     this.sortable = true;
     this.sortOrder = '';
     this.paginate = true;
@@ -172,7 +172,7 @@ const GcTable$1 = /*@__PURE__*/ proxyCustomElement(class extends HTMLElement {
   renderBody() {
     const rows = [];
     let data = [...this.getData()];
-    if (!this.managed) {
+    if (!this.serverSide) {
       if (this.sortable && this.sortBy) {
         data = data.sort((a, b) => {
           if (a[this.sortBy] < b[this.sortBy])
@@ -216,7 +216,7 @@ const GcTable$1 = /*@__PURE__*/ proxyCustomElement(class extends HTMLElement {
   }
   getTotalItems() {
     let totalItems = this.totalItems;
-    if (this.paginate && !this.managed)
+    if (this.paginate && !this.serverSide)
       totalItems = this.totalItems || this.getData().length;
     return totalItems || this.getData().length;
   }
@@ -254,7 +254,7 @@ const GcTable$1 = /*@__PURE__*/ proxyCustomElement(class extends HTMLElement {
   }
   renderPagination() {
     if (this.paginate) {
-      return (h("div", { class: "pagination" }, h("div", { class: "page-sizes-select" }), h("div", { class: "pagination-item-count" }, h("span", null, "Showing"), "\u00A0", this.pageSize * (this.page - 1) + 1, "\u00A0 to\u00A0", this.pageSize * this.page < this.getTotalItems() ? this.pageSize * this.page : this.getTotalItems(), "\u00A0 of\u00A0", this.getTotalItems(), "\u00A0 entries"), h("div", { class: "pagination-right" }, h("div", { class: "table-footer-right-content" }, h("div", { class: "table-footer-right-content-pagination" }, h("gc-pagination", { total: this.getTotalItems(), pageSize: this.pageSize }))))));
+      return (h("div", { class: "pagination" }, h("div", { class: "page-sizes-select" }), h("div", { class: "pagination-item-count" }, h("span", null, "Showing"), "\u00A0", this.pageSize * (this.page - 1) + 1, "\u00A0 to\u00A0", this.pageSize * this.page < this.getTotalItems() ? this.pageSize * this.page : this.getTotalItems(), "\u00A0 of\u00A0", this.getTotalItems(), "\u00A0 entries"), h("div", { class: "pagination-right" }, h("div", { class: "table-footer-right-content" }, h("div", { class: "table-footer-right-content-pagination" }, h("gc-pagination", { activePage: this.page, total: this.getTotalItems(), pageSize: this.pageSize }))))));
     }
   }
   renderSettingColumns() {
@@ -282,7 +282,7 @@ const GcTable$1 = /*@__PURE__*/ proxyCustomElement(class extends HTMLElement {
     "selectionType": [1, "selection-type"],
     "selectedRowKeys": [1040],
     "keyField": [1, "key-field"],
-    "managed": [4],
+    "serverSide": [4, "server-side"],
     "sortable": [4],
     "sortBy": [1025, "sort-by"],
     "sortOrder": [1025, "sort-order"],
