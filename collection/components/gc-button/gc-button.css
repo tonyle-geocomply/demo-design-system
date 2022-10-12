@@ -28,6 +28,11 @@ button.gc__btn--secondary {
   color: #35383D;
 }
 
+button.gc__btn--closed {
+  background: var(--gc-color-third-grey);
+  color: var(--gc-color-contrast-white);
+}
+
 button > .gc__button-text {
   line-height: 41px;
 }

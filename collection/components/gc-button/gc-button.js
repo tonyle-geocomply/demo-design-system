@@ -24,6 +24,14 @@ export class GcButton {
       ev.stopPropagation();
       return;
     }
+    if (this.href) {
+      if (this.target) {
+        window.open(this.href, this.target);
+      }
+      else {
+        window.location.href = this.href;
+      }
+    }
   }
   render() {
     return (h("button", { class: this.getClassName(), id: this.gcId },
@@ -125,6 +133,40 @@ export class GcButton {
         "text": "Icon name"
       },
       "attribute": "icon",
+      "reflect": false
+    },
+    "href": {
+      "type": "string",
+      "mutable": false,
+      "complexType": {
+        "original": "string",
+        "resolved": "string",
+        "references": {}
+      },
+      "required": false,
+      "optional": true,
+      "docs": {
+        "tags": [],
+        "text": "href"
+      },
+      "attribute": "href",
+      "reflect": false
+    },
+    "target": {
+      "type": "string",
+      "mutable": false,
+      "complexType": {
+        "original": "string",
+        "resolved": "string",
+        "references": {}
+      },
+      "required": false,
+      "optional": true,
+      "docs": {
+        "tags": [],
+        "text": "target"
+      },
+      "attribute": "target",
       "reflect": false
     }
   }; }

@@ -29,3 +29,7 @@
 .gc__badge--processing {
   background-color: var(--gc-color-purple);
 }
+
+.gc__badge--dark {
+  background-color: var(--gc-color-third-grey);
+}

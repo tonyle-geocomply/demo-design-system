@@ -20,9 +20,17 @@ export namespace Components {
          */
         "gcId": string;
         /**
+          * href
+         */
+        "href"?: string;
+        /**
           * Icon name
          */
         "icon"?: string;
+        /**
+          * target
+         */
+        "target"?: string;
         /**
           * The type name
          */
@@ -623,9 +631,17 @@ declare namespace LocalJSX {
          */
         "gcId"?: string;
         /**
+          * href
+         */
+        "href"?: string;
+        /**
           * Icon name
          */
         "icon"?: string;
+        /**
+          * target
+         */
+        "target"?: string;
         /**
           * The type name
          */

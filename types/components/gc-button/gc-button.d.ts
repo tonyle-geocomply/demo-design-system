@@ -19,6 +19,14 @@ export declare class GcButton {
    * Icon name
    */
   icon?: string;
+  /**
+ * href
+ */
+  href?: string;
+  /**
+* target
+*/
+  target?: string;
   private getClassNameFromType;
   private getClassName;
   private getColorIcon;
