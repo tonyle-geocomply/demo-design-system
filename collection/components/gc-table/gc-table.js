@@ -252,17 +252,19 @@ export class GcTable {
   }
   renderPagination() {
     if (this.paginate) {
+      let totalItems = this.getTotalItems();
+      totalItems = totalItems ? totalItems.toLocaleString() : '';
       return (h("div", { class: "pagination" },
         h("div", { class: "page-sizes-select" }),
         h("div", { class: "pagination-item-count" },
           h("span", null, "Showing"),
           "\u00A0",
           this.pageSize * (this.page - 1) + 1,
-          "\u00A0 to\u00A0",
+          "\u00A0to\u00A0",
           this.pageSize * this.page < this.getTotalItems() ? this.pageSize * this.page : this.getTotalItems(),
-          "\u00A0 of\u00A0",
-          this.getTotalItems(),
-          "\u00A0 entries"),
+          "\u00A0of\u00A0",
+          totalItems,
+          "\u00A0entries"),
         h("div", { class: "pagination-right" },
           h("div", { class: "table-footer-right-content" },
             h("div", { class: "table-footer-right-content-pagination" },
@@ -271,7 +273,8 @@ export class GcTable {
   }
   renderSettingColumns() {
     if (this.settingColumns && this.getData().length > 0) {
-      const totalItems = this.getTotalItems();
+      let totalItems = this.getTotalItems();
+      totalItems = totalItems ? totalItems.toLocaleString() : '';
       const columns = this.getColumns();
       return (h("div", { style: { background: this.background }, class: "gc__table-setting" },
         h("slot", { name: "gc__table-setting-title" },

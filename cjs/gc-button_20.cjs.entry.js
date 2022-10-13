@@ -1086,7 +1086,7 @@ const GcSelect = class {
     this.stateItems = this.getItems();
     if (this.value) {
       const selectedItem = this.stateItems.find(item => item.value === this.value);
-      if (selectedItem.color) {
+      if (selectedItem && selectedItem.color) {
         this.selectedColorItem = selectedItem.color;
       }
     }
@@ -1417,12 +1417,15 @@ const GcTable = class {
   }
   renderPagination() {
     if (this.paginate) {
-      return (index.h("div", { class: "pagination" }, index.h("div", { class: "page-sizes-select" }), index.h("div", { class: "pagination-item-count" }, index.h("span", null, "Showing"), "\u00A0", this.pageSize * (this.page - 1) + 1, "\u00A0 to\u00A0", this.pageSize * this.page < this.getTotalItems() ? this.pageSize * this.page : this.getTotalItems(), "\u00A0 of\u00A0", this.getTotalItems(), "\u00A0 entries"), index.h("div", { class: "pagination-right" }, index.h("div", { class: "table-footer-right-content" }, index.h("div", { class: "table-footer-right-content-pagination" }, index.h("gc-pagination", { activePage: this.page, total: this.getTotalItems(), pageSize: this.pageSize }))))));
+      let totalItems = this.getTotalItems();
+      totalItems = totalItems ? totalItems.toLocaleString() : '';
+      return (index.h("div", { class: "pagination" }, index.h("div", { class: "page-sizes-select" }), index.h("div", { class: "pagination-item-count" }, index.h("span", null, "Showing"), "\u00A0", this.pageSize * (this.page - 1) + 1, "\u00A0to\u00A0", this.pageSize * this.page < this.getTotalItems() ? this.pageSize * this.page : this.getTotalItems(), "\u00A0of\u00A0", totalItems, "\u00A0entries"), index.h("div", { class: "pagination-right" }, index.h("div", { class: "table-footer-right-content" }, index.h("div", { class: "table-footer-right-content-pagination" }, index.h("gc-pagination", { activePage: this.page, total: this.getTotalItems(), pageSize: this.pageSize }))))));
     }
   }
   renderSettingColumns() {
     if (this.settingColumns && this.getData().length > 0) {
-      const totalItems = this.getTotalItems();
+      let totalItems = this.getTotalItems();
+      totalItems = totalItems ? totalItems.toLocaleString() : '';
       const columns = this.getColumns();
       return (index.h("div", { style: { background: this.background }, class: "gc__table-setting" }, index.h("slot", { name: "gc__table-setting-title" }, index.h("div", null, "Results: ", totalItems, " entries found matching applied filters:")), index.h("div", null, index.h("gc-dropdown", { id: "dropdown" }, index.h("gc-link", { icon: "fa-solid fa-table-layout", color: "var(--gc-color-text-grey)" }, "Manage Table Columns"), index.h("div", { slot: "gc__dropdown-content", class: "dropdown" }, index.h("div", { class: "gc__table-setting-cols-text" }, index.h("gc-icon", { color: "red", name: "fa-regular fa-square-info" }), index.h("gc-h2", { class: "gc__table-setting-cols-title" }, "Manage Table Columns")), index.h("div", { class: "gc__table-setting-cols" }, columns.map(col => (index.h("div", { class: "gc__table-setting-col-item" }, index.h("gc-icon", { color: "var(--gc-color-secondary-grey)", name: "fa-solid fa-grip-dots-vertical" }), index.h("gc-checkbox", { disabled: col.alwaysDisplay, "gc-name": col.name, label: col.label, checked: this.showingColumns[col.name], "onGc:change": e => this.onCheck(e, col.name) }))))))))));
     }

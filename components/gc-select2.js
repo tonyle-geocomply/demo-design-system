@@ -315,7 +315,7 @@ const GcSelect = /*@__PURE__*/ proxyCustomElement(class extends HTMLElement {
     this.stateItems = this.getItems();
     if (this.value) {
       const selectedItem = this.stateItems.find(item => item.value === this.value);
-      if (selectedItem.color) {
+      if (selectedItem && selectedItem.color) {
         this.selectedColorItem = selectedItem.color;
       }
     }
