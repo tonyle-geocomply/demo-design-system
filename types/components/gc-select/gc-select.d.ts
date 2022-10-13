@@ -86,6 +86,7 @@ export declare class GcSelect implements ComponentInterface {
    */
   setBlur(): Promise<void>;
   protected debounceChanged(): void;
+  watchPropHandler(newValue: string): void;
   windowClick(evt: any): void;
   menuItemClick(evt: any): void;
   elm: HTMLElement;

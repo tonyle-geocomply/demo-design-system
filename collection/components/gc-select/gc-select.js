@@ -154,6 +154,9 @@ export class GcSelect {
   debounceChanged() {
     this.goatSearch = debounceEvent(this.goatSearch, this.debounce);
   }
+  watchPropHandler(newValue) {
+    this.value = newValue;
+  }
   windowClick(evt) {
     const path = evt.path || evt.composedPath();
     for (const elm of path) {
@@ -449,7 +452,7 @@ export class GcSelect {
         "text": "The input field value."
       },
       "attribute": "value",
-      "reflect": false,
+      "reflect": true,
       "defaultValue": "''"
     },
     "multiple": {
@@ -798,6 +801,9 @@ export class GcSelect {
   static get watchers() { return [{
       "propName": "debounce",
       "methodName": "debounceChanged"
+    }, {
+      "propName": "value",
+      "methodName": "watchPropHandler"
     }]; }
   static get listeners() { return [{
       "name": "click",
