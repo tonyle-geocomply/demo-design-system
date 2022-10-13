@@ -273,7 +273,7 @@ export class GcTable {
     if (this.settingColumns && this.getData().length > 0) {
       const totalItems = this.getTotalItems();
       const columns = this.getColumns();
-      return (h("div", { class: "gc__table-setting" },
+      return (h("div", { style: { background: this.background }, class: "gc__table-setting" },
         h("slot", { name: "gc__table-setting-title" },
           h("div", null,
             "Results: ",
