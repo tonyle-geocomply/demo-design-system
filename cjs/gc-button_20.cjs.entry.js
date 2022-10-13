@@ -1422,7 +1422,7 @@ const GcTable = class {
     }
   }
   render() {
-    return (index.h(index.Host, null, this.renderSettingColumns(), this.getData().length > 0 ? (index.h("div", { class: { 'table': true, 'sortable': this.sortable, 'paginate': this.paginate, 'gc__table-no-stripe': !this.isStripe, 'gc__table-no-border': !this.isBordered } }, index.h("div", { class: "table-scroll-container" }, this.renderHeader(), this.renderBody()), index.h("div", { class: "table-footer" }, this.renderPagination()))) : (this.renderEmptyState())));
+    return (index.h(index.Host, null, this.renderSettingColumns(), this.getData().length > 0 ? (index.h("div", { style: { background: this.background }, class: { 'table': true, 'sortable': this.sortable, 'paginate': this.paginate, 'gc__table-no-stripe': !this.isStripe, 'gc__table-no-border': !this.isBordered } }, index.h("div", { class: "table-scroll-container" }, this.renderHeader(), this.renderBody()), index.h("div", { class: "table-footer" }, this.renderPagination()))) : (this.renderEmptyState())));
   }
   renderEmptyState() {
     return (index.h("div", { class: "empty-table" }, index.h("gc-h2", null, "There is no records found matching applied filters"), index.h("gc-button", { onClick: () => this.onClearEmptyState(), type: "secondary", icon: "fa-regular fa-filter-slash" }, "Clear applied filters")));

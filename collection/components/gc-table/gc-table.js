@@ -294,7 +294,7 @@ export class GcTable {
   render() {
     return (h(Host, null,
       this.renderSettingColumns(),
-      this.getData().length > 0 ? (h("div", { class: { 'table': true, 'sortable': this.sortable, 'paginate': this.paginate, 'gc__table-no-stripe': !this.isStripe, 'gc__table-no-border': !this.isBordered } },
+      this.getData().length > 0 ? (h("div", { style: { background: this.background }, class: { 'table': true, 'sortable': this.sortable, 'paginate': this.paginate, 'gc__table-no-stripe': !this.isStripe, 'gc__table-no-border': !this.isBordered } },
         h("div", { class: "table-scroll-container" },
           this.renderHeader(),
           this.renderBody()),
