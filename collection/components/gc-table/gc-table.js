@@ -199,7 +199,7 @@ export class GcTable {
                 this.onCellClick(row, column);
             } },
             h("div", { class: "col-content" },
-              h("div", { class: "col-text", title: row === null || row === void 0 ? void 0 : row[column.name], innerHTML: row === null || row === void 0 ? void 0 : row[column.name] }))));
+              h("div", { class: "col-text", innerHTML: row === null || row === void 0 ? void 0 : row[column.name] }))));
           column.fixed ? fixedCols.push(colEl) : scrollCols.push(colEl);
         }
       });

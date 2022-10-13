@@ -9,7 +9,7 @@
   border-radius: 6px;
   color: var(--gc-color-primary);
   padding: 2px;
-  width: 26px;
+  min-width: 26px;
   height: 26px;
   text-align: center;
   align-items: center;

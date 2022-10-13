@@ -719,7 +719,7 @@ const GcOl = class {
   }
 };
 
-const gcPaginationCss = ".gc__pagination{display:flex;align-items:center}.gc__pagination .gc__pagination-page{background:#FFFFFF;border:1px solid var(--gc-color-second-grey);border-radius:6px;color:var(--gc-color-primary);padding:2px;width:26px;height:26px;text-align:center;align-items:center;display:flex;justify-content:center;margin-right:8px;cursor:pointer}.gc__pagination .gc__pagination-page:last-child{margin-right:0}.gc__pagination .gc__pagination-page.active,.gc__pagination .gc__pagination-page:hover{background:var(--gc-color-primary);color:var(--gc-color-contrast-white)}.gc__pagination-dots{color:var(--gc-color-primary);margin-right:8px}.gc__pagination .gc__pagination-page.active,.gc__pagination .gc__pagination-page:hover>gc-icon>i{color:var(--gc-color-contrast-white) !important}";
+const gcPaginationCss = ".gc__pagination{display:flex;align-items:center}.gc__pagination .gc__pagination-page{background:#FFFFFF;border:1px solid var(--gc-color-second-grey);border-radius:6px;color:var(--gc-color-primary);padding:2px;min-width:26px;height:26px;text-align:center;align-items:center;display:flex;justify-content:center;margin-right:8px;cursor:pointer}.gc__pagination .gc__pagination-page:last-child{margin-right:0}.gc__pagination .gc__pagination-page.active,.gc__pagination .gc__pagination-page:hover{background:var(--gc-color-primary);color:var(--gc-color-contrast-white)}.gc__pagination-dots{color:var(--gc-color-primary);margin-right:8px}.gc__pagination .gc__pagination-page.active,.gc__pagination .gc__pagination-page:hover>gc-icon>i{color:var(--gc-color-contrast-white) !important}";
 
 const GcPagination = class {
   constructor(hostRef) {
@@ -1084,6 +1084,12 @@ const GcSelect = class {
   }
   componentDidLoad() {
     this.stateItems = this.getItems();
+    if (this.value) {
+      const selectedItem = this.stateItems.find(item => item.value === this.value);
+      if (selectedItem.color) {
+        this.selectedColorItem = selectedItem.color;
+      }
+    }
   }
   render() {
     return (index.h(index.Host, { id: this.gcId, "has-value": this.hasValue(), "has-focus": this.hasFocus, "is-open": this.isOpen, position: this.position }, index.h("div", { class: { 'dropdown': true, 'select': true, [this.position]: true, 'is-open': this.isOpen } }, index.h("div", { class: {
@@ -1360,7 +1366,7 @@ const GcTable = class {
               const selection = window.getSelection();
               if (selection.type != 'Range')
                 this.onCellClick(row, column);
-            } }, index.h("div", { class: "col-content" }, index.h("div", { class: "col-text", title: row === null || row === void 0 ? void 0 : row[column.name], innerHTML: row === null || row === void 0 ? void 0 : row[column.name] }))));
+            } }, index.h("div", { class: "col-content" }, index.h("div", { class: "col-text", innerHTML: row === null || row === void 0 ? void 0 : row[column.name] }))));
           column.fixed ? fixedCols.push(colEl) : scrollCols.push(colEl);
         }
       });

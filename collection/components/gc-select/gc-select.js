@@ -302,6 +302,12 @@ export class GcSelect {
   }
   componentDidLoad() {
     this.stateItems = this.getItems();
+    if (this.value) {
+      const selectedItem = this.stateItems.find(item => item.value === this.value);
+      if (selectedItem.color) {
+        this.selectedColorItem = selectedItem.color;
+      }
+    }
   }
   render() {
     return (h(Host, { id: this.gcId, "has-value": this.hasValue(), "has-focus": this.hasFocus, "is-open": this.isOpen, position: this.position },
