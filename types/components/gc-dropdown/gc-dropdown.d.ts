@@ -23,6 +23,8 @@ export declare class GcDropdown implements ComponentInterface {
   position: string;
   private dropdownContentHeight;
   private dropdownContentWidth;
+  private containerElm?;
+  private dropdownElm?;
   private closeList;
   private openList;
   componentWillLoad(): void;
@@ -35,5 +37,6 @@ export declare class GcDropdown implements ComponentInterface {
   private mouseLeaveHandler;
   private getMenuElement;
   renderItems(): any;
+  componentDidLoad(): void;
   render(): any;
 }

@@ -117,3 +117,16 @@ div.gc__dropdown-content {
   right: 15%;
   margin-left: -10px;
 }
+
+.bottom-right div.gc__dropdown-content-small::before {
+  left: 10px;
+}
+.bottom-right div.gc__dropdown-content-small::after {
+  left: 10px;
+}
+.bottom-left div.gc__dropdown-content-small::before {
+  right: 10px;
+}
+.bottom-left div.gc__dropdown-content-small::after {
+  right: 10px;
+}

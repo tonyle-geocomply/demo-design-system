@@ -170,6 +170,11 @@ export class GcDropdown {
           item.hint && h("span", { slot: "end" }, item.hint)));
       })));
   }
+  componentDidLoad() {
+    if (this.containerElm.getBoundingClientRect().width < 100) {
+      this.dropdownElm.classList.add("gc__dropdown-content-small");
+    }
+  }
   render() {
     return (h(Host, { "has-focus": this.hasFocus, "is-open": this.isOpen },
       h("div", { class: {
@@ -180,9 +185,9 @@ export class GcDropdown {
         h("button", { class: "dropdown-button", onKeyDown: this.keyDownHandler, tabindex: "-1", onBlur: this.blurHandler, onFocus: this.focusHandler, disabled: this.disabled, onClick: () => {
             this.toggleList();
           } },
-          h("div", { class: "slot-container" },
+          h("div", { class: "slot-container", ref: elm => (this.containerElm = elm) },
             h("slot", null))),
-        h("div", { class: "gc__dropdown-content" },
+        h("div", { class: "gc__dropdown-content", ref: elm => (this.dropdownElm = elm) },
           this.renderItems(),
           h("slot", { name: "gc__dropdown-content" })))));
   }

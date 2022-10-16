@@ -148,7 +148,7 @@ export class GcTable {
           h("div", { class: "col-content" },
             h("div", { class: "col-text" }, col.label),
             h("div", { class: "col-actions" }, (() => {
-              if (!this.sortable)
+              if (!this.sortable || !col.sortable)
                 return;
               return (h("div", { class: "gc__table-arrow" },
                 h("gc-icon", { class: { disabled: this.sortBy === col.name && this.sortOrder === 'desc' }, name: "fa-regular fa-chevron-up", size: "11px", "font-weight": "bold" }),
@@ -251,25 +251,23 @@ export class GcTable {
     }, {});
   }
   renderPagination() {
-    if (this.paginate) {
-      let totalItems = this.getTotalItems();
-      totalItems = totalItems ? totalItems.toLocaleString() : '';
-      return (h("div", { class: "pagination" },
-        h("div", { class: "page-sizes-select" }),
-        h("div", { class: "pagination-item-count" },
-          h("span", null, "Showing"),
-          "\u00A0",
-          this.pageSize * (this.page - 1) + 1,
-          "\u00A0to\u00A0",
-          this.pageSize * this.page < this.getTotalItems() ? this.pageSize * this.page : this.getTotalItems(),
-          "\u00A0of\u00A0",
-          totalItems,
-          "\u00A0entries"),
-        h("div", { class: "pagination-right" },
-          h("div", { class: "table-footer-right-content" },
-            h("div", { class: "table-footer-right-content-pagination" },
-              h("gc-pagination", { activePage: this.page, total: this.getTotalItems(), pageSize: this.pageSize }))))));
-    }
+    let totalItems = this.getTotalItems();
+    totalItems = totalItems ? totalItems.toLocaleString() : '';
+    return (h("div", { class: "pagination" },
+      h("div", { class: "page-sizes-select" }),
+      h("div", { class: "pagination-item-count" },
+        h("span", null, "Showing"),
+        "\u00A0",
+        this.pageSize * (this.page - 1) + 1,
+        "\u00A0to\u00A0",
+        this.pageSize * this.page < this.getTotalItems() ? this.pageSize * this.page : this.getTotalItems(),
+        "\u00A0of\u00A0",
+        totalItems,
+        "\u00A0entries"),
+      h("div", { class: "pagination-right" },
+        h("div", { class: "table-footer-right-content" },
+          h("div", { class: "table-footer-right-content-pagination" },
+            h("gc-pagination", { activePage: this.page, total: this.getTotalItems(), pageSize: this.pageSize }))))));
   }
   renderSettingColumns() {
     if (this.settingColumns && this.getData().length > 0) {
@@ -301,7 +299,7 @@ export class GcTable {
         h("div", { class: "table-scroll-container" },
           this.renderHeader(),
           this.renderBody()),
-        h("div", { style: { background: this.background }, class: "table-footer" }, this.renderPagination()))) : (this.renderEmptyState())));
+        this.paginate && (h("div", { style: { background: this.background }, class: "table-footer" }, this.renderPagination())))) : (this.renderEmptyState())));
   }
   renderEmptyState() {
     return (h("div", { class: "empty-table" },

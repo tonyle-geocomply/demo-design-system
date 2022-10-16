@@ -12,6 +12,10 @@ const GcTag$1 = /*@__PURE__*/ proxyCustomElement(class extends HTMLElement {
      */
     this.width = '76px';
     /**
+     * The width of badge
+     */
+    this.height = '';
+    /**
      * The background of badge
      */
     this.background = 'var(--gc-color-primary)';
@@ -42,6 +46,8 @@ const GcTag$1 = /*@__PURE__*/ proxyCustomElement(class extends HTMLElement {
       borderWidth: this.type ? 'none' : this.borderWidth || '1px',
       borderColor: this.type ? 'none' : this.borderColor,
       borderStyle: this.type ? 'none' : 'solid',
+      height: this.height,
+      lineHeight: this.height,
     };
   }
   render() {
@@ -53,6 +59,7 @@ const GcTag$1 = /*@__PURE__*/ proxyCustomElement(class extends HTMLElement {
     "gcId": [1, "gc-id"],
     "type": [1],
     "width": [1],
+    "height": [1],
     "background": [1],
     "color": [1],
     "borderWidth": [1, "border-width"],

@@ -268,6 +268,13 @@ const GcSelect = /*@__PURE__*/ proxyCustomElement(class extends HTMLElement {
     }
     this.startSlotHasContent = !!this.elm.querySelector('[slot="start"]');
     this.endSlotHasContent = !!this.elm.querySelector('[slot="end"]');
+    this.stateItems = this.getItems();
+    if (this.value) {
+      const selectedItem = this.stateItems.find(item => item.value === this.value);
+      if (selectedItem && selectedItem.color) {
+        this.selectedColorItem = selectedItem.color;
+      }
+    }
   }
   fixPosition() {
     if (this.isOpen && this.dropdownContentHeight && this.dropdownContentWidth) {
@@ -313,15 +320,6 @@ const GcSelect = /*@__PURE__*/ proxyCustomElement(class extends HTMLElement {
   }
   connectedCallback() {
     this.debounceChanged();
-  }
-  componentDidLoad() {
-    this.stateItems = this.getItems();
-    if (this.value) {
-      const selectedItem = this.stateItems.find(item => item.value === this.value);
-      if (selectedItem && selectedItem.color) {
-        this.selectedColorItem = selectedItem.color;
-      }
-    }
   }
   render() {
     return (h(Host, { id: this.gcId, "has-value": this.hasValue(), "has-focus": this.hasFocus, "is-open": this.isOpen, position: this.position }, h("div", { class: { 'dropdown': true, 'select': true, [this.position]: true, 'is-open': this.isOpen } }, h("div", { class: {

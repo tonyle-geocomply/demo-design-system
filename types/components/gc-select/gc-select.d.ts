@@ -122,7 +122,6 @@ export declare class GcSelect implements ComponentInterface {
   componentWillLoad(): void;
   fixPosition(): void;
   connectedCallback(): void;
-  componentDidLoad(): void;
   render(): any;
   private getModeIcon;
   private renderDropdownList;

@@ -16,6 +16,10 @@ export declare class GcTag {
    */
   width: string;
   /**
+   * The width of badge
+   */
+  height: string;
+  /**
    * The background of badge
    */
   background: string;

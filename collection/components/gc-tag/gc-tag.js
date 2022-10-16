@@ -6,6 +6,10 @@ export class GcTag {
      */
     this.width = '76px';
     /**
+     * The width of badge
+     */
+    this.height = '';
+    /**
      * The background of badge
      */
     this.background = 'var(--gc-color-primary)';
@@ -36,6 +40,8 @@ export class GcTag {
       borderWidth: this.type ? 'none' : this.borderWidth || '1px',
       borderColor: this.type ? 'none' : this.borderColor,
       borderStyle: this.type ? 'none' : 'solid',
+      height: this.height,
+      lineHeight: this.height,
     };
   }
   render() {
@@ -119,6 +125,24 @@ export class GcTag {
       "attribute": "width",
       "reflect": false,
       "defaultValue": "'76px'"
+    },
+    "height": {
+      "type": "string",
+      "mutable": false,
+      "complexType": {
+        "original": "string",
+        "resolved": "string",
+        "references": {}
+      },
+      "required": false,
+      "optional": false,
+      "docs": {
+        "tags": [],
+        "text": "The width of badge"
+      },
+      "attribute": "height",
+      "reflect": false,
+      "defaultValue": "''"
     },
     "background": {
       "type": "string",

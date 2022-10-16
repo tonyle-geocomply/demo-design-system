@@ -425,6 +425,10 @@ export namespace Components {
          */
         "gcId": string;
         /**
+          * The width of badge
+         */
+        "height": string;
+        /**
           * The type name
          */
         "type": string;
@@ -1052,6 +1056,10 @@ declare namespace LocalJSX {
           * The id
          */
         "gcId"?: string;
+        /**
+          * The width of badge
+         */
+        "height"?: string;
         /**
           * The type name
          */
