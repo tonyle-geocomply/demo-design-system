@@ -8,15 +8,19 @@ const GcLink = /*@__PURE__*/ proxyCustomElement(class extends HTMLElement {
     super();
     this.__registerHost();
     this.__attachShadow();
+    /**
+     * target link
+     */
+    this.target = '_self';
   }
   getClassName() {
     return this.class ? `gc-link ${this.class}` : 'gc-link';
   }
   render() {
     if (this.icon) {
-      return (h("div", { style: { display: 'flex', alignItems: 'baseline', cursor: 'pointer' } }, h("gc-icon", { name: this.icon, size: "sm", color: "#397FF7" }), h("a", { style: { color: this.color || 'var(--gc-color-primary)', marginLeft: '8px' }, class: this.getClassName(), id: this.gcId, href: this.gcTo }, h("slot", null))));
+      return (h("div", { style: { display: 'flex', alignItems: 'baseline', cursor: 'pointer' } }, h("gc-icon", { name: this.icon, size: "sm", color: "#397FF7" }), h("a", { target: this.target, style: { color: this.color || 'var(--gc-color-primary)', marginLeft: '8px' }, class: this.getClassName(), id: this.gcId, href: this.gcTo }, h("slot", null))));
     }
-    return (h("a", { style: { color: this.color || 'var(--gc-color-primary)' }, class: this.getClassName(), id: this.gcId, href: this.gcTo }, h("slot", null)));
+    return (h("a", { target: this.target, style: { color: this.color || 'var(--gc-color-primary)' }, class: this.getClassName(), id: this.gcId, href: this.gcTo }, h("slot", null)));
   }
   static get style() { return typographyCss; }
 }, [1, "gc-link", {
@@ -24,7 +28,8 @@ const GcLink = /*@__PURE__*/ proxyCustomElement(class extends HTMLElement {
     "gcId": [1, "gc-id"],
     "gcTo": [1, "gc-to"],
     "icon": [1],
-    "color": [1]
+    "color": [1],
+    "target": [1]
   }]);
 function defineCustomElement() {
   if (typeof customElements === "undefined") {

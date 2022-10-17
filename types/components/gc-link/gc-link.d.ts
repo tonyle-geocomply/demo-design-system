@@ -19,6 +19,10 @@ export declare class GcLink {
  * The color of link
  */
   color: string;
+  /**
+   * target link
+   */
+  target?: string;
   private getClassName;
   render(): any;
 }

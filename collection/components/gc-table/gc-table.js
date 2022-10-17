@@ -306,7 +306,8 @@ export class GcTable {
   }
   renderEmptyState() {
     return (h("div", { class: "empty-table" },
-      h("gc-h2", null, "There is no records found matching applied filters"),
+      h("div", { class: "empty-title" },
+        h("gc-h2", null, "There is no records found matching applied filters")),
       h("gc-button", { onClick: () => this.onClearEmptyState(), type: "secondary", icon: "fa-regular fa-filter-slash" }, "Clear applied filters")));
   }
   static get is() { return "gc-table"; }

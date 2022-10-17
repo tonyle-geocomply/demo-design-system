@@ -227,6 +227,10 @@ export namespace Components {
           * Icon name
          */
         "icon"?: string;
+        /**
+          * target link
+         */
+        "target"?: string;
     }
     interface GcMenu {
         "empty": boolean;
@@ -854,6 +858,10 @@ declare namespace LocalJSX {
           * Icon name
          */
         "icon"?: string;
+        /**
+          * target link
+         */
+        "target"?: string;
     }
     interface GcMenu {
         "empty"?: boolean;
