@@ -37,6 +37,7 @@ export class GcTable {
      */
     this.data = [];
     this.selectedRowKeys = [];
+    this.gcId = undefined;
     this.keyField = 'id';
     this.serverSide = false;
     this.sortable = true;
@@ -281,15 +282,15 @@ export class GcTable {
             totalItems,
             " entries found matching applied filters:")),
         h("div", null,
-          h("gc-dropdown", { id: "dropdown" },
+          h("gc-dropdown", { id: `dropdown_${this.gcId}` },
             h("gc-link", { icon: "fa-solid fa-table-layout", color: "var(--gc-color-text-grey)" }, "Manage Table Columns"),
             h("div", { slot: "gc__dropdown-content", class: "dropdown" },
               h("div", { class: "gc__table-setting-cols-text" },
                 h("gc-icon", { color: "red", name: "fa-regular fa-square-info" }),
                 h("gc-h2", { class: "gc__table-setting-cols-title" }, "Manage Table Columns")),
-              h("div", { class: "gc__table-setting-cols" }, columns.map(col => (h("div", { class: "gc__table-setting-col-item" },
+              h("div", { class: "gc__table-setting-cols" }, columns.map(col => (h("div", { key: `${this.gcId}_${col.name}`, class: "gc__table-setting-col-item" },
                 h("gc-icon", { color: "var(--gc-color-secondary-grey)", name: "fa-solid fa-grip-dots-vertical" }),
-                h("gc-checkbox", { disabled: col.alwaysDisplay, "gc-name": col.name, label: col.label, checked: this.showingColumns[col.name], "onGc:change": e => this.onCheck(e, col.name) }))))))))));
+                h("gc-checkbox", { disabled: col.alwaysDisplay, "gc-name": `${this.gcId}_${col.name}`, label: col.label, checked: this.showingColumns[col.name], "onGc:change": e => this.onCheck(e, col.name) }))))))))));
     }
   }
   render() {
@@ -307,7 +308,6 @@ export class GcTable {
       h("gc-button", { onClick: () => this.onClearEmptyState(), type: "secondary", icon: "fa-regular fa-filter-slash" }, "Clear applied filters")));
   }
   static get is() { return "gc-table"; }
-  static get encapsulation() { return "shadow"; }
   static get originalStyleUrls() { return {
     "$": ["gc-table.css"]
   }; }
@@ -383,6 +383,24 @@ export class GcTable {
         "text": ""
       },
       "defaultValue": "[]"
+    },
+    "gcId": {
+      "type": "string",
+      "mutable": false,
+      "complexType": {
+        "original": "string",
+        "resolved": "string",
+        "references": {}
+      },
+      "required": false,
+      "optional": false,
+      "docs": {
+        "tags": [],
+        "text": ""
+      },
+      "attribute": "gc-id",
+      "reflect": false,
+      "defaultValue": "undefined"
     },
     "keyField": {
       "type": "string",

@@ -383,6 +383,7 @@ export namespace Components {
          */
         "data": string | any[];
         "emptyState": any;
+        "gcId": string;
         "hiddenColumns"?: string[];
         "isBordered"?: boolean;
         "isStripe"?: boolean;
@@ -1009,6 +1010,7 @@ declare namespace LocalJSX {
          */
         "data"?: string | any[];
         "emptyState"?: any;
+        "gcId"?: string;
         "hiddenColumns"?: string[];
         "isBordered"?: boolean;
         "isStripe"?: boolean;

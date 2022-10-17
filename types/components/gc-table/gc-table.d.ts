@@ -37,6 +37,7 @@ export declare class GcTable {
   data: string | any[];
   selectionType: 'checkbox' | undefined;
   selectedRowKeys: string[];
+  gcId: string;
   keyField: string;
   serverSide: boolean;
   sortable: boolean;
