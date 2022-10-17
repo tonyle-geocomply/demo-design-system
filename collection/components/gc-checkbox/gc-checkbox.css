@@ -49,6 +49,7 @@ input:checked + .gc__label:after {
   border: 1px solid var(--gc-color-contrast-white);
   border-width: 0 2px 2px 0;
   transform: rotate(40deg);
+  box-sizing: initial;
 }
 
 input:disabled + .gc__label:before {
