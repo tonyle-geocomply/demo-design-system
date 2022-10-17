@@ -37,7 +37,7 @@ export class GcTable {
      */
     this.data = [];
     this.selectedRowKeys = [];
-    this.gcId = undefined;
+    this.gcId = 'gc-table';
     this.keyField = 'id';
     this.serverSide = false;
     this.sortable = true;
@@ -401,7 +401,7 @@ export class GcTable {
       },
       "attribute": "gc-id",
       "reflect": false,
-      "defaultValue": "undefined"
+      "defaultValue": "'gc-table'"
     },
     "keyField": {
       "type": "string",

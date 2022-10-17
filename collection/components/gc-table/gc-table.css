@@ -233,6 +233,7 @@ gc-icon.down-arrow {
 
 .gc__table-setting .gc__table-setting-col-item {
   display: flex;
+  align-items: center;
 }
 
 .gc__table-setting .gc__table-setting-col-item .sc-gc-checkbox-h {
