@@ -17,7 +17,7 @@ export class GcCheckbox {
   render() {
     return (h(Host, null,
       h("input", { class: this.class, id: this.gcName, type: "checkbox", onInput: this.onInput, checked: this.checked, disabled: this.disabled }),
-      h("div", { class: "gc__label" }, this.label)));
+      h("label", { class: "gc__label", htmlFor: this.gcName }, this.label)));
   }
   static get is() { return "gc-checkbox"; }
   static get encapsulation() { return "scoped"; }

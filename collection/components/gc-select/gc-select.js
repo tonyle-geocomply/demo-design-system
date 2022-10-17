@@ -313,7 +313,10 @@ export class GcSelect {
   render() {
     return (h(Host, { id: this.gcId, "has-value": this.hasValue(), "has-focus": this.hasFocus, "is-open": this.isOpen, position: this.position },
       h("div", { class: { 'dropdown': true, 'select': true, [this.position]: true, 'is-open': this.isOpen } },
-        h("div", { class: {
+        h("div", { onClick: evt => {
+            evt.preventDefault();
+            this.toggleList();
+          }, class: {
             'input-container': true,
             [`search-${this.search}`]: true,
             'has-focus': this.hasFocus,
@@ -331,10 +334,7 @@ export class GcSelect {
             }
             else {
               return (h("div", { class: "gc__section-hidden" },
-                h("div", Object.assign({ class: "input display-value", tabindex: "0", ref: input => (this.displayElement = input), "aria-disabled": this.disabled ? 'true' : null, onFocus: this.focusHandler, onBlur: this.blurHandler, onKeyDown: this.keyDownHandler, onClick: evt => {
-                    evt.preventDefault();
-                    this.toggleList();
-                  } }, this.configAria), this.getDisplayValue()),
+                h("div", Object.assign({ class: "input display-value", tabindex: "0", ref: input => (this.displayElement = input), "aria-disabled": this.disabled ? 'true' : null, onFocus: this.focusHandler, onBlur: this.blurHandler, onKeyDown: this.keyDownHandler }, this.configAria), this.getDisplayValue()),
                 h("input", { id: this.gcId, style: { display: 'none' }, value: this.value })));
             }
           })(),

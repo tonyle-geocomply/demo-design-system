@@ -12,13 +12,19 @@ input {
   cursor: pointer;
 }
 
-.gc__label {
+label.gc__label {
   position: relative;
   cursor: pointer;
   box-sizing: inherit !important;
+  font-weight: normal !important;
+  color: var(--gc-color-text-grey);
+  font-size: 13px;
+  text-transform: initial;
+  margin-bottom: 0;
+  display: initial;
 }
 
-.gc__label:before {
+label.gc__label:before {
   content:'';
   appearance: none;
   border: 1px solid var(--gc-color-second-grey);
@@ -32,13 +38,13 @@ input {
   border-radius: 3px;
 }
 
-input:checked + .gc__label:before {
+input:checked + label.gc__label:before {
   background-color: var(--gc-color-primary);
   border: 0;
   padding: 8px;
 }
 
-input:checked + .gc__label:after {
+input:checked + label.gc__label:after {
   content: '';
   display: block;
   position: absolute;
@@ -52,26 +58,26 @@ input:checked + .gc__label:after {
   box-sizing: initial;
 }
 
-input:disabled + .gc__label:before {
+input:disabled + label.gc__label:before {
   border: 1px solid var(--gc-color-second-grey);
   opacity: 0.6;
   cursor: not-allowed;
 
 }
 
-input:disabled + .gc__label {
+input:disabled + label.gc__label {
   cursor: not-allowed;
   text-decoration: line-through;
   color: var(--gc-color-disabled);
 }
 
-input:disabled:checked + .gc__label:before {
+input:disabled:checked + label.gc__label:before {
   border: 0;
   opacity: 0.6;
   cursor: not-allowed;
 }
 
-input:disabled:checked + .gc__label {
+input:disabled:checked + label.gc__label {
   cursor: not-allowed;
   text-decoration: none;
 }

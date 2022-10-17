@@ -147,6 +147,8 @@ const GcTable$1 = /*@__PURE__*/ proxyCustomElement(class extends HTMLElement {
         if (col.width)
           colWidth = col.width;
         const colEl = (h("div", { onClick: () => {
+            if (!this.sortable || !col.sortable)
+              return;
             if (this.sortBy === col.name) {
               if (this.sortOrder === 'asc')
                 this.sortOrder = 'desc';

@@ -93,6 +93,9 @@
   right: 0;
   transform-origin: bottom;
 }
+.select {
+  cursor: pointer;
+}
 .select .gc__dropdown-content {
   width: 100%;
   min-width: 10rem;
@@ -120,7 +123,6 @@
   overflow: hidden;
   white-space: nowrap;
   text-overflow: ellipsis;
-  cursor: pointer;
   color: var(--gc-color-placeholder);
 }
 .select .has-value .display-value {

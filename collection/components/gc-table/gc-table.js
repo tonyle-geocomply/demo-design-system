@@ -133,6 +133,8 @@ export class GcTable {
         if (col.width)
           colWidth = col.width;
         const colEl = (h("div", { onClick: () => {
+            if (!this.sortable || !col.sortable)
+              return;
             if (this.sortBy === col.name) {
               if (this.sortOrder === 'asc')
                 this.sortOrder = 'desc';
