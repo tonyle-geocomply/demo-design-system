@@ -124,7 +124,7 @@ export class GcTable {
     const fixedCols = [];
     const scrollCols = [];
     if (this.selectionType === 'checkbox') {
-      fixedCols.push(h("div", { class: "col center" },
+      fixedCols.push(h("div", { class: "gc__col center" },
         h("div", { class: "col-content" })));
     }
     this.getColumns().forEach(col => {
@@ -145,7 +145,7 @@ export class GcTable {
               this.sortOrder = 'asc';
             }
             this.gcSort.emit({ sortBy: this.sortBy, sortOrder: this.sortOrder });
-          }, class: { col: true, sort: this.sortBy === col.name }, style: { width: colWidth, background: this.background } },
+          }, class: { 'gc__col': true, sort: this.sortBy === col.name }, style: { width: colWidth, background: this.background } },
           h("div", { class: "col-content" },
             h("div", { class: "col-text" }, col.label),
             h("div", { class: "col-actions" }, (() => {
@@ -159,7 +159,7 @@ export class GcTable {
       }
     });
     return (h("div", { class: "header" },
-      h("div", { class: "row" },
+      h("div", { class: "gc__row" },
         h("div", { class: "fixed-columns columns-container" }, fixedCols),
         h("div", { class: "scrollable-columns columns-container" }, scrollCols))));
   }
@@ -184,14 +184,14 @@ export class GcTable {
       const fixedCols = [];
       const scrollCols = [];
       if (this.selectionType === 'checkbox')
-        fixedCols.push(h("div", { class: { col: true, center: true } },
+        fixedCols.push(h("div", { class: { 'gc__col': true, center: true } },
           h("div", { class: "col-content" })));
       this.getColumns().forEach(column => {
         if (this.showingColumns[column.name]) {
           let colWidth = DEFAULT_CELL_WIDTH;
           if (column.width)
             colWidth = column.width;
-          const colEl = (h("div", { tabindex: "1", class: { 'col': true, 'col-hover': this.hoveredCell.row === row && this.hoveredCell.column === column, 'col-center': column.center }, style: {
+          const colEl = (h("div", { class: { 'gc__col': true, 'col-hover': this.hoveredCell.row === row && this.hoveredCell.column === column, 'col-center': column.center }, style: {
               width: colWidth,
               background: this.customRows && this.customRowsBackground && this.customRows.includes(`${idx}`) ? this.customRowsBackground : this.background,
             }, onMouseOver: () => this.onCellMouseOver(row, column), onClick: () => {
@@ -204,14 +204,14 @@ export class GcTable {
           column.fixed ? fixedCols.push(colEl) : scrollCols.push(colEl);
         }
       });
-      rows.push(h("div", { class: { 'row': true, 'row-hover': this.hoveredCell.row === row }, style: {
+      rows.push(h("div", { class: { 'gc__row': true, 'row-hover': this.hoveredCell.row === row }, style: {
           background: this.customRows && this.customRowsBackground && this.customRows.includes(`${idx}`) ? this.customRowsBackground : '',
           border: this.customRows && this.customRowsBorder && this.customRows.includes(`${idx}`) ? this.customRowsBorder : '',
         } },
         h("div", { class: "fixed-columns columns-container" }, fixedCols),
         h("div", { class: "scrollable-columns columns-container" }, scrollCols)));
     });
-    return h("div", { class: "body" }, rows);
+    return h("div", { class: "gc__table-body" }, rows);
   }
   getTotalItems() {
     let totalItems = this.totalItems;
@@ -296,7 +296,7 @@ export class GcTable {
   render() {
     return (h(Host, null,
       this.renderSettingColumns(),
-      this.getData().length > 0 ? (h("div", { class: { 'table': true, 'sortable': this.sortable, 'paginate': this.paginate, 'gc__table-no-stripe': !this.isStripe, 'gc__table-no-border': !this.isBordered } },
+      this.getData().length > 0 ? (h("div", { class: { 'gc__table': true, 'sortable': this.sortable, 'paginate': this.paginate, 'gc__table-no-stripe': !this.isStripe, 'gc__table-no-border': !this.isBordered } },
         h("div", { class: "table-scroll-container" },
           this.renderHeader(),
           this.renderBody()),
