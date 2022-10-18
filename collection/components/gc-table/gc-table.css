@@ -270,3 +270,10 @@ gc-icon.down-arrow {
 .gc__table-no-border .gc__row .gc__col {
   border-right: 0;
 }
+
+.loading-section {
+  position: absolute;
+  right: 0;
+  left: 0;
+  top: 50%;
+}

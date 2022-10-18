@@ -390,6 +390,7 @@ export namespace Components {
         "gcId": string;
         "hiddenColumns"?: string[];
         "isBordered"?: boolean;
+        "isLoading"?: false;
         "isStripe"?: boolean;
         "keyField": string;
         "page": number;
@@ -1021,6 +1022,7 @@ declare namespace LocalJSX {
         "gcId"?: string;
         "hiddenColumns"?: string[];
         "isBordered"?: boolean;
+        "isLoading"?: false;
         "isStripe"?: boolean;
         "keyField"?: string;
         "onGc:change-page"?: (event: GcTableCustomEvent<any>) => void;

@@ -56,6 +56,7 @@ export declare class GcTable {
   isStripe?: boolean;
   isBordered?: boolean;
   background?: string;
+  isLoading?: false;
   private hoveredCell;
   private isSelectAll;
   private showingColumns;

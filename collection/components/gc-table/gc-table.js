@@ -113,7 +113,10 @@ export class GcTable {
   }
   onCheck(e, name) {
     this.showingColumns = Object.assign(Object.assign({}, this.showingColumns), { [name]: e.detail.value });
-    this.gcTableSettingChange.emit({ [name]: e.detail.value });
+    const emitValues = Object.keys(this.showingColumns).reduce((res, key, idx) => {
+      return Object.assign(Object.assign({}, res), { [key]: { hidden: this.showingColumns[key], position: idx } });
+    }, {});
+    this.gcTableSettingChange.emit(emitValues);
   }
   onClearEmptyState() {
     if (this.gcClearEmptyState) {
@@ -296,6 +299,17 @@ export class GcTable {
     }
   }
   render() {
+    if (this.isLoading) {
+      return (h(Host, null,
+        this.renderSettingColumns(),
+        h("div", { class: { 'gc__table': true, 'sortable': this.sortable, 'paginate': this.paginate, 'gc__table-no-stripe': !this.isStripe, 'gc__table-no-border': !this.isBordered } },
+          h("div", { class: "table-scroll-container" },
+            this.renderHeader(),
+            this.renderBody(),
+            h("div", { class: "loading-section" },
+              h("gc-spinner", null))),
+          this.paginate && (h("div", { style: { background: this.background }, class: "table-footer" }, this.renderPagination())))));
+    }
     return (h(Host, null,
       this.renderSettingColumns(),
       this.getData().length > 0 ? (h("div", { class: { 'gc__table': true, 'sortable': this.sortable, 'paginate': this.paginate, 'gc__table-no-stripe': !this.isStripe, 'gc__table-no-border': !this.isBordered } },
@@ -718,6 +732,23 @@ export class GcTable {
         "text": ""
       },
       "attribute": "background",
+      "reflect": false
+    },
+    "isLoading": {
+      "type": "boolean",
+      "mutable": false,
+      "complexType": {
+        "original": "false",
+        "resolved": "boolean",
+        "references": {}
+      },
+      "required": false,
+      "optional": true,
+      "docs": {
+        "tags": [],
+        "text": ""
+      },
+      "attribute": "is-loading",
       "reflect": false
     }
   }; }
