@@ -124,6 +124,7 @@
   white-space: nowrap;
   text-overflow: ellipsis;
   color: var(--gc-color-placeholder);
+  max-width: 98%;
 }
 .select .has-value .display-value {
   color: var(--gc-color-text-grey);

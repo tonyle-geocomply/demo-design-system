@@ -156,6 +156,12 @@ export class GcSelect {
   }
   watchPropHandler(newValue) {
     this.value = newValue;
+    if (this.stateItems.length > 0) {
+      const selectedItem = this.stateItems.find(item => item.value === newValue);
+      if (selectedItem && selectedItem.color) {
+        this.selectedColorItem = selectedItem.color;
+      }
+    }
   }
   windowClick(evt) {
     const path = evt.path || evt.composedPath();
@@ -262,6 +268,7 @@ export class GcSelect {
       const selectedItem = this.stateItems.find(item => item.value === this.value);
       if (selectedItem && selectedItem.color) {
         this.selectedColorItem = selectedItem.color;
+        this.stateItems = this.getItems().filter(item => item.value !== selectedItem.value);
       }
     }
   }

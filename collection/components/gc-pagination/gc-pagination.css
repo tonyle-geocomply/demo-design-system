@@ -23,6 +23,10 @@
   margin-right: 0;
 }
 
+.gc__pagination .gc__pagination-page:last-child i {
+  line-height: 26px;
+}
+
 .gc__pagination .gc__pagination-page.active,
 .gc__pagination .gc__pagination-page:hover
 {

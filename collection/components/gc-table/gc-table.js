@@ -157,8 +157,8 @@ export class GcTable {
               if (!this.sortable || !col.sortable)
                 return;
               return (h("div", { class: "gc__table-arrow" },
-                h("gc-icon", { class: { disabled: this.sortBy === col.name && this.sortOrder === 'desc' }, name: "fa-regular fa-chevron-up", size: "11px", "font-weight": "bold" }),
-                h("gc-icon", { class: { 'disabled': this.sortBy === col.name && this.sortOrder === 'asc', 'down-arrow': true }, name: "fa-regular fa-chevron-down", size: "11px", "font-weight": "bold" })));
+                h("gc-icon", { class: { disabled: this.sortBy === col.name && this.sortOrder === 'desc' }, name: "fa-regular fa-chevron-up", size: "13px", "font-weight": "bold" }),
+                h("gc-icon", { class: { 'disabled': this.sortBy === col.name && this.sortOrder === 'asc', 'down-arrow': true }, name: "fa-regular fa-chevron-down", size: "13px", "font-weight": "bold" })));
             })()))));
         col.fixed ? fixedCols.push(colEl) : scrollCols.push(colEl);
       }
@@ -269,7 +269,8 @@ export class GcTable {
         this.pageSize * this.page < this.getTotalItems() ? this.pageSize * this.page : this.getTotalItems(),
         "\u00A0of\u00A0",
         totalItems,
-        "\u00A0entries"),
+        "\u00A0",
+        totalItems <= 1 ? 'entry' : 'entries'),
       h("div", { class: "pagination-right" },
         h("div", { class: "table-footer-right-content" },
           h("div", { class: "table-footer-right-content-pagination" },
@@ -285,7 +286,9 @@ export class GcTable {
           h("div", null,
             "Results: ",
             totalItems,
-            " entries found matching applied filters:")),
+            " ",
+            totalItems <= 1 ? 'entry' : 'entries',
+            " found matching applied filters:")),
         h("div", null,
           h("gc-dropdown", { id: `dropdown_${this.gcId}` },
             h("gc-link", { icon: "fa-solid fa-table-layout", color: "var(--gc-color-text-grey)" }, "Manage Table Columns"),

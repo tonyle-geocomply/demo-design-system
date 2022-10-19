@@ -213,7 +213,7 @@ gc-icon.down-arrow {
 }
 
 .gc__table-setting .dropdown {
-  width: 473px;
+  min-width: 473px;
 }
 
 .gc__table-setting .gc__table-setting-cols-text {
@@ -229,7 +229,7 @@ gc-icon.down-arrow {
 
 .gc__table-setting .gc__table-setting-cols {
   display: grid;
-  grid-template-columns: 1fr 1fr;
+  grid-template-columns: 1fr 1fr 1fr;
   padding: 15px 20px;
   row-gap: 9px;
 }
