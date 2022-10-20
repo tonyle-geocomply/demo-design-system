@@ -1,6 +1,8 @@
 import { proxyCustomElement, HTMLElement, createEvent, h, Host } from '@stencil/core/internal/client';
-import { d as defineCustomElement$b } from './gc-button2.js';
-import { d as defineCustomElement$a } from './gc-checkbox2.js';
+import { d as defineCustomElement$d } from './gc-button2.js';
+import { d as defineCustomElement$c } from './gc-checkbox2.js';
+import { d as defineCustomElement$b } from './gc-drag-container2.js';
+import { d as defineCustomElement$a } from './gc-draggable-item2.js';
 import { d as defineCustomElement$9 } from './gc-dropdown2.js';
 import { d as defineCustomElement$8 } from './gc-h22.js';
 import { d as defineCustomElement$7 } from './gc-icon2.js';
@@ -70,9 +72,11 @@ const GcTable$1 = /*@__PURE__*/ proxyCustomElement(class extends HTMLElement {
     this.settingColumns = false;
     this.isStripe = true;
     this.isBordered = true;
+    this.settingTable = {};
     this.hoveredCell = {};
     this.isSelectAll = false;
     this.showingColumns = {};
+    this.posColumns = {};
     this.onSelectAllClick = () => {
       let selectedRowKeys = [];
       this.isSelectAll = !this.isSelectAll;
@@ -93,6 +97,20 @@ const GcTable$1 = /*@__PURE__*/ proxyCustomElement(class extends HTMLElement {
     };
     this.onCellMouseOver = (row, column) => {
       this.hoveredCell = { row, column };
+    };
+    this.onDrop = (e) => {
+      const newValue = e.detail;
+      const values = Object.values(newValue) && Object.values(newValue)[0];
+      const swapCol = Object.keys(this.posColumns).find(key => this.posColumns[key] === values.position);
+      let emitValues = Object.keys(this.showingColumns).reduce((res, key, idx) => {
+        return Object.assign(Object.assign({}, res), { [key]: { hidden: !this.showingColumns[key], position: idx } });
+      }, {});
+      const newPos = Object.keys(newValue).reduce((res, key) => {
+        return Object.assign(Object.assign({}, res), { [key]: newValue[key].position });
+      }, {});
+      this.posColumns = Object.assign(Object.assign(Object.assign({}, this.posColumns), newPos), { [swapCol]: values.oldPos });
+      emitValues = Object.assign(Object.assign(Object.assign({}, emitValues), newValue), { [swapCol]: { hidden: !this.showingColumns[swapCol], position: values.oldPos } });
+      this.gcTableSettingChange.emit(emitValues);
     };
   }
   watchColumnsPropHandler(newValue) {
@@ -131,7 +149,7 @@ const GcTable$1 = /*@__PURE__*/ proxyCustomElement(class extends HTMLElement {
   onCheck(e, name) {
     this.showingColumns = Object.assign(Object.assign({}, this.showingColumns), { [name]: e.detail.value });
     const emitValues = Object.keys(this.showingColumns).reduce((res, key, idx) => {
-      return Object.assign(Object.assign({}, res), { [key]: { hidden: this.showingColumns[key], position: idx } });
+      return Object.assign(Object.assign({}, res), { [key]: { hidden: !this.showingColumns[key], position: idx } });
     }, {});
     this.gcTableSettingChange.emit(emitValues);
   }
@@ -146,7 +164,9 @@ const GcTable$1 = /*@__PURE__*/ proxyCustomElement(class extends HTMLElement {
     if (this.selectionType === 'checkbox') {
       fixedCols.push(h("div", { class: "gc__col center" }, h("div", { class: "col-content" })));
     }
-    this.getColumns().forEach(col => {
+    const columnsWithPos = this.getColumns().map(col => (Object.assign(Object.assign({}, col), { pos: this.posColumns[col.name] })));
+    columnsWithPos.sort((a, b) => a.pos - b.pos);
+    columnsWithPos.forEach(col => {
       if (this.showingColumns[col.name]) {
         let colWidth = DEFAULT_CELL_WIDTH;
         if (col.width)
@@ -198,7 +218,9 @@ const GcTable$1 = /*@__PURE__*/ proxyCustomElement(class extends HTMLElement {
       const scrollCols = [];
       if (this.selectionType === 'checkbox')
         fixedCols.push(h("div", { class: { 'gc__col': true, center: true } }, h("div", { class: "col-content" })));
-      this.getColumns().forEach(column => {
+      const columnsWithPos = this.getColumns().map(col => (Object.assign(Object.assign({}, col), { pos: this.posColumns[col.name] })));
+      columnsWithPos.sort((a, b) => a.pos - b.pos);
+      columnsWithPos.forEach(column => {
         if (this.showingColumns[column.name]) {
           let colWidth = DEFAULT_CELL_WIDTH;
           if (column.width)
@@ -255,7 +277,12 @@ const GcTable$1 = /*@__PURE__*/ proxyCustomElement(class extends HTMLElement {
   }
   componentWillLoad() {
     this.showingColumns = this.getColumns().reduce((res, col) => {
-      res = Object.assign(Object.assign({}, res), { [col.name]: this.hiddenColumns && this.hiddenColumns.includes(col.name) ? false : true });
+      res = Object.assign(Object.assign({}, res), { [col.name]: (this.settingTable && this.settingTable[col.name] && this.settingTable[col.name].hidden ? false : true) ||
+          (this.hiddenColumns && this.hiddenColumns.includes(col.name) ? false : true) });
+      return res;
+    }, {});
+    this.posColumns = this.getColumns().reduce((res, col, idx) => {
+      res = Object.assign(Object.assign({}, res), { [col.name]: this.settingTable && this.settingTable[col.name] ? this.settingTable[col.name].position - 1 : idx });
       return res;
     }, {});
   }
@@ -269,7 +296,7 @@ const GcTable$1 = /*@__PURE__*/ proxyCustomElement(class extends HTMLElement {
       let totalItems = this.getTotalItems();
       totalItems = totalItems ? totalItems.toLocaleString() : '';
       const columns = this.getColumns();
-      return (h("div", { style: { background: this.background }, class: "gc__table-setting" }, h("slot", { name: "gc__table-setting-title" }, h("div", null, "Results: ", totalItems, " ", totalItems <= 1 ? 'entry' : 'entries', " found matching applied filters:")), h("div", null, h("gc-dropdown", { id: `dropdown_${this.gcId}` }, h("gc-link", { icon: "fa-solid fa-table-layout", color: "var(--gc-color-text-grey)" }, "Manage Table Columns"), h("div", { slot: "gc__dropdown-content", class: "dropdown" }, h("div", { class: "gc__table-setting-cols-text" }, h("gc-icon", { color: "red", name: "fa-regular fa-square-info" }), h("gc-h2", { class: "gc__table-setting-cols-title" }, "Manage Table Columns")), h("div", { class: "gc__table-setting-cols" }, columns.map(col => (h("div", { key: `${this.gcId}_${col.name}`, class: "gc__table-setting-col-item" }, h("gc-icon", { color: "var(--gc-color-secondary-grey)", name: "fa-solid fa-grip-dots-vertical" }), h("gc-checkbox", { disabled: col.alwaysDisplay, "gc-name": `${this.gcId}_${col.name}`, label: col.label, checked: this.showingColumns[col.name], "onGc:change": e => this.onCheck(e, col.name) }))))))))));
+      return (h("div", { style: { background: this.background }, class: "gc__table-setting" }, h("slot", { name: "gc__table-setting-title" }, h("div", null, "Results: ", totalItems, " ", totalItems <= 1 ? 'entry' : 'entries', " found matching applied filters:")), h("div", null, h("gc-dropdown", { id: `dropdown_${this.gcId}` }, h("gc-link", { icon: "fa-solid fa-table-layout", color: "var(--gc-color-text-grey)" }, "Manage Table Columns"), h("div", { slot: "gc__dropdown-content", class: "dropdown" }, h("div", { class: "gc__table-setting-cols-text" }, h("gc-icon", { color: "red", name: "fa-regular fa-square-info" }), h("gc-h2", { class: "gc__table-setting-cols-title" }, "Manage Table Columns")), h("gc-drag-container", { "onGc:drop": this.onDrop, "class-container": "gc__table-setting-cols", "class-daggable": ".draggable-item", group: "table-setting-cols" }, columns.map(col => (h("gc-draggable-item", { "data-col-name": col.name, "data-col-check": `${this.showingColumns[col.name]}`, key: `${this.gcId}_${col.name}`, class: { 'draggable-item': !col.alwaysDisplay } }, h("div", { key: `${this.gcId}_${col.name}`, class: { 'gc__table-setting-col-item': true } }, h("gc-icon", { color: "var(--gc-color-secondary-grey)", name: "fa-solid fa-grip-dots-vertical" }), h("gc-checkbox", { disabled: col.alwaysDisplay, "gc-name": `${this.gcId}_${col.name}`, label: col.label, checked: this.showingColumns[col.name], "onGc:change": e => this.onCheck(e, col.name) })))))))))));
     }
   }
   render() {
@@ -312,15 +339,17 @@ const GcTable$1 = /*@__PURE__*/ proxyCustomElement(class extends HTMLElement {
     "isBordered": [4, "is-bordered"],
     "background": [1],
     "isLoading": [4, "is-loading"],
+    "settingTable": [8, "setting-table"],
     "hoveredCell": [32],
     "isSelectAll": [32],
-    "showingColumns": [32]
+    "showingColumns": [32],
+    "posColumns": [32]
   }, [[0, "gc:change-page", "handleChangePage"]]]);
 function defineCustomElement$1() {
   if (typeof customElements === "undefined") {
     return;
   }
-  const components = ["gc-table", "gc-button", "gc-checkbox", "gc-dropdown", "gc-h2", "gc-icon", "gc-link", "gc-menu", "gc-menu-item", "gc-pagination", "gc-spinner"];
+  const components = ["gc-table", "gc-button", "gc-checkbox", "gc-drag-container", "gc-draggable-item", "gc-dropdown", "gc-h2", "gc-icon", "gc-link", "gc-menu", "gc-menu-item", "gc-pagination", "gc-spinner"];
   components.forEach(tagName => { switch (tagName) {
     case "gc-table":
       if (!customElements.get(tagName)) {
@@ -329,10 +358,20 @@ function defineCustomElement$1() {
       break;
     case "gc-button":
       if (!customElements.get(tagName)) {
-        defineCustomElement$b();
+        defineCustomElement$d();
       }
       break;
     case "gc-checkbox":
+      if (!customElements.get(tagName)) {
+        defineCustomElement$c();
+      }
+      break;
+    case "gc-drag-container":
+      if (!customElements.get(tagName)) {
+        defineCustomElement$b();
+      }
+      break;
+    case "gc-draggable-item":
       if (!customElements.get(tagName)) {
         defineCustomElement$a();
       }

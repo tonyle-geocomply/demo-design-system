@@ -1,0 +1,12 @@
+:host {
+  display: block;
+  background: white;
+}
+
+:host(:hover) {
+  cursor: pointer;
+}
+
+:host(.ghost) {
+  background: var(--gc-color-secondary);
+}

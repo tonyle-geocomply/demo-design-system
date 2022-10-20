@@ -1,0 +1,56 @@
+.gc__steps-section {
+  overflow: hidden;
+}
+.gc__steps-section div {
+  padding: 0px 40px;
+  margin-left: 23px;
+  border-left: 2px solid #DAE1E8;
+}
+.gc__step-item-title {
+  display: flex;
+  align-items: center;
+}
+.gc__step-item-icon {
+  border-radius: 50%;
+  border-width: 2px;
+  border-style: solid;
+  width: 48px;
+  height: 48px;
+}
+.gc__step-item-icon > gc-icon {
+  position: relative;
+  top: 14px;
+  left: 14px;
+}
+.gc__step-item-title--content {
+  margin-left: 14px;
+}
+.transitioning {
+  transition: height .35s ease;
+}
+header.gc__head {
+  margin-top: 12px;
+  cursor: pointer;
+}
+header.gc__head-opening {
+  margin-bottom: 10px;
+}
+header.gc__head-opacity {
+  opacity: 0.5;
+}
+.transitioning-rotate {
+  transition: transform .3s ease-in-out;
+  transform: rotateY(90deg);
+}
+header.gc__head hr {
+  border: 1px solid #DAE1E8;
+  margin-top: 12px;
+}
+::slotted(div[slot="title"])  {
+  font-weight: 700;
+  font-size: 12px;
+}
+::slotted(div[slot="description"])  {
+  font-weight: 600;
+  font-size: 15px;
+}

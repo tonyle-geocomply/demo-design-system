@@ -2,6 +2,8 @@
   "entries": [
     "./components/gc-button/gc-button.js",
     "./components/gc-checkbox/gc-checkbox.js",
+    "./components/gc-drag-container/gc-drag-container.js",
+    "./components/gc-draggable-item/gc-draggable-item.js",
     "./components/gc-dropdown/gc-dropdown.js",
     "./components/gc-form-field/gc-form-field.js",
     "./components/gc-h1/gc-h1.js",
@@ -17,6 +19,8 @@
     "./components/gc-pagination/gc-pagination.js",
     "./components/gc-select/gc-select.js",
     "./components/gc-spinner/gc-spinner.js",
+    "./components/gc-step/gc-step.js",
+    "./components/gc-steps/gc-steps.js",
     "./components/gc-table/gc-table.js",
     "./components/gc-tag/gc-tag.js",
     "./components/gc-ul/gc-ul.js"

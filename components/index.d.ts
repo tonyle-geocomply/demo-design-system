@@ -1,6 +1,8 @@
 /* GcWebDesignSystem custom elements */
 export { GcButton as GcButton } from '../types/components/gc-button/gc-button';
 export { GcCheckbox as GcCheckbox } from '../types/components/gc-checkbox/gc-checkbox';
+export { GcDragContainer as GcDragContainer } from '../types/components/gc-drag-container/gc-drag-container';
+export { GcDraggableItem as GcDraggableItem } from '../types/components/gc-draggable-item/gc-draggable-item';
 export { GcDropdown as GcDropdown } from '../types/components/gc-dropdown/gc-dropdown';
 export { GcFormField as GcFormField } from '../types/components/gc-form-field/gc-form-field';
 export { GcH1 as GcH1 } from '../types/components/gc-h1/gc-h1';
@@ -16,6 +18,8 @@ export { GcOl as GcOl } from '../types/components/gc-ol/gc-ol';
 export { GcPagination as GcPagination } from '../types/components/gc-pagination/gc-pagination';
 export { GcSelect as GcSelect } from '../types/components/gc-select/gc-select';
 export { GcSpinner as GcSpinner } from '../types/components/gc-spinner/gc-spinner';
+export { GcStep as GcStep } from '../types/components/gc-step/gc-step';
+export { GcSteps as GcSteps } from '../types/components/gc-steps/gc-steps';
 export { GcTable as GcTable } from '../types/components/gc-table/gc-table';
 export { GcTag as GcTag } from '../types/components/gc-tag/gc-tag';
 export { GcUl as GcUl } from '../types/components/gc-ul/gc-ul';

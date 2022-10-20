@@ -62,6 +62,13 @@ export namespace Components {
          */
         "label"?: string;
     }
+    interface GcDragContainer {
+        "classContainer": string;
+        "classDaggable": string;
+        "group": string;
+    }
+    interface GcDraggableItem {
+    }
     interface GcDropdown {
         /**
           * If true, the user cannot interact with the button. Defaults to `false`.
@@ -373,6 +380,48 @@ export namespace Components {
          */
         "isFloat": boolean;
     }
+    interface GcStep {
+        /**
+          * close the step item
+         */
+        "closeItem": () => Promise<void>;
+        /**
+          * The icon in step
+         */
+        "icon": string;
+        /**
+          * index of step item from top to bottom
+         */
+        "index": number;
+        /**
+          * The mutation observer config to listen for content changes in the step item
+         */
+        "mutationObserverConfig": { childList: boolean; subtree: boolean; };
+        /**
+          * step item is open or opening (css transition)
+         */
+        "open": boolean;
+        /**
+          * open the step item
+         */
+        "openItem": () => Promise<void>;
+        /**
+          * The status in step
+         */
+        "status": string;
+    }
+    interface GcSteps {
+        /**
+          * close an step item
+          * @param index
+         */
+        "close": (index: number) => Promise<void>;
+        /**
+          * Open an step item
+          * @param index
+         */
+        "open": (index: number) => Promise<void>;
+    }
     interface GcTable {
         "background"?: string;
         /**
@@ -400,6 +449,7 @@ export namespace Components {
         "selectionType": 'checkbox' | undefined;
         "serverSide": boolean;
         "settingColumns"?: boolean;
+        "settingTable"?: any;
         "sortBy": string;
         "sortOrder": 'asc' | 'desc' | '';
         "sortable": boolean;
@@ -458,6 +508,10 @@ export interface GcCheckboxCustomEvent<T> extends CustomEvent<T> {
     detail: T;
     target: HTMLGcCheckboxElement;
 }
+export interface GcDragContainerCustomEvent<T> extends CustomEvent<T> {
+    detail: T;
+    target: HTMLGcDragContainerElement;
+}
 export interface GcFormFieldCustomEvent<T> extends CustomEvent<T> {
     detail: T;
     target: HTMLGcFormFieldElement;
@@ -478,6 +532,10 @@ export interface GcSelectCustomEvent<T> extends CustomEvent<T> {
     detail: T;
     target: HTMLGcSelectElement;
 }
+export interface GcStepCustomEvent<T> extends CustomEvent<T> {
+    detail: T;
+    target: HTMLGcStepElement;
+}
 export interface GcTableCustomEvent<T> extends CustomEvent<T> {
     detail: T;
     target: HTMLGcTableElement;
@@ -494,6 +552,18 @@ declare global {
     var HTMLGcCheckboxElement: {
         prototype: HTMLGcCheckboxElement;
         new (): HTMLGcCheckboxElement;
+    };
+    interface HTMLGcDragContainerElement extends Components.GcDragContainer, HTMLStencilElement {
+    }
+    var HTMLGcDragContainerElement: {
+        prototype: HTMLGcDragContainerElement;
+        new (): HTMLGcDragContainerElement;
+    };
+    interface HTMLGcDraggableItemElement extends Components.GcDraggableItem, HTMLStencilElement {
+    }
+    var HTMLGcDraggableItemElement: {
+        prototype: HTMLGcDraggableItemElement;
+        new (): HTMLGcDraggableItemElement;
     };
     interface HTMLGcDropdownElement extends Components.GcDropdown, HTMLStencilElement {
     }
@@ -585,6 +655,18 @@ declare global {
         prototype: HTMLGcSpinnerElement;
         new (): HTMLGcSpinnerElement;
     };
+    interface HTMLGcStepElement extends Components.GcStep, HTMLStencilElement {
+    }
+    var HTMLGcStepElement: {
+        prototype: HTMLGcStepElement;
+        new (): HTMLGcStepElement;
+    };
+    interface HTMLGcStepsElement extends Components.GcSteps, HTMLStencilElement {
+    }
+    var HTMLGcStepsElement: {
+        prototype: HTMLGcStepsElement;
+        new (): HTMLGcStepsElement;
+    };
     interface HTMLGcTableElement extends Components.GcTable, HTMLStencilElement {
     }
     var HTMLGcTableElement: {
@@ -606,6 +688,8 @@ declare global {
     interface HTMLElementTagNameMap {
         "gc-button": HTMLGcButtonElement;
         "gc-checkbox": HTMLGcCheckboxElement;
+        "gc-drag-container": HTMLGcDragContainerElement;
+        "gc-draggable-item": HTMLGcDraggableItemElement;
         "gc-dropdown": HTMLGcDropdownElement;
         "gc-form-field": HTMLGcFormFieldElement;
         "gc-h1": HTMLGcH1Element;
@@ -621,6 +705,8 @@ declare global {
         "gc-pagination": HTMLGcPaginationElement;
         "gc-select": HTMLGcSelectElement;
         "gc-spinner": HTMLGcSpinnerElement;
+        "gc-step": HTMLGcStepElement;
+        "gc-steps": HTMLGcStepsElement;
         "gc-table": HTMLGcTableElement;
         "gc-tag": HTMLGcTagElement;
         "gc-ul": HTMLGcUlElement;
@@ -686,6 +772,17 @@ declare namespace LocalJSX {
           * Emitted when the value has changed.
          */
         "onGc:change"?: (event: GcCheckboxCustomEvent<any>) => void;
+    }
+    interface GcDragContainer {
+        "classContainer"?: string;
+        "classDaggable"?: string;
+        "group"?: string;
+        /**
+          * Emitted when having change in drag and drop
+         */
+        "onGc:drop"?: (event: GcDragContainerCustomEvent<any>) => void;
+    }
+    interface GcDraggableItem {
     }
     interface GcDropdown {
         /**
@@ -1005,6 +1102,38 @@ declare namespace LocalJSX {
          */
         "isFloat"?: boolean;
     }
+    interface GcStep {
+        /**
+          * The icon in step
+         */
+        "icon"?: string;
+        /**
+          * index of step item from top to bottom
+         */
+        "index"?: number;
+        /**
+          * The mutation observer config to listen for content changes in the step item
+         */
+        "mutationObserverConfig"?: { childList: boolean; subtree: boolean; };
+        /**
+          * triggered when the content of the step item changes
+         */
+        "onContentChanged"?: (event: GcStepCustomEvent<any>) => void;
+        /**
+          * triggered when the step item is opened
+         */
+        "onOpenEvent"?: (event: GcStepCustomEvent<any>) => void;
+        /**
+          * step item is open or opening (css transition)
+         */
+        "open"?: boolean;
+        /**
+          * The status in step
+         */
+        "status"?: string;
+    }
+    interface GcSteps {
+    }
     interface GcTable {
         "background"?: string;
         /**
@@ -1038,6 +1167,7 @@ declare namespace LocalJSX {
         "selectionType"?: 'checkbox' | undefined;
         "serverSide"?: boolean;
         "settingColumns"?: boolean;
+        "settingTable"?: any;
         "sortBy"?: string;
         "sortOrder"?: 'asc' | 'desc' | '';
         "sortable"?: boolean;
@@ -1094,6 +1224,8 @@ declare namespace LocalJSX {
     interface IntrinsicElements {
         "gc-button": GcButton;
         "gc-checkbox": GcCheckbox;
+        "gc-drag-container": GcDragContainer;
+        "gc-draggable-item": GcDraggableItem;
         "gc-dropdown": GcDropdown;
         "gc-form-field": GcFormField;
         "gc-h1": GcH1;
@@ -1109,6 +1241,8 @@ declare namespace LocalJSX {
         "gc-pagination": GcPagination;
         "gc-select": GcSelect;
         "gc-spinner": GcSpinner;
+        "gc-step": GcStep;
+        "gc-steps": GcSteps;
         "gc-table": GcTable;
         "gc-tag": GcTag;
         "gc-ul": GcUl;
@@ -1120,6 +1254,8 @@ declare module "@stencil/core" {
         interface IntrinsicElements {
             "gc-button": LocalJSX.GcButton & JSXBase.HTMLAttributes<HTMLGcButtonElement>;
             "gc-checkbox": LocalJSX.GcCheckbox & JSXBase.HTMLAttributes<HTMLGcCheckboxElement>;
+            "gc-drag-container": LocalJSX.GcDragContainer & JSXBase.HTMLAttributes<HTMLGcDragContainerElement>;
+            "gc-draggable-item": LocalJSX.GcDraggableItem & JSXBase.HTMLAttributes<HTMLGcDraggableItemElement>;
             "gc-dropdown": LocalJSX.GcDropdown & JSXBase.HTMLAttributes<HTMLGcDropdownElement>;
             "gc-form-field": LocalJSX.GcFormField & JSXBase.HTMLAttributes<HTMLGcFormFieldElement>;
             "gc-h1": LocalJSX.GcH1 & JSXBase.HTMLAttributes<HTMLGcH1Element>;
@@ -1135,6 +1271,8 @@ declare module "@stencil/core" {
             "gc-pagination": LocalJSX.GcPagination & JSXBase.HTMLAttributes<HTMLGcPaginationElement>;
             "gc-select": LocalJSX.GcSelect & JSXBase.HTMLAttributes<HTMLGcSelectElement>;
             "gc-spinner": LocalJSX.GcSpinner & JSXBase.HTMLAttributes<HTMLGcSpinnerElement>;
+            "gc-step": LocalJSX.GcStep & JSXBase.HTMLAttributes<HTMLGcStepElement>;
+            "gc-steps": LocalJSX.GcSteps & JSXBase.HTMLAttributes<HTMLGcStepsElement>;
             "gc-table": LocalJSX.GcTable & JSXBase.HTMLAttributes<HTMLGcTableElement>;
             "gc-tag": LocalJSX.GcTag & JSXBase.HTMLAttributes<HTMLGcTagElement>;
             "gc-ul": LocalJSX.GcUl & JSXBase.HTMLAttributes<HTMLGcUlElement>;

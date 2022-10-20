@@ -57,9 +57,11 @@ export declare class GcTable {
   isBordered?: boolean;
   background?: string;
   isLoading?: false;
+  settingTable?: any;
   private hoveredCell;
   private isSelectAll;
   private showingColumns;
+  private posColumns;
   gcCellClick: EventEmitter;
   gcSelectChange: EventEmitter;
   gcSort: EventEmitter;
@@ -76,6 +78,7 @@ export declare class GcTable {
   onCellClick(row: any, col: any): void;
   onCheck(e: any, name: string): void;
   onClearEmptyState(): void;
+  onDrop: (e: any) => void;
   renderHeader(): any;
   renderBody(): any;
   getTotalItems(): any;
