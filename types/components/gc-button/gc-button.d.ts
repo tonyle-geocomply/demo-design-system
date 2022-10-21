@@ -1,3 +1,4 @@
+import { EventEmitter } from '../../stencil-public-runtime';
 export declare class GcButton {
   /**
    * The class name
@@ -20,16 +21,21 @@ export declare class GcButton {
    */
   icon?: string;
   /**
- * href
- */
+   * href
+   */
   href?: string;
   /**
-* target
-*/
+   * target
+   */
   target?: string;
+  /**
+   * Emitted when click button
+   */
+  gcClick: EventEmitter;
   private getClassNameFromType;
   private getClassName;
   private getColorIcon;
   handleClick(ev: any): void;
+  onClick(ev: any): void;
   render(): any;
 }

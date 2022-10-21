@@ -136,6 +136,23 @@ const GcTable$1 = /*@__PURE__*/ proxyCustomElement(class extends HTMLElement {
       }, {});
     }
   }
+  watchSettingTablePropHandler(newSetting) {
+    this.showingColumns = this.getColumns().reduce((res, col) => {
+      let showValue = false;
+      if (newSetting && newSetting[col.name] && newSetting[col.name].hidden !== undefined) {
+        showValue = newSetting[col.name].hidden ? false : true;
+      }
+      else {
+        showValue = this.hiddenColumns && this.hiddenColumns.includes(col.name) ? false : true;
+      }
+      res = Object.assign(Object.assign({}, res), { [col.name]: showValue });
+      return res;
+    }, {});
+    this.posColumns = this.getColumns().reduce((res, col, idx) => {
+      res = Object.assign(Object.assign({}, res), { [col.name]: newSetting && newSetting[col.name] ? newSetting[col.name].position - 1 : idx });
+      return res;
+    }, {});
+  }
   handleChangePage(ev) {
     this.page = ev.detail.value;
   }
@@ -232,7 +249,11 @@ const GcTable$1 = /*@__PURE__*/ proxyCustomElement(class extends HTMLElement {
               const selection = window.getSelection();
               if (selection.type != 'Range')
                 this.onCellClick(row, column);
-            } }, h("div", { class: "col-content" }, h("div", { class: "col-text", innerHTML: row === null || row === void 0 ? void 0 : row[column.name] }))));
+            } }, h("div", { class: "col-content" }, h("div", { class: "col-text", innerHTML: row === null || row === void 0 ? void 0 : row[column.name] }), column.actions && column.actions.length > 0 ?
+            column.actions.map(action => {
+              return (h("gc-button", { "onGc:click": () => action.onClick(row), type: action.type }, action.text));
+            })
+            : null)));
           column.fixed ? fixedCols.push(colEl) : scrollCols.push(colEl);
         }
       });
@@ -311,7 +332,8 @@ const GcTable$1 = /*@__PURE__*/ proxyCustomElement(class extends HTMLElement {
   get elm() { return this; }
   static get watchers() { return {
     "columns": ["watchColumnsPropHandler"],
-    "hiddenColumns": ["watchHiddenColumnsPropHandler"]
+    "hiddenColumns": ["watchHiddenColumnsPropHandler"],
+    "settingTable": ["watchSettingTablePropHandler"]
   }; }
   static get style() { return gcTableCss; }
 }, [1, "gc-table", {

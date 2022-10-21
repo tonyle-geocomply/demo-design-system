@@ -1,10 +1,11 @@
-import { r as registerInstance, h, c as createEvent, H as Host, g as getElement } from './index-f3c3d85b.js';
+import { r as registerInstance, c as createEvent, h, H as Host, g as getElement } from './index-f3c3d85b.js';
 
 const gcButtonCss = "button{padding:0 20px;height:41px;border-radius:var(--border-radius-btn);box-shadow:none;border:0px;font-size:var(--gc-font-size);cursor:pointer}button.disabled{opacity:0.5;cursor:not-allowed}button.gc__btn--primary{background:var( --gc-color-primary);color:var(--gc-color-contrast-white)}button.gc__btn--danger{background:var(--gc-color-danger);color:var(--gc-color-contrast-white)}button.gc__btn--secondary{background:#E8ECF0;color:#35383D}button.gc__btn--closed{background:var(--gc-color-third-grey);color:var(--gc-color-contrast-white)}button>.gc__button-text{line-height:41px}button>.gc__button-icon{vertical-align:middle;margin-right:8px}";
 
 const GcButton = class {
   constructor(hostRef) {
     registerInstance(this, hostRef);
+    this.gcClick = createEvent(this, "gc:click", 7);
     /**
      * The type name
      */
@@ -37,8 +38,26 @@ const GcButton = class {
       }
     }
   }
+  onClick(ev) {
+    if (this.disabled) {
+      ev.preventDefault();
+      ev.stopPropagation();
+      return;
+    }
+    if (this.href) {
+      if (this.target) {
+        window.open(this.href, this.target);
+      }
+      else {
+        window.location.href = this.href;
+      }
+    }
+    else {
+      this.gcClick.emit(ev);
+    }
+  }
   render() {
-    return (h("button", { class: this.getClassName(), id: this.gcId }, this.icon && (h("span", { class: "gc__button-icon" }, h("gc-icon", { color: this.getColorIcon(), name: this.icon, size: "1rem" }))), h("span", { class: "gc__button-text" }, h("slot", null))));
+    return (h("button", { onClick: this.onClick, class: this.getClassName(), id: this.gcId }, this.icon && (h("span", { class: "gc__button-icon" }, h("gc-icon", { color: this.getColorIcon(), name: this.icon, size: "1rem" }))), h("span", { class: "gc__button-text" }, h("slot", null))));
   }
 };
 GcButton.style = gcButtonCss;
@@ -4378,6 +4397,23 @@ const GcTable = class {
       }, {});
     }
   }
+  watchSettingTablePropHandler(newSetting) {
+    this.showingColumns = this.getColumns().reduce((res, col) => {
+      let showValue = false;
+      if (newSetting && newSetting[col.name] && newSetting[col.name].hidden !== undefined) {
+        showValue = newSetting[col.name].hidden ? false : true;
+      }
+      else {
+        showValue = this.hiddenColumns && this.hiddenColumns.includes(col.name) ? false : true;
+      }
+      res = Object.assign(Object.assign({}, res), { [col.name]: showValue });
+      return res;
+    }, {});
+    this.posColumns = this.getColumns().reduce((res, col, idx) => {
+      res = Object.assign(Object.assign({}, res), { [col.name]: newSetting && newSetting[col.name] ? newSetting[col.name].position - 1 : idx });
+      return res;
+    }, {});
+  }
   handleChangePage(ev) {
     this.page = ev.detail.value;
   }
@@ -4474,7 +4510,11 @@ const GcTable = class {
               const selection = window.getSelection();
               if (selection.type != 'Range')
                 this.onCellClick(row, column);
-            } }, h("div", { class: "col-content" }, h("div", { class: "col-text", innerHTML: row === null || row === void 0 ? void 0 : row[column.name] }))));
+            } }, h("div", { class: "col-content" }, h("div", { class: "col-text", innerHTML: row === null || row === void 0 ? void 0 : row[column.name] }), column.actions && column.actions.length > 0 ?
+            column.actions.map(action => {
+              return (h("gc-button", { "onGc:click": () => action.onClick(row), type: action.type }, action.text));
+            })
+            : null)));
           column.fixed ? fixedCols.push(colEl) : scrollCols.push(colEl);
         }
       });
@@ -4553,7 +4593,8 @@ const GcTable = class {
   get elm() { return getElement(this); }
   static get watchers() { return {
     "columns": ["watchColumnsPropHandler"],
-    "hiddenColumns": ["watchHiddenColumnsPropHandler"]
+    "hiddenColumns": ["watchHiddenColumnsPropHandler"],
+    "settingTable": ["watchSettingTablePropHandler"]
   }; }
 };
 GcTable.style = gcTableCss;

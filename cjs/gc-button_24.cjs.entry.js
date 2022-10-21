@@ -9,6 +9,7 @@ const gcButtonCss = "button{padding:0 20px;height:41px;border-radius:var(--borde
 const GcButton = class {
   constructor(hostRef) {
     index$1.registerInstance(this, hostRef);
+    this.gcClick = index$1.createEvent(this, "gc:click", 7);
     /**
      * The type name
      */
@@ -41,8 +42,26 @@ const GcButton = class {
       }
     }
   }
+  onClick(ev) {
+    if (this.disabled) {
+      ev.preventDefault();
+      ev.stopPropagation();
+      return;
+    }
+    if (this.href) {
+      if (this.target) {
+        window.open(this.href, this.target);
+      }
+      else {
+        window.location.href = this.href;
+      }
+    }
+    else {
+      this.gcClick.emit(ev);
+    }
+  }
   render() {
-    return (index$1.h("button", { class: this.getClassName(), id: this.gcId }, this.icon && (index$1.h("span", { class: "gc__button-icon" }, index$1.h("gc-icon", { color: this.getColorIcon(), name: this.icon, size: "1rem" }))), index$1.h("span", { class: "gc__button-text" }, index$1.h("slot", null))));
+    return (index$1.h("button", { onClick: this.onClick, class: this.getClassName(), id: this.gcId }, this.icon && (index$1.h("span", { class: "gc__button-icon" }, index$1.h("gc-icon", { color: this.getColorIcon(), name: this.icon, size: "1rem" }))), index$1.h("span", { class: "gc__button-text" }, index$1.h("slot", null))));
   }
 };
 GcButton.style = gcButtonCss;
@@ -4382,6 +4401,23 @@ const GcTable = class {
       }, {});
     }
   }
+  watchSettingTablePropHandler(newSetting) {
+    this.showingColumns = this.getColumns().reduce((res, col) => {
+      let showValue = false;
+      if (newSetting && newSetting[col.name] && newSetting[col.name].hidden !== undefined) {
+        showValue = newSetting[col.name].hidden ? false : true;
+      }
+      else {
+        showValue = this.hiddenColumns && this.hiddenColumns.includes(col.name) ? false : true;
+      }
+      res = Object.assign(Object.assign({}, res), { [col.name]: showValue });
+      return res;
+    }, {});
+    this.posColumns = this.getColumns().reduce((res, col, idx) => {
+      res = Object.assign(Object.assign({}, res), { [col.name]: newSetting && newSetting[col.name] ? newSetting[col.name].position - 1 : idx });
+      return res;
+    }, {});
+  }
   handleChangePage(ev) {
     this.page = ev.detail.value;
   }
@@ -4478,7 +4514,11 @@ const GcTable = class {
               const selection = window.getSelection();
               if (selection.type != 'Range')
                 this.onCellClick(row, column);
-            } }, index$1.h("div", { class: "col-content" }, index$1.h("div", { class: "col-text", innerHTML: row === null || row === void 0 ? void 0 : row[column.name] }))));
+            } }, index$1.h("div", { class: "col-content" }, index$1.h("div", { class: "col-text", innerHTML: row === null || row === void 0 ? void 0 : row[column.name] }), column.actions && column.actions.length > 0 ?
+            column.actions.map(action => {
+              return (index$1.h("gc-button", { "onGc:click": () => action.onClick(row), type: action.type }, action.text));
+            })
+            : null)));
           column.fixed ? fixedCols.push(colEl) : scrollCols.push(colEl);
         }
       });
@@ -4557,7 +4597,8 @@ const GcTable = class {
   get elm() { return index$1.getElement(this); }
   static get watchers() { return {
     "columns": ["watchColumnsPropHandler"],
-    "hiddenColumns": ["watchHiddenColumnsPropHandler"]
+    "hiddenColumns": ["watchHiddenColumnsPropHandler"],
+    "settingTable": ["watchSettingTablePropHandler"]
   }; }
 };
 GcTable.style = gcTableCss;

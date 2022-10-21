@@ -1,4 +1,4 @@
-import { Component, Prop, Listen, h } from '@stencil/core';
+import { Component, Prop, Listen, Event, h } from '@stencil/core';
 export class GcButton {
   constructor() {
     /**
@@ -33,8 +33,26 @@ export class GcButton {
       }
     }
   }
+  onClick(ev) {
+    if (this.disabled) {
+      ev.preventDefault();
+      ev.stopPropagation();
+      return;
+    }
+    if (this.href) {
+      if (this.target) {
+        window.open(this.href, this.target);
+      }
+      else {
+        window.location.href = this.href;
+      }
+    }
+    else {
+      this.gcClick.emit(ev);
+    }
+  }
   render() {
-    return (h("button", { class: this.getClassName(), id: this.gcId },
+    return (h("button", { onClick: this.onClick, class: this.getClassName(), id: this.gcId },
       this.icon && (h("span", { class: "gc__button-icon" },
         h("gc-icon", { color: this.getColorIcon(), name: this.icon, size: "1rem" }))),
       h("span", { class: "gc__button-text" },
@@ -170,6 +188,22 @@ export class GcButton {
       "reflect": false
     }
   }; }
+  static get events() { return [{
+      "method": "gcClick",
+      "name": "gc:click",
+      "bubbles": true,
+      "cancelable": true,
+      "composed": true,
+      "docs": {
+        "tags": [],
+        "text": "Emitted when click button"
+      },
+      "complexType": {
+        "original": "any",
+        "resolved": "any",
+        "references": {}
+      }
+    }]; }
   static get listeners() { return [{
       "name": "click",
       "method": "handleClick",

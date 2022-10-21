@@ -70,6 +70,7 @@ export declare class GcTable {
   gcTableSettingChange: EventEmitter;
   watchColumnsPropHandler(newValue: any): void;
   watchHiddenColumnsPropHandler(hiddenCols: string[]): void;
+  watchSettingTablePropHandler(newSetting: any): void;
   handleChangePage(ev: any): void;
   onSelectAllClick: () => void;
   onRowSelectClick: (row: any) => void;

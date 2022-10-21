@@ -504,6 +504,10 @@ export namespace Components {
         "gcId": string;
     }
 }
+export interface GcButtonCustomEvent<T> extends CustomEvent<T> {
+    detail: T;
+    target: HTMLGcButtonElement;
+}
 export interface GcCheckboxCustomEvent<T> extends CustomEvent<T> {
     detail: T;
     target: HTMLGcCheckboxElement;
@@ -734,6 +738,10 @@ declare namespace LocalJSX {
           * Icon name
          */
         "icon"?: string;
+        /**
+          * Emitted when click button
+         */
+        "onGc:click"?: (event: GcButtonCustomEvent<any>) => void;
         /**
           * target
          */
