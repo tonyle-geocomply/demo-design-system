@@ -296,6 +296,17 @@ const GcTable$1 = /*@__PURE__*/ proxyCustomElement(class extends HTMLElement {
           return [];
         }
       }
+      if (this.settingTable) {
+        let columnsWithPos = this.columns.map((col, i) => (Object.assign(Object.assign({}, col), { pos: this.settingTable[col.name] && this.settingTable[col.name].position || i })));
+        columnsWithPos.sort((a, b) => a.pos - b.pos);
+        columnsWithPos = columnsWithPos.reduce((res, col) => {
+          if (!this.settingTable[col.name] || this.settingTable[col.name] && this.settingTable[col.name].hidden !== true) {
+            return [...res, col];
+          }
+          return [...res];
+        }, []);
+        return columnsWithPos;
+      }
       return this.columns;
     }
   }
