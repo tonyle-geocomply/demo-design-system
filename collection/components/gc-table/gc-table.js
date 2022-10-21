@@ -229,10 +229,12 @@ export class GcTable {
       const columnsWithPos = this.getColumns().map(col => (Object.assign(Object.assign({}, col), { pos: this.posColumns[col.name] })));
       columnsWithPos.sort((a, b) => a.pos - b.pos);
       columnsWithPos.forEach(column => {
+        var _a, _b, _c;
         if (this.showingColumns[column.name]) {
           let colWidth = DEFAULT_CELL_WIDTH;
           if (column.width)
             colWidth = column.width;
+          const conditionToDisplayActions = column.actions && column.actions.length > 0 && ((_b = (_a = this.hoveredCell) === null || _a === void 0 ? void 0 : _a.column) === null || _b === void 0 ? void 0 : _b.name) === (column === null || column === void 0 ? void 0 : column.name) && ((_c = this.hoveredCell) === null || _c === void 0 ? void 0 : _c.row) === row;
           const colEl = (h("div", { class: { 'gc__col': true, 'col-hover': this.hoveredCell.row === row && this.hoveredCell.column === column, 'col-center': column.center }, style: {
               width: colWidth,
               background: this.customRows && this.customRowsBackground && this.customRows.includes(`${idx}`) ? this.customRowsBackground : this.background,
@@ -242,12 +244,12 @@ export class GcTable {
                 this.onCellClick(row, column);
             } },
             h("div", { class: "col-content" },
-              h("div", { class: "col-text", innerHTML: row === null || row === void 0 ? void 0 : row[column.name] }),
-              column.actions && column.actions.length > 0 ?
-                column.actions.map(action => {
-                  return (h("gc-button", { "onGc:click": () => action.onClick(row), type: action.type }, action.text));
-                })
-                : null)));
+              h("div", { class: "col-text", innerHTML: row === null || row === void 0 ? void 0 : row[column.name] }, conditionToDisplayActions ? h("div", { class: "gc__actions" }, column.actions.map(action => {
+                return (h("gc-button", { class: "gc__btn-action", key: action.name, paddingText: "0 10px", height: "24px", "onGc:click": () => {
+                    action.onClick(row);
+                  }, type: action.type }, action.name));
+              }))
+                : null))));
           column.fixed ? fixedCols.push(colEl) : scrollCols.push(colEl);
         }
       });

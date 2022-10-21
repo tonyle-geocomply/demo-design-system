@@ -29,6 +29,14 @@ export declare class GcButton {
    */
   target?: string;
   /**
+   * height
+   */
+  height?: string;
+  /**
+   * padding text
+   */
+  paddingText?: string;
+  /**
    * Emitted when click button
    */
   gcClick: EventEmitter;

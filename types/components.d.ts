@@ -20,6 +20,10 @@ export namespace Components {
          */
         "gcId": string;
         /**
+          * height
+         */
+        "height"?: string;
+        /**
           * href
          */
         "href"?: string;
@@ -27,6 +31,10 @@ export namespace Components {
           * Icon name
          */
         "icon"?: string;
+        /**
+          * padding text
+         */
+        "paddingText"?: string;
         /**
           * target
          */
@@ -731,6 +739,10 @@ declare namespace LocalJSX {
          */
         "gcId"?: string;
         /**
+          * height
+         */
+        "height"?: string;
+        /**
           * href
          */
         "href"?: string;
@@ -742,6 +754,10 @@ declare namespace LocalJSX {
           * Emitted when click button
          */
         "onGc:click"?: (event: GcButtonCustomEvent<any>) => void;
+        /**
+          * padding text
+         */
+        "paddingText"?: string;
         /**
           * target
          */

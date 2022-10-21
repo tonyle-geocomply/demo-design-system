@@ -60,7 +60,7 @@ const GcButton = /*@__PURE__*/ proxyCustomElement(class extends HTMLElement {
     }
   }
   render() {
-    return (h("button", { onClick: this.onClick, class: this.getClassName(), id: this.gcId }, this.icon && (h("span", { class: "gc__button-icon" }, h("gc-icon", { color: this.getColorIcon(), name: this.icon, size: "1rem" }))), h("span", { class: "gc__button-text" }, h("slot", null))));
+    return (h("button", { style: { height: this.height, padding: this.paddingText }, onClick: e => this.onClick(e), class: this.getClassName(), id: this.gcId }, this.icon && (h("span", { class: "gc__button-icon" }, h("gc-icon", { color: this.getColorIcon(), name: this.icon, size: "1rem" }))), h("span", { style: { lineHeight: this.height }, class: "gc__button-text" }, h("slot", null))));
   }
   static get style() { return gcButtonCss; }
 }, [1, "gc-button", {
@@ -70,7 +70,9 @@ const GcButton = /*@__PURE__*/ proxyCustomElement(class extends HTMLElement {
     "gcId": [1, "gc-id"],
     "icon": [1],
     "href": [1],
-    "target": [1]
+    "target": [1],
+    "height": [1],
+    "paddingText": [1, "padding-text"]
   }, [[2, "click", "handleClick"]]]);
 function defineCustomElement() {
   if (typeof customElements === "undefined") {

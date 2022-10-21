@@ -52,10 +52,10 @@ export class GcButton {
     }
   }
   render() {
-    return (h("button", { onClick: this.onClick, class: this.getClassName(), id: this.gcId },
+    return (h("button", { style: { height: this.height, padding: this.paddingText }, onClick: e => this.onClick(e), class: this.getClassName(), id: this.gcId },
       this.icon && (h("span", { class: "gc__button-icon" },
         h("gc-icon", { color: this.getColorIcon(), name: this.icon, size: "1rem" }))),
-      h("span", { class: "gc__button-text" },
+      h("span", { style: { lineHeight: this.height }, class: "gc__button-text" },
         h("slot", null))));
   }
   static get is() { return "gc-button"; }
@@ -185,6 +185,40 @@ export class GcButton {
         "text": "target"
       },
       "attribute": "target",
+      "reflect": false
+    },
+    "height": {
+      "type": "string",
+      "mutable": false,
+      "complexType": {
+        "original": "string",
+        "resolved": "string",
+        "references": {}
+      },
+      "required": false,
+      "optional": true,
+      "docs": {
+        "tags": [],
+        "text": "height"
+      },
+      "attribute": "height",
+      "reflect": false
+    },
+    "paddingText": {
+      "type": "string",
+      "mutable": false,
+      "complexType": {
+        "original": "string",
+        "resolved": "string",
+        "references": {}
+      },
+      "required": false,
+      "optional": true,
+      "docs": {
+        "tags": [],
+        "text": "padding text"
+      },
+      "attribute": "padding-text",
       "reflect": false
     }
   }; }

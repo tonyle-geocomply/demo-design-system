@@ -277,3 +277,12 @@ gc-icon.down-arrow {
   left: 0;
   top: 50%;
 }
+
+.gc__actions {
+  display: flex;
+  margin-top: 5px;
+}
+
+.gc__btn-action {
+  margin-right: 5px;
+}
