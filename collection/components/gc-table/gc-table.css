@@ -279,10 +279,29 @@ gc-icon.down-arrow {
 }
 
 .gc__actions {
-  display: flex;
   margin-top: 5px;
+  display: flex;
 }
 
 .gc__btn-action {
   margin-right: 5px;
+  display: none;
+}
+
+.gc__btn-action.active {
+  animation: fadeInShow 0.2s;
+  display: block;
+}
+
+
+@keyframes fadeInShow {
+  0% {
+      opacity: 0;
+      transform: scale(0)
+  }
+
+  100% {
+      opacity: 1;
+      transform: scale(1)
+  }
 }

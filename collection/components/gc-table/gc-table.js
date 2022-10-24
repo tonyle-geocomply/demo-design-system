@@ -79,7 +79,7 @@ export class GcTable {
     this.onCellMouseOver = (row, column) => {
       this.hoveredCell = { row, column };
     };
-    this.onDrop = (e) => {
+    this.onDrop = e => {
       const newValue = e.detail;
       const values = Object.values(newValue) && Object.values(newValue)[0];
       const swapCol = Object.keys(this.posColumns).find(key => this.posColumns[key] === values.position);
@@ -105,17 +105,20 @@ export class GcTable {
       }
     }
     this.showingColumns = currentColumns.reduce((res, col) => {
-      res = Object.assign(Object.assign({}, res), { [col.name]: true });
+      let showValue = false;
+      if (this.settingTable && this.settingTable[col.name] && this.settingTable[col.name].hidden !== undefined) {
+        showValue = this.settingTable[col.name].hidden ? false : true;
+      }
+      else {
+        showValue = true;
+      }
+      res = Object.assign(Object.assign({}, res), { [col.name]: showValue });
       return res;
     }, {});
-  }
-  watchHiddenColumnsPropHandler(hiddenCols) {
-    if (hiddenCols) {
-      this.showingColumns = this.getColumns().reduce((res, col) => {
-        res = Object.assign(Object.assign({}, res), { [col.name]: hiddenCols.includes(col.name) ? false : true });
-        return res;
-      }, {});
-    }
+    this.posColumns = currentColumns.reduce((res, col, idx) => {
+      res = Object.assign(Object.assign({}, res), { [col.name]: this.settingTable && this.settingTable[col.name] ? this.settingTable[col.name].position - 1 : idx });
+      return res;
+    }, {});
   }
   watchSettingTablePropHandler(newSetting) {
     this.showingColumns = this.getColumns().reduce((res, col) => {
@@ -124,13 +127,13 @@ export class GcTable {
         showValue = newSetting[col.name].hidden ? false : true;
       }
       else {
-        showValue = this.hiddenColumns && this.hiddenColumns.includes(col.name) ? false : true;
+        showValue = true;
       }
       res = Object.assign(Object.assign({}, res), { [col.name]: showValue });
       return res;
     }, {});
     this.posColumns = this.getColumns().reduce((res, col, idx) => {
-      res = Object.assign(Object.assign({}, res), { [col.name]: newSetting && newSetting[col.name] ? newSetting[col.name].position - 1 : idx });
+      res = Object.assign(Object.assign({}, res), { [col.name]: newSetting && newSetting[col.name] ? newSetting[col.name].position : idx });
       return res;
     }, {});
   }
@@ -185,7 +188,7 @@ export class GcTable {
               this.sortOrder = 'asc';
             }
             this.gcSort.emit({ sortBy: this.sortBy, sortOrder: this.sortOrder });
-          }, class: { 'gc__col': true, sort: this.sortBy === col.name }, style: { width: colWidth, background: this.background } },
+          }, class: { gc__col: true, sort: this.sortBy === col.name }, style: { width: colWidth, background: this.background } },
           h("div", { class: "col-content" },
             h("div", { class: "col-text" }, col.label),
             h("div", { class: "col-actions" }, (() => {
@@ -224,7 +227,7 @@ export class GcTable {
       const fixedCols = [];
       const scrollCols = [];
       if (this.selectionType === 'checkbox')
-        fixedCols.push(h("div", { class: { 'gc__col': true, center: true } },
+        fixedCols.push(h("div", { class: { gc__col: true, center: true } },
           h("div", { class: "col-content" })));
       const columnsWithPos = this.getColumns().map(col => (Object.assign(Object.assign({}, col), { pos: this.posColumns[col.name] })));
       columnsWithPos.sort((a, b) => a.pos - b.pos);
@@ -234,7 +237,12 @@ export class GcTable {
           let colWidth = DEFAULT_CELL_WIDTH;
           if (column.width)
             colWidth = column.width;
-          const conditionToDisplayActions = column.actions && column.actions.length > 0 && ((_b = (_a = this.hoveredCell) === null || _a === void 0 ? void 0 : _a.column) === null || _b === void 0 ? void 0 : _b.name) === (column === null || column === void 0 ? void 0 : column.name) && ((_c = this.hoveredCell) === null || _c === void 0 ? void 0 : _c.row) === row;
+          const conditionToDisplayActions = row.actions &&
+            row.actions[column.name] &&
+            column.actions &&
+            column.actions.length > 0 &&
+            ((_b = (_a = this.hoveredCell) === null || _a === void 0 ? void 0 : _a.column) === null || _b === void 0 ? void 0 : _b.name) === (column === null || column === void 0 ? void 0 : column.name) &&
+            ((_c = this.hoveredCell) === null || _c === void 0 ? void 0 : _c.row) === row;
           const colEl = (h("div", { class: { 'gc__col': true, 'col-hover': this.hoveredCell.row === row && this.hoveredCell.column === column, 'col-center': column.center }, style: {
               width: colWidth,
               background: this.customRows && this.customRowsBackground && this.customRows.includes(`${idx}`) ? this.customRowsBackground : this.background,
@@ -244,12 +252,14 @@ export class GcTable {
                 this.onCellClick(row, column);
             } },
             h("div", { class: "col-content" },
-              h("div", { class: "col-text", innerHTML: row === null || row === void 0 ? void 0 : row[column.name] }, conditionToDisplayActions ? h("div", { class: "gc__actions" }, column.actions.map(action => {
-                return (h("gc-button", { class: "gc__btn-action", key: action.name, paddingText: "0 10px", height: "24px", "onGc:click": () => {
-                    action.onClick(row);
+              h("div", { class: "col-text", innerHTML: row === null || row === void 0 ? void 0 : row[column.name] }, conditionToDisplayActions ? (h("div", { class: { gc__actions: true } }, column.actions.map(action => {
+                const matchCondition = row.actions && row.actions[column.name] && row.actions[column.name].includes(action.key) ? true : false;
+                return (h("gc-button", { class: `gc__btn-action ${matchCondition ? 'active' : ''}`, key: action.key, paddingText: "0 10px", height: "24px", href: action.href, disabled: action.disabled, target: action.target, "onGc:click": () => {
+                    if (action.onClick) {
+                      action.onClick(row);
+                    }
                   }, type: action.type }, action.name));
-              }))
-                : null))));
+              }))) : null))));
           column.fixed ? fixedCols.push(colEl) : scrollCols.push(colEl);
         }
       });
@@ -291,28 +301,33 @@ export class GcTable {
           return [];
         }
       }
-      if (this.settingTable) {
-        let columnsWithPos = this.columns.map((col, i) => (Object.assign(Object.assign({}, col), { pos: this.settingTable[col.name] && this.settingTable[col.name].position || i })));
-        columnsWithPos.sort((a, b) => a.pos - b.pos);
-        columnsWithPos = columnsWithPos.reduce((res, col) => {
-          if (!this.settingTable[col.name] || this.settingTable[col.name] && this.settingTable[col.name].hidden !== true) {
-            return [...res, col];
-          }
-          return [...res];
-        }, []);
-        return columnsWithPos;
-      }
+      // if (isKeepAllColumns) {
+      //   return this.columns;
+      // }
+      // if (this.settingTable) {
+      //   let columnsWithPos = this.columns.map((col, i) => ({
+      //     ...col,
+      //     pos: (this.settingTable[col.name] && this.settingTable[col.name].position) || i,
+      //   }));
+      //   columnsWithPos.sort((a, b) => a.pos - b.pos);
+      //   columnsWithPos = columnsWithPos.reduce((res, col) => {
+      //     if (!this.settingTable[col.name] || (this.settingTable[col.name] && this.settingTable[col.name].hidden !== true)) {
+      //       return [...res, col];
+      //     }
+      //     return [...res];
+      //   }, []);
+      //   return columnsWithPos;
+      // }
       return this.columns;
     }
   }
   componentWillLoad() {
     this.showingColumns = this.getColumns().reduce((res, col) => {
-      res = Object.assign(Object.assign({}, res), { [col.name]: (this.settingTable && this.settingTable[col.name] && this.settingTable[col.name].hidden ? false : true) ||
-          (this.hiddenColumns && this.hiddenColumns.includes(col.name) ? false : true) });
+      res = Object.assign(Object.assign({}, res), { [col.name]: this.settingTable && this.settingTable[col.name] && this.settingTable[col.name].hidden ? false : true });
       return res;
     }, {});
     this.posColumns = this.getColumns().reduce((res, col, idx) => {
-      res = Object.assign(Object.assign({}, res), { [col.name]: this.settingTable && this.settingTable[col.name] ? this.settingTable[col.name].position - 1 : idx });
+      res = Object.assign(Object.assign({}, res), { [col.name]: this.settingTable && this.settingTable[col.name] ? this.settingTable[col.name].position : idx });
       return res;
     }, {});
   }
@@ -340,7 +355,9 @@ export class GcTable {
     if (this.settingColumns && this.getData().length > 0) {
       let totalItems = this.getTotalItems();
       totalItems = totalItems ? totalItems.toLocaleString() : '';
-      const columns = this.getColumns();
+      const columnsWithPos = this.getColumns().map((col, idx) => (Object.assign(Object.assign({}, col), { pos: this.settingTable && this.settingTable[col.name] ? this.settingTable[col.name].position : idx })));
+      columnsWithPos.sort((a, b) => a.pos - b.pos);
+      const columns = columnsWithPos;
       return (h("div", { style: { background: this.background }, class: "gc__table-setting" },
         h("slot", { name: "gc__table-setting-title" },
           h("div", null,
@@ -681,21 +698,6 @@ export class GcTable {
       "reflect": false,
       "defaultValue": "false"
     },
-    "hiddenColumns": {
-      "type": "unknown",
-      "mutable": true,
-      "complexType": {
-        "original": "string[]",
-        "resolved": "string[]",
-        "references": {}
-      },
-      "required": false,
-      "optional": true,
-      "docs": {
-        "tags": [],
-        "text": ""
-      }
-    },
     "customRows": {
       "type": "unknown",
       "mutable": true,
@@ -935,9 +937,6 @@ export class GcTable {
   static get watchers() { return [{
       "propName": "columns",
       "methodName": "watchColumnsPropHandler"
-    }, {
-      "propName": "hiddenColumns",
-      "methodName": "watchHiddenColumnsPropHandler"
     }, {
       "propName": "settingTable",
       "methodName": "watchSettingTablePropHandler"

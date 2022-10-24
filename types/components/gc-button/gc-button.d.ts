@@ -45,5 +45,6 @@ export declare class GcButton {
   private getColorIcon;
   handleClick(ev: any): void;
   onClick(ev: any): void;
+  private renderButton;
   render(): any;
 }

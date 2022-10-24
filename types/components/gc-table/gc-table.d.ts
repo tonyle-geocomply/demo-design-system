@@ -49,7 +49,6 @@ export declare class GcTable {
   totalItems: number;
   emptyState: any;
   settingColumns?: boolean;
-  hiddenColumns?: string[];
   customRows?: string[];
   customRowsBackground?: string;
   customRowsBorder?: string;
@@ -69,7 +68,6 @@ export declare class GcTable {
   gcClearEmptyState: EventEmitter;
   gcTableSettingChange: EventEmitter;
   watchColumnsPropHandler(newValue: any): void;
-  watchHiddenColumnsPropHandler(hiddenCols: string[]): void;
   watchSettingTablePropHandler(newSetting: any): void;
   handleChangePage(ev: any): void;
   onSelectAllClick: () => void;

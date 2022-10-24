@@ -39,24 +39,20 @@ export class GcButton {
       ev.stopPropagation();
       return;
     }
-    if (this.href) {
-      if (this.target) {
-        window.open(this.href, this.target);
-      }
-      else {
-        window.location.href = this.href;
-      }
-    }
-    else {
-      this.gcClick.emit(ev);
-    }
+    this.gcClick.emit(ev);
   }
-  render() {
+  renderButton() {
     return (h("button", { style: { height: this.height, padding: this.paddingText }, onClick: e => this.onClick(e), class: this.getClassName(), id: this.gcId },
       this.icon && (h("span", { class: "gc__button-icon" },
         h("gc-icon", { color: this.getColorIcon(), name: this.icon, size: "1rem" }))),
       h("span", { style: { lineHeight: this.height }, class: "gc__button-text" },
         h("slot", null))));
+  }
+  render() {
+    if (this.href) {
+      return (h("a", { href: this.href, target: this.target }, this.renderButton()));
+    }
+    return this.renderButton();
   }
   static get is() { return "gc-button"; }
   static get encapsulation() { return "shadow"; }
