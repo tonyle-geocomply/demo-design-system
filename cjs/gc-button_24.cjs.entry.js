@@ -4522,8 +4522,8 @@ const GcTable = class {
                 this.onCellClick(row, column);
             } }, index$1.h("div", { class: "col-content" }, index$1.h("div", { class: "col-text", innerHTML: row === null || row === void 0 ? void 0 : row[column.name] }, conditionToDisplayActions ? (index$1.h("div", { class: { gc__actions: true } }, column.actions.map(action => {
             const matchCondition = row.actions && row.actions[column.name] && row.actions[column.name].includes(action.key) ? true : false;
-            return (index$1.h("gc-button", { class: `gc__btn-action ${matchCondition ? 'active' : ''}`, key: action.key, paddingText: "0 10px", height: "24px", href: action.href, disabled: action.disabled, target: action.target, "onGc:click": () => {
-                if (action.onClick) {
+            return (index$1.h("gc-button", { class: `gc__btn-action ${matchCondition ? 'active' : ''}`, key: action.key, paddingText: "0 10px", height: "24px", href: action.onLink && row && action.onLink(row), disabled: action.disabled, target: action.target, "onGc:click": () => {
+                if (action.onClick && row) {
                   action.onClick(row);
                 }
               }, type: action.type }, action.name));
