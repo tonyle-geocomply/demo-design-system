@@ -254,7 +254,7 @@ export class GcTable {
             h("div", { class: "col-content" },
               h("div", { class: "col-text", innerHTML: row === null || row === void 0 ? void 0 : row[column.name] }, conditionToDisplayActions ? (h("div", { class: { gc__actions: true } }, column.actions.map(action => {
                 const matchCondition = row.actions && row.actions[column.name] && row.actions[column.name].includes(action.key) ? true : false;
-                return (h("gc-button", { class: `gc__btn-action ${matchCondition ? 'active' : ''}`, key: action.key, paddingText: "0 10px", height: "24px", href: action.onLink && row && action.onLink(row), disabled: action.disabled, target: action.target, "onGc:click": () => {
+                return (h("gc-button", { class: `gc__btn-action ${matchCondition ? 'active' : ''}`, key: action.key, paddingText: "0 10px", height: "24px", href: action.onLink && row ? action.onLink(row) : null, disabled: action.disabled, target: action.target, "onGc:click": () => {
                     if (action.onClick && row) {
                       action.onClick(row);
                     }
