@@ -168,10 +168,11 @@ export class GcTable {
     }
     const columnsWithPos = this.getColumns().map(col => (Object.assign(Object.assign({}, col), { pos: this.posColumns[col.name] })));
     columnsWithPos.sort((a, b) => a.pos - b.pos);
+    const countCurrentCol = Object.keys(this.showingColumns) && Object.keys(this.showingColumns).filter(key => this.showingColumns[key]);
     columnsWithPos.forEach(col => {
       if (this.showingColumns[col.name]) {
-        let colWidth = DEFAULT_CELL_WIDTH;
-        if (col.width)
+        let colWidth = countCurrentCol && countCurrentCol.length > 0 ? `${100 / countCurrentCol.length}rem` : DEFAULT_CELL_WIDTH;
+        if (col.width && countCurrentCol.length > 7)
           colWidth = col.width;
         const colEl = (h("div", { onClick: () => {
             if (!this.sortable || !col.sortable)
@@ -231,11 +232,12 @@ export class GcTable {
           h("div", { class: "col-content" })));
       const columnsWithPos = this.getColumns().map(col => (Object.assign(Object.assign({}, col), { pos: this.posColumns[col.name] })));
       columnsWithPos.sort((a, b) => a.pos - b.pos);
+      const countCurrentCol = Object.keys(this.showingColumns) && Object.keys(this.showingColumns).filter(key => this.showingColumns[key]);
       columnsWithPos.forEach(column => {
         var _a, _b, _c;
         if (this.showingColumns[column.name]) {
-          let colWidth = DEFAULT_CELL_WIDTH;
-          if (column.width)
+          let colWidth = countCurrentCol && countCurrentCol.length > 0 ? `${100 / countCurrentCol.length}rem` : DEFAULT_CELL_WIDTH;
+          if (column.width && countCurrentCol.length > 7)
             colWidth = column.width;
           const conditionToDisplayActions = row.actions &&
             row.actions[column.name] &&

@@ -30,16 +30,14 @@
 .gc__table.paginate .table-scroll-container {
   height: calc(100% - 2.4375rem);
 }
-.gc__table.paginate .table-scroll-container::-webkit-scrollbar {
+.gc__table .table-scroll-container::-webkit-scrollbar {
   height: 6px;
 }
-
-.gc__table.paginate .table-scroll-container::-webkit-scrollbar-track {
+.gc__table .table-scroll-container::-webkit-scrollbar-track {
   border-radius: 5px;
   background: var(--gc-color-second-grey);
 }
-
-.gc__table.paginate .table-scroll-container::-webkit-scrollbar-thumb {
+.gc__table .table-scroll-container::-webkit-scrollbar-thumb {
   border-radius: 5px;
   background: var(--gc-color-primary);
 }
@@ -244,7 +242,7 @@ gc-icon.down-arrow {
   display: grid;
   grid-template-columns: 1fr 1fr 1fr;
   padding: 15px 20px;
-  row-gap: 9px;
+  row-gap: 14px;
 }
 
 .gc__table-setting .gc__table-setting-col-item {
@@ -256,6 +254,10 @@ gc-icon.down-arrow {
   margin-bottom: 0;
   margin-left: 8px;
   line-height: 13px;
+  max-width: 150px;
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
 }
 
 .gc__table-no-stripe .gc__table-body>.gc__row:nth-child(odd) {

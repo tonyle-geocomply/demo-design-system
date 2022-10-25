@@ -56,4 +56,6 @@
 .menu-item:not(.end-slot-has-content) .slot-end {
   display: none;
 }
-
+:host:last-child {
+  border-bottom: 0px;
+}
