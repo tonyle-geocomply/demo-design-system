@@ -51,7 +51,7 @@ const GcButton = class {
     this.gcClick.emit(ev);
   }
   renderButton() {
-    return (index$1.h("button", { style: { height: this.height, padding: this.paddingText }, onClick: e => this.onClick(e), class: this.getClassName(), id: this.gcId }, this.icon && (index$1.h("span", { class: "gc__button-icon" }, index$1.h("gc-icon", { color: this.getColorIcon(), name: this.icon, size: "1rem" }))), index$1.h("span", { style: { lineHeight: this.height }, class: "gc__button-text" }, index$1.h("slot", null))));
+    return (index$1.h("button", { style: { height: this.height, padding: `0 ${this.paddingText}` }, onClick: e => this.onClick(e), class: this.getClassName(), id: this.gcId }, this.icon && (index$1.h("span", { class: "gc__button-icon" }, index$1.h("gc-icon", { color: this.getColorIcon(), name: this.icon, size: "1rem" }))), index$1.h("span", { style: { lineHeight: this.height }, class: "gc__button-text" }, index$1.h("slot", null))));
   }
   render() {
     if (this.href) {
