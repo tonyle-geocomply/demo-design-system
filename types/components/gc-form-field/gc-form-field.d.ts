@@ -48,7 +48,6 @@ export declare class GcFormField {
  * Emitted when the value has changed.
  */
   gcFieldChange: EventEmitter;
-  watchPropHandler(newValue: string): void;
   handleChange(evt: any): void;
   render(): any;
 }

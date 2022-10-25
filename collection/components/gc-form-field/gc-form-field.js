@@ -1,4 +1,4 @@
-import { Component, Prop, Host, h, Watch, Event } from '@stencil/core';
+import { Component, Prop, Host, h, Event } from '@stencil/core';
 export class GcFormField {
   constructor() {
     /**
@@ -18,10 +18,8 @@ export class GcFormField {
      */
     this.search = 'none';
   }
-  watchPropHandler(newValue) {
-    this.value = newValue;
-  }
   handleChange(evt) {
+    this.value = evt.detail.value;
     this.gcFieldChange.emit({ value: evt.detail.value });
   }
   render() {
@@ -228,9 +226,5 @@ export class GcFormField {
         "resolved": "any",
         "references": {}
       }
-    }]; }
-  static get watchers() { return [{
-      "propName": "value",
-      "methodName": "watchPropHandler"
     }]; }
 }

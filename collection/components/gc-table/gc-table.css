@@ -30,6 +30,19 @@
 .gc__table.paginate .table-scroll-container {
   height: calc(100% - 2.4375rem);
 }
+.gc__table.paginate .table-scroll-container::-webkit-scrollbar {
+  height: 6px;
+}
+
+.gc__table.paginate .table-scroll-container::-webkit-scrollbar-track {
+  border-radius: 5px;
+  background: var(--gc-color-second-grey);
+}
+
+.gc__table.paginate .table-scroll-container::-webkit-scrollbar-thumb {
+  border-radius: 5px;
+  background: var(--gc-color-primary);
+}
 .gc__table .pagination {
   display: flex;
   border-top: 1px solid var(--table-border-color);

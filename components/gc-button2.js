@@ -50,7 +50,7 @@ const GcButton = /*@__PURE__*/ proxyCustomElement(class extends HTMLElement {
     this.gcClick.emit(ev);
   }
   renderButton() {
-    return (h("button", { style: { height: this.height, padding: `0 ${this.paddingText}` }, onClick: e => this.onClick(e), class: this.getClassName(), id: this.gcId }, this.icon && (h("span", { class: "gc__button-icon" }, h("gc-icon", { color: this.getColorIcon(), name: this.icon, size: "1rem" }))), h("span", { style: { lineHeight: this.height }, class: "gc__button-text" }, h("slot", null))));
+    return (h("button", { style: { height: this.height, padding: this.paddingText ? `0 ${this.paddingText}` : undefined }, onClick: e => this.onClick(e), class: this.getClassName(), id: this.gcId }, this.icon && (h("span", { class: "gc__button-icon" }, h("gc-icon", { color: this.getColorIcon(), name: this.icon, size: "1rem" }))), h("span", { style: { lineHeight: this.height }, class: "gc__button-text" }, h("slot", null))));
   }
   render() {
     if (this.href) {

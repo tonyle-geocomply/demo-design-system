@@ -143,6 +143,9 @@ const GcSelect = /*@__PURE__*/ proxyCustomElement(class extends HTMLElement {
     this.onInput = (ev) => {
       const input = ev.target;
       this.searchString = input.value || '';
+      if (!this.searchString) {
+        this.value = '';
+      }
       this.goatSearch.emit({ value: this.searchString });
     };
   }
@@ -172,6 +175,9 @@ const GcSelect = /*@__PURE__*/ proxyCustomElement(class extends HTMLElement {
       if (selectedItem && selectedItem.color) {
         this.selectedColorItem = selectedItem.color;
       }
+    }
+    if (!newValue) {
+      this.stateItems = this.getItems();
     }
   }
   windowClick(evt) {
@@ -343,7 +349,8 @@ const GcSelect = /*@__PURE__*/ proxyCustomElement(class extends HTMLElement {
         'end-slot-has-content': this.endSlotHasContent,
       } }, h("div", { class: "slot-container start" }, h("slot", { name: "start" })), (() => {
       if (this.search !== 'none' && this.isOpen) {
-        return (h("input", Object.assign({ class: "input input-native", ref: input => (this.nativeInput = input), type: "text", value: this.searchString, placeholder: this.placeholder, onBlur: this.blurHandler, onFocus: this.focusHandler, onInput: this.onInput, onKeyDown: this.keyDownHandler }, this.configAria)));
+        const item = this.getItemByValue(this.value);
+        return (h("input", Object.assign({ class: "input input-native", ref: input => (this.nativeInput = input), type: "text", value: this.hasValue() ? item === null || item === void 0 ? void 0 : item.label : this.searchString, placeholder: this.placeholder, onBlur: this.blurHandler, onFocus: this.focusHandler, onInput: this.onInput, onKeyDown: this.keyDownHandler }, this.configAria)));
       }
       else {
         return (h("div", { class: "gc__section-hidden" }, h("div", Object.assign({ class: "input display-value", tabindex: "0", ref: input => (this.displayElement = input), "aria-disabled": this.disabled ? 'true' : null, onFocus: this.focusHandler, onBlur: this.blurHandler, onKeyDown: this.keyDownHandler }, this.configAria), this.getDisplayValue()), h("input", { id: this.gcId, style: { display: 'none' }, value: this.value })));
@@ -378,6 +385,11 @@ const GcSelect = /*@__PURE__*/ proxyCustomElement(class extends HTMLElement {
     if (this.search === 'managed')
       return this.getItems();
     const items = this.search !== 'none' ? this.getItems() : this.stateItems;
+    if (this.hasValue() && !this.searchString) {
+      return items.filter(item => {
+        return item.value !== this.value;
+      });
+    }
     return items.filter(item => {
       return !this.searchString || item.label.toLocaleLowerCase().includes(this.searchString.toLocaleLowerCase());
     });

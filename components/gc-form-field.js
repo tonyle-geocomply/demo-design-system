@@ -30,19 +30,14 @@ const GcFormField$1 = /*@__PURE__*/ proxyCustomElement(class extends HTMLElement
      */
     this.search = 'none';
   }
-  watchPropHandler(newValue) {
-    this.value = newValue;
-  }
   handleChange(evt) {
+    this.value = evt.detail.value;
     this.gcFieldChange.emit({ value: evt.detail.value });
   }
   render() {
     const input = this.type === 'select' ? (h("gc-select", { search: this.search, items: this.items, "gc-id": this.gcId, "gc-name": this.gcName, value: this.value, disabled: this.disabled, placeholder: this.placeholder, "onGc:change": e => this.handleChange(e) })) : (h("gc-input", { "prefix-icon": this.prefixIcon, "gc-id": this.gcId, "gc-name": this.gcName, value: this.value, disabled: this.disabled, type: this.type, placeholder: this.placeholder, "onGc:change": e => this.handleChange(e) }));
     return (h(Host, null, h("gc-label", { "gc-for": this.gcName }, this.label), input));
   }
-  static get watchers() { return {
-    "value": ["watchPropHandler"]
-  }; }
   static get style() { return gcFormFieldCss; }
 }, [2, "gc-form-field", {
     "label": [1],
