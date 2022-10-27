@@ -213,7 +213,8 @@ gc-icon.down-arrow {
   text-align: center;
 }
 .gc__table-setting {
-  font-weight: 600;;
+  font-weight: 600;
+  font-size: 12px;
   display: flex;
   align-items: center;
   justify-content: space-between;
@@ -265,7 +266,7 @@ gc-icon.down-arrow {
 }
 
 .gc__table-setting label.gc__label.sc-gc-checkbox {
-  color: var(--gc-color-strong-grey);
+  color: var(--gc-color-text-grey);
 }
 
 .gc__table-no-stripe .gc__table-body>.gc__row:nth-child(odd) {
@@ -316,6 +317,12 @@ gc-icon.down-arrow {
   display: block;
 }
 
+.gc__table-setting-manage-title {
+  font-weight: 600;
+  font-size: 12px;
+  line-height: 17px;
+  color: #51666C;
+}
 
 @keyframes fadeInShow {
   0% {

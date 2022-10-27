@@ -1,5 +1,6 @@
 import { Component, Element, Event, h, Host, Prop, State, Listen, Watch } from '@stencil/core';
-const DEFAULT_CELL_WIDTH = '16rem'; // in rem
+const DEFAULT_CELL_WIDTH = '16vw'; // in vw
+const DEFAULT_MAXIMUM_TO_SCALE = 6;
 /**
  * @name Table
  * @description A configurable component for displaying tabular data.
@@ -169,11 +170,11 @@ export class GcTable {
     const columnsWithPos = this.getColumns().map(col => (Object.assign(Object.assign({}, col), { pos: this.posColumns[col.name] })));
     columnsWithPos.sort((a, b) => a.pos - b.pos);
     const countCurrentCol = Object.keys(this.showingColumns) && Object.keys(this.showingColumns).filter(key => this.showingColumns[key]);
-    columnsWithPos.forEach(col => {
+    columnsWithPos.forEach((col, i) => {
       if (this.showingColumns[col.name]) {
-        let colWidth = countCurrentCol && countCurrentCol.length > 0 ? `${100 / countCurrentCol.length}rem` : DEFAULT_CELL_WIDTH;
-        if (col.width && countCurrentCol.length > 7)
-          colWidth = col.width;
+        let colWidth = countCurrentCol && countCurrentCol.length > 0 ? `${100 / countCurrentCol.length}vw` : i === columnsWithPos.length - 1 ? 'auto' : DEFAULT_CELL_WIDTH;
+        if (col.width && countCurrentCol.length > DEFAULT_MAXIMUM_TO_SCALE)
+          colWidth = i === columnsWithPos.length - 1 ? 'auto' : col.width;
         const colEl = (h("div", { onClick: () => {
             if (!this.sortable || !col.sortable)
               return;
@@ -204,7 +205,7 @@ export class GcTable {
     });
     return (h("div", { class: "header" },
       h("div", { class: "gc__row" },
-        h("div", { class: "fixed-columns columns-container" }, fixedCols),
+        h("div", { class: "fixed-columns columns-container", style: { position: countCurrentCol.length <= DEFAULT_MAXIMUM_TO_SCALE ? 'relative' : 'sticky' } }, fixedCols),
         h("div", { class: "scrollable-columns columns-container" }, scrollCols))));
   }
   renderBody() {
@@ -236,8 +237,8 @@ export class GcTable {
       columnsWithPos.forEach(column => {
         var _a, _b, _c;
         if (this.showingColumns[column.name]) {
-          let colWidth = countCurrentCol && countCurrentCol.length > 0 ? `${100 / countCurrentCol.length}rem` : DEFAULT_CELL_WIDTH;
-          if (column.width && countCurrentCol.length > 7)
+          let colWidth = countCurrentCol && countCurrentCol.length > 0 ? `${100 / countCurrentCol.length}vw` : DEFAULT_CELL_WIDTH;
+          if (column.width && countCurrentCol.length > DEFAULT_MAXIMUM_TO_SCALE)
             colWidth = column.width;
           const conditionToDisplayActions = row.actions &&
             row.actions[column.name] &&
@@ -269,7 +270,7 @@ export class GcTable {
           background: this.customRows && this.customRowsBackground && this.customRows.includes(`${idx}`) ? this.customRowsBackground : '',
           border: this.customRows && this.customRowsBorder && this.customRows.includes(`${idx}`) ? this.customRowsBorder : '',
         } },
-        h("div", { class: "fixed-columns columns-container" }, fixedCols),
+        h("div", { class: "fixed-columns columns-container", style: { position: countCurrentCol.length <= DEFAULT_MAXIMUM_TO_SCALE ? 'relative' : 'sticky' } }, fixedCols),
         h("div", { class: "scrollable-columns columns-container" }, scrollCols)));
     });
     return h("div", { class: "gc__table-body" }, rows);
@@ -370,7 +371,8 @@ export class GcTable {
             " found matching applied filters:")),
         h("div", null,
           h("gc-dropdown", { id: `dropdown_${this.gcId}` },
-            h("gc-link", { icon: "fa-solid fa-table-layout", color: "var(--gc-color-text-grey)" }, "Manage Table Columns"),
+            h("gc-link", { icon: "fa-solid fa-table-layout", color: "#51666C" },
+              h("span", { class: "gc__table-setting-manage-title" }, "Manage Table Columns")),
             h("div", { slot: "gc__dropdown-content", class: "dropdown" },
               h("div", { class: "gc__table-setting-cols-text" },
                 h("gc-icon", { color: "red", name: "fa-regular fa-square-info" }),
@@ -382,11 +384,12 @@ export class GcTable {
     }
   }
   render() {
+    const countCurrentCol = Object.keys(this.showingColumns) && Object.keys(this.showingColumns).filter(key => this.showingColumns[key]);
     if (this.isLoading) {
       return (h(Host, null,
         this.renderSettingColumns(),
         h("div", { class: { 'gc__table': true, 'sortable': this.sortable, 'paginate': this.paginate, 'gc__table-no-stripe': !this.isStripe, 'gc__table-no-border': !this.isBordered } },
-          h("div", { class: "table-scroll-container" },
+          h("div", { class: "table-scroll-container", style: { overflow: countCurrentCol.length <= DEFAULT_MAXIMUM_TO_SCALE ? 'hidden' : 'auto' } },
             this.renderHeader(),
             this.renderBody(),
             h("div", { class: "loading-section" },
@@ -396,7 +399,7 @@ export class GcTable {
     return (h(Host, null,
       this.renderSettingColumns(),
       this.getData().length > 0 ? (h("div", { class: { 'gc__table': true, 'sortable': this.sortable, 'paginate': this.paginate, 'gc__table-no-stripe': !this.isStripe, 'gc__table-no-border': !this.isBordered } },
-        h("div", { class: "table-scroll-container" },
+        h("div", { class: "table-scroll-container", style: { overflow: countCurrentCol.length <= DEFAULT_MAXIMUM_TO_SCALE ? 'hidden' : 'auto' } },
           this.renderHeader(),
           this.renderBody()),
         this.paginate && (h("div", { style: { background: this.background }, class: "table-footer" }, this.renderPagination())))) : (this.renderEmptyState())));
