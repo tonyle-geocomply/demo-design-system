@@ -24,5 +24,6 @@ export declare class GcLink {
    */
   target?: string;
   private getClassName;
+  private onClickIcon;
   render(): any;
 }

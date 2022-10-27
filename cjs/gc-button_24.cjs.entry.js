@@ -3422,9 +3422,12 @@ const GcLink = class {
   getClassName() {
     return this.class ? `gc-link ${this.class}` : 'gc-link';
   }
+  onClickIcon() {
+    window.open(this.gcTo, this.target);
+  }
   render() {
     if (this.icon) {
-      return (index$1.h("div", { style: { display: 'flex', alignItems: 'baseline', cursor: 'pointer' } }, index$1.h("gc-icon", { name: this.icon, size: "13px", color: "#397FF7" }), index$1.h("a", { target: this.target, style: { color: this.color || 'var(--gc-color-primary)', marginLeft: '8px' }, class: this.getClassName(), id: this.gcId, href: this.gcTo }, index$1.h("slot", null))));
+      return (index$1.h("div", { style: { display: 'flex', alignItems: 'baseline', cursor: 'pointer' } }, index$1.h("gc-icon", { onClick: () => this.onClickIcon(), name: this.icon, size: "13px", color: "#397FF7" }), index$1.h("a", { target: this.target, style: { color: this.color || 'var(--gc-color-primary)', marginLeft: '8px' }, class: this.getClassName(), id: this.gcId, href: this.gcTo }, index$1.h("slot", null))));
     }
     return (index$1.h("a", { target: this.target, style: { color: this.color || 'var(--gc-color-primary)' }, class: this.getClassName(), id: this.gcId, href: this.gcTo }, index$1.h("slot", null)));
   }
@@ -4531,7 +4534,7 @@ const GcTable = class {
                 this.onCellClick(row, column);
             } }, index$1.h("div", { class: "col-content" }, index$1.h("div", { class: "col-text", innerHTML: row === null || row === void 0 ? void 0 : row[column.name] }, conditionToDisplayActions ? (index$1.h("div", { class: { gc__actions: true } }, column.actions.map(action => {
             const matchCondition = row.actions && row.actions[column.name] && row.actions[column.name].includes(action.key) ? true : false;
-            return (index$1.h("gc-button", { class: `gc__btn-action ${matchCondition ? 'active' : ''}`, key: action.key, paddingText: "0 10px", height: "24px", href: action.onLink && row ? action.onLink(row) : null, disabled: action.disabled, target: action.target, "onGc:click": () => {
+            return (index$1.h("gc-button", { class: `gc__btn-action ${matchCondition ? 'active' : ''}`, key: action.key, paddingText: "10px 0", height: "24px", href: action.onLink && row ? action.onLink(row) : null, disabled: action.disabled, target: action.target, "onGc:click": () => {
                 if (action.onClick && row) {
                   action.onClick(row);
                 }

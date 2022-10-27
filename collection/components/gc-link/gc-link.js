@@ -9,10 +9,13 @@ export class GcLink {
   getClassName() {
     return this.class ? `gc-link ${this.class}` : 'gc-link';
   }
+  onClickIcon() {
+    window.open(this.gcTo, this.target);
+  }
   render() {
     if (this.icon) {
       return (h("div", { style: { display: 'flex', alignItems: 'baseline', cursor: 'pointer' } },
-        h("gc-icon", { name: this.icon, size: "13px", color: "#397FF7" }),
+        h("gc-icon", { onClick: () => this.onClickIcon(), name: this.icon, size: "13px", color: "#397FF7" }),
         h("a", { target: this.target, style: { color: this.color || 'var(--gc-color-primary)', marginLeft: '8px' }, class: this.getClassName(), id: this.gcId, href: this.gcTo },
           h("slot", null))));
     }
