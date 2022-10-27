@@ -4457,9 +4457,9 @@ const GcTable = class {
     const countCurrentCol = Object.keys(this.showingColumns) && Object.keys(this.showingColumns).filter(key => this.showingColumns[key]);
     columnsWithPos.forEach((col, i) => {
       if (this.showingColumns[col.name]) {
-        let colWidth = countCurrentCol && countCurrentCol.length > 0 ? `${100 / countCurrentCol.length}vw` : i === columnsWithPos.length - 1 ? 'auto' : DEFAULT_CELL_WIDTH;
+        let colWidth = countCurrentCol && countCurrentCol.length > 0 ? (i === columnsWithPos.length - 1 ? 'max-content' : `${100 / countCurrentCol.length}vw`) : DEFAULT_CELL_WIDTH;
         if (col.width && countCurrentCol.length > DEFAULT_MAXIMUM_TO_SCALE)
-          colWidth = i === columnsWithPos.length - 1 ? 'auto' : col.width;
+          colWidth = i === columnsWithPos.length - 1 ? 'max-content' : col.width;
         const colEl = (h("div", { onClick: () => {
             if (!this.sortable || !col.sortable)
               return;
