@@ -376,7 +376,7 @@ export class GcTable {
                 h("gc-icon", { color: "red", name: "fa-regular fa-square-info" }),
                 h("gc-h2", { class: "gc__table-setting-cols-title" }, "Manage Table Columns")),
               h("gc-drag-container", { "onGc:drop": this.onDrop, "class-container": "gc__table-setting-cols", "class-daggable": ".draggable-item", group: "table-setting-cols" }, columns.map(col => (h("gc-draggable-item", { "data-col-name": col.name, "data-col-check": `${this.showingColumns[col.name]}`, key: `${this.gcId}_${col.name}`, class: { 'draggable-item': !col.alwaysDisplay } },
-                h("div", { key: `${this.gcId}_${col.name}`, class: { 'gc__table-setting-col-item': true } },
+                h("div", { key: `${this.gcId}_${col.name}`, class: { 'gc__table-setting-col-item': true, 'disabled': col.alwaysDisplay } },
                   h("gc-icon", { color: "var(--gc-color-secondary-grey)", name: "fa-solid fa-grip-dots-vertical" }),
                   h("gc-checkbox", { disabled: col.alwaysDisplay, "gc-name": `${this.gcId}_${col.name}`, label: col.label, checked: this.showingColumns[col.name], "onGc:change": e => this.onCheck(e, col.name) })))))))))));
     }

@@ -34,7 +34,7 @@ export class GcButton {
     }
   }
   onClick(ev) {
-    if (this.disabled) {
+    if (this.disabled || this.href) {
       ev.preventDefault();
       ev.stopPropagation();
       return;

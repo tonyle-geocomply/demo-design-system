@@ -260,6 +260,14 @@ gc-icon.down-arrow {
   text-overflow: ellipsis;
 }
 
+.gc__table-setting .gc__table-setting-col-item.disabled {
+  cursor: not-allowed;
+}
+
+.gc__table-setting label.gc__label.sc-gc-checkbox {
+  color: var(--gc-color-strong-grey);
+}
+
 .gc__table-no-stripe .gc__table-body>.gc__row:nth-child(odd) {
   background-color: inherit;
 }

@@ -42,7 +42,7 @@ const GcButton = /*@__PURE__*/ proxyCustomElement(class extends HTMLElement {
     }
   }
   onClick(ev) {
-    if (this.disabled) {
+    if (this.disabled || this.href) {
       ev.preventDefault();
       ev.stopPropagation();
       return;
