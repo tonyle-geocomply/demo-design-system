@@ -4457,9 +4457,10 @@ const GcTable = class {
     const countCurrentCol = Object.keys(this.showingColumns) && Object.keys(this.showingColumns).filter(key => this.showingColumns[key]);
     columnsWithPos.forEach((col, i) => {
       if (this.showingColumns[col.name]) {
-        let colWidth = countCurrentCol && countCurrentCol.length > 0 ? (i === columnsWithPos.length - 1 ? 'max-content' : `${100 / countCurrentCol.length}vw`) : DEFAULT_CELL_WIDTH;
-        if (col.width && countCurrentCol.length > DEFAULT_MAXIMUM_TO_SCALE)
-          colWidth = i === columnsWithPos.length - 1 ? 'max-content' : col.width;
+        console.log(columnsWithPos.length);
+        let colWidth = countCurrentCol && countCurrentCol.length > 0 ? `${100 / countCurrentCol.length}%` : DEFAULT_CELL_WIDTH;
+        if (countCurrentCol.length > DEFAULT_MAXIMUM_TO_SCALE)
+          colWidth = i === columnsWithPos.length - 1 ? DEFAULT_CELL_WIDTH : col.width;
         const colEl = (h("div", { onClick: () => {
             if (!this.sortable || !col.sortable)
               return;
@@ -4510,12 +4511,12 @@ const GcTable = class {
       const columnsWithPos = this.getColumns().map(col => (Object.assign(Object.assign({}, col), { pos: this.posColumns[col.name] })));
       columnsWithPos.sort((a, b) => a.pos - b.pos);
       const countCurrentCol = Object.keys(this.showingColumns) && Object.keys(this.showingColumns).filter(key => this.showingColumns[key]);
-      columnsWithPos.forEach(column => {
+      columnsWithPos.forEach((column, i) => {
         var _a, _b, _c;
         if (this.showingColumns[column.name]) {
-          let colWidth = countCurrentCol && countCurrentCol.length > 0 ? `${100 / countCurrentCol.length}vw` : DEFAULT_CELL_WIDTH;
-          if (column.width && countCurrentCol.length > DEFAULT_MAXIMUM_TO_SCALE)
-            colWidth = column.width;
+          let colWidth = countCurrentCol && countCurrentCol.length > 0 ? `${100 / countCurrentCol.length}%` : DEFAULT_CELL_WIDTH;
+          if (countCurrentCol.length > DEFAULT_MAXIMUM_TO_SCALE)
+            colWidth = i === columnsWithPos.length - 1 ? DEFAULT_CELL_WIDTH : column.width;
           const conditionToDisplayActions = row.actions &&
             row.actions[column.name] &&
             column.actions &&
