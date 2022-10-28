@@ -113,3 +113,6 @@ export const getFromObject = (obj, path, defaultValue = undefined) => {
   const result = travel(/[,[\]]+?/) || travel(/[,[\].]+?/);
   return result === undefined || result === obj ? defaultValue : result;
 };
+export const copyClipboard = (content) => {
+  navigator.clipboard.writeText(content);
+};

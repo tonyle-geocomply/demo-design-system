@@ -1,4 +1,5 @@
 import { proxyCustomElement, HTMLElement, createEvent, h, Host } from '@stencil/core/internal/client';
+import { c as copyClipboard } from './utils.js';
 import { d as defineCustomElement$d } from './gc-button2.js';
 import { d as defineCustomElement$c } from './gc-checkbox2.js';
 import { d as defineCustomElement$b } from './gc-drag-container2.js';
@@ -219,6 +220,34 @@ const GcTable$1 = /*@__PURE__*/ proxyCustomElement(class extends HTMLElement {
     });
     return (h("div", { class: "header" }, h("div", { class: "gc__row" }, h("div", { class: "fixed-columns columns-container", style: { position: countCurrentCol.length <= DEFAULT_MAXIMUM_TO_SCALE ? 'relative' : 'sticky' } }, fixedCols), h("div", { class: "scrollable-columns columns-container" }, scrollCols))));
   }
+  renderActions(row, column, conditionToDisplayActions) {
+    return conditionToDisplayActions ? (h("div", { class: { gc__actions: true } }, column.actions.map(action => {
+      const matchCondition = row.actions && row.actions[column.name] && row.actions[column.name].includes(action.key) ? true : false;
+      return (h("gc-button", { class: `gc__btn-action ${matchCondition ? 'active' : ''}`, key: action.key, paddingText: "10px 0", height: "24px", href: action.onLink && row ? action.onLink(row) : null, disabled: action.disabled, target: action.target, "onGc:click": () => {
+          if (action.onClick && row) {
+            action.onClick(row);
+          }
+        }, type: action.type }, action.name));
+    }))) : null;
+  }
+  renderCutText(row, column) {
+    if (column.isCopyText && (row === null || row === void 0 ? void 0 : row[column.name])) {
+      if (column.isCopyText.remainSuffix) {
+        return (row === null || row === void 0 ? void 0 : row[column.name].length) > column.isCopyText.remainSuffix ? '...' + (row === null || row === void 0 ? void 0 : row[column.name].slice(-column.isCopyText.remainSuffix)) : row === null || row === void 0 ? void 0 : row[column.name];
+      }
+      if (column.isCopyText.remainPrefix) {
+        return (row === null || row === void 0 ? void 0 : row[column.name].length) > column.isCopyText.remainPrefix ? (row === null || row === void 0 ? void 0 : row[column.name].slice(0, column.isCopyText.remainPrefix)) + '...' : row === null || row === void 0 ? void 0 : row[column.name];
+      }
+    }
+    return row === null || row === void 0 ? void 0 : row[column.name];
+  }
+  renderColumnContent(row, column, conditionToDisplayActions) {
+    if (column.isLongText || column.isCopyText) {
+      return (h("gc-dropdown", null, h("div", { style: { color: 'var(--gc-color-text-grey)', textDecoration: 'underline', cursor: 'pointer' }, class: "col-text" }, this.renderCutText(row, column), this.renderActions(row, column, conditionToDisplayActions)), h("div", { slot: "gc__dropdown-content", class: "menu", style: { width: '300px', padding: '10px' } }, row === null || row === void 0 ? void 0 :
+        row[column.name], column.isCopyText && (h("div", { style: { marginTop: '8px' } }, h("gc-button", { height: "29px", type: "primary", "onGc:click": () => copyClipboard(row === null || row === void 0 ? void 0 : row[column.name]) }, column.isCopyText.text || 'Copy'))))));
+    }
+    return (h("div", { class: "col-text", innerHTML: row === null || row === void 0 ? void 0 : row[column.name] }, this.renderActions(row, column, conditionToDisplayActions)));
+  }
   renderBody() {
     const rows = [];
     let data = [...this.getData()];
@@ -263,14 +292,7 @@ const GcTable$1 = /*@__PURE__*/ proxyCustomElement(class extends HTMLElement {
               const selection = window.getSelection();
               if (selection.type != 'Range')
                 this.onCellClick(row, column);
-            } }, h("div", { class: "col-content" }, h("div", { class: "col-text", innerHTML: row === null || row === void 0 ? void 0 : row[column.name] }, conditionToDisplayActions ? (h("div", { class: { gc__actions: true } }, column.actions.map(action => {
-            const matchCondition = row.actions && row.actions[column.name] && row.actions[column.name].includes(action.key) ? true : false;
-            return (h("gc-button", { class: `gc__btn-action ${matchCondition ? 'active' : ''}`, key: action.key, paddingText: "10px 0", height: "24px", href: action.onLink && row ? action.onLink(row) : null, disabled: action.disabled, target: action.target, "onGc:click": () => {
-                if (action.onClick && row) {
-                  action.onClick(row);
-                }
-              }, type: action.type }, action.name));
-          }))) : null))));
+            } }, h("div", { class: "col-content" }, this.renderColumnContent(row, column, conditionToDisplayActions))));
           column.fixed && countCurrentCol.length > DEFAULT_MAXIMUM_TO_SCALE ? fixedCols.push(colEl) : scrollCols.push(colEl);
         }
       });

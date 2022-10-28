@@ -64,5 +64,8 @@ const debounce = (func, wait = 0) => {
     timer = setTimeout(func, wait, ...args);
   };
 };
+const copyClipboard = (content) => {
+  navigator.clipboard.writeText(content);
+};
 
-export { isMobile as a, isOutOfViewport as b, debounceEvent as d, isEventTriggerByElement as i };
+export { isMobile as a, isOutOfViewport as b, copyClipboard as c, debounceEvent as d, isEventTriggerByElement as i };

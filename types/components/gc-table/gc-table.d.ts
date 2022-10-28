@@ -79,6 +79,9 @@ export declare class GcTable {
   onClearEmptyState(): void;
   onDrop: (e: any) => void;
   renderHeader(): any;
+  renderActions(row: any, column: any, conditionToDisplayActions: any): any;
+  renderCutText(row: any, column: any): any;
+  renderColumnContent(row: any, column: any, conditionToDisplayActions: any): any;
   renderBody(): any;
   getTotalItems(): any;
   private getData;
