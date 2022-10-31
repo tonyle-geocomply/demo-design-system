@@ -61,6 +61,9 @@ export declare class GcTable {
   private isSelectAll;
   private showingColumns;
   private posColumns;
+  private showTooltip;
+  private clickedCell;
+  private isCopied;
   gcCellClick: EventEmitter;
   gcSelectChange: EventEmitter;
   gcSort: EventEmitter;
@@ -70,14 +73,16 @@ export declare class GcTable {
   watchColumnsPropHandler(newValue: any): void;
   watchSettingTablePropHandler(newSetting: any): void;
   handleChangePage(ev: any): void;
+  windowClick(evt: any): boolean;
   onSelectAllClick: () => void;
   onRowSelectClick: (row: any) => void;
   onCellMouseOver: (row: any, column: any) => void;
   onSelectChange(selectedRowKeys: any): void;
-  onCellClick(row: any, col: any): void;
+  onCellClick(row: any, column: any): void;
   onCheck(e: any, name: string): void;
   onClearEmptyState(): void;
   onDrop: (e: any) => void;
+  onToggleTooltip(): void;
   renderHeader(): any;
   renderActions(row: any, column: any, conditionToDisplayActions: any): any;
   renderCutText(row: any, column: any): any;

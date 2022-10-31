@@ -92,17 +92,17 @@ export class GcStep {
   }
   render() {
     const successCondition = !this.open && this.status === 'success';
-    const opcaityCondition = !this.open && this.status !== 'success';
+    const opacityCondition = !this.open && this.status !== 'success';
     return (h(Host, null,
-      h("header", { class: { 'gc__head-opening': this.open, 'gc__head': true, 'gc__head-opacity': opcaityCondition }, onClick: () => this.toggle() },
+      h("header", { class: { 'gc__head-opening': this.open, 'gc__head': true, 'gc__head-opacity': opacityCondition }, onClick: () => this.toggle() },
         h("div", { class: "gc__step-item-title" },
-          h("div", { style: { borderColor: successCondition ? 'var(--gc-color-green)' : 'var(--gc-color-primary)' }, class: { 'transitioning-rotate': this.transitioning, 'gc__step-item-icon': true } }, successCondition ? (h("gc-icon", { name: "fa-regular fa-check", color: "var(--gc-color-green)", size: "24px" })) : (h("gc-icon", { name: this.icon, color: "var(--gc-color-primary)", size: "22px" }))),
+          h("div", { style: { borderColor: successCondition ? 'var(--gc-color-green)' : 'var(--gc-color-primary)' }, class: { 'transitioning-rotate': this.transitioning && this.open, 'gc__step-item-icon': true } }, successCondition ? (h("gc-icon", { name: "fa-regular fa-check", color: "var(--gc-color-green)", size: "24px" })) : (h("gc-icon", { name: this.icon, color: "var(--gc-color-primary)", size: "22px" }))),
           h("div", { class: "gc__step-item-title--content" },
             h("div", { style: { color: successCondition ? 'var(--gc-color-green)' : 'var(--gc-color-primary)' } },
               h("slot", { name: "title" })),
             h("slot", { name: "description" }))),
         !this.open && h("hr", null)),
-      h("section", { onTransitionEnd: () => this.handleTransitionEnd(), class: { 'gc__steps-section': true, transitioning: this.transitioning }, style: this.style },
+      h("section", { onTransitionEnd: () => this.handleTransitionEnd(), class: { 'gc__steps-section': true, 'transitioning': this.transitioning }, style: this.style },
         h("div", null,
           h("slot", null)))));
   }

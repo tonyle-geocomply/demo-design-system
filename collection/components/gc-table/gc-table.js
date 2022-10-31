@@ -60,6 +60,9 @@ export class GcTable {
     this.isSelectAll = false;
     this.showingColumns = {};
     this.posColumns = {};
+    this.showTooltip = false;
+    this.clickedCell = {};
+    this.isCopied = false;
     this.onSelectAllClick = () => {
       let selectedRowKeys = [];
       this.isSelectAll = !this.isSelectAll;
@@ -142,12 +145,24 @@ export class GcTable {
   handleChangePage(ev) {
     this.page = ev.detail.value;
   }
+  windowClick(evt) {
+    const path = evt.path || evt.composedPath();
+    for (const elm of path) {
+      if (elm == this.elm) {
+        return;
+      }
+    }
+    if (this.isCopied)
+      return false;
+    this.showTooltip = false;
+  }
   onSelectChange(selectedRowKeys) {
     this.selectedRowKeys = selectedRowKeys;
     this.gcSelectChange.emit({ value: this.selectedRowKeys, isSelectAll: this.isSelectAll });
   }
-  onCellClick(row, col) {
-    this.gcCellClick.emit({ record: row, column: col });
+  onCellClick(row, column) {
+    this.clickedCell = { row, column };
+    this.gcCellClick.emit({ record: row, column });
   }
   onCheck(e, name) {
     this.showingColumns = Object.assign(Object.assign({}, this.showingColumns), { [name]: e.detail.value });
@@ -160,6 +175,15 @@ export class GcTable {
     if (this.gcClearEmptyState) {
       this.gcClearEmptyState.emit({});
     }
+  }
+  onToggleTooltip() {
+    if (this.isCopied) {
+      setTimeout(() => {
+        this.isCopied = false;
+      }, 500);
+      return;
+    }
+    this.showTooltip = !this.showTooltip;
   }
   renderHeader() {
     const fixedCols = [];
@@ -231,15 +255,29 @@ export class GcTable {
     return row === null || row === void 0 ? void 0 : row[column.name];
   }
   renderColumnContent(row, column, conditionToDisplayActions) {
+    var _a, _b;
     if (column.isLongText || column.isCopyText) {
-      return (h("gc-dropdown", null,
-        h("div", { style: { color: 'var(--gc-color-text-grey)', textDecoration: 'underline', cursor: 'pointer' }, class: "col-text" },
-          this.renderCutText(row, column),
-          this.renderActions(row, column, conditionToDisplayActions)),
-        h("div", { slot: "gc__dropdown-content", class: "menu", style: { width: '300px', padding: '10px' } }, row === null || row === void 0 ? void 0 :
-          row[column.name],
-          column.isCopyText && (h("div", { style: { marginTop: '8px' } },
-            h("gc-button", { height: "29px", type: "primary", "onGc:click": () => copyClipboard(row === null || row === void 0 ? void 0 : row[column.name]) }, column.isCopyText.text || 'Copy'))))));
+      return (h("div", { onClick: () => this.onToggleTooltip(), style: { color: 'var(--gc-color-text-grey)', textDecoration: 'underline', cursor: 'pointer' }, class: { 'col-text': true, 'has-tooltip': true, 'active': this.showTooltip && ((_a = this.clickedCell) === null || _a === void 0 ? void 0 : _a.row) === row && ((_b = this.clickedCell) === null || _b === void 0 ? void 0 : _b.column.name) === column.name } },
+        this.renderCutText(row, column),
+        this.renderActions(row, column, conditionToDisplayActions),
+        h("span", { class: "tooltip-wrapper" },
+          h("div", { class: "tooltip" }, row === null || row === void 0 ? void 0 :
+            row[column.name],
+            column.isCopyText && (h("div", { style: { marginTop: '8px' } },
+              h("gc-button", { height: "29px", type: "primary", "onGc:click": () => copyClipboard(row === null || row === void 0 ? void 0 : row[column.name], () => {
+                  this.isCopied = !this.isCopied;
+                }) }, this.isCopied ? 'Copied' : column.isCopyText.text || 'Copy'))))))
+      // <gc-dropdown>
+      //   <div slot="gc__dropdown-content" class="menu" style={{ maxWidth: '300px', padding: '10px' }}>
+      //     {row?.[column.name]}
+      //     {column.isCopyText && (<div style={{ marginTop: '8px' }}>
+      //         <gc-button height="29px" type="primary" onGc:click={() => copyClipboard(row?.[column.name])}>
+      //           {column.isCopyText.text || 'Copy'}
+      //         </gc-button>
+      //     </div>)}
+      //   </div>
+      // </gc-dropdown>
+      );
     }
     return (h("div", { class: "col-text", innerHTML: row === null || row === void 0 ? void 0 : row[column.name] }, this.renderActions(row, column, conditionToDisplayActions)));
   }
@@ -326,23 +364,6 @@ export class GcTable {
           return [];
         }
       }
-      // if (isKeepAllColumns) {
-      //   return this.columns;
-      // }
-      // if (this.settingTable) {
-      //   let columnsWithPos = this.columns.map((col, i) => ({
-      //     ...col,
-      //     pos: (this.settingTable[col.name] && this.settingTable[col.name].position) || i,
-      //   }));
-      //   columnsWithPos.sort((a, b) => a.pos - b.pos);
-      //   columnsWithPos = columnsWithPos.reduce((res, col) => {
-      //     if (!this.settingTable[col.name] || (this.settingTable[col.name] && this.settingTable[col.name].hidden !== true)) {
-      //       return [...res, col];
-      //     }
-      //     return [...res];
-      //   }, []);
-      //   return columnsWithPos;
-      // }
       return this.columns;
     }
   }
@@ -399,7 +420,7 @@ export class GcTable {
               h("div", { class: "gc__table-setting-cols-text" },
                 h("gc-icon", { color: "red", name: "fa-regular fa-square-info" }),
                 h("gc-h2", { class: "gc__table-setting-cols-title" }, "Manage Table Columns")),
-              h("gc-drag-container", { "onGc:drop": this.onDrop, "class-container": "gc__table-setting-cols", "class-daggable": ".draggable-item", group: "table-setting-cols" }, columns.map(col => (h("gc-draggable-item", { "data-col-name": col.name, "data-col-check": `${this.showingColumns[col.name]}`, key: `${this.gcId}_${col.name}`, class: { 'draggable-item': !col.alwaysDisplay } },
+              h("gc-drag-container", { "onGc:drop": this.onDrop, "class-container": `gc__table-setting-cols ${columns.length < 6 ? 'less-cols' : ''}`, "class-daggable": ".draggable-item", group: "table-setting-cols" }, columns.map(col => (h("gc-draggable-item", { "data-col-name": col.name, "data-col-check": `${this.showingColumns[col.name]}`, key: `${this.gcId}_${col.name}`, class: { 'draggable-item': !col.alwaysDisplay } },
                 h("div", { key: `${this.gcId}_${col.name}`, class: { 'gc__table-setting-col-item': true, 'disabled': col.alwaysDisplay } },
                   h("gc-icon", { color: "var(--gc-color-secondary-grey)", name: "fa-solid fa-grip-dots-vertical" }),
                   h("gc-checkbox", { disabled: col.alwaysDisplay, "gc-name": `${this.gcId}_${col.name}`, label: col.label, checked: this.showingColumns[col.name], "onGc:change": e => this.onCheck(e, col.name) })))))))))));
@@ -411,7 +432,7 @@ export class GcTable {
       return (h(Host, null,
         this.renderSettingColumns(),
         h("div", { class: { 'gc__table': true, 'sortable': this.sortable, 'paginate': this.paginate, 'gc__table-no-stripe': !this.isStripe, 'gc__table-no-border': !this.isBordered } },
-          h("div", { class: "table-scroll-container", style: { overflow: countCurrentCol.length <= DEFAULT_MAXIMUM_TO_SCALE ? 'hidden' : 'auto' } },
+          h("div", { class: "table-scroll-container", style: { overflow: countCurrentCol.length <= DEFAULT_MAXIMUM_TO_SCALE ? 'hidden' : 'auto', position: this.showTooltip ? 'static' : 'inherit' } },
             this.renderHeader(),
             this.renderBody(),
             h("div", { class: "loading-section" },
@@ -421,7 +442,7 @@ export class GcTable {
     return (h(Host, null,
       this.renderSettingColumns(),
       this.getData().length > 0 ? (h("div", { class: { 'gc__table': true, 'sortable': this.sortable, 'paginate': this.paginate, 'gc__table-no-stripe': !this.isStripe, 'gc__table-no-border': !this.isBordered } },
-        h("div", { class: "table-scroll-container", style: { overflow: countCurrentCol.length <= DEFAULT_MAXIMUM_TO_SCALE ? 'hidden' : 'auto' } },
+        h("div", { class: "table-scroll-container", style: { overflow: countCurrentCol.length <= DEFAULT_MAXIMUM_TO_SCALE ? 'hidden' : 'auto', position: this.showTooltip ? 'static' : 'inherit' } },
           this.renderHeader(),
           this.renderBody()),
         this.paginate && (h("div", { style: { background: this.background }, class: "table-footer" }, this.renderPagination())))) : (this.renderEmptyState())));
@@ -867,7 +888,10 @@ export class GcTable {
     "hoveredCell": {},
     "isSelectAll": {},
     "showingColumns": {},
-    "posColumns": {}
+    "posColumns": {},
+    "showTooltip": {},
+    "clickedCell": {},
+    "isCopied": {}
   }; }
   static get events() { return [{
       "method": "gcCellClick",
@@ -972,6 +996,12 @@ export class GcTable {
       "name": "gc:change-page",
       "method": "handleChangePage",
       "target": undefined,
+      "capture": false,
+      "passive": false
+    }, {
+      "name": "click",
+      "method": "windowClick",
+      "target": "window",
       "capture": false,
       "passive": false
     }]; }
