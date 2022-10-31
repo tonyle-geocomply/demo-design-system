@@ -99,15 +99,18 @@
   -webkit-line-clamp: 3;
   word-break: break-word;
 }
+
+.header .gc__row .gc__col .col-content .col-text {
+  word-break: inherit;
+}
+
 .gc__row .gc__col .col-content .col-action {
   --button-border-radius: none;
 }
 .gc__row .gc__col .col-content .col-action.has-focus {
   z-index: 12;
 }
-.gc__row .gc__col .col-content .checkbox {
-  /* padding: 0 v(--spacing-3); */
-}
+
 .gc__row .gc__col.center .col-content {
   justify-content: center;
 }
@@ -241,9 +244,10 @@ gc-icon.down-arrow {
 
 .gc__table-setting .gc__table-setting-cols {
   display: grid;
-  grid-template-columns: 1fr 1fr 1fr;
-  padding: 15px 20px;
-  row-gap: 14px;
+  padding: 17px 20px;
+  row-gap: 17px;
+  grid-auto-flow: column;
+  grid-template-rows: 1fr 1fr 1fr 1fr 1fr 1fr;
 }
 
 .gc__table-setting .gc__table-setting-col-item {
@@ -259,6 +263,10 @@ gc-icon.down-arrow {
   white-space: nowrap;
   overflow: hidden;
   text-overflow: ellipsis;
+}
+
+.gc__table-setting .gc__table-setting-col-item gc-icon {
+  cursor: move;
 }
 
 .gc__table-setting .gc__table-setting-col-item.disabled {

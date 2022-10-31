@@ -173,10 +173,9 @@ export class GcTable {
     const countCurrentCol = Object.keys(this.showingColumns) && Object.keys(this.showingColumns).filter(key => this.showingColumns[key]);
     columnsWithPos.forEach((col, i) => {
       if (this.showingColumns[col.name]) {
-        console.log(columnsWithPos.length);
         let colWidth = countCurrentCol && countCurrentCol.length > 0 ? `${100 / countCurrentCol.length}%` : DEFAULT_CELL_WIDTH;
         if (countCurrentCol.length > DEFAULT_MAXIMUM_TO_SCALE)
-          colWidth = i === columnsWithPos.length - 1 ? DEFAULT_CELL_WIDTH : col.width;
+          colWidth = i === columnsWithPos.length - 1 ? DEFAULT_CELL_WIDTH : col.width || this.getColumns()[i].width;
         const colEl = (h("div", { onClick: () => {
             if (!this.sortable || !col.sortable)
               return;
@@ -271,17 +270,12 @@ export class GcTable {
       columnsWithPos.sort((a, b) => a.pos - b.pos);
       const countCurrentCol = Object.keys(this.showingColumns) && Object.keys(this.showingColumns).filter(key => this.showingColumns[key]);
       columnsWithPos.forEach((column, i) => {
-        var _a, _b, _c;
+        var _a;
         if (this.showingColumns[column.name]) {
           let colWidth = countCurrentCol && countCurrentCol.length > 0 ? `${100 / countCurrentCol.length}%` : DEFAULT_CELL_WIDTH;
           if (countCurrentCol.length > DEFAULT_MAXIMUM_TO_SCALE)
-            colWidth = i === columnsWithPos.length - 1 ? DEFAULT_CELL_WIDTH : column.width;
-          const conditionToDisplayActions = row.actions &&
-            row.actions[column.name] &&
-            column.actions &&
-            column.actions.length > 0 &&
-            ((_b = (_a = this.hoveredCell) === null || _a === void 0 ? void 0 : _a.column) === null || _b === void 0 ? void 0 : _b.name) === (column === null || column === void 0 ? void 0 : column.name) &&
-            ((_c = this.hoveredCell) === null || _c === void 0 ? void 0 : _c.row) === row;
+            colWidth = i === columnsWithPos.length - 1 ? DEFAULT_CELL_WIDTH : column.width || this.getColumns()[i].width;
+          const conditionToDisplayActions = row.actions && row.actions[column.name] && column.actions && column.actions.length > 0 && ((_a = this.hoveredCell) === null || _a === void 0 ? void 0 : _a.row) === row;
           const colEl = (h("div", { class: { 'gc__col': true, 'col-hover': this.hoveredCell.row === row && this.hoveredCell.column === column, 'col-center': column.center }, style: {
               width: colWidth,
               background: this.customRows && this.customRowsBackground && this.customRows.includes(`${idx}`) ? this.customRowsBackground : this.background,
