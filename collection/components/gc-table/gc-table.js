@@ -157,7 +157,7 @@ export class GcTable {
   onCheck(e, name) {
     this.showingColumns = Object.assign(Object.assign({}, this.showingColumns), { [name]: e.detail.value });
     const emitValues = Object.keys(this.showingColumns).reduce((res, key, idx) => {
-      return Object.assign(Object.assign({}, res), { [key]: { hidden: !this.showingColumns[key], position: idx } });
+      return Object.assign(Object.assign({}, res), { [key]: { hidden: !this.showingColumns[key], position: this.posColumns[key] || idx } });
     }, {});
     this.gcTableSettingChange.emit(emitValues);
   }
