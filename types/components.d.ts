@@ -500,6 +500,24 @@ export namespace Components {
          */
         "width": string;
     }
+    interface GcTooltip {
+        /**
+          * The content
+         */
+        "content"?: any;
+        /**
+          * Is Copy Text?
+         */
+        "isCopyText"?: any;
+        /**
+          * Is Toggle?
+         */
+        "isToggle": boolean;
+        /**
+          * Right position
+         */
+        "rightPos": string;
+    }
     interface GcUl {
         /**
           * The class name
@@ -550,6 +568,10 @@ export interface GcStepCustomEvent<T> extends CustomEvent<T> {
 export interface GcTableCustomEvent<T> extends CustomEvent<T> {
     detail: T;
     target: HTMLGcTableElement;
+}
+export interface GcTooltipCustomEvent<T> extends CustomEvent<T> {
+    detail: T;
+    target: HTMLGcTooltipElement;
 }
 declare global {
     interface HTMLGcButtonElement extends Components.GcButton, HTMLStencilElement {
@@ -690,6 +712,12 @@ declare global {
         prototype: HTMLGcTagElement;
         new (): HTMLGcTagElement;
     };
+    interface HTMLGcTooltipElement extends Components.GcTooltip, HTMLStencilElement {
+    }
+    var HTMLGcTooltipElement: {
+        prototype: HTMLGcTooltipElement;
+        new (): HTMLGcTooltipElement;
+    };
     interface HTMLGcUlElement extends Components.GcUl, HTMLStencilElement {
     }
     var HTMLGcUlElement: {
@@ -720,6 +748,7 @@ declare global {
         "gc-steps": HTMLGcStepsElement;
         "gc-table": HTMLGcTableElement;
         "gc-tag": HTMLGcTagElement;
+        "gc-tooltip": HTMLGcTooltipElement;
         "gc-ul": HTMLGcUlElement;
     }
 }
@@ -1233,6 +1262,25 @@ declare namespace LocalJSX {
          */
         "width"?: string;
     }
+    interface GcTooltip {
+        /**
+          * The content
+         */
+        "content"?: any;
+        /**
+          * Is Copy Text?
+         */
+        "isCopyText"?: any;
+        /**
+          * Is Toggle?
+         */
+        "isToggle"?: boolean;
+        "onGc:toggle-tooltip"?: (event: GcTooltipCustomEvent<any>) => void;
+        /**
+          * Right position
+         */
+        "rightPos"?: string;
+    }
     interface GcUl {
         /**
           * The class name
@@ -1267,6 +1315,7 @@ declare namespace LocalJSX {
         "gc-steps": GcSteps;
         "gc-table": GcTable;
         "gc-tag": GcTag;
+        "gc-tooltip": GcTooltip;
         "gc-ul": GcUl;
     }
 }
@@ -1297,6 +1346,7 @@ declare module "@stencil/core" {
             "gc-steps": LocalJSX.GcSteps & JSXBase.HTMLAttributes<HTMLGcStepsElement>;
             "gc-table": LocalJSX.GcTable & JSXBase.HTMLAttributes<HTMLGcTableElement>;
             "gc-tag": LocalJSX.GcTag & JSXBase.HTMLAttributes<HTMLGcTagElement>;
+            "gc-tooltip": LocalJSX.GcTooltip & JSXBase.HTMLAttributes<HTMLGcTooltipElement>;
             "gc-ul": LocalJSX.GcUl & JSXBase.HTMLAttributes<HTMLGcUlElement>;
         }
     }

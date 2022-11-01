@@ -1,19 +1,19 @@
 import { proxyCustomElement, HTMLElement, createEvent, h, Host } from '@stencil/core/internal/client';
-import { c as copyClipboard } from './utils.js';
-import { d as defineCustomElement$d } from './gc-button2.js';
-import { d as defineCustomElement$c } from './gc-checkbox2.js';
-import { d as defineCustomElement$b } from './gc-drag-container2.js';
-import { d as defineCustomElement$a } from './gc-draggable-item2.js';
-import { d as defineCustomElement$9 } from './gc-dropdown2.js';
-import { d as defineCustomElement$8 } from './gc-h22.js';
-import { d as defineCustomElement$7 } from './gc-icon2.js';
-import { d as defineCustomElement$6 } from './gc-link2.js';
-import { d as defineCustomElement$5 } from './gc-menu2.js';
-import { d as defineCustomElement$4 } from './gc-menu-item2.js';
-import { d as defineCustomElement$3 } from './gc-pagination2.js';
-import { d as defineCustomElement$2 } from './gc-spinner2.js';
+import { d as defineCustomElement$e } from './gc-button2.js';
+import { d as defineCustomElement$d } from './gc-checkbox2.js';
+import { d as defineCustomElement$c } from './gc-drag-container2.js';
+import { d as defineCustomElement$b } from './gc-draggable-item2.js';
+import { d as defineCustomElement$a } from './gc-dropdown2.js';
+import { d as defineCustomElement$9 } from './gc-h22.js';
+import { d as defineCustomElement$8 } from './gc-icon2.js';
+import { d as defineCustomElement$7 } from './gc-link2.js';
+import { d as defineCustomElement$6 } from './gc-menu2.js';
+import { d as defineCustomElement$5 } from './gc-menu-item2.js';
+import { d as defineCustomElement$4 } from './gc-pagination2.js';
+import { d as defineCustomElement$3 } from './gc-spinner2.js';
+import { d as defineCustomElement$2 } from './gc-tooltip2.js';
 
-const gcTableCss = ":host{display:block;height:100%;--table-border-color:var(--gc-color-second-grey);--z-index-table-header:12;--font-weight-table-header:600}.gc__table{height:100%;border:1px solid var(--table-border-color);font-size:12px}.gc__table .table-scroll-container{position:relative;overflow:auto;height:100%}.empty-table{display:flex;align-items:center;justify-content:center;flex-direction:column;padding:24px;border:1px solid var(--gc-color-second-grey);background:var(--gc-color-contrast-white)}.empty-title{margin-bottom:14px}.gc__table.paginate .table-scroll-container{height:calc(100% - 2.4375rem)}.gc__table .table-scroll-container::-webkit-scrollbar{height:6px}.gc__table .table-scroll-container::-webkit-scrollbar-track{border-radius:5px;background:var(--gc-color-second-grey)}.gc__table .table-scroll-container::-webkit-scrollbar-thumb{border-radius:5px;background:var(--gc-color-primary)}.gc__table .pagination{display:flex;border-top:1px solid var(--table-border-color)}.gc__table .pagination .form-control{margin:0}.gc__table .pagination .select{margin:0;--input-border-radius:none;--input-border-style:none;border-left:1px solid var(--table-border-color);border-right:1px solid var(--table-border-color)}.gc__table .pagination .page-sizes-select{margin-inline-start:v(--spacing-3)}.gc__table .pagination .pagination-item-count{margin-inline-start:v(--spacing-4);flex:1;display:flex;align-items:center}.gc__row{display:flex;box-sizing:border-box;height:100%}.gc__row .columns-container{display:flex}.gc__row .gc__col{margin:0;box-sizing:border-box;vertical-align:middle;line-height:normal;border-right:1px solid var(--gc-color-second-grey);border-bottom:1px solid var(--gc-color-second-grey)}.gc__row .gc__col .col-content{display:flex;align-items:center;height:100%;justify-content:space-between}.gc__row .gc__col .col-content .col-text{padding:0 14px 0 14px;flex:1;display:block;display:-webkit-box;max-width:400px;-webkit-box-orient:vertical;overflow:hidden;text-overflow:ellipsis;display:-webkit-box;-webkit-line-clamp:3;word-break:break-word}.header .gc__row .gc__col .col-content .col-text{word-break:inherit}.gc__row .gc__col .col-content .col-action{--button-border-radius:none}.gc__row .gc__col .col-content .col-action.has-focus{z-index:12}.gc__row .gc__col.center .col-content{justify-content:center}.gc__row .gc__col:last-child{flex:1}.gc__row .fixed-columns{position:sticky;left:0;background:inherit}.header .fixed-columns{background:var(--gc-color-second-blue)}.gc__row .scrollable-columns{flex:1}.header{z-index:var(--z-index-table-header);font-weight:var(--font-weight-table-header);text-transform:uppercase;position:sticky;top:0;background:var(--gc-color-second-blue);color:var(--gc-color-contrast-white);height:50px;min-width:fit-content}.gc__table-body{min-width:fit-content}.header .left-panel{position:sticky;top:0;left:0}.header .gc__col{border-bottom:1px solid var(--table-border-color);cursor:pointer}.gc__table-body .gc__row{min-height:66px;height:auto}.gc__table-body>.gc__row:nth-child(even){background-color:var(--gc-color-contrast-grey)}.gc__table-body>.gc__row:nth-child(odd){background-color:var(--gc-color-contrast-white)}.gc__table-body>div.gc__row::nth-child(even)>div.fixed-columns.columns-container>div>div{background-color:var(--gc-color-contrast-grey)}.gc__table-body>div.gc__row:nth-child(odd)>div.fixed-columns.columns-container>div>div{background-color:var(--gc-color-second-white)}.gc__table-body .gc__row .gc__col:focus{outline:none;z-index:1}.gc__table-body .left-panel{position:sticky;left:0}.table-footer{height:66px;background-color:var(--gc-color-contrast-white)}.table-footer .pagination{height:100%;padding:0 30px}.table-footer .pagination .pagination-right{display:flex;align-items:center}:host(.show-full-content) .gc__table-body .col-text{overflow:initial;white-space:initial;text-overflow:initial}.empty-data{text-align:center;position:absolute;margin:auto;top:46px;right:0;bottom:0;left:0;border-radius:3px;height:max-content;}.gc__table-arrow{display:grid}gc-icon.disabled{opacity:0.5}gc-icon.down-arrow{margin-top:-4px}.gc__row .gc__col .col-content .col-actions{margin-right:14px}.col-center{text-align:center}.gc__table-setting{font-weight:600;font-size:12px;display:flex;align-items:center;justify-content:space-between;background:var(--gc-color-contrast-white);padding:12px 30px 8px 30px;border-left:1px solid var(--gc-color-second-grey);border-right:1px solid var(--gc-color-second-grey)}.gc__table-setting .dropdown{min-width:473px}.gc__table-setting .gc__table-setting-cols-text{padding:14px 20px;display:flex;align-items:center;border-bottom:1px solid var(--gc-color-second-grey)}.gc__table-setting .gc__table-setting-cols-title{margin-left:12px}.gc__table-setting .gc__table-setting-cols{display:grid;padding:17px 20px;row-gap:17px;grid-auto-flow:column;grid-template-rows:1fr 1fr 1fr 1fr 1fr 1fr}.gc__table-setting .gc__table-setting-cols.less-cols{grid-template-rows:1fr 1fr 1fr 1fr}.gc__table-setting .gc__table-setting-col-item{display:flex;align-items:center}.gc__table-setting .gc__table-setting-col-item .sc-gc-checkbox-h{margin-bottom:0;margin-left:8px;line-height:13px;max-width:150px;white-space:nowrap;overflow:hidden;text-overflow:ellipsis}.gc__table-setting .gc__table-setting-col-item gc-icon{cursor:move}.gc__table-setting .gc__table-setting-col-item.disabled{cursor:not-allowed}.gc__table-setting label.gc__label.sc-gc-checkbox{color:var(--gc-color-text-grey)}.gc__table-no-stripe .gc__table-body>.gc__row:nth-child(odd){background-color:inherit}.gc__table-no-stripe .gc__table-body>.gc__row:nth-child(even){background-color:inherit}.gc__table-no-stripe .gc__table-body>div.gc__row:nth-child(odd)>div.fixed-columns.columns-container>div>div{background-color:inherit}.gc__table-no-stripe .gc__table-body>div.gc__row:nth-child(even)>div.fixed-columns.columns-container>div>div{background-color:inherit}.gc__table-no-stripe .header,.gc__table-no-stripe .header .fixed-columns{background-color:inherit;color:var(--gc-color-text-grey)}.gc__table-no-border .gc__row .gc__col{border-right:0}.loading-section{position:absolute;right:0;left:0;top:50%}.gc__actions{margin-top:5px;display:flex}.gc__btn-action{margin-right:5px;display:none}.gc__btn-action.active{animation:fadeInShow 0.2s;display:block}.gc__table-setting-manage-title{font-weight:600;font-size:12px;line-height:17px;color:#51666C}@keyframes fadeInShow{0%{opacity:0;transform:scale(0)}100%{opacity:1;transform:scale(1)}}.has-tooltip{display:inline}.tooltip-wrapper{position:absolute;display:none}.has-tooltip.active .tooltip-wrapper{display:block}.tooltip{display:block;position:relative;top:2em;right:45%;max-width:400px;color:var(--gc-color-text-grey);background:white;border-radius:4px;border:1px solid var(--gc-color-second-grey);padding:10px}.tooltip:before{content:\"\";position:absolute;border-left:8px solid transparent;border-right:8px solid transparent;top:-9px;left:50%;margin-left:-8px;border-top:0px;border-bottom:8px solid var(--gc-color-second-grey)}.tooltip:after{content:'';position:absolute;bottom:100%;left:50%;margin-left:-8px;width:0;height:0;border-bottom:8px solid white;border-right:8px solid transparent;border-left:8px solid transparent}";
+const gcTableCss = ":host{display:block;height:100%;--table-border-color:var(--gc-color-second-grey);--z-index-table-header:12;--font-weight-table-header:600}.gc__table{height:100%;border:1px solid var(--table-border-color);font-size:12px}.gc__table .table-scroll-container{position:relative;overflow:auto;height:100%}.empty-table{display:flex;align-items:center;justify-content:center;flex-direction:column;padding:24px;border:1px solid var(--gc-color-second-grey);background:var(--gc-color-contrast-white)}.empty-title{margin-bottom:14px}.gc__table.paginate .table-scroll-container{height:calc(100% - 2.4375rem)}.gc__table .table-scroll-container::-webkit-scrollbar{height:6px}.gc__table .table-scroll-container::-webkit-scrollbar-track{border-radius:5px;background:var(--gc-color-second-grey)}.gc__table .table-scroll-container::-webkit-scrollbar-thumb{border-radius:5px;background:var(--gc-color-primary)}.gc__table .pagination{display:flex;border-top:1px solid var(--table-border-color)}.gc__table .pagination .form-control{margin:0}.gc__table .pagination .select{margin:0;--input-border-radius:none;--input-border-style:none;border-left:1px solid var(--table-border-color);border-right:1px solid var(--table-border-color)}.gc__table .pagination .page-sizes-select{margin-inline-start:v(--spacing-3)}.gc__table .pagination .pagination-item-count{margin-inline-start:v(--spacing-4);flex:1;display:flex;align-items:center}.gc__row{display:flex;box-sizing:border-box;height:100%}.gc__row .columns-container{display:flex}.gc__row .gc__col{margin:0;box-sizing:border-box;vertical-align:middle;line-height:normal;border-right:1px solid var(--gc-color-second-grey);border-bottom:1px solid var(--gc-color-second-grey)}.gc__row .gc__col .col-content{display:flex;align-items:center;height:100%;justify-content:space-between}.gc__row .gc__col .col-content .col-text{padding:0 14px 0 14px;flex:1;display:block;display:-webkit-box;max-width:400px;-webkit-box-orient:vertical;overflow:hidden;text-overflow:ellipsis;display:-webkit-box;-webkit-line-clamp:3;word-break:break-word}.header .gc__row .gc__col .col-content .col-text{word-break:inherit}.gc__row .gc__col .col-content .col-action{--button-border-radius:none}.gc__row .gc__col .col-content .col-action.has-focus{z-index:12}.gc__row .gc__col.center .col-content{justify-content:center}.gc__row .gc__col:last-child{flex:1}.gc__row .fixed-columns{position:sticky;left:0;background:inherit}.header .fixed-columns{background:var(--gc-color-second-blue)}.gc__row .scrollable-columns{flex:1}.header{z-index:var(--z-index-table-header);font-weight:var(--font-weight-table-header);text-transform:uppercase;position:sticky;top:0;background:var(--gc-color-second-blue);color:var(--gc-color-contrast-white);height:50px;min-width:fit-content}.gc__table-body{min-width:fit-content}.header .left-panel{position:sticky;top:0;left:0}.header .gc__col{border-bottom:1px solid var(--table-border-color);cursor:pointer}.gc__table-body .gc__row{min-height:66px;height:auto}.gc__table-body>.gc__row:nth-child(even){background-color:var(--gc-color-contrast-grey)}.gc__table-body>.gc__row:nth-child(odd){background-color:var(--gc-color-contrast-white)}.gc__table-body>div.gc__row::nth-child(even)>div.fixed-columns.columns-container>div>div{background-color:var(--gc-color-contrast-grey)}.gc__table-body>div.gc__row:nth-child(odd)>div.fixed-columns.columns-container>div>div{background-color:var(--gc-color-second-white)}.gc__table-body .gc__row .gc__col:focus{outline:none;z-index:1}.gc__table-body .left-panel{position:sticky;left:0}.table-footer{height:66px;background-color:var(--gc-color-contrast-white)}.table-footer .pagination{height:100%;padding:0 30px}.table-footer .pagination .pagination-right{display:flex;align-items:center}:host(.show-full-content) .gc__table-body .col-text{overflow:initial;white-space:initial;text-overflow:initial}.empty-data{text-align:center;position:absolute;margin:auto;top:46px;right:0;bottom:0;left:0;border-radius:3px;height:max-content;}.gc__table-arrow{display:grid}gc-icon.disabled{opacity:0.5}gc-icon.down-arrow{margin-top:-4px}.gc__row .gc__col .col-content .col-actions{margin-right:14px}.col-center{text-align:center}.gc__table-setting{font-weight:600;font-size:12px;display:flex;align-items:center;justify-content:space-between;background:var(--gc-color-contrast-white);padding:12px 30px 8px 30px;border-left:1px solid var(--gc-color-second-grey);border-right:1px solid var(--gc-color-second-grey)}.gc__table-setting .dropdown{min-width:473px}.gc__table-setting .gc__table-setting-cols-text{padding:14px 20px;display:flex;align-items:center;border-bottom:1px solid var(--gc-color-second-grey)}.gc__table-setting .gc__table-setting-cols-title{margin-left:12px}.gc__table-setting .gc__table-setting-cols{display:grid;padding:17px 20px;row-gap:17px;grid-auto-flow:column;grid-template-rows:1fr 1fr 1fr 1fr 1fr 1fr}.gc__table-setting .gc__table-setting-cols.less-cols{grid-template-rows:1fr 1fr 1fr 1fr}.gc__table-setting .gc__table-setting-col-item{display:flex;align-items:center}.gc__table-setting .gc__table-setting-col-item .sc-gc-checkbox-h{margin-bottom:0;margin-left:8px;line-height:13px;max-width:150px;white-space:nowrap;overflow:hidden;text-overflow:ellipsis}.gc__table-setting .gc__table-setting-col-item gc-icon{cursor:move}.gc__table-setting .gc__table-setting-col-item.disabled{cursor:not-allowed}.gc__table-setting label.gc__label.sc-gc-checkbox{color:var(--gc-color-text-grey)}.gc__table-no-stripe .gc__table-body>.gc__row:nth-child(odd){background-color:inherit}.gc__table-no-stripe .gc__table-body>.gc__row:nth-child(even){background-color:inherit}.gc__table-no-stripe .gc__table-body>div.gc__row:nth-child(odd)>div.fixed-columns.columns-container>div>div{background-color:inherit}.gc__table-no-stripe .gc__table-body>div.gc__row:nth-child(even)>div.fixed-columns.columns-container>div>div{background-color:inherit}.gc__table-no-stripe .header,.gc__table-no-stripe .header .fixed-columns{background-color:inherit;color:var(--gc-color-text-grey)}.gc__table-no-border .gc__row .gc__col{border-right:0}.loading-section{position:absolute;right:0;left:0;top:50%}.gc__actions{margin-top:5px;display:flex}.gc__btn-action{margin-right:5px;display:none}.gc__btn-action.active{animation:fadeInShow 0.2s;display:block}.gc__table-setting-manage-title{font-weight:600;font-size:12px;line-height:17px;color:#51666C}@keyframes fadeInShow{0%{opacity:0;transform:scale(0)}100%{opacity:1;transform:scale(1)}}";
 
 const DEFAULT_CELL_WIDTH = '16vw'; // in vw
 const DEFAULT_MAXIMUM_TO_SCALE = 6;
@@ -81,7 +81,6 @@ const GcTable$1 = /*@__PURE__*/ proxyCustomElement(class extends HTMLElement {
     this.posColumns = {};
     this.showTooltip = false;
     this.clickedCell = {};
-    this.isCopied = false;
     this.onSelectAllClick = () => {
       let selectedRowKeys = [];
       this.isSelectAll = !this.isSelectAll;
@@ -164,16 +163,8 @@ const GcTable$1 = /*@__PURE__*/ proxyCustomElement(class extends HTMLElement {
   handleChangePage(ev) {
     this.page = ev.detail.value;
   }
-  windowClick(evt) {
-    const path = evt.path || evt.composedPath();
-    for (const elm of path) {
-      if (elm == this.elm) {
-        return;
-      }
-    }
-    if (this.isCopied)
-      return false;
-    this.showTooltip = false;
+  handleToggleTooltip(ev) {
+    this.showTooltip = ev.detail.value;
   }
   onSelectChange(selectedRowKeys) {
     this.selectedRowKeys = selectedRowKeys;
@@ -194,15 +185,6 @@ const GcTable$1 = /*@__PURE__*/ proxyCustomElement(class extends HTMLElement {
     if (this.gcClearEmptyState) {
       this.gcClearEmptyState.emit({});
     }
-  }
-  onToggleTooltip() {
-    if (this.isCopied) {
-      setTimeout(() => {
-        this.isCopied = false;
-      }, 500);
-      return;
-    }
-    this.showTooltip = !this.showTooltip;
   }
   renderHeader() {
     const fixedCols = [];
@@ -267,21 +249,7 @@ const GcTable$1 = /*@__PURE__*/ proxyCustomElement(class extends HTMLElement {
   renderColumnContent(row, column, conditionToDisplayActions) {
     var _a, _b;
     if (column.isLongText || column.isCopyText) {
-      return (h("div", { onClick: () => this.onToggleTooltip(), style: { color: 'var(--gc-color-text-grey)', textDecoration: 'underline', cursor: 'pointer' }, class: { 'col-text': true, 'has-tooltip': true, 'active': this.showTooltip && ((_a = this.clickedCell) === null || _a === void 0 ? void 0 : _a.row) === row && ((_b = this.clickedCell) === null || _b === void 0 ? void 0 : _b.column.name) === column.name } }, this.renderCutText(row, column), this.renderActions(row, column, conditionToDisplayActions), h("span", { class: "tooltip-wrapper" }, h("div", { class: "tooltip" }, row === null || row === void 0 ? void 0 :
-        row[column.name], column.isCopyText && (h("div", { style: { marginTop: '8px' } }, h("gc-button", { height: "29px", type: "primary", "onGc:click": () => copyClipboard(row === null || row === void 0 ? void 0 : row[column.name], () => {
-          this.isCopied = !this.isCopied;
-        }) }, this.isCopied ? 'Copied' : column.isCopyText.text || 'Copy'))))))
-      // <gc-dropdown>
-      //   <div slot="gc__dropdown-content" class="menu" style={{ maxWidth: '300px', padding: '10px' }}>
-      //     {row?.[column.name]}
-      //     {column.isCopyText && (<div style={{ marginTop: '8px' }}>
-      //         <gc-button height="29px" type="primary" onGc:click={() => copyClipboard(row?.[column.name])}>
-      //           {column.isCopyText.text || 'Copy'}
-      //         </gc-button>
-      //     </div>)}
-      //   </div>
-      // </gc-dropdown>
-      );
+      return (h("div", { class: "col-text" }, h("gc-tooltip", { isCopyText: column.isCopyText, content: row === null || row === void 0 ? void 0 : row[column.name], isToggle: ((_a = this.clickedCell) === null || _a === void 0 ? void 0 : _a.row) === row && ((_b = this.clickedCell) === null || _b === void 0 ? void 0 : _b.column.name) === column.name }), this.renderActions(row, column, conditionToDisplayActions)));
     }
     return (h("div", { class: "col-text", innerHTML: row === null || row === void 0 ? void 0 : row[column.name] }, this.renderActions(row, column, conditionToDisplayActions)));
   }
@@ -438,14 +406,13 @@ const GcTable$1 = /*@__PURE__*/ proxyCustomElement(class extends HTMLElement {
     "showingColumns": [32],
     "posColumns": [32],
     "showTooltip": [32],
-    "clickedCell": [32],
-    "isCopied": [32]
-  }, [[0, "gc:change-page", "handleChangePage"], [8, "click", "windowClick"]]]);
+    "clickedCell": [32]
+  }, [[0, "gc:change-page", "handleChangePage"], [0, "gc:toggle-tooltip", "handleToggleTooltip"]]]);
 function defineCustomElement$1() {
   if (typeof customElements === "undefined") {
     return;
   }
-  const components = ["gc-table", "gc-button", "gc-checkbox", "gc-drag-container", "gc-draggable-item", "gc-dropdown", "gc-h2", "gc-icon", "gc-link", "gc-menu", "gc-menu-item", "gc-pagination", "gc-spinner"];
+  const components = ["gc-table", "gc-button", "gc-checkbox", "gc-drag-container", "gc-draggable-item", "gc-dropdown", "gc-h2", "gc-icon", "gc-link", "gc-menu", "gc-menu-item", "gc-pagination", "gc-spinner", "gc-tooltip"];
   components.forEach(tagName => { switch (tagName) {
     case "gc-table":
       if (!customElements.get(tagName)) {
@@ -454,60 +421,65 @@ function defineCustomElement$1() {
       break;
     case "gc-button":
       if (!customElements.get(tagName)) {
-        defineCustomElement$d();
+        defineCustomElement$e();
       }
       break;
     case "gc-checkbox":
       if (!customElements.get(tagName)) {
-        defineCustomElement$c();
+        defineCustomElement$d();
       }
       break;
     case "gc-drag-container":
       if (!customElements.get(tagName)) {
-        defineCustomElement$b();
+        defineCustomElement$c();
       }
       break;
     case "gc-draggable-item":
       if (!customElements.get(tagName)) {
-        defineCustomElement$a();
+        defineCustomElement$b();
       }
       break;
     case "gc-dropdown":
       if (!customElements.get(tagName)) {
-        defineCustomElement$9();
+        defineCustomElement$a();
       }
       break;
     case "gc-h2":
       if (!customElements.get(tagName)) {
-        defineCustomElement$8();
+        defineCustomElement$9();
       }
       break;
     case "gc-icon":
       if (!customElements.get(tagName)) {
-        defineCustomElement$7();
+        defineCustomElement$8();
       }
       break;
     case "gc-link":
       if (!customElements.get(tagName)) {
-        defineCustomElement$6();
+        defineCustomElement$7();
       }
       break;
     case "gc-menu":
       if (!customElements.get(tagName)) {
-        defineCustomElement$5();
+        defineCustomElement$6();
       }
       break;
     case "gc-menu-item":
       if (!customElements.get(tagName)) {
-        defineCustomElement$4();
+        defineCustomElement$5();
       }
       break;
     case "gc-pagination":
       if (!customElements.get(tagName)) {
-        defineCustomElement$3();
+        defineCustomElement$4();
       }
       break;
     case "gc-spinner":
+      if (!customElements.get(tagName)) {
+        defineCustomElement$3();
+      }
+      break;
+    case "gc-tooltip":
       if (!customElements.get(tagName)) {
         defineCustomElement$2();
       }

@@ -1,5 +1,4 @@
 import { Component, Element, Event, h, Host, Prop, State, Listen, Watch } from '@stencil/core';
-import { copyClipboard } from '../../utils/utils';
 const DEFAULT_CELL_WIDTH = '16vw'; // in vw
 const DEFAULT_MAXIMUM_TO_SCALE = 6;
 /**
@@ -62,7 +61,6 @@ export class GcTable {
     this.posColumns = {};
     this.showTooltip = false;
     this.clickedCell = {};
-    this.isCopied = false;
     this.onSelectAllClick = () => {
       let selectedRowKeys = [];
       this.isSelectAll = !this.isSelectAll;
@@ -145,16 +143,8 @@ export class GcTable {
   handleChangePage(ev) {
     this.page = ev.detail.value;
   }
-  windowClick(evt) {
-    const path = evt.path || evt.composedPath();
-    for (const elm of path) {
-      if (elm == this.elm) {
-        return;
-      }
-    }
-    if (this.isCopied)
-      return false;
-    this.showTooltip = false;
+  handleToggleTooltip(ev) {
+    this.showTooltip = ev.detail.value;
   }
   onSelectChange(selectedRowKeys) {
     this.selectedRowKeys = selectedRowKeys;
@@ -175,15 +165,6 @@ export class GcTable {
     if (this.gcClearEmptyState) {
       this.gcClearEmptyState.emit({});
     }
-  }
-  onToggleTooltip() {
-    if (this.isCopied) {
-      setTimeout(() => {
-        this.isCopied = false;
-      }, 500);
-      return;
-    }
-    this.showTooltip = !this.showTooltip;
   }
   renderHeader() {
     const fixedCols = [];
@@ -257,27 +238,9 @@ export class GcTable {
   renderColumnContent(row, column, conditionToDisplayActions) {
     var _a, _b;
     if (column.isLongText || column.isCopyText) {
-      return (h("div", { onClick: () => this.onToggleTooltip(), style: { color: 'var(--gc-color-text-grey)', textDecoration: 'underline', cursor: 'pointer' }, class: { 'col-text': true, 'has-tooltip': true, 'active': this.showTooltip && ((_a = this.clickedCell) === null || _a === void 0 ? void 0 : _a.row) === row && ((_b = this.clickedCell) === null || _b === void 0 ? void 0 : _b.column.name) === column.name } },
-        this.renderCutText(row, column),
-        this.renderActions(row, column, conditionToDisplayActions),
-        h("span", { class: "tooltip-wrapper" },
-          h("div", { class: "tooltip" }, row === null || row === void 0 ? void 0 :
-            row[column.name],
-            column.isCopyText && (h("div", { style: { marginTop: '8px' } },
-              h("gc-button", { height: "29px", type: "primary", "onGc:click": () => copyClipboard(row === null || row === void 0 ? void 0 : row[column.name], () => {
-                  this.isCopied = !this.isCopied;
-                }) }, this.isCopied ? 'Copied' : column.isCopyText.text || 'Copy'))))))
-      // <gc-dropdown>
-      //   <div slot="gc__dropdown-content" class="menu" style={{ maxWidth: '300px', padding: '10px' }}>
-      //     {row?.[column.name]}
-      //     {column.isCopyText && (<div style={{ marginTop: '8px' }}>
-      //         <gc-button height="29px" type="primary" onGc:click={() => copyClipboard(row?.[column.name])}>
-      //           {column.isCopyText.text || 'Copy'}
-      //         </gc-button>
-      //     </div>)}
-      //   </div>
-      // </gc-dropdown>
-      );
+      return (h("div", { class: "col-text" },
+        h("gc-tooltip", { isCopyText: column.isCopyText, content: row === null || row === void 0 ? void 0 : row[column.name], isToggle: ((_a = this.clickedCell) === null || _a === void 0 ? void 0 : _a.row) === row && ((_b = this.clickedCell) === null || _b === void 0 ? void 0 : _b.column.name) === column.name }),
+        this.renderActions(row, column, conditionToDisplayActions)));
     }
     return (h("div", { class: "col-text", innerHTML: row === null || row === void 0 ? void 0 : row[column.name] }, this.renderActions(row, column, conditionToDisplayActions)));
   }
@@ -890,8 +853,7 @@ export class GcTable {
     "showingColumns": {},
     "posColumns": {},
     "showTooltip": {},
-    "clickedCell": {},
-    "isCopied": {}
+    "clickedCell": {}
   }; }
   static get events() { return [{
       "method": "gcCellClick",
@@ -999,9 +961,9 @@ export class GcTable {
       "capture": false,
       "passive": false
     }, {
-      "name": "click",
-      "method": "windowClick",
-      "target": "window",
+      "name": "gc:toggle-tooltip",
+      "method": "handleToggleTooltip",
+      "target": undefined,
       "capture": false,
       "passive": false
     }]; }

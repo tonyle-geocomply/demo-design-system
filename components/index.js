@@ -22,4 +22,5 @@ export { GcStep, defineCustomElement as defineCustomElementGcStep } from './gc-s
 export { GcSteps, defineCustomElement as defineCustomElementGcSteps } from './gc-steps.js';
 export { GcTable, defineCustomElement as defineCustomElementGcTable } from './gc-table.js';
 export { GcTag, defineCustomElement as defineCustomElementGcTag } from './gc-tag.js';
+export { GcTooltip, defineCustomElement as defineCustomElementGcTooltip } from './gc-tooltip.js';
 export { GcUl, defineCustomElement as defineCustomElementGcUl } from './gc-ul.js';

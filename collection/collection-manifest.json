@@ -23,6 +23,7 @@
     "./components/gc-steps/gc-steps.js",
     "./components/gc-table/gc-table.js",
     "./components/gc-tag/gc-tag.js",
+    "./components/gc-tooltip/gc-tooltip.js",
     "./components/gc-ul/gc-ul.js"
   ],
   "compiler": {

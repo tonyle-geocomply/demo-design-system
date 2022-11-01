@@ -22,6 +22,7 @@ export { GcStep as GcStep } from '../types/components/gc-step/gc-step';
 export { GcSteps as GcSteps } from '../types/components/gc-steps/gc-steps';
 export { GcTable as GcTable } from '../types/components/gc-table/gc-table';
 export { GcTag as GcTag } from '../types/components/gc-tag/gc-tag';
+export { GcTooltip as GcTooltip } from '../types/components/gc-tooltip/gc-tooltip';
 export { GcUl as GcUl } from '../types/components/gc-ul/gc-ul';
 
 /**
