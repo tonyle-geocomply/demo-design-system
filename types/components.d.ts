@@ -291,6 +291,24 @@ export namespace Components {
          */
         "value"?: string | number | null;
     }
+    interface GcModal {
+        /**
+          * Is custom content?
+         */
+        "isCustomContent": boolean;
+        /**
+          * Is open?
+         */
+        "open": boolean;
+        /**
+          * Is transparent?
+         */
+        "transparent": boolean;
+        /**
+          * Width of modal
+         */
+        "width": string;
+    }
     interface GcOl {
         /**
           * The class name
@@ -553,6 +571,10 @@ export interface GcMenuItemCustomEvent<T> extends CustomEvent<T> {
     detail: T;
     target: HTMLGcMenuItemElement;
 }
+export interface GcModalCustomEvent<T> extends CustomEvent<T> {
+    detail: T;
+    target: HTMLGcModalElement;
+}
 export interface GcPaginationCustomEvent<T> extends CustomEvent<T> {
     detail: T;
     target: HTMLGcPaginationElement;
@@ -664,6 +686,12 @@ declare global {
         prototype: HTMLGcMenuItemElement;
         new (): HTMLGcMenuItemElement;
     };
+    interface HTMLGcModalElement extends Components.GcModal, HTMLStencilElement {
+    }
+    var HTMLGcModalElement: {
+        prototype: HTMLGcModalElement;
+        new (): HTMLGcModalElement;
+    };
     interface HTMLGcOlElement extends Components.GcOl, HTMLStencilElement {
     }
     var HTMLGcOlElement: {
@@ -740,6 +768,7 @@ declare global {
         "gc-link": HTMLGcLinkElement;
         "gc-menu": HTMLGcMenuElement;
         "gc-menu-item": HTMLGcMenuItemElement;
+        "gc-modal": HTMLGcModalElement;
         "gc-ol": HTMLGcOlElement;
         "gc-pagination": HTMLGcPaginationElement;
         "gc-select": HTMLGcSelectElement;
@@ -1049,6 +1078,25 @@ declare namespace LocalJSX {
          */
         "value"?: string | number | null;
     }
+    interface GcModal {
+        /**
+          * Is custom content?
+         */
+        "isCustomContent"?: boolean;
+        "onGc:modal-open"?: (event: GcModalCustomEvent<any>) => void;
+        /**
+          * Is open?
+         */
+        "open"?: boolean;
+        /**
+          * Is transparent?
+         */
+        "transparent"?: boolean;
+        /**
+          * Width of modal
+         */
+        "width"?: string;
+    }
     interface GcOl {
         /**
           * The class name
@@ -1307,6 +1355,7 @@ declare namespace LocalJSX {
         "gc-link": GcLink;
         "gc-menu": GcMenu;
         "gc-menu-item": GcMenuItem;
+        "gc-modal": GcModal;
         "gc-ol": GcOl;
         "gc-pagination": GcPagination;
         "gc-select": GcSelect;
@@ -1338,6 +1387,7 @@ declare module "@stencil/core" {
             "gc-link": LocalJSX.GcLink & JSXBase.HTMLAttributes<HTMLGcLinkElement>;
             "gc-menu": LocalJSX.GcMenu & JSXBase.HTMLAttributes<HTMLGcMenuElement>;
             "gc-menu-item": LocalJSX.GcMenuItem & JSXBase.HTMLAttributes<HTMLGcMenuItemElement>;
+            "gc-modal": LocalJSX.GcModal & JSXBase.HTMLAttributes<HTMLGcModalElement>;
             "gc-ol": LocalJSX.GcOl & JSXBase.HTMLAttributes<HTMLGcOlElement>;
             "gc-pagination": LocalJSX.GcPagination & JSXBase.HTMLAttributes<HTMLGcPaginationElement>;
             "gc-select": LocalJSX.GcSelect & JSXBase.HTMLAttributes<HTMLGcSelectElement>;

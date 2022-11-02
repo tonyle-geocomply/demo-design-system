@@ -15,6 +15,7 @@
     "./components/gc-link/gc-link.js",
     "./components/gc-menu/gc-menu.js",
     "./components/gc-menu-item/gc-menu-item.js",
+    "./components/gc-modal/gc-modal.js",
     "./components/gc-ol/gc-ol.js",
     "./components/gc-pagination/gc-pagination.js",
     "./components/gc-select/gc-select.js",

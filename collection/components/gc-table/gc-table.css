@@ -91,7 +91,7 @@
   flex: 1;
   display: block;
   display: -webkit-box;
-  max-width: 400px;
+  max-width: 600px;
   -webkit-box-orient: vertical;
   overflow: hidden;
   text-overflow: ellipsis;

@@ -14,6 +14,7 @@ export { GcLabel, defineCustomElement as defineCustomElementGcLabel } from './gc
 export { GcLink, defineCustomElement as defineCustomElementGcLink } from './gc-link.js';
 export { GcMenu, defineCustomElement as defineCustomElementGcMenu } from './gc-menu.js';
 export { GcMenuItem, defineCustomElement as defineCustomElementGcMenuItem } from './gc-menu-item.js';
+export { GcModal, defineCustomElement as defineCustomElementGcModal } from './gc-modal.js';
 export { GcOl, defineCustomElement as defineCustomElementGcOl } from './gc-ol.js';
 export { GcPagination, defineCustomElement as defineCustomElementGcPagination } from './gc-pagination.js';
 export { GcSelect, defineCustomElement as defineCustomElementGcSelect } from './gc-select.js';

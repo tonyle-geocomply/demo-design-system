@@ -14,6 +14,7 @@ export { GcLabel as GcLabel } from '../types/components/gc-label/gc-label';
 export { GcLink as GcLink } from '../types/components/gc-link/gc-link';
 export { GcMenu as GcMenu } from '../types/components/gc-menu/gc-menu';
 export { GcMenuItem as GcMenuItem } from '../types/components/gc-menu-item/gc-menu-item';
+export { GcModal as GcModal } from '../types/components/gc-modal/gc-modal';
 export { GcOl as GcOl } from '../types/components/gc-ol/gc-ol';
 export { GcPagination as GcPagination } from '../types/components/gc-pagination/gc-pagination';
 export { GcSelect as GcSelect } from '../types/components/gc-select/gc-select';
