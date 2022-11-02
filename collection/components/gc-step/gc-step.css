@@ -1,6 +1,9 @@
 .gc__steps-section {
   overflow: hidden;
 }
+.gc__steps-section.open {
+  overflow: unset;
+}
 .gc__steps-section div {
   padding: 0px 40px;
   margin-left: 23px;
@@ -18,9 +21,12 @@
   height: 48px;
 }
 .gc__step-item-icon > gc-icon {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  height: 50px;
+  width: 50px;
   position: relative;
-  top: 14px;
-  left: 14px;
 }
 .gc__step-item-title--content {
   margin-left: 14px;

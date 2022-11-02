@@ -102,7 +102,7 @@ export class GcStep {
               h("slot", { name: "title" })),
             h("slot", { name: "description" }))),
         !this.open && h("hr", null)),
-      h("section", { onTransitionEnd: () => this.handleTransitionEnd(), class: { 'gc__steps-section': true, 'transitioning': this.transitioning }, style: this.style },
+      h("section", { onTransitionEnd: () => this.handleTransitionEnd(), class: { 'gc__steps-section': true, 'transitioning': this.transitioning, 'open': this.open }, style: this.style },
         h("div", null,
           h("slot", null)))));
   }
