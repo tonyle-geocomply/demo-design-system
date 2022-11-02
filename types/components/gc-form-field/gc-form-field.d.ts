@@ -45,9 +45,18 @@ export declare class GcFormField {
    */
   prefixIcon: string;
   /**
- * Emitted when the value has changed.
- */
+   * Error text
+   */
+  errorText: string;
+  /**
+   * Info text
+   */
+  infoText: string;
+  /**
+   * Emitted when the value has changed.
+   */
   gcFieldChange: EventEmitter;
   handleChange(evt: any): void;
+  renderField(): any;
   render(): any;
 }

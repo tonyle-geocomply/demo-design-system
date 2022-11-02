@@ -53,6 +53,10 @@ export class GcSelect {
      * Set the amount of time, in milliseconds, to wait to trigger the `goatChange` event after each keystroke.
      */
     this.debounce = 300;
+    /**
+     * Is error
+     */
+    this.isError = false;
     this.hasFocus = false;
     this.searchString = '';
     this.startSlotHasContent = false;
@@ -338,6 +342,7 @@ export class GcSelect {
             'has-value': this.hasValue(),
             'start-slot-has-content': this.startSlotHasContent,
             'end-slot-has-content': this.endSlotHasContent,
+            'has-error': this.isError,
           } },
           h("div", { class: "slot-container start" },
             h("slot", { name: "start" })),
@@ -723,6 +728,24 @@ export class GcSelect {
       "attribute": "debounce",
       "reflect": false,
       "defaultValue": "300"
+    },
+    "isError": {
+      "type": "boolean",
+      "mutable": false,
+      "complexType": {
+        "original": "boolean",
+        "resolved": "boolean",
+        "references": {}
+      },
+      "required": false,
+      "optional": true,
+      "docs": {
+        "tags": [],
+        "text": "Is error"
+      },
+      "attribute": "is-error",
+      "reflect": false,
+      "defaultValue": "false"
     }
   }; }
   static get states() { return {

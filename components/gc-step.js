@@ -1,7 +1,7 @@
 import { proxyCustomElement, HTMLElement, createEvent, h, Host } from '@stencil/core/internal/client';
 import { d as defineCustomElement$2 } from './gc-icon2.js';
 
-const gcStepCss = ".gc__steps-section.sc-gc-step{overflow:hidden}.gc__steps-section.open.sc-gc-step{overflow:unset}.gc__steps-section.sc-gc-step div.sc-gc-step{padding:0px 40px;margin-left:23px;border-left:2px solid #DAE1E8}.gc__step-item-title.sc-gc-step{display:flex;align-items:center}.gc__step-item-icon.sc-gc-step{border-radius:50%;border-width:2px;border-style:solid;width:48px;height:48px}.gc__step-item-icon.sc-gc-step>gc-icon.sc-gc-step{display:flex;align-items:center;justify-content:center;height:50px;width:50px;position:relative}.gc__step-item-title--content.sc-gc-step{margin-left:14px}.transitioning.sc-gc-step{transition:height .35s ease}header.gc__head.sc-gc-step{margin-top:12px;cursor:pointer}header.gc__head-opening.sc-gc-step{margin-bottom:10px}header.gc__head-opacity.sc-gc-step{opacity:0.5}.transitioning-rotate.sc-gc-step{transition:transform .3s ease-in-out;transform:rotateY(90deg)}header.gc__head.sc-gc-step hr.sc-gc-step{border:1px solid #DAE1E8;margin-top:12px}.sc-gc-step-s>div[slot=\"title\"]{font-weight:700;font-size:12px}.sc-gc-step-s>div[slot=\"description\"]{font-weight:600;font-size:15px}";
+const gcStepCss = ".gc__steps-section.sc-gc-step{overflow:hidden}.gc__steps-section.open.sc-gc-step{overflow:unset}.gc__steps-section.sc-gc-step div.sc-gc-step{padding:0px 40px;border-left:2px solid #DAE1E8;margin-left:42px}.gc__step-item-title.sc-gc-step{display:flex;align-items:center;padding-left:20px}.gc__step-item-icon.sc-gc-step{border-radius:50%;border-width:2px;border-style:solid;width:48px;height:48px}.gc__step-item-icon.sc-gc-step>gc-icon.sc-gc-step{display:flex;align-items:center;justify-content:center;height:48px;width:48px;position:relative}.gc__step-item-title--content.sc-gc-step{margin-left:14px}.transitioning.sc-gc-step{transition:height .35s ease}header.gc__head.sc-gc-step{margin-top:12px;cursor:pointer}header.gc__head-opening.sc-gc-step{margin-bottom:10px}header.gc__head-opacity.sc-gc-step{opacity:0.5}.transitioning-rotate.sc-gc-step{transition:transform .3s ease-in-out;transform:rotateY(90deg)}header.gc__head.sc-gc-step hr.sc-gc-step{border:1px solid #DAE1E8;margin-top:12px;margin-bottom:0px}.sc-gc-step-s>div[slot=\"title\"]{font-weight:700;font-size:12px}.sc-gc-step-s>div[slot=\"description\"]{font-weight:600;font-size:15px}";
 
 const GcStep$1 = /*@__PURE__*/ proxyCustomElement(class extends HTMLElement {
   constructor() {
@@ -31,6 +31,10 @@ const GcStep$1 = /*@__PURE__*/ proxyCustomElement(class extends HTMLElement {
      * The status in step
      */
     this.status = '';
+    /**
+     * Disabled in step
+     */
+    this.disabled = false;
   }
   get style() {
     return {
@@ -84,6 +88,9 @@ const GcStep$1 = /*@__PURE__*/ proxyCustomElement(class extends HTMLElement {
     });
   }
   toggle() {
+    if (this.disabled) {
+      return;
+    }
     if (this.open) {
       this.closeItem();
     }
@@ -114,6 +121,7 @@ const GcStep$1 = /*@__PURE__*/ proxyCustomElement(class extends HTMLElement {
     "mutationObserverConfig": [16],
     "icon": [1537],
     "status": [1537],
+    "disabled": [1540],
     "transitioning": [32],
     "closeItem": [64],
     "openItem": [64]

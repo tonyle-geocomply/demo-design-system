@@ -23,6 +23,10 @@ export class GcStep {
      * The status in step
      */
     this.status = '';
+    /**
+     * Disabled in step
+     */
+    this.disabled = false;
   }
   get style() {
     return {
@@ -76,6 +80,9 @@ export class GcStep {
     });
   }
   toggle() {
+    if (this.disabled) {
+      return;
+    }
     if (this.open) {
       this.closeItem();
     }
@@ -202,6 +209,24 @@ export class GcStep {
       "attribute": "status",
       "reflect": true,
       "defaultValue": "''"
+    },
+    "disabled": {
+      "type": "boolean",
+      "mutable": true,
+      "complexType": {
+        "original": "boolean",
+        "resolved": "boolean",
+        "references": {}
+      },
+      "required": false,
+      "optional": false,
+      "docs": {
+        "tags": [],
+        "text": "Disabled in step"
+      },
+      "attribute": "disabled",
+      "reflect": true,
+      "defaultValue": "false"
     }
   }; }
   static get states() { return {

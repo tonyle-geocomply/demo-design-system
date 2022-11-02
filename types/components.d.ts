@@ -98,6 +98,10 @@ export namespace Components {
          */
         "disabled"?: boolean;
         /**
+          * Error text
+         */
+        "errorText": string;
+        /**
           * The field id
          */
         "gcId"?: string;
@@ -105,6 +109,10 @@ export namespace Components {
           * The field name
          */
         "gcName"?: string;
+        /**
+          * Info text
+         */
+        "infoText": string;
         /**
           * [{   label: 'Shivaji Varma',   value: 'shivaji-varma' }]
          */
@@ -190,6 +198,10 @@ export namespace Components {
           * The name of input
          */
         "gcName"?: string;
+        /**
+          * Is error
+         */
+        "isError"?: boolean;
         /**
           * The placeholder
          */
@@ -355,6 +367,10 @@ export namespace Components {
           * The id
          */
         "gcId": string;
+        /**
+          * Is error
+         */
+        "isError"?: boolean;
         "isOpen": boolean;
         /**
           * [{   label: 'Shivaji Varma',   value: 'shivaji-varma' }]
@@ -411,6 +427,10 @@ export namespace Components {
           * close the step item
          */
         "closeItem": () => Promise<void>;
+        /**
+          * Disabled in step
+         */
+        "disabled": boolean;
         /**
           * The icon in step
          */
@@ -518,6 +538,48 @@ export namespace Components {
          */
         "width": string;
     }
+    interface GcTextarea {
+        /**
+          * The class name
+         */
+        "class"?: string;
+        /**
+          * Specifies the visible width of a text area
+         */
+        "cols"?: number;
+        /**
+          * Is disabled ?
+         */
+        "disabled"?: boolean;
+        /**
+          * The id
+         */
+        "gcId"?: string;
+        /**
+          * The name of input
+         */
+        "gcName"?: string;
+        /**
+          * Is error
+         */
+        "isError"?: boolean;
+        /**
+          * Specifies the maximum number of characters allowed in the text area
+         */
+        "maxlength"?: number;
+        /**
+          * The placeholder
+         */
+        "placeholder"?: string;
+        /**
+          * Specifies the visible number of lines in a text area
+         */
+        "rows"?: number;
+        /**
+          * The input value
+         */
+        "value"?: string;
+    }
     interface GcTooltip {
         /**
           * The content
@@ -598,6 +660,10 @@ export interface GcStepCustomEvent<T> extends CustomEvent<T> {
 export interface GcTableCustomEvent<T> extends CustomEvent<T> {
     detail: T;
     target: HTMLGcTableElement;
+}
+export interface GcTextareaCustomEvent<T> extends CustomEvent<T> {
+    detail: T;
+    target: HTMLGcTextareaElement;
 }
 export interface GcTooltipCustomEvent<T> extends CustomEvent<T> {
     detail: T;
@@ -748,6 +814,12 @@ declare global {
         prototype: HTMLGcTagElement;
         new (): HTMLGcTagElement;
     };
+    interface HTMLGcTextareaElement extends Components.GcTextarea, HTMLStencilElement {
+    }
+    var HTMLGcTextareaElement: {
+        prototype: HTMLGcTextareaElement;
+        new (): HTMLGcTextareaElement;
+    };
     interface HTMLGcTooltipElement extends Components.GcTooltip, HTMLStencilElement {
     }
     var HTMLGcTooltipElement: {
@@ -785,6 +857,7 @@ declare global {
         "gc-steps": HTMLGcStepsElement;
         "gc-table": HTMLGcTableElement;
         "gc-tag": HTMLGcTagElement;
+        "gc-textarea": HTMLGcTextareaElement;
         "gc-tooltip": HTMLGcTooltipElement;
         "gc-ul": HTMLGcUlElement;
     }
@@ -893,6 +966,10 @@ declare namespace LocalJSX {
          */
         "disabled"?: boolean;
         /**
+          * Error text
+         */
+        "errorText"?: string;
+        /**
           * The field id
          */
         "gcId"?: string;
@@ -900,6 +977,10 @@ declare namespace LocalJSX {
           * The field name
          */
         "gcName"?: string;
+        /**
+          * Info text
+         */
+        "infoText"?: string;
         /**
           * [{   label: 'Shivaji Varma',   value: 'shivaji-varma' }]
          */
@@ -989,6 +1070,10 @@ declare namespace LocalJSX {
           * The name of input
          */
         "gcName"?: string;
+        /**
+          * Is error
+         */
+        "isError"?: boolean;
         /**
           * Emitted when the value has changed.
          */
@@ -1155,6 +1240,10 @@ declare namespace LocalJSX {
           * The id
          */
         "gcId"?: string;
+        /**
+          * Is error
+         */
+        "isError"?: boolean;
         "isOpen"?: boolean;
         /**
           * [{   label: 'Shivaji Varma',   value: 'shivaji-varma' }]
@@ -1211,6 +1300,10 @@ declare namespace LocalJSX {
         "isFloat"?: boolean;
     }
     interface GcStep {
+        /**
+          * Disabled in step
+         */
+        "disabled"?: boolean;
         /**
           * The icon in step
          */
@@ -1318,6 +1411,52 @@ declare namespace LocalJSX {
          */
         "width"?: string;
     }
+    interface GcTextarea {
+        /**
+          * The class name
+         */
+        "class"?: string;
+        /**
+          * Specifies the visible width of a text area
+         */
+        "cols"?: number;
+        /**
+          * Is disabled ?
+         */
+        "disabled"?: boolean;
+        /**
+          * The id
+         */
+        "gcId"?: string;
+        /**
+          * The name of input
+         */
+        "gcName"?: string;
+        /**
+          * Is error
+         */
+        "isError"?: boolean;
+        /**
+          * Specifies the maximum number of characters allowed in the text area
+         */
+        "maxlength"?: number;
+        /**
+          * Emitted when the value has changed.
+         */
+        "onGc:change"?: (event: GcTextareaCustomEvent<any>) => void;
+        /**
+          * The placeholder
+         */
+        "placeholder"?: string;
+        /**
+          * Specifies the visible number of lines in a text area
+         */
+        "rows"?: number;
+        /**
+          * The input value
+         */
+        "value"?: string;
+    }
     interface GcTooltip {
         /**
           * The content
@@ -1380,6 +1519,7 @@ declare namespace LocalJSX {
         "gc-steps": GcSteps;
         "gc-table": GcTable;
         "gc-tag": GcTag;
+        "gc-textarea": GcTextarea;
         "gc-tooltip": GcTooltip;
         "gc-ul": GcUl;
     }
@@ -1412,6 +1552,7 @@ declare module "@stencil/core" {
             "gc-steps": LocalJSX.GcSteps & JSXBase.HTMLAttributes<HTMLGcStepsElement>;
             "gc-table": LocalJSX.GcTable & JSXBase.HTMLAttributes<HTMLGcTableElement>;
             "gc-tag": LocalJSX.GcTag & JSXBase.HTMLAttributes<HTMLGcTagElement>;
+            "gc-textarea": LocalJSX.GcTextarea & JSXBase.HTMLAttributes<HTMLGcTextareaElement>;
             "gc-tooltip": LocalJSX.GcTooltip & JSXBase.HTMLAttributes<HTMLGcTooltipElement>;
             "gc-ul": LocalJSX.GcUl & JSXBase.HTMLAttributes<HTMLGcUlElement>;
         }

@@ -64,6 +64,10 @@ export declare class GcSelect implements ComponentInterface {
    */
   debounce: number;
   /**
+   * Is error
+   */
+  isError?: boolean;
+  /**
    * Emitted when the value has changed.
    */
   goatChange: EventEmitter;

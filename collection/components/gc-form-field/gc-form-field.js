@@ -22,11 +22,23 @@ export class GcFormField {
     this.value = evt.detail.value;
     this.gcFieldChange.emit({ value: evt.detail.value });
   }
+  renderField() {
+    switch (this.type) {
+      case 'select':
+        return (h("gc-select", { search: this.search, items: this.items, "gc-id": this.gcId, "gc-name": this.gcName, value: this.value, disabled: this.disabled, placeholder: this.placeholder, "onGc:change": e => this.handleChange(e), "is-error": !!this.errorText }));
+      case 'textarea':
+        return (h("gc-textarea", { "gc-id": this.gcId, "gc-name": this.gcName, value: this.value, disabled: this.disabled, placeholder: this.placeholder, "onGc:change": e => this.handleChange(e), "is-error": !!this.errorText }));
+      default:
+        return (h("gc-input", { "prefix-icon": this.prefixIcon, "gc-id": this.gcId, "gc-name": this.gcName, value: this.value, disabled: this.disabled, type: this.type, placeholder: this.placeholder, "onGc:change": e => this.handleChange(e), "is-error": !!this.errorText }));
+    }
+  }
   render() {
-    const input = this.type === 'select' ? (h("gc-select", { search: this.search, items: this.items, "gc-id": this.gcId, "gc-name": this.gcName, value: this.value, disabled: this.disabled, placeholder: this.placeholder, "onGc:change": e => this.handleChange(e) })) : (h("gc-input", { "prefix-icon": this.prefixIcon, "gc-id": this.gcId, "gc-name": this.gcName, value: this.value, disabled: this.disabled, type: this.type, placeholder: this.placeholder, "onGc:change": e => this.handleChange(e) }));
+    const input = this.renderField();
     return (h(Host, null,
       h("gc-label", { "gc-for": this.gcName }, this.label),
-      input));
+      input,
+      this.infoText && h("div", { class: "gc__form-field-info" }, this.infoText),
+      this.errorText && h("div", { class: "gc__form-field-error" }, this.errorText)));
   }
   static get is() { return "gc-form-field"; }
   static get encapsulation() { return "scoped"; }
@@ -208,6 +220,40 @@ export class GcFormField {
         "text": "Prefix icon"
       },
       "attribute": "prefix-icon",
+      "reflect": false
+    },
+    "errorText": {
+      "type": "string",
+      "mutable": false,
+      "complexType": {
+        "original": "string",
+        "resolved": "string",
+        "references": {}
+      },
+      "required": false,
+      "optional": false,
+      "docs": {
+        "tags": [],
+        "text": "Error text"
+      },
+      "attribute": "error-text",
+      "reflect": false
+    },
+    "infoText": {
+      "type": "string",
+      "mutable": false,
+      "complexType": {
+        "original": "string",
+        "resolved": "string",
+        "references": {}
+      },
+      "required": false,
+      "optional": false,
+      "docs": {
+        "tags": [],
+        "text": "Info text"
+      },
+      "attribute": "info-text",
       "reflect": false
     }
   }; }

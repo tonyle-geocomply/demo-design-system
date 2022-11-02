@@ -176,6 +176,10 @@ div.input-container.search-none.sc-gc-select.has-value > div.input.display-value
 div.input-container.search-contains.sc-gc-select.has-value > div.input.display-value.sc-gc-select {
   color: var(--gc-color-grey-text);
 }
+div.input-container.has-error {
+  background: #FFF9F9;
+  border: 1px solid var(--gc-color-red);
+}
 
 .gc__section-hidden {
   flex: 1;

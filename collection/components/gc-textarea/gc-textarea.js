@@ -1,10 +1,6 @@
 import { Component, Prop, h, Host, Event } from '@stencil/core';
-export class GcInput {
+export class GcTextarea {
   constructor() {
-    /**
-     * The input type
-     */
-    this.type = 'text';
     /**
      * Is error
      */
@@ -16,16 +12,15 @@ export class GcInput {
   }
   render() {
     return (h(Host, null,
-      h("input", { class: this.prefixIcon ? `has-prefix ${this.class || ''} ${this.isError ? 'has-error' : ''}` : `${this.class || ''} ${this.isError ? 'has-error' : ''}`, name: this.gcName, onInput: this.onInput, id: this.gcId, type: this.type, value: this.value, placeholder: this.placeholder, disabled: this.disabled }),
-      this.prefixIcon && h("gc-icon", { color: "var(--gc-color-primary)", name: this.prefixIcon })));
+      h("textarea", { class: `${this.class || ''} ${this.isError ? 'has-error' : ''}`, name: this.gcName, onInput: this.onInput, id: this.gcId, value: this.value, placeholder: this.placeholder, disabled: this.disabled, maxlength: this.maxlength, rows: this.rows, cols: this.cols })));
   }
-  static get is() { return "gc-input"; }
+  static get is() { return "gc-textarea"; }
   static get encapsulation() { return "scoped"; }
   static get originalStyleUrls() { return {
-    "$": ["gc-input.css"]
+    "$": ["gc-textarea.css"]
   }; }
   static get styleUrls() { return {
-    "$": ["gc-input.css"]
+    "$": ["gc-textarea.css"]
   }; }
   static get properties() { return {
     "class": {
@@ -61,24 +56,6 @@ export class GcInput {
       },
       "attribute": "gc-id",
       "reflect": false
-    },
-    "type": {
-      "type": "string",
-      "mutable": false,
-      "complexType": {
-        "original": "string",
-        "resolved": "string",
-        "references": {}
-      },
-      "required": false,
-      "optional": false,
-      "docs": {
-        "tags": [],
-        "text": "The input type"
-      },
-      "attribute": "type",
-      "reflect": false,
-      "defaultValue": "'text'"
     },
     "placeholder": {
       "type": "string",
@@ -148,21 +125,55 @@ export class GcInput {
       "attribute": "gc-name",
       "reflect": false
     },
-    "prefixIcon": {
-      "type": "string",
+    "cols": {
+      "type": "number",
       "mutable": false,
       "complexType": {
-        "original": "string",
-        "resolved": "string",
+        "original": "number",
+        "resolved": "number",
         "references": {}
       },
       "required": false,
       "optional": true,
       "docs": {
         "tags": [],
-        "text": "The name of input"
+        "text": "Specifies the visible width of a text area"
       },
-      "attribute": "prefix-icon",
+      "attribute": "cols",
+      "reflect": false
+    },
+    "rows": {
+      "type": "number",
+      "mutable": false,
+      "complexType": {
+        "original": "number",
+        "resolved": "number",
+        "references": {}
+      },
+      "required": false,
+      "optional": true,
+      "docs": {
+        "tags": [],
+        "text": "Specifies the visible number of lines in a text area"
+      },
+      "attribute": "rows",
+      "reflect": false
+    },
+    "maxlength": {
+      "type": "number",
+      "mutable": false,
+      "complexType": {
+        "original": "number",
+        "resolved": "number",
+        "references": {}
+      },
+      "required": false,
+      "optional": true,
+      "docs": {
+        "tags": [],
+        "text": "Specifies the maximum number of characters allowed in the text area"
+      },
+      "attribute": "maxlength",
       "reflect": false
     },
     "isError": {

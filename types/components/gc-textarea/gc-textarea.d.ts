@@ -1,5 +1,5 @@
 import { EventEmitter } from '../../stencil-public-runtime';
-export declare class GcInput {
+export declare class GcTextarea {
   /**
    * The class name
    */
@@ -8,10 +8,6 @@ export declare class GcInput {
    * The id
    */
   gcId?: string;
-  /**
-   * The input type
-   */
-  type: string;
   /**
    * The placeholder
    */
@@ -29,9 +25,17 @@ export declare class GcInput {
    */
   gcName?: string;
   /**
-   * The name of input
+   * Specifies the visible width of a text area
    */
-  prefixIcon?: string;
+  cols?: number;
+  /**
+   * Specifies the visible number of lines in a text area
+   */
+  rows?: number;
+  /**
+   * Specifies the maximum number of characters allowed in the text area
+   */
+  maxlength?: number;
   /**
    * Is error
    */

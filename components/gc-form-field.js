@@ -1,12 +1,13 @@
 import { proxyCustomElement, HTMLElement, createEvent, h, Host } from '@stencil/core/internal/client';
-import { d as defineCustomElement$7 } from './gc-icon2.js';
-import { d as defineCustomElement$6 } from './gc-input2.js';
-import { d as defineCustomElement$5 } from './gc-label2.js';
-import { d as defineCustomElement$4 } from './gc-menu2.js';
-import { d as defineCustomElement$3 } from './gc-menu-item2.js';
-import { d as defineCustomElement$2 } from './gc-select2.js';
+import { d as defineCustomElement$8 } from './gc-icon2.js';
+import { d as defineCustomElement$7 } from './gc-input2.js';
+import { d as defineCustomElement$6 } from './gc-label2.js';
+import { d as defineCustomElement$5 } from './gc-menu2.js';
+import { d as defineCustomElement$4 } from './gc-menu-item2.js';
+import { d as defineCustomElement$3 } from './gc-select2.js';
+import { d as defineCustomElement$2 } from './gc-textarea2.js';
 
-const gcFormFieldCss = "gc-label.sc-gc-form-field{white-space:nowrap;overflow:hidden;text-overflow:ellipsis}";
+const gcFormFieldCss = ".sc-gc-form-field-h{width:100%}gc-label.sc-gc-form-field{white-space:nowrap;overflow:hidden;text-overflow:ellipsis}.gc__form-field-error.sc-gc-form-field{color:var(--gc-color-red);font-size:11px;text-align:right}.gc__form-field-info.sc-gc-form-field{color:#7A7A7A;font-size:11px;text-align:right}";
 
 const GcFormField$1 = /*@__PURE__*/ proxyCustomElement(class extends HTMLElement {
   constructor() {
@@ -34,9 +35,19 @@ const GcFormField$1 = /*@__PURE__*/ proxyCustomElement(class extends HTMLElement
     this.value = evt.detail.value;
     this.gcFieldChange.emit({ value: evt.detail.value });
   }
+  renderField() {
+    switch (this.type) {
+      case 'select':
+        return (h("gc-select", { search: this.search, items: this.items, "gc-id": this.gcId, "gc-name": this.gcName, value: this.value, disabled: this.disabled, placeholder: this.placeholder, "onGc:change": e => this.handleChange(e), "is-error": !!this.errorText }));
+      case 'textarea':
+        return (h("gc-textarea", { "gc-id": this.gcId, "gc-name": this.gcName, value: this.value, disabled: this.disabled, placeholder: this.placeholder, "onGc:change": e => this.handleChange(e), "is-error": !!this.errorText }));
+      default:
+        return (h("gc-input", { "prefix-icon": this.prefixIcon, "gc-id": this.gcId, "gc-name": this.gcName, value: this.value, disabled: this.disabled, type: this.type, placeholder: this.placeholder, "onGc:change": e => this.handleChange(e), "is-error": !!this.errorText }));
+    }
+  }
   render() {
-    const input = this.type === 'select' ? (h("gc-select", { search: this.search, items: this.items, "gc-id": this.gcId, "gc-name": this.gcName, value: this.value, disabled: this.disabled, placeholder: this.placeholder, "onGc:change": e => this.handleChange(e) })) : (h("gc-input", { "prefix-icon": this.prefixIcon, "gc-id": this.gcId, "gc-name": this.gcName, value: this.value, disabled: this.disabled, type: this.type, placeholder: this.placeholder, "onGc:change": e => this.handleChange(e) }));
-    return (h(Host, null, h("gc-label", { "gc-for": this.gcName }, this.label), input));
+    const input = this.renderField();
+    return (h(Host, null, h("gc-label", { "gc-for": this.gcName }, this.label), input, this.infoText && h("div", { class: "gc__form-field-info" }, this.infoText), this.errorText && h("div", { class: "gc__form-field-error" }, this.errorText)));
   }
   static get style() { return gcFormFieldCss; }
 }, [2, "gc-form-field", {
@@ -49,13 +60,15 @@ const GcFormField$1 = /*@__PURE__*/ proxyCustomElement(class extends HTMLElement
     "value": [1537],
     "items": [1],
     "search": [1],
-    "prefixIcon": [1, "prefix-icon"]
+    "prefixIcon": [1, "prefix-icon"],
+    "errorText": [1, "error-text"],
+    "infoText": [1, "info-text"]
   }]);
 function defineCustomElement$1() {
   if (typeof customElements === "undefined") {
     return;
   }
-  const components = ["gc-form-field", "gc-icon", "gc-input", "gc-label", "gc-menu", "gc-menu-item", "gc-select"];
+  const components = ["gc-form-field", "gc-icon", "gc-input", "gc-label", "gc-menu", "gc-menu-item", "gc-select", "gc-textarea"];
   components.forEach(tagName => { switch (tagName) {
     case "gc-form-field":
       if (!customElements.get(tagName)) {
@@ -64,30 +77,35 @@ function defineCustomElement$1() {
       break;
     case "gc-icon":
       if (!customElements.get(tagName)) {
-        defineCustomElement$7();
+        defineCustomElement$8();
       }
       break;
     case "gc-input":
       if (!customElements.get(tagName)) {
-        defineCustomElement$6();
+        defineCustomElement$7();
       }
       break;
     case "gc-label":
       if (!customElements.get(tagName)) {
-        defineCustomElement$5();
+        defineCustomElement$6();
       }
       break;
     case "gc-menu":
       if (!customElements.get(tagName)) {
-        defineCustomElement$4();
+        defineCustomElement$5();
       }
       break;
     case "gc-menu-item":
       if (!customElements.get(tagName)) {
-        defineCustomElement$3();
+        defineCustomElement$4();
       }
       break;
     case "gc-select":
+      if (!customElements.get(tagName)) {
+        defineCustomElement$3();
+      }
+      break;
+    case "gc-textarea":
       if (!customElements.get(tagName)) {
         defineCustomElement$2();
       }

@@ -1,7 +1,7 @@
 import { proxyCustomElement, HTMLElement, createEvent, h, Host } from '@stencil/core/internal/client';
 import { d as defineCustomElement$1 } from './gc-icon2.js';
 
-const gcInputCss = ".sc-gc-input-h{display:flex}input.sc-gc-input{background:var(--gc-color-contrast-grey);border:1px solid var(--gc-color-second-grey);border-radius:5px;height:42px;width:100%;min-width:0;padding:12px;box-sizing:border-box;position:relative;display:inline-block;margin:0}input[disabled].sc-gc-input{color:#00000040;background-color:#f5f5f5;box-shadow:none;cursor:not-allowed;opacity:1}input.sc-gc-input:focus{background-color:var(--gc-color-contrast-grey);border-color:var(--gc-color-primary);outline:0;box-shadow:0 3px 8px 0 rgb(0 0 0 / 10%)}.sc-gc-input::placeholder{color:var(--gc-color-placeholder)}.sc-gc-input:-ms-input-placeholder{color:var(--gc-color-placeholder)}.sc-gc-input::-ms-input-placeholder{color:var(--gc-color-placeholder)}gc-icon.sc-gc-input{position:absolute;margin-top:12px;margin-left:12px}input.has-prefix.sc-gc-input{padding-left:36px}";
+const gcInputCss = ".sc-gc-input-h{display:flex}input.sc-gc-input{background:var(--gc-color-contrast-grey);border:1px solid var(--gc-color-second-grey);border-radius:5px;height:42px;width:100%;min-width:0;padding:12px;box-sizing:border-box;position:relative;display:inline-block;margin:0}input.has-error.sc-gc-input{background:#FFF9F9;border:1px solid var(--gc-color-red)}input[disabled].sc-gc-input{color:#00000040;background-color:#f5f5f5;box-shadow:none;cursor:not-allowed;opacity:1}input.sc-gc-input:focus{background-color:var(--gc-color-contrast-grey);border-color:var(--gc-color-primary);outline:0;box-shadow:0 3px 8px 0 rgb(0 0 0 / 10%)}.sc-gc-input::placeholder{color:var(--gc-color-placeholder)}.sc-gc-input:-ms-input-placeholder{color:var(--gc-color-placeholder)}.sc-gc-input::-ms-input-placeholder{color:var(--gc-color-placeholder)}gc-icon.sc-gc-input{position:absolute;margin-top:12px;margin-left:12px}input.has-prefix.sc-gc-input{padding-left:36px}";
 
 const GcInput = /*@__PURE__*/ proxyCustomElement(class extends HTMLElement {
   constructor() {
@@ -12,13 +12,17 @@ const GcInput = /*@__PURE__*/ proxyCustomElement(class extends HTMLElement {
      * The input type
      */
     this.type = 'text';
+    /**
+     * Is error
+     */
+    this.isError = false;
     this.onInput = (ev) => {
       const input = ev.target;
       this.gcChange.emit({ value: input.value || '' });
     };
   }
   render() {
-    return (h(Host, null, h("input", { class: this.prefixIcon ? `has-prefix ${this.class}` : this.class, name: this.gcName, onInput: this.onInput, id: this.gcId, type: this.type, value: this.value, placeholder: this.placeholder, disabled: this.disabled }), this.prefixIcon && h("gc-icon", { color: "var(--gc-color-primary)", name: this.prefixIcon })));
+    return (h(Host, null, h("input", { class: this.prefixIcon ? `has-prefix ${this.class || ''} ${this.isError ? 'has-error' : ''}` : `${this.class || ''} ${this.isError ? 'has-error' : ''}`, name: this.gcName, onInput: this.onInput, id: this.gcId, type: this.type, value: this.value, placeholder: this.placeholder, disabled: this.disabled }), this.prefixIcon && h("gc-icon", { color: "var(--gc-color-primary)", name: this.prefixIcon })));
   }
   static get style() { return gcInputCss; }
 }, [2, "gc-input", {
@@ -29,7 +33,8 @@ const GcInput = /*@__PURE__*/ proxyCustomElement(class extends HTMLElement {
     "disabled": [4],
     "value": [1],
     "gcName": [1, "gc-name"],
-    "prefixIcon": [1, "prefix-icon"]
+    "prefixIcon": [1, "prefix-icon"],
+    "isError": [4, "is-error"]
   }]);
 function defineCustomElement() {
   if (typeof customElements === "undefined") {

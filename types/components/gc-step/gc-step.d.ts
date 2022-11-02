@@ -30,6 +30,10 @@ export declare class GcStep {
    * The status in step
    */
   status: string;
+  /**
+   * Disabled in step
+   */
+  disabled: boolean;
   stateChanged(): void;
   /**
    * triggered when the step item is opened

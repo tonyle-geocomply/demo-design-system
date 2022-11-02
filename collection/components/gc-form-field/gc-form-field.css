@@ -1,5 +1,20 @@
+:host {
+  width: 100%;
+}
 gc-label {
   white-space: nowrap;
   overflow: hidden;
   text-overflow: ellipsis;
+}
+
+.gc__form-field-error {
+  color: var(--gc-color-red);
+  font-size: 11px;
+  text-align: right;
+}
+
+.gc__form-field-info {
+  color: #7A7A7A;
+  font-size: 11px;
+  text-align: right;
 }
