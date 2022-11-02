@@ -1,7 +1,12 @@
 import { Component, Prop, State, Listen, Element, Event, h } from '@stencil/core';
 import { copyClipboard } from '../../utils/utils';
+const MAX_LONG_TEXT = 100;
 export class GcTooltip {
   constructor() {
+    /**
+   * Is Long Text?
+   */
+    this.isLongText = false;
     /**
      * Is Toggle?
      */
@@ -10,6 +15,10 @@ export class GcTooltip {
    * Right position
    */
     this.rightPos = '';
+    /**
+     * Top position
+     */
+    this.topPos = '';
     this.showTooltip = false;
     this.isCopied = false;
   }
@@ -40,6 +49,9 @@ export class GcTooltip {
   }
   renderCutText() {
     const isCopyText = this.getIsCopyText();
+    if (this.isLongText) {
+      return this.content.length > MAX_LONG_TEXT ? this.content.slice(0, MAX_LONG_TEXT) + '...' : this.content;
+    }
     if (isCopyText && this.content) {
       if (isCopyText.remainSuffix) {
         return this.content.length > +isCopyText.remainSuffix ? '...' + this.content.slice(-isCopyText.remainSuffix) : this.content;
@@ -64,7 +76,7 @@ export class GcTooltip {
     return (h("div", { onClick: () => this.onToggleTooltip(), style: { color: 'var(--gc-color-text-grey)', textDecoration: 'underline', cursor: 'pointer' }, class: { 'has-tooltip': true, 'active': this.isToggle ? this.showTooltip && this.isToggle : this.showTooltip } },
       this.renderCutText(),
       h("span", { class: "tooltip-wrapper" },
-        h("div", { class: "tooltip", style: { right: this.rightPos || '35%' } },
+        h("div", { class: "tooltip", style: { right: this.rightPos || '35%', top: this.topPos || '1rem' } },
           this.content,
           this.getIsCopyText() && (h("div", { style: { marginTop: '8px' } },
             h("gc-button", { height: "29px", type: "primary", "onGc:click": () => copyClipboard(this.content, () => {
@@ -96,6 +108,24 @@ export class GcTooltip {
       },
       "attribute": "is-copy-text",
       "reflect": false
+    },
+    "isLongText": {
+      "type": "boolean",
+      "mutable": false,
+      "complexType": {
+        "original": "boolean",
+        "resolved": "boolean",
+        "references": {}
+      },
+      "required": false,
+      "optional": false,
+      "docs": {
+        "tags": [],
+        "text": "Is Long Text?"
+      },
+      "attribute": "is-long-text",
+      "reflect": false,
+      "defaultValue": "false"
     },
     "content": {
       "type": "any",
@@ -147,6 +177,24 @@ export class GcTooltip {
         "text": "Right position"
       },
       "attribute": "right-pos",
+      "reflect": false,
+      "defaultValue": "''"
+    },
+    "topPos": {
+      "type": "string",
+      "mutable": false,
+      "complexType": {
+        "original": "string",
+        "resolved": "string",
+        "references": {}
+      },
+      "required": false,
+      "optional": false,
+      "docs": {
+        "tags": [],
+        "text": "Top position"
+      },
+      "attribute": "top-pos",
       "reflect": false,
       "defaultValue": "''"
     }

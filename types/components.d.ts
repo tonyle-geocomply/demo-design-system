@@ -528,6 +528,10 @@ export namespace Components {
          */
         "isCopyText"?: any;
         /**
+          * Is Long Text?
+         */
+        "isLongText": boolean;
+        /**
           * Is Toggle?
          */
         "isToggle": boolean;
@@ -535,6 +539,10 @@ export namespace Components {
           * Right position
          */
         "rightPos": string;
+        /**
+          * Top position
+         */
+        "topPos": string;
     }
     interface GcUl {
         /**
@@ -1320,6 +1328,10 @@ declare namespace LocalJSX {
          */
         "isCopyText"?: any;
         /**
+          * Is Long Text?
+         */
+        "isLongText"?: boolean;
+        /**
           * Is Toggle?
          */
         "isToggle"?: boolean;
@@ -1328,6 +1340,10 @@ declare namespace LocalJSX {
           * Right position
          */
         "rightPos"?: string;
+        /**
+          * Top position
+         */
+        "topPos"?: string;
     }
     interface GcUl {
         /**

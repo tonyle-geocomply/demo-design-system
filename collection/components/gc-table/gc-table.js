@@ -1,6 +1,7 @@
 import { Component, Element, Event, h, Host, Prop, State, Listen, Watch } from '@stencil/core';
 const DEFAULT_CELL_WIDTH = '16vw'; // in vw
 const DEFAULT_MAXIMUM_TO_SCALE = 6;
+const MAX_LONG_TEXT = 100;
 /**
  * @name Table
  * @description A configurable component for displaying tabular data.
@@ -224,22 +225,11 @@ export class GcTable {
         }, type: action.type }, action.name));
     }))) : null;
   }
-  renderCutText(row, column) {
-    if (column.isCopyText && (row === null || row === void 0 ? void 0 : row[column.name])) {
-      if (column.isCopyText.remainSuffix) {
-        return (row === null || row === void 0 ? void 0 : row[column.name].length) > column.isCopyText.remainSuffix ? '...' + (row === null || row === void 0 ? void 0 : row[column.name].slice(-column.isCopyText.remainSuffix)) : row === null || row === void 0 ? void 0 : row[column.name];
-      }
-      if (column.isCopyText.remainPrefix) {
-        return (row === null || row === void 0 ? void 0 : row[column.name].length) > column.isCopyText.remainPrefix ? (row === null || row === void 0 ? void 0 : row[column.name].slice(0, column.isCopyText.remainPrefix)) + '...' : row === null || row === void 0 ? void 0 : row[column.name];
-      }
-    }
-    return row === null || row === void 0 ? void 0 : row[column.name];
-  }
   renderColumnContent(row, column, conditionToDisplayActions) {
     var _a, _b;
-    if (column.isLongText || column.isCopyText) {
+    if ((column.isLongText && (row === null || row === void 0 ? void 0 : row[column.name].length) > MAX_LONG_TEXT) || column.isCopyText) {
       return (h("div", { class: "col-text" },
-        h("gc-tooltip", { isCopyText: column.isCopyText, content: row === null || row === void 0 ? void 0 : row[column.name], isToggle: ((_a = this.clickedCell) === null || _a === void 0 ? void 0 : _a.row) === row && ((_b = this.clickedCell) === null || _b === void 0 ? void 0 : _b.column.name) === column.name }),
+        h("gc-tooltip", { isLongText: column.isLongText, isCopyText: column.isCopyText, content: row === null || row === void 0 ? void 0 : row[column.name], isToggle: ((_a = this.clickedCell) === null || _a === void 0 ? void 0 : _a.row) === row && ((_b = this.clickedCell) === null || _b === void 0 ? void 0 : _b.column.name) === column.name }),
         this.renderActions(row, column, conditionToDisplayActions)));
     }
     return (h("div", { class: "col-text", innerHTML: row === null || row === void 0 ? void 0 : row[column.name] }, this.renderActions(row, column, conditionToDisplayActions)));

@@ -6,6 +6,10 @@ export declare class GcTooltip {
    */
   isCopyText?: any;
   /**
+ * Is Long Text?
+ */
+  isLongText: boolean;
+  /**
    * The content
    */
   content?: any;
@@ -17,6 +21,10 @@ export declare class GcTooltip {
  * Right position
  */
   rightPos: string;
+  /**
+   * Top position
+   */
+  topPos: string;
   gcToggleTooltip: EventEmitter;
   private showTooltip;
   private isCopied;

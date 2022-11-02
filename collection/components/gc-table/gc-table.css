@@ -90,13 +90,12 @@
   padding: 0 14px 0 14px;
   flex: 1;
   display: block;
-  display: -webkit-box;
+  /* display: -webkit-box;
   max-width: 600px;
   -webkit-box-orient: vertical;
   overflow: hidden;
   text-overflow: ellipsis;
-  display: -webkit-box;
-  -webkit-line-clamp: 3;
+  -webkit-line-clamp: 3; */
   word-break: break-word;
 }
 
