@@ -4632,7 +4632,7 @@ const GcTable = class {
                 const selection = window.getSelection();
                 if (selection.type != 'Range')
                   this.onCellClick(row, column);
-              } }, h("div", { class: "col-content", style: { justifyContent: 'space-evenly' } }, column.actions.map(action => (h("gc-button", { "onGc:click": () => action.onClick(row), type: action.type, height: "27px", paddingText: "10px" }, h("i", { style: { fontSize: '16px' }, class: action.icon })))))));
+              } }, h("div", { class: "col-content", style: { justifyContent: 'space-evenly' } }, column.actions.map(action => (h("gc-button", { "onGc:click": () => action.onClick(row), type: action.type, height: "27px", paddingText: "8px" }, h("gc-icon", { size: "16px", name: action.icon })))))));
           }
           else {
             column.fixed && countCurrentCol.length > DEFAULT_MAXIMUM_TO_SCALE ? fixedCols.push(colEl) : scrollCols.push(colEl);
