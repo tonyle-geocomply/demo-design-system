@@ -53,6 +53,22 @@ export declare class GcFormField {
    */
   infoText: string;
   /**
+   * Specifies the visible width of a text area
+   */
+  cols?: number;
+  /**
+   * Specifies the visible number of lines in a text area
+   */
+  rows?: number;
+  /**
+   * Specifies the maximum number of characters allowed in the text area
+   */
+  maxlength?: number;
+  /**
+   * Height of textarea
+   */
+  height?: string;
+  /**
    * Emitted when the value has changed.
    */
   gcFieldChange: EventEmitter;

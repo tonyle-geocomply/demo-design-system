@@ -40,7 +40,7 @@ const GcFormField$1 = /*@__PURE__*/ proxyCustomElement(class extends HTMLElement
       case 'select':
         return (h("gc-select", { search: this.search, items: this.items, "gc-id": this.gcId, "gc-name": this.gcName, value: this.value, disabled: this.disabled, placeholder: this.placeholder, "onGc:change": e => this.handleChange(e), "is-error": !!this.errorText }));
       case 'textarea':
-        return (h("gc-textarea", { "gc-id": this.gcId, "gc-name": this.gcName, value: this.value, disabled: this.disabled, placeholder: this.placeholder, "onGc:change": e => this.handleChange(e), "is-error": !!this.errorText }));
+        return (h("gc-textarea", { "gc-id": this.gcId, "gc-name": this.gcName, value: this.value, disabled: this.disabled, placeholder: this.placeholder, "onGc:change": e => this.handleChange(e), "is-error": !!this.errorText, cols: this.cols, rows: this.rows, height: this.height, maxlength: this.maxlength }));
       default:
         return (h("gc-input", { "prefix-icon": this.prefixIcon, "gc-id": this.gcId, "gc-name": this.gcName, value: this.value, disabled: this.disabled, type: this.type, placeholder: this.placeholder, "onGc:change": e => this.handleChange(e), "is-error": !!this.errorText }));
     }
@@ -62,7 +62,11 @@ const GcFormField$1 = /*@__PURE__*/ proxyCustomElement(class extends HTMLElement
     "search": [1],
     "prefixIcon": [1, "prefix-icon"],
     "errorText": [1, "error-text"],
-    "infoText": [1, "info-text"]
+    "infoText": [1, "info-text"],
+    "cols": [2],
+    "rows": [2],
+    "maxlength": [2],
+    "height": [1]
   }]);
 function defineCustomElement$1() {
   if (typeof customElements === "undefined") {

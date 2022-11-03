@@ -94,6 +94,10 @@ export namespace Components {
     }
     interface GcFormField {
         /**
+          * Specifies the visible width of a text area
+         */
+        "cols"?: number;
+        /**
           * Is disabled ?
          */
         "disabled"?: boolean;
@@ -110,6 +114,10 @@ export namespace Components {
          */
         "gcName"?: string;
         /**
+          * Height of textarea
+         */
+        "height"?: string;
+        /**
           * Info text
          */
         "infoText": string;
@@ -122,6 +130,10 @@ export namespace Components {
          */
         "label"?: string;
         /**
+          * Specifies the maximum number of characters allowed in the text area
+         */
+        "maxlength"?: number;
+        /**
           * The placeholder
          */
         "placeholder"?: string;
@@ -129,6 +141,10 @@ export namespace Components {
           * Prefix icon
          */
         "prefixIcon": string;
+        /**
+          * Specifies the visible number of lines in a text area
+         */
+        "rows"?: number;
         /**
           * Search type Possible values are `"none"`, `"initial"`, `"contains"`, `"managed"`. Defaults to `"none"`.
          */
@@ -254,6 +270,10 @@ export namespace Components {
           * Icon name
          */
         "icon"?: string;
+        /**
+          * Size of link
+         */
+        "size"?: string;
         /**
           * target link
          */
@@ -966,6 +986,10 @@ declare namespace LocalJSX {
     }
     interface GcFormField {
         /**
+          * Specifies the visible width of a text area
+         */
+        "cols"?: number;
+        /**
           * Is disabled ?
          */
         "disabled"?: boolean;
@@ -982,6 +1006,10 @@ declare namespace LocalJSX {
          */
         "gcName"?: string;
         /**
+          * Height of textarea
+         */
+        "height"?: string;
+        /**
           * Info text
          */
         "infoText"?: string;
@@ -994,6 +1022,10 @@ declare namespace LocalJSX {
          */
         "label"?: string;
         /**
+          * Specifies the maximum number of characters allowed in the text area
+         */
+        "maxlength"?: number;
+        /**
           * Emitted when the value has changed.
          */
         "onGc:field-change"?: (event: GcFormFieldCustomEvent<any>) => void;
@@ -1005,6 +1037,10 @@ declare namespace LocalJSX {
           * Prefix icon
          */
         "prefixIcon"?: string;
+        /**
+          * Specifies the visible number of lines in a text area
+         */
+        "rows"?: number;
         /**
           * Search type Possible values are `"none"`, `"initial"`, `"contains"`, `"managed"`. Defaults to `"none"`.
          */
@@ -1134,6 +1170,10 @@ declare namespace LocalJSX {
           * Icon name
          */
         "icon"?: string;
+        /**
+          * Size of link
+         */
+        "size"?: string;
         /**
           * target link
          */

@@ -3294,7 +3294,7 @@ const GcFormField = class {
       case 'select':
         return (h("gc-select", { search: this.search, items: this.items, "gc-id": this.gcId, "gc-name": this.gcName, value: this.value, disabled: this.disabled, placeholder: this.placeholder, "onGc:change": e => this.handleChange(e), "is-error": !!this.errorText }));
       case 'textarea':
-        return (h("gc-textarea", { "gc-id": this.gcId, "gc-name": this.gcName, value: this.value, disabled: this.disabled, placeholder: this.placeholder, "onGc:change": e => this.handleChange(e), "is-error": !!this.errorText }));
+        return (h("gc-textarea", { "gc-id": this.gcId, "gc-name": this.gcName, value: this.value, disabled: this.disabled, placeholder: this.placeholder, "onGc:change": e => this.handleChange(e), "is-error": !!this.errorText, cols: this.cols, rows: this.rows, height: this.height, maxlength: this.maxlength }));
       default:
         return (h("gc-input", { "prefix-icon": this.prefixIcon, "gc-id": this.gcId, "gc-name": this.gcName, value: this.value, disabled: this.disabled, type: this.type, placeholder: this.placeholder, "onGc:change": e => this.handleChange(e), "is-error": !!this.errorText }));
     }
@@ -3442,9 +3442,9 @@ const GcLink = class {
   }
   render() {
     if (this.icon) {
-      return (h("div", { style: { display: 'flex', alignItems: 'baseline', cursor: 'pointer' } }, h("gc-icon", { onClick: () => this.onClickIcon(), name: this.icon, size: "13px", color: "#397FF7" }), h("a", { target: this.target, style: { color: this.color || 'var(--gc-color-primary)', marginLeft: '8px' }, class: this.getClassName(), id: this.gcId, href: this.gcTo }, h("slot", null))));
+      return (h("div", { style: { display: 'flex', alignItems: 'baseline', cursor: 'pointer', fontSize: this.size } }, h("gc-icon", { onClick: () => this.onClickIcon(), name: this.icon, size: this.size || '13px', color: "#397FF7" }), h("a", { target: this.target, style: { color: this.color || 'var(--gc-color-primary)', marginLeft: '8px' }, class: this.getClassName(), id: this.gcId, href: this.gcTo }, h("slot", null))));
     }
-    return (h("a", { target: this.target, style: { color: this.color || 'var(--gc-color-primary)' }, class: this.getClassName(), id: this.gcId, href: this.gcTo }, h("slot", null)));
+    return (h("a", { target: this.target, style: { color: this.color || 'var(--gc-color-primary)', fontSize: this.size }, class: this.getClassName(), id: this.gcId, href: this.gcTo }, h("slot", null)));
   }
 };
 GcLink.style = typographyCss;

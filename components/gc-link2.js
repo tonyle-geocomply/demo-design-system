@@ -21,9 +21,9 @@ const GcLink = /*@__PURE__*/ proxyCustomElement(class extends HTMLElement {
   }
   render() {
     if (this.icon) {
-      return (h("div", { style: { display: 'flex', alignItems: 'baseline', cursor: 'pointer' } }, h("gc-icon", { onClick: () => this.onClickIcon(), name: this.icon, size: "13px", color: "#397FF7" }), h("a", { target: this.target, style: { color: this.color || 'var(--gc-color-primary)', marginLeft: '8px' }, class: this.getClassName(), id: this.gcId, href: this.gcTo }, h("slot", null))));
+      return (h("div", { style: { display: 'flex', alignItems: 'baseline', cursor: 'pointer', fontSize: this.size } }, h("gc-icon", { onClick: () => this.onClickIcon(), name: this.icon, size: this.size || '13px', color: "#397FF7" }), h("a", { target: this.target, style: { color: this.color || 'var(--gc-color-primary)', marginLeft: '8px' }, class: this.getClassName(), id: this.gcId, href: this.gcTo }, h("slot", null))));
     }
-    return (h("a", { target: this.target, style: { color: this.color || 'var(--gc-color-primary)' }, class: this.getClassName(), id: this.gcId, href: this.gcTo }, h("slot", null)));
+    return (h("a", { target: this.target, style: { color: this.color || 'var(--gc-color-primary)', fontSize: this.size }, class: this.getClassName(), id: this.gcId, href: this.gcTo }, h("slot", null)));
   }
   static get style() { return typographyCss; }
 }, [1, "gc-link", {
@@ -32,7 +32,8 @@ const GcLink = /*@__PURE__*/ proxyCustomElement(class extends HTMLElement {
     "gcTo": [1, "gc-to"],
     "icon": [1],
     "color": [1],
-    "target": [1]
+    "target": [1],
+    "size": [1]
   }]);
 function defineCustomElement() {
   if (typeof customElements === "undefined") {

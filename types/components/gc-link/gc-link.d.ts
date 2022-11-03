@@ -16,13 +16,17 @@ export declare class GcLink {
    */
   icon?: string;
   /**
- * The color of link
- */
+   * The color of link
+   */
   color: string;
   /**
    * target link
    */
   target?: string;
+  /**
+   * Size of link
+   */
+  size?: string;
   private getClassName;
   private onClickIcon;
   render(): any;
