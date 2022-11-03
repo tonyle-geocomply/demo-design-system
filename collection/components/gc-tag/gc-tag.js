@@ -4,7 +4,7 @@ export class GcTag {
     /**
      * The width of badge
      */
-    this.width = '76px';
+    this.width = 'auto';
     /**
      * The width of badge
      */
@@ -124,7 +124,7 @@ export class GcTag {
       },
       "attribute": "width",
       "reflect": false,
-      "defaultValue": "'76px'"
+      "defaultValue": "'auto'"
     },
     "height": {
       "type": "string",

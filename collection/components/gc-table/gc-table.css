@@ -122,6 +122,11 @@
   left: 0;
   background: inherit;
 }
+.gc__row .fixed-right-columns {
+  position: sticky;
+  right: 0;
+  background: inherit;
+}
 .header .fixed-columns {
   background: var(--gc-color-second-blue);
 }

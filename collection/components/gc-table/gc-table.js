@@ -170,6 +170,7 @@ export class GcTable {
   renderHeader() {
     const fixedCols = [];
     const scrollCols = [];
+    let fixedLastCol = undefined;
     if (this.selectionType === 'checkbox') {
       fixedCols.push(h("div", { class: "gc__col center" },
         h("div", { class: "col-content" })));
@@ -201,19 +202,27 @@ export class GcTable {
           h("div", { class: "col-content" },
             h("div", { class: "col-text" }, col.label),
             h("div", { class: "col-actions" }, (() => {
-              if (!this.sortable || !col.sortable)
+              if (!this.sortable || !col.sortable || columnsWithPos.length === 1)
                 return;
               return (h("div", { class: "gc__table-arrow" },
                 h("gc-icon", { class: { disabled: this.sortBy === col.name && this.sortOrder === 'desc' }, name: "fa-regular fa-chevron-up", size: "13px", "font-weight": "bold" }),
                 h("gc-icon", { class: { 'disabled': this.sortBy === col.name && this.sortOrder === 'asc', 'down-arrow': true }, name: "fa-regular fa-chevron-down", size: "13px", "font-weight": "bold" })));
             })()))));
-        col.fixed && countCurrentCol.length > DEFAULT_MAXIMUM_TO_SCALE ? fixedCols.push(colEl) : scrollCols.push(colEl);
+        if (i === columnsWithPos.length - 1 && col.name === 'custom_actions') {
+          fixedLastCol = (h("div", { class: { gc__col: true, sort: false }, style: { width: `${col.actions.length * 3}vw`, background: this.background } },
+            h("div", { class: "col-content" },
+              h("div", { class: "col-text" }, col.label))));
+        }
+        else {
+          col.fixed && countCurrentCol.length > DEFAULT_MAXIMUM_TO_SCALE ? fixedCols.push(colEl) : scrollCols.push(colEl);
+        }
       }
     });
     return (h("div", { class: "header" },
       h("div", { class: "gc__row" },
         h("div", { class: "fixed-columns columns-container", style: { position: countCurrentCol.length <= DEFAULT_MAXIMUM_TO_SCALE ? 'relative' : 'sticky' } }, fixedCols),
-        h("div", { class: "scrollable-columns columns-container" }, scrollCols))));
+        h("div", { class: "scrollable-columns columns-container" }, scrollCols),
+        h("div", { class: "fixed-right-columns columns-container", style: { position: countCurrentCol.length <= DEFAULT_MAXIMUM_TO_SCALE ? 'relative' : 'sticky' } }, fixedLastCol))));
   }
   renderActions(row, column, conditionToDisplayActions) {
     return conditionToDisplayActions ? (h("div", { class: { gc__actions: true } }, column.actions.map(action => {
@@ -227,7 +236,7 @@ export class GcTable {
   }
   renderColumnContent(row, column, conditionToDisplayActions) {
     var _a, _b;
-    if ((column.isLongText && (row === null || row === void 0 ? void 0 : row[column.name].length) > MAX_LONG_TEXT) || column.isCopyText) {
+    if ((column.isLongText && (row === null || row === void 0 ? void 0 : row[column.name]) && (row === null || row === void 0 ? void 0 : row[column.name].length) > MAX_LONG_TEXT) || column.isCopyText) {
       return (h("div", { class: "col-text" },
         h("gc-tooltip", { isLongText: column.isLongText, isCopyText: column.isCopyText, content: row === null || row === void 0 ? void 0 : row[column.name], isToggle: ((_a = this.clickedCell) === null || _a === void 0 ? void 0 : _a.row) === row && ((_b = this.clickedCell) === null || _b === void 0 ? void 0 : _b.column.name) === column.name }),
         this.renderActions(row, column, conditionToDisplayActions)));
@@ -254,6 +263,7 @@ export class GcTable {
     data.forEach((row, idx) => {
       const fixedCols = [];
       const scrollCols = [];
+      let fixedLastCol = undefined;
       if (this.selectionType === 'checkbox')
         fixedCols.push(h("div", { class: { gc__col: true, center: true } },
           h("div", { class: "col-content" })));
@@ -276,7 +286,21 @@ export class GcTable {
                 this.onCellClick(row, column);
             } },
             h("div", { class: "col-content" }, this.renderColumnContent(row, column, conditionToDisplayActions))));
-          column.fixed && countCurrentCol.length > DEFAULT_MAXIMUM_TO_SCALE ? fixedCols.push(colEl) : scrollCols.push(colEl);
+          if (i === columnsWithPos.length - 1 && column.name === 'custom_actions') {
+            fixedLastCol = (h("div", { class: { 'gc__col': true, 'col-hover': this.hoveredCell.row === row && this.hoveredCell.column === column, 'col-center': column.center }, style: {
+                width: `${column.actions.length * 3}vw`,
+                background: this.customRows && this.customRowsBackground && this.customRows.includes(`${idx}`) ? this.customRowsBackground : this.background,
+              }, onMouseOver: () => this.onCellMouseOver(row, column), onClick: () => {
+                const selection = window.getSelection();
+                if (selection.type != 'Range')
+                  this.onCellClick(row, column);
+              } },
+              h("div", { class: "col-content", style: { justifyContent: 'space-evenly' } }, column.actions.map(action => (h("gc-button", { "onGc:click": () => action.onClick(row), type: action.type, height: "27px", paddingText: "10px" },
+                h("i", { style: { fontSize: '16px' }, class: action.icon })))))));
+          }
+          else {
+            column.fixed && countCurrentCol.length > DEFAULT_MAXIMUM_TO_SCALE ? fixedCols.push(colEl) : scrollCols.push(colEl);
+          }
         }
       });
       rows.push(h("div", { class: { 'gc__row': true, 'row-hover': this.hoveredCell.row === row }, style: {
@@ -284,7 +308,8 @@ export class GcTable {
           border: this.customRows && this.customRowsBorder && this.customRows.includes(`${idx}`) ? this.customRowsBorder : '',
         } },
         h("div", { class: "fixed-columns columns-container", style: { position: countCurrentCol.length <= DEFAULT_MAXIMUM_TO_SCALE ? 'relative' : 'sticky' } }, fixedCols),
-        h("div", { class: "scrollable-columns columns-container" }, scrollCols)));
+        h("div", { class: "scrollable-columns columns-container" }, scrollCols),
+        h("div", { class: "fixed-right-columns columns-container", style: { position: countCurrentCol.length <= DEFAULT_MAXIMUM_TO_SCALE ? 'relative' : 'sticky' } }, fixedLastCol)));
     });
     return h("div", { class: "gc__table-body" }, rows);
   }
@@ -356,7 +381,7 @@ export class GcTable {
       totalItems = totalItems ? totalItems.toLocaleString() : '';
       const columnsWithPos = this.getColumns().map((col, idx) => (Object.assign(Object.assign({}, col), { pos: this.settingTable && this.settingTable[col.name] ? this.settingTable[col.name].position : idx })));
       columnsWithPos.sort((a, b) => a.pos - b.pos);
-      const columns = columnsWithPos;
+      const columns = columnsWithPos.filter(col => col.name !== 'custom_actions');
       return (h("div", { style: { background: this.background }, class: "gc__table-setting" },
         h("slot", { name: "gc__table-setting-title" },
           h("div", null,

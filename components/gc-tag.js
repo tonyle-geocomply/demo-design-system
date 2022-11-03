@@ -10,7 +10,7 @@ const GcTag$1 = /*@__PURE__*/ proxyCustomElement(class extends HTMLElement {
     /**
      * The width of badge
      */
-    this.width = '76px';
+    this.width = 'auto';
     /**
      * The width of badge
      */
