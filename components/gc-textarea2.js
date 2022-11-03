@@ -17,7 +17,7 @@ const GcTextarea = /*@__PURE__*/ proxyCustomElement(class extends HTMLElement {
     };
   }
   render() {
-    return (h(Host, null, h("textarea", { class: `${this.class || ''} ${this.isError ? 'has-error' : ''}`, name: this.gcName, onInput: this.onInput, id: this.gcId, value: this.value, placeholder: this.placeholder, disabled: this.disabled, maxlength: this.maxlength, rows: this.rows, cols: this.cols })));
+    return (h(Host, null, h("textarea", { style: { height: this.height }, class: `${this.class || ''} ${this.isError ? 'has-error' : ''}`, name: this.gcName, onInput: this.onInput, id: this.gcId, value: this.value, placeholder: this.placeholder, disabled: this.disabled, maxlength: this.maxlength, rows: this.rows, cols: this.cols })));
   }
   static get style() { return gcTextareaCss; }
 }, [2, "gc-textarea", {
@@ -30,7 +30,8 @@ const GcTextarea = /*@__PURE__*/ proxyCustomElement(class extends HTMLElement {
     "cols": [2],
     "rows": [2],
     "maxlength": [2],
-    "isError": [4, "is-error"]
+    "isError": [4, "is-error"],
+    "height": [1]
   }]);
 function defineCustomElement() {
   if (typeof customElements === "undefined") {

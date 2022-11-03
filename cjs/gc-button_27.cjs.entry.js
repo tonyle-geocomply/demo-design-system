@@ -4776,7 +4776,7 @@ const GcTextarea = class {
     };
   }
   render() {
-    return (index$1.h(index$1.Host, null, index$1.h("textarea", { class: `${this.class || ''} ${this.isError ? 'has-error' : ''}`, name: this.gcName, onInput: this.onInput, id: this.gcId, value: this.value, placeholder: this.placeholder, disabled: this.disabled, maxlength: this.maxlength, rows: this.rows, cols: this.cols })));
+    return (index$1.h(index$1.Host, null, index$1.h("textarea", { style: { height: this.height }, class: `${this.class || ''} ${this.isError ? 'has-error' : ''}`, name: this.gcName, onInput: this.onInput, id: this.gcId, value: this.value, placeholder: this.placeholder, disabled: this.disabled, maxlength: this.maxlength, rows: this.rows, cols: this.cols })));
   }
 };
 GcTextarea.style = gcTextareaCss;

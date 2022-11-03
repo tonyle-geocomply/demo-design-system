@@ -12,7 +12,7 @@ export class GcTextarea {
   }
   render() {
     return (h(Host, null,
-      h("textarea", { class: `${this.class || ''} ${this.isError ? 'has-error' : ''}`, name: this.gcName, onInput: this.onInput, id: this.gcId, value: this.value, placeholder: this.placeholder, disabled: this.disabled, maxlength: this.maxlength, rows: this.rows, cols: this.cols })));
+      h("textarea", { style: { height: this.height }, class: `${this.class || ''} ${this.isError ? 'has-error' : ''}`, name: this.gcName, onInput: this.onInput, id: this.gcId, value: this.value, placeholder: this.placeholder, disabled: this.disabled, maxlength: this.maxlength, rows: this.rows, cols: this.cols })));
   }
   static get is() { return "gc-textarea"; }
   static get encapsulation() { return "scoped"; }
@@ -193,6 +193,23 @@ export class GcTextarea {
       "attribute": "is-error",
       "reflect": false,
       "defaultValue": "false"
+    },
+    "height": {
+      "type": "string",
+      "mutable": false,
+      "complexType": {
+        "original": "string",
+        "resolved": "string",
+        "references": {}
+      },
+      "required": false,
+      "optional": true,
+      "docs": {
+        "tags": [],
+        "text": "Height of textarea"
+      },
+      "attribute": "height",
+      "reflect": false
     }
   }; }
   static get events() { return [{

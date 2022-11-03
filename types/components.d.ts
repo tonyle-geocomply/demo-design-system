@@ -560,6 +560,10 @@ export namespace Components {
          */
         "gcName"?: string;
         /**
+          * Height of textarea
+         */
+        "height"?: string;
+        /**
           * Is error
          */
         "isError"?: boolean;
@@ -1432,6 +1436,10 @@ declare namespace LocalJSX {
           * The name of input
          */
         "gcName"?: string;
+        /**
+          * Height of textarea
+         */
+        "height"?: string;
         /**
           * Is error
          */

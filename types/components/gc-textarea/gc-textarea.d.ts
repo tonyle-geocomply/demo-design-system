@@ -41,6 +41,10 @@ export declare class GcTextarea {
    */
   isError?: boolean;
   /**
+   * Height of textarea
+   */
+  height?: string;
+  /**
    * Emitted when the value has changed.
    */
   gcChange: EventEmitter;
