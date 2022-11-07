@@ -114,7 +114,30 @@ export const getFromObject = (obj, path, defaultValue = undefined) => {
   return result === undefined || result === obj ? defaultValue : result;
 };
 export const copyClipboard = (content, callback = undefined) => {
-  navigator.clipboard.writeText(content);
-  if (callback)
-    callback();
+  // navigator clipboard api needs a secure context (https)
+  if (navigator.clipboard && window.isSecureContext) {
+    navigator.clipboard.writeText(content);
+    if (callback)
+      callback();
+  }
+  else {
+    // text area method
+    const textArea = document.createElement('textarea');
+    textArea.value = content;
+    // make the textarea out of viewport
+    textArea.style.position = 'fixed';
+    textArea.style.left = '-999999px';
+    textArea.style.top = '-999999px';
+    document.body.appendChild(textArea);
+    textArea.focus();
+    textArea.select();
+    return new Promise(() => {
+      if (document.execCommand) {
+        document.execCommand('copy');
+      }
+      textArea.remove();
+      if (callback)
+        callback();
+    });
+  }
 };

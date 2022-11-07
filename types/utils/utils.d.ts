@@ -20,4 +20,4 @@ export declare const debounce: (func: (...args: any[]) => void, wait?: number) =
 export declare function loadScriptModule(src: any): Promise<unknown>;
 export declare function loadScript(src: any): Promise<unknown>;
 export declare const getFromObject: (obj: any, path: any, defaultValue?: any) => any;
-export declare const copyClipboard: (content: string, callback?: any) => void;
+export declare const copyClipboard: (content: string, callback?: any) => Promise<unknown>;
