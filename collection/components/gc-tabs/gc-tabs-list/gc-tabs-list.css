@@ -1,0 +1,15 @@
+.tabs-list {
+  display: flex;
+  position: relative;
+}
+.tabs-list slot::slotted(button) {
+  display: block;
+  margin: 0;
+  --button-border-width: 0.125rem;
+  --button-border-radius: 0;
+}
+.tabs-list .tabs-container {
+  z-index: 1;
+  width: 100%;
+  display: flex;
+}

@@ -488,6 +488,32 @@ export namespace Components {
          */
         "open": (index: number) => Promise<void>;
     }
+    interface GcTab {
+        /**
+          * If true, the user cannot interact with the button. Defaults to `false`.
+         */
+        "disabled": boolean;
+        /**
+          * The icon of tab.
+         */
+        "icon"?: string;
+        /**
+          * Button selection state.
+         */
+        "selected": boolean;
+        "setFocus": () => Promise<void>;
+        /**
+          * Show loader.
+         */
+        "showLoader": boolean;
+        "target": string;
+        "triggerClick": () => Promise<void>;
+        "value": string;
+    }
+    interface GcTabPanel {
+        "active": boolean;
+        "value": string;
+    }
     interface GcTable {
         "background"?: string;
         /**
@@ -519,6 +545,12 @@ export namespace Components {
         "sortOrder": 'asc' | 'desc' | '';
         "sortable": boolean;
         "totalItems": number;
+    }
+    interface GcTabs {
+    }
+    interface GcTabsList {
+        "managed": boolean;
+        "variant": 'line' | 'contained';
     }
     interface GcTag {
         /**
@@ -681,9 +713,17 @@ export interface GcStepCustomEvent<T> extends CustomEvent<T> {
     detail: T;
     target: HTMLGcStepElement;
 }
+export interface GcTabCustomEvent<T> extends CustomEvent<T> {
+    detail: T;
+    target: HTMLGcTabElement;
+}
 export interface GcTableCustomEvent<T> extends CustomEvent<T> {
     detail: T;
     target: HTMLGcTableElement;
+}
+export interface GcTabsCustomEvent<T> extends CustomEvent<T> {
+    detail: T;
+    target: HTMLGcTabsElement;
 }
 export interface GcTextareaCustomEvent<T> extends CustomEvent<T> {
     detail: T;
@@ -826,11 +866,35 @@ declare global {
         prototype: HTMLGcStepsElement;
         new (): HTMLGcStepsElement;
     };
+    interface HTMLGcTabElement extends Components.GcTab, HTMLStencilElement {
+    }
+    var HTMLGcTabElement: {
+        prototype: HTMLGcTabElement;
+        new (): HTMLGcTabElement;
+    };
+    interface HTMLGcTabPanelElement extends Components.GcTabPanel, HTMLStencilElement {
+    }
+    var HTMLGcTabPanelElement: {
+        prototype: HTMLGcTabPanelElement;
+        new (): HTMLGcTabPanelElement;
+    };
     interface HTMLGcTableElement extends Components.GcTable, HTMLStencilElement {
     }
     var HTMLGcTableElement: {
         prototype: HTMLGcTableElement;
         new (): HTMLGcTableElement;
+    };
+    interface HTMLGcTabsElement extends Components.GcTabs, HTMLStencilElement {
+    }
+    var HTMLGcTabsElement: {
+        prototype: HTMLGcTabsElement;
+        new (): HTMLGcTabsElement;
+    };
+    interface HTMLGcTabsListElement extends Components.GcTabsList, HTMLStencilElement {
+    }
+    var HTMLGcTabsListElement: {
+        prototype: HTMLGcTabsListElement;
+        new (): HTMLGcTabsListElement;
     };
     interface HTMLGcTagElement extends Components.GcTag, HTMLStencilElement {
     }
@@ -879,7 +943,11 @@ declare global {
         "gc-spinner": HTMLGcSpinnerElement;
         "gc-step": HTMLGcStepElement;
         "gc-steps": HTMLGcStepsElement;
+        "gc-tab": HTMLGcTabElement;
+        "gc-tab-panel": HTMLGcTabPanelElement;
         "gc-table": HTMLGcTableElement;
+        "gc-tabs": HTMLGcTabsElement;
+        "gc-tabs-list": HTMLGcTabsListElement;
         "gc-tag": HTMLGcTagElement;
         "gc-textarea": HTMLGcTextareaElement;
         "gc-tooltip": HTMLGcTooltipElement;
@@ -1379,6 +1447,34 @@ declare namespace LocalJSX {
     }
     interface GcSteps {
     }
+    interface GcTab {
+        /**
+          * If true, the user cannot interact with the button. Defaults to `false`.
+         */
+        "disabled"?: boolean;
+        /**
+          * The icon of tab.
+         */
+        "icon"?: string;
+        /**
+          * On click of tab, a CustomEvent 'gc:tab-click' will be triggered.
+         */
+        "onGc:tab-click"?: (event: GcTabCustomEvent<any>) => void;
+        /**
+          * Button selection state.
+         */
+        "selected"?: boolean;
+        /**
+          * Show loader.
+         */
+        "showLoader"?: boolean;
+        "target"?: string;
+        "value"?: string;
+    }
+    interface GcTabPanel {
+        "active"?: boolean;
+        "value"?: string;
+    }
     interface GcTable {
         "background"?: string;
         /**
@@ -1416,6 +1512,16 @@ declare namespace LocalJSX {
         "sortOrder"?: 'asc' | 'desc' | '';
         "sortable"?: boolean;
         "totalItems"?: number;
+    }
+    interface GcTabs {
+        /**
+          * On click of tab, a CustomEvent 'gc:tab-click' will be triggered.
+         */
+        "onGc:tab-change"?: (event: GcTabsCustomEvent<any>) => void;
+    }
+    interface GcTabsList {
+        "managed"?: boolean;
+        "variant"?: 'line' | 'contained';
     }
     interface GcTag {
         /**
@@ -1565,7 +1671,11 @@ declare namespace LocalJSX {
         "gc-spinner": GcSpinner;
         "gc-step": GcStep;
         "gc-steps": GcSteps;
+        "gc-tab": GcTab;
+        "gc-tab-panel": GcTabPanel;
         "gc-table": GcTable;
+        "gc-tabs": GcTabs;
+        "gc-tabs-list": GcTabsList;
         "gc-tag": GcTag;
         "gc-textarea": GcTextarea;
         "gc-tooltip": GcTooltip;
@@ -1598,7 +1708,11 @@ declare module "@stencil/core" {
             "gc-spinner": LocalJSX.GcSpinner & JSXBase.HTMLAttributes<HTMLGcSpinnerElement>;
             "gc-step": LocalJSX.GcStep & JSXBase.HTMLAttributes<HTMLGcStepElement>;
             "gc-steps": LocalJSX.GcSteps & JSXBase.HTMLAttributes<HTMLGcStepsElement>;
+            "gc-tab": LocalJSX.GcTab & JSXBase.HTMLAttributes<HTMLGcTabElement>;
+            "gc-tab-panel": LocalJSX.GcTabPanel & JSXBase.HTMLAttributes<HTMLGcTabPanelElement>;
             "gc-table": LocalJSX.GcTable & JSXBase.HTMLAttributes<HTMLGcTableElement>;
+            "gc-tabs": LocalJSX.GcTabs & JSXBase.HTMLAttributes<HTMLGcTabsElement>;
+            "gc-tabs-list": LocalJSX.GcTabsList & JSXBase.HTMLAttributes<HTMLGcTabsListElement>;
             "gc-tag": LocalJSX.GcTag & JSXBase.HTMLAttributes<HTMLGcTagElement>;
             "gc-textarea": LocalJSX.GcTextarea & JSXBase.HTMLAttributes<HTMLGcTextareaElement>;
             "gc-tooltip": LocalJSX.GcTooltip & JSXBase.HTMLAttributes<HTMLGcTooltipElement>;

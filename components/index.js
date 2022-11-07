@@ -21,7 +21,11 @@ export { GcSelect, defineCustomElement as defineCustomElementGcSelect } from './
 export { GcSpinner, defineCustomElement as defineCustomElementGcSpinner } from './gc-spinner.js';
 export { GcStep, defineCustomElement as defineCustomElementGcStep } from './gc-step.js';
 export { GcSteps, defineCustomElement as defineCustomElementGcSteps } from './gc-steps.js';
+export { GcTab, defineCustomElement as defineCustomElementGcTab } from './gc-tab.js';
+export { GcTabPanel, defineCustomElement as defineCustomElementGcTabPanel } from './gc-tab-panel.js';
 export { GcTable, defineCustomElement as defineCustomElementGcTable } from './gc-table.js';
+export { GcTabs, defineCustomElement as defineCustomElementGcTabs } from './gc-tabs.js';
+export { GcTabsList, defineCustomElement as defineCustomElementGcTabsList } from './gc-tabs-list.js';
 export { GcTag, defineCustomElement as defineCustomElementGcTag } from './gc-tag.js';
 export { GcTextarea, defineCustomElement as defineCustomElementGcTextarea } from './gc-textarea.js';
 export { GcTooltip, defineCustomElement as defineCustomElementGcTooltip } from './gc-tooltip.js';
