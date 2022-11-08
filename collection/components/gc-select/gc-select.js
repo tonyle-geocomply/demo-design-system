@@ -63,14 +63,14 @@ export class GcSelect {
     this.endSlotHasContent = false;
     this.stateItems = [];
     this.selectedColorItem = '';
-    this.selectHandler = selectItemValue => {
+    this.selectHandler = (selectItemValue, selectedLabel) => {
       if (!this.disabled && !this.readonly) {
         // if (this.search !== 'none') {
         //   const item = this.getItemByValue(selectItemValue);
         //   this.searchString = item.label;
         // }
         this.stateItems = this.getItems().filter(item => item.value !== selectItemValue);
-        this.addItem(selectItemValue);
+        this.addItem(selectItemValue, selectedLabel);
       }
       this.closeList();
     };
@@ -182,7 +182,7 @@ export class GcSelect {
     this.isOpen = false;
   }
   menuItemClick(evt) {
-    this.selectHandler(evt.detail.value);
+    this.selectHandler(evt.detail.value, evt.detail.label);
     this.selectedColorItem = evt.detail.color;
   }
   tagDismissClick(evt) {
@@ -194,11 +194,11 @@ export class GcSelect {
     else
       return [];
   }
-  addItem(selectItemValue) {
+  addItem(selectItemValue, selectedLabel) {
     let value = this.getValues();
     if (!selectItemValue) {
       this.value = '';
-      this.goatChange.emit({ value: selectItemValue });
+      this.gcChange.emit({ value: selectItemValue, label: selectedLabel });
       return;
     }
     if (!value.includes(selectItemValue)) {
@@ -206,7 +206,7 @@ export class GcSelect {
         value = [];
       value.push(selectItemValue);
       this.value = value.join(',');
-      this.goatChange.emit({ value: this.value });
+      this.gcChange.emit({ value: this.value, label: selectedLabel });
     }
   }
   removeItem(selectItemValue) {
@@ -214,7 +214,7 @@ export class GcSelect {
     if (value.includes(selectItemValue)) {
       value = value.filter(item => item !== selectItemValue);
       this.value = value.join(',');
-      this.goatChange.emit({ value: this.value });
+      this.gcChange.emit({ value: this.value });
     }
   }
   hasValue() {
@@ -381,7 +381,7 @@ export class GcSelect {
       const filteredItems = this.filterItems();
       return (h("gc-menu", { class: "menu", empty: filteredItems.length == 0, ref: el => (this.menuElm = el) }, (() => {
         return filteredItems.map(item => {
-          return (h("gc-menu-item", { disabled: item.disabled, color: item.color, value: item.value }, item.label || item.value));
+          return (h("gc-menu-item", { disabled: item.disabled, color: item.color, value: item.value, label: item.label }, item.label || item.value));
         });
       })()));
     }
@@ -758,7 +758,7 @@ export class GcSelect {
     "selectedColorItem": {}
   }; }
   static get events() { return [{
-      "method": "goatChange",
+      "method": "gcChange",
       "name": "gc:change",
       "bubbles": true,
       "cancelable": true,

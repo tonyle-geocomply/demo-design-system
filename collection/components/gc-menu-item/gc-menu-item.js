@@ -20,6 +20,7 @@ export class GcMenuItem {
         this.goatMenuItemClick.emit({
           value: this.value || '',
           color: this.color || '',
+          label: this.label || '',
         });
       }
       else {
@@ -224,6 +225,23 @@ export class GcMenuItem {
       "attribute": "selected",
       "reflect": true,
       "defaultValue": "false"
+    },
+    "label": {
+      "type": "string",
+      "mutable": false,
+      "complexType": {
+        "original": "string",
+        "resolved": "string",
+        "references": {}
+      },
+      "required": false,
+      "optional": true,
+      "docs": {
+        "tags": [],
+        "text": "The label"
+      },
+      "attribute": "label",
+      "reflect": false
     }
   }; }
   static get states() { return {

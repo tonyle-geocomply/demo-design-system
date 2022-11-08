@@ -27,6 +27,7 @@ const GcMenuItem = /*@__PURE__*/ proxyCustomElement(class extends HTMLElement {
         this.goatMenuItemClick.emit({
           value: this.value || '',
           color: this.color || '',
+          label: this.label || '',
         });
       }
       else {
@@ -125,6 +126,7 @@ const GcMenuItem = /*@__PURE__*/ proxyCustomElement(class extends HTMLElement {
     "value": [1032],
     "disabled": [516],
     "selected": [516],
+    "label": [1],
     "startSlotHasContent": [32],
     "endSlotHasContent": [32],
     "hasFocus": [32],
