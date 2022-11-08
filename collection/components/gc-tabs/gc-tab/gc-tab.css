@@ -31,6 +31,20 @@
 
 :host:last-child .native-button {
   border-right: 0;
+  border-radius: 0px 6px 0 0;
+}
+
+:host:first-child .gc__tab-background {
+  border-radius: 6px 0 0;
+}
+
+:host:last-child .gc__tab-background {
+  border-radius: 0px 6px 0 0;
+}
+
+:host:first-child .native-button {
+  border-right: 0;
+  border-radius: 6px 0 0;
 }
 
 .gc__tab .gc__tab-background {
