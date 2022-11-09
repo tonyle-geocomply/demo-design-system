@@ -251,6 +251,7 @@ gc-icon.down-arrow {
   display: grid;
   padding: 17px 20px;
   row-gap: 17px;
+  column-gap: 17px;
   grid-auto-flow: column;
   grid-template-rows: 1fr 1fr 1fr 1fr 1fr 1fr;
 }

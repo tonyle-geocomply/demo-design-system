@@ -88,7 +88,7 @@ export class GcTable {
       const values = Object.values(newValue) && Object.values(newValue)[0];
       const swapCol = Object.keys(this.posColumns).find(key => this.posColumns[key] === values.position);
       let emitValues = Object.keys(this.showingColumns).reduce((res, key, idx) => {
-        return Object.assign(Object.assign({}, res), { [key]: { hidden: !this.showingColumns[key], position: idx } });
+        return Object.assign(Object.assign({}, res), { [key]: { hidden: !this.showingColumns[key], position: this.posColumns && this.posColumns[key] !== undefined ? this.posColumns[key] : idx } });
       }, {});
       const newPos = Object.keys(newValue).reduce((res, key) => {
         return Object.assign(Object.assign({}, res), { [key]: newValue[key].position });
@@ -158,7 +158,7 @@ export class GcTable {
   onCheck(e, name) {
     this.showingColumns = Object.assign(Object.assign({}, this.showingColumns), { [name]: e.detail.value });
     const emitValues = Object.keys(this.showingColumns).reduce((res, key, idx) => {
-      return Object.assign(Object.assign({}, res), { [key]: { hidden: !this.showingColumns[key], position: this.posColumns[key] || idx } });
+      return Object.assign(Object.assign({}, res), { [key]: { hidden: !this.showingColumns[key], position: this.posColumns && this.posColumns[key] !== undefined ? this.posColumns[key] : idx } });
     }, {});
     this.gcTableSettingChange.emit(emitValues);
   }
@@ -198,7 +198,7 @@ export class GcTable {
               this.sortOrder = 'asc';
             }
             this.gcSort.emit({ sortBy: this.sortBy, sortOrder: this.sortOrder });
-          }, class: { gc__col: true, sort: this.sortBy === col.name }, style: { width: colWidth, background: this.background } },
+          }, class: { gc__col: true, sort: this.sortBy === col.name }, style: { width: colWidth, background: this.background, padding: col.padding } },
           h("div", { class: "col-content" },
             h("div", { class: "col-text" }, col.label),
             h("div", { class: "col-actions" }, (() => {
@@ -280,6 +280,7 @@ export class GcTable {
           const colEl = (h("div", { class: { 'gc__col': true, 'col-hover': this.hoveredCell.row === row && this.hoveredCell.column === column, 'col-center': column.center }, style: {
               width: colWidth,
               background: this.customRows && this.customRowsBackground && this.customRows.includes(`${idx}`) ? this.customRowsBackground : this.background,
+              padding: column.padding,
             }, onMouseOver: () => this.onCellMouseOver(row, column), onClick: () => {
               const selection = window.getSelection();
               if (selection.type != 'Range')
@@ -401,7 +402,7 @@ export class GcTable {
               h("gc-drag-container", { "onGc:drop": this.onDrop, "class-container": `gc__table-setting-cols ${columns.length < 6 ? 'less-cols' : ''}`, "class-daggable": ".draggable-item", group: "table-setting-cols" }, columns.map(col => (h("gc-draggable-item", { "data-col-name": col.name, "data-col-check": `${this.showingColumns[col.name]}`, key: `${this.gcId}_${col.name}`, class: { 'draggable-item': !col.alwaysDisplay } },
                 h("div", { key: `${this.gcId}_${col.name}`, class: { 'gc__table-setting-col-item': true, 'disabled': col.alwaysDisplay } },
                   h("gc-icon", { color: "var(--gc-color-secondary-grey)", name: "fa-solid fa-grip-dots-vertical" }),
-                  h("gc-checkbox", { disabled: col.alwaysDisplay, "gc-name": `${this.gcId}_${col.name}`, label: col.label, checked: this.showingColumns[col.name], "onGc:change": e => this.onCheck(e, col.name) })))))))))));
+                  h("gc-checkbox", { disabled: col.alwaysDisplay || false, "gc-name": `${this.gcId}_${col.name}`, label: col.label, checked: this.showingColumns[col.name], "onGc:change": e => this.onCheck(e, col.name) })))))))))));
     }
   }
   render() {
@@ -426,6 +427,9 @@ export class GcTable {
         this.paginate && (h("div", { style: { background: this.background }, class: "table-footer" }, this.renderPagination())))) : (this.renderEmptyState())));
   }
   renderEmptyState() {
+    if (this.customEmptyState) {
+      return h("div", { innerHTML: this.customEmptyState });
+    }
     return (h("div", { class: "empty-table" },
       h("div", { class: "empty-title" },
         h("gc-h2", null, "There is no records found matching applied filters")),
@@ -860,6 +864,23 @@ export class GcTable {
       "attribute": "setting-table",
       "reflect": false,
       "defaultValue": "{}"
+    },
+    "customEmptyState": {
+      "type": "string",
+      "mutable": false,
+      "complexType": {
+        "original": "string",
+        "resolved": "string",
+        "references": {}
+      },
+      "required": false,
+      "optional": true,
+      "docs": {
+        "tags": [],
+        "text": ""
+      },
+      "attribute": "custom-empty-state",
+      "reflect": false
     }
   }; }
   static get states() { return {

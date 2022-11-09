@@ -57,6 +57,7 @@ export declare class GcTable {
   background?: string;
   isLoading?: false;
   settingTable?: any;
+  customEmptyState?: string;
   private hoveredCell;
   private isSelectAll;
   private showingColumns;

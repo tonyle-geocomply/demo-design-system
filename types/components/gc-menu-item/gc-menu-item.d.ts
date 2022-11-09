@@ -27,6 +27,10 @@ export declare class GcMenuItem {
    */
   selected: boolean;
   /**
+   * The label
+  */
+  label?: string;
+  /**
    * Emitted when the menu item is clicked.
    */
   goatMenuItemClick: EventEmitter;

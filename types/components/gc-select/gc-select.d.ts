@@ -70,7 +70,7 @@ export declare class GcSelect implements ComponentInterface {
   /**
    * Emitted when the value has changed.
    */
-  goatChange: EventEmitter;
+  gcChange: EventEmitter;
   /**
    * Emitted when the action button is clicked..
    */

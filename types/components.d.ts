@@ -307,6 +307,10 @@ export namespace Components {
          */
         "gcId": string;
         /**
+          * The label
+         */
+        "label"?: string;
+        /**
           * Menu item selection state.
          */
         "selected": boolean;
@@ -520,6 +524,7 @@ export namespace Components {
           * Grid columns configuration. [ {   "name":"name",   "label":"Name",   "width":300,   "fixed":true  }, {   "name":"age",   "label":"Age" } ]
          */
         "columns": string | any[];
+        "customEmptyState"?: string;
         "customRows"?: string[];
         "customRowsBackground"?: string;
         "customRowsBorder"?: string;
@@ -1271,6 +1276,10 @@ declare namespace LocalJSX {
          */
         "gcId"?: string;
         /**
+          * The label
+         */
+        "label"?: string;
+        /**
           * Emitted when the menu item is clicked.
          */
         "onGc:menu-item-click"?: (event: GcMenuItemCustomEvent<any>) => void;
@@ -1481,6 +1490,7 @@ declare namespace LocalJSX {
           * Grid columns configuration. [ {   "name":"name",   "label":"Name",   "width":300,   "fixed":true  }, {   "name":"age",   "label":"Age" } ]
          */
         "columns"?: string | any[];
+        "customEmptyState"?: string;
         "customRows"?: string[];
         "customRowsBackground"?: string;
         "customRowsBorder"?: string;
