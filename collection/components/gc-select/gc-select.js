@@ -169,6 +169,12 @@ export class GcSelect {
         this.selectedColorItem = selectedItem.color;
       }
     }
+    else {
+      const selectedItem = this.getItems().find(item => item.value === newValue);
+      if (selectedItem && selectedItem.color) {
+        this.selectedColorItem = selectedItem.color;
+      }
+    }
     if (!newValue) {
       this.stateItems = this.getItems();
     }
@@ -275,7 +281,7 @@ export class GcSelect {
     this.endSlotHasContent = !!this.elm.querySelector('[slot="end"]');
     this.stateItems = this.getItems();
     if (this.value) {
-      const selectedItem = this.stateItems.find(item => item.value === this.value);
+      const selectedItem = this.getItems().find(item => item.value === this.value);
       if (selectedItem && selectedItem.color) {
         this.selectedColorItem = selectedItem.color;
         this.stateItems = this.getItems().filter(item => item.value !== selectedItem.value);
