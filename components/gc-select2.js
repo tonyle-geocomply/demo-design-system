@@ -174,17 +174,9 @@ const GcSelect = /*@__PURE__*/ proxyCustomElement(class extends HTMLElement {
   }
   watchPropHandler(newValue) {
     this.value = newValue;
-    if (this.stateItems.length > 0) {
-      const selectedItem = this.stateItems.find(item => item.value === newValue);
-      if (selectedItem && selectedItem.color) {
-        this.selectedColorItem = selectedItem.color;
-      }
-    }
-    else {
-      const selectedItem = this.getItems().find(item => item.value === newValue);
-      if (selectedItem && selectedItem.color) {
-        this.selectedColorItem = selectedItem.color;
-      }
+    const selectedItem = this.stateItems.length > 0 ? this.stateItems.find(item => item.value == newValue) : this.getItems().find(item => item.value == newValue);
+    if (selectedItem && selectedItem.color) {
+      this.selectedColorItem = selectedItem.color;
     }
     if (!newValue) {
       this.stateItems = this.getItems();
