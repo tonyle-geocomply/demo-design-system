@@ -154,6 +154,8 @@
 }
 .header .gc__col {
   border-bottom: 1px solid var(--table-border-color);
+}
+.header .gc__col.sort {
   cursor: pointer;
 }
 .gc__table-body .gc__row {

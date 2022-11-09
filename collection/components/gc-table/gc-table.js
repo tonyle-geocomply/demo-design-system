@@ -201,7 +201,7 @@ export class GcTable {
               this.sortOrder = 'asc';
             }
             this.gcSort.emit({ sortBy: this.sortBy, sortOrder: this.sortOrder });
-          }, class: { gc__col: true, sort: this.sortBy === col.name }, style: { width: colWidth, background: this.background, padding: col.padding } },
+          }, class: { gc__col: true, sort: this.sortBy === col.name || col.sortable }, style: { width: colWidth, background: this.background, padding: col.padding } },
           h("div", { class: "col-content" },
             h("div", { class: "col-text" }, col.label),
             h("div", { class: "col-actions" }, (() => {
