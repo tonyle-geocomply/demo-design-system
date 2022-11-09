@@ -4072,7 +4072,7 @@ const GcSelect = class {
     this.endSlotHasContent = !!this.elm.querySelector('[slot="end"]');
     this.stateItems = this.getItems();
     if (this.value) {
-      const selectedItem = this.getItems().find(item => item.value === this.value);
+      const selectedItem = this.getItems().find(item => item.value == this.value);
       if (selectedItem && selectedItem.color) {
         this.selectedColorItem = selectedItem.color;
         this.stateItems = this.getItems().filter(item => item.value !== selectedItem.value);
@@ -4559,6 +4559,9 @@ const GcTable = class {
     this.onCellMouseOver = (row, column) => {
       this.hoveredCell = { row, column };
     };
+    this.onCellMouseOut = () => {
+      this.hoveredCell = { row: '', column: '' };
+    };
     this.onDrop = e => {
       const newValue = e.detail;
       const values = Object.values(newValue) && Object.values(newValue)[0];
@@ -4742,7 +4745,7 @@ const GcTable = class {
               width: colWidth,
               background: this.customRows && this.customRowsBackground && this.customRows.includes(`${idx}`) ? this.customRowsBackground : this.background,
               padding: column.padding,
-            }, onMouseOver: () => this.onCellMouseOver(row, column), onClick: () => {
+            }, onMouseOver: () => this.onCellMouseOver(row, column), onMouseOut: () => this.onCellMouseOut(), onClick: () => {
               const selection = window.getSelection();
               if (selection.type != 'Range')
                 this.onCellClick(row, column);
@@ -4751,7 +4754,7 @@ const GcTable = class {
             fixedLastCol = (h("div", { class: { 'gc__col': true, 'col-hover': this.hoveredCell.row === row && this.hoveredCell.column === column, 'col-center': column.center }, style: {
                 width: `${column.actions.length * 3}vw`,
                 background: this.customRows && this.customRowsBackground && this.customRows.includes(`${idx}`) ? this.customRowsBackground : this.background,
-              }, onMouseOver: () => this.onCellMouseOver(row, column), onClick: () => {
+              }, onMouseOver: () => this.onCellMouseOver(row, column), onMouseOut: () => this.onCellMouseOut(), onClick: () => {
                 const selection = window.getSelection();
                 if (selection.type != 'Range')
                   this.onCellClick(row, column);

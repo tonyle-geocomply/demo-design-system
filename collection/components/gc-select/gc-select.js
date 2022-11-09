@@ -273,7 +273,7 @@ export class GcSelect {
     this.endSlotHasContent = !!this.elm.querySelector('[slot="end"]');
     this.stateItems = this.getItems();
     if (this.value) {
-      const selectedItem = this.getItems().find(item => item.value === this.value);
+      const selectedItem = this.getItems().find(item => item.value == this.value);
       if (selectedItem && selectedItem.color) {
         this.selectedColorItem = selectedItem.color;
         this.stateItems = this.getItems().filter(item => item.value !== selectedItem.value);

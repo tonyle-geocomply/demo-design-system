@@ -77,6 +77,7 @@ export declare class GcTable {
   onSelectAllClick: () => void;
   onRowSelectClick: (row: any) => void;
   onCellMouseOver: (row: any, column: any) => void;
+  onCellMouseOut: () => void;
   onSelectChange(selectedRowKeys: any): void;
   onCellClick(row: any, column: any): void;
   onCheck(e: any, name: string): void;
