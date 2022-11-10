@@ -6,7 +6,7 @@ export class GcStep {
     /**
      * index of step item from top to bottom
      */
-    this.index = -1;
+    this.index = '';
     /**
      * step item is open or opening (css transition)
      */
@@ -41,7 +41,7 @@ export class GcStep {
     for (let i = 0; i < children.length; i++) {
       const child = children[i];
       if (child == this.element) {
-        this.index = i;
+        this.index = i + '';
       }
     }
     this.mutationObserver = new MutationObserver(() => this.contentChanged.emit());
@@ -104,6 +104,7 @@ export class GcStep {
     const successCondition = !this.open && this.status === 'success';
     const opacityCondition = !this.open && this.status !== 'success';
     const children = this.element.parentElement.querySelectorAll('gc-step');
+    const lastIndex = children && children[children.length - 1] ? children[children.length - 1].getAttribute('index') : '';
     return (h(Host, null,
       h("header", { class: { 'gc__head-opening': this.open, 'gc__head': true, 'gc__head-opacity': opacityCondition }, onClick: () => this.toggle() },
         h("div", { class: "gc__step-item-title" },
@@ -116,7 +117,7 @@ export class GcStep {
       h("section", { onTransitionEnd: () => this.handleTransitionEnd(), class: { 'gc__steps-section': true, 'transitioning': this.transitioning, 'open': this.open }, style: this.style },
         h("div", null,
           h("slot", null))),
-      +this.index === children.length - 1 && (h("div", { style: { marginTop: '30px' } }))));
+      this.index === lastIndex && (h("div", { style: { marginTop: '30px' } }))));
   }
   static get is() { return "gc-step"; }
   static get encapsulation() { return "scoped"; }
@@ -128,11 +129,11 @@ export class GcStep {
   }; }
   static get properties() { return {
     "index": {
-      "type": "number",
+      "type": "string",
       "mutable": true,
       "complexType": {
-        "original": "number",
-        "resolved": "number",
+        "original": "string",
+        "resolved": "string",
         "references": {}
       },
       "required": false,
@@ -143,7 +144,7 @@ export class GcStep {
       },
       "attribute": "index",
       "reflect": true,
-      "defaultValue": "-1"
+      "defaultValue": "''"
     },
     "open": {
       "type": "boolean",

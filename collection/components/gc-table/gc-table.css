@@ -210,7 +210,7 @@
 .gc__table-arrow {
   display: grid;
 }
-gc-icon {
+.header gc-icon {
   opacity: 0.5;
 }
 gc-icon.disabled {

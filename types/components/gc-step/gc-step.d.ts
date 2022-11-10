@@ -10,7 +10,7 @@ export declare class GcStep {
   /**
    * index of step item from top to bottom
    */
-  index: number;
+  index: string;
   /**
    * step item is open or opening (css transition)
    */

@@ -15,7 +15,7 @@ const GcStep$1 = /*@__PURE__*/ proxyCustomElement(class extends HTMLElement {
     /**
      * index of step item from top to bottom
      */
-    this.index = -1;
+    this.index = '';
     /**
      * step item is open or opening (css transition)
      */
@@ -50,7 +50,7 @@ const GcStep$1 = /*@__PURE__*/ proxyCustomElement(class extends HTMLElement {
     for (let i = 0; i < children.length; i++) {
       const child = children[i];
       if (child == this.element) {
-        this.index = i;
+        this.index = i + '';
       }
     }
     this.mutationObserver = new MutationObserver(() => this.contentChanged.emit());
@@ -113,7 +113,8 @@ const GcStep$1 = /*@__PURE__*/ proxyCustomElement(class extends HTMLElement {
     const successCondition = !this.open && this.status === 'success';
     const opacityCondition = !this.open && this.status !== 'success';
     const children = this.element.parentElement.querySelectorAll('gc-step');
-    return (h(Host, null, h("header", { class: { 'gc__head-opening': this.open, 'gc__head': true, 'gc__head-opacity': opacityCondition }, onClick: () => this.toggle() }, h("div", { class: "gc__step-item-title" }, h("div", { style: { borderColor: successCondition ? 'var(--gc-color-green)' : 'var(--gc-color-primary)' }, class: { 'transitioning-rotate': this.transitioning && this.open, 'gc__step-item-icon': true } }, successCondition ? (h("gc-icon", { name: "fa-regular fa-check", color: "var(--gc-color-green)", size: "24px" })) : (h("gc-icon", { name: this.icon, color: "var(--gc-color-primary)", size: "22px" }))), h("div", { class: "gc__step-item-title--content" }, h("div", { style: { color: successCondition ? 'var(--gc-color-green)' : 'var(--gc-color-primary)' } }, h("slot", { name: "title" })), h("slot", { name: "description" }))), !this.open && h("hr", null)), h("section", { onTransitionEnd: () => this.handleTransitionEnd(), class: { 'gc__steps-section': true, 'transitioning': this.transitioning, 'open': this.open }, style: this.style }, h("div", null, h("slot", null))), +this.index === children.length - 1 && (h("div", { style: { marginTop: '30px' } }))));
+    const lastIndex = children && children[children.length - 1] ? children[children.length - 1].getAttribute('index') : '';
+    return (h(Host, null, h("header", { class: { 'gc__head-opening': this.open, 'gc__head': true, 'gc__head-opacity': opacityCondition }, onClick: () => this.toggle() }, h("div", { class: "gc__step-item-title" }, h("div", { style: { borderColor: successCondition ? 'var(--gc-color-green)' : 'var(--gc-color-primary)' }, class: { 'transitioning-rotate': this.transitioning && this.open, 'gc__step-item-icon': true } }, successCondition ? (h("gc-icon", { name: "fa-regular fa-check", color: "var(--gc-color-green)", size: "24px" })) : (h("gc-icon", { name: this.icon, color: "var(--gc-color-primary)", size: "22px" }))), h("div", { class: "gc__step-item-title--content" }, h("div", { style: { color: successCondition ? 'var(--gc-color-green)' : 'var(--gc-color-primary)' } }, h("slot", { name: "title" })), h("slot", { name: "description" }))), !this.open && h("hr", null)), h("section", { onTransitionEnd: () => this.handleTransitionEnd(), class: { 'gc__steps-section': true, 'transitioning': this.transitioning, 'open': this.open }, style: this.style }, h("div", null, h("slot", null))), this.index === lastIndex && (h("div", { style: { marginTop: '30px' } }))));
   }
   get element() { return this; }
   static get watchers() { return {
@@ -121,7 +122,7 @@ const GcStep$1 = /*@__PURE__*/ proxyCustomElement(class extends HTMLElement {
   }; }
   static get style() { return gcStepCss; }
 }, [6, "gc-step", {
-    "index": [1538],
+    "index": [1537],
     "open": [1540],
     "mutationObserverConfig": [16],
     "icon": [1537],
