@@ -75,6 +75,7 @@ const GcTable$1 = /*@__PURE__*/ proxyCustomElement(class extends HTMLElement {
     this.settingColumns = false;
     this.isStripe = true;
     this.isBordered = true;
+    this.isNoBorderedAll = false;
     this.settingTable = {};
     this.hoveredCell = {};
     this.isSelectAll = false;
@@ -364,13 +365,13 @@ const GcTable$1 = /*@__PURE__*/ proxyCustomElement(class extends HTMLElement {
     return (h("div", { class: "pagination" }, h("div", { class: "page-sizes-select" }), h("div", { class: "pagination-item-count" }, h("span", null, "Showing"), "\u00A0", this.pageSize * (this.page - 1) + 1, "\u00A0to\u00A0", this.pageSize * this.page < this.getTotalItems() ? this.pageSize * this.page : this.getTotalItems(), "\u00A0of\u00A0", totalItems || 0, "\u00A0", totalItems <= 1 ? 'entry' : 'entries'), h("div", { class: "pagination-right" }, h("div", { class: "table-footer-right-content" }, h("div", { class: "table-footer-right-content-pagination" }, h("gc-pagination", { activePage: this.page, total: this.getTotalItems(), pageSize: this.pageSize }))))));
   }
   renderSettingColumns() {
-    if (this.settingColumns || this.customEmptyState) {
+    if (this.settingColumns || this.customEmptyState || this.isNoBorderedAll) {
       let totalItems = this.getTotalItems();
       totalItems = totalItems ? totalItems.toLocaleString() : '';
       const columnsWithPos = this.getColumns().map((col, idx) => (Object.assign(Object.assign({}, col), { pos: this.settingTable && this.settingTable[col.name] ? this.settingTable[col.name].position : idx })));
       columnsWithPos.sort((a, b) => a.pos - b.pos);
       const columns = columnsWithPos.filter(col => col.name !== 'custom_actions');
-      return (h("div", { style: { background: this.background }, class: "gc__table-setting" }, this.customEmptyState ? h("div", null, h("slot", { name: "gc__table-setting-title" })) : (h("slot", { name: "gc__table-setting-title" }, "Results: ", totalItems || 0, " ", totalItems <= 1 ? 'entry' : 'entries', " found matching applied filters:")), h("div", null, this.settingColumns && (h("gc-dropdown", { id: `dropdown_${this.gcId}` }, h("gc-link", { icon: "fa-solid fa-table-layout", color: "#51666C" }, h("span", { class: "gc__table-setting-manage-title" }, "Manage Table Columns")), h("div", { slot: "gc__dropdown-content", class: "dropdown" }, h("div", { class: "gc__table-setting-cols-text" }, h("gc-icon", { color: "red", name: "fa-regular fa-square-info" }), h("gc-h2", { class: "gc__table-setting-cols-title" }, "Manage Table Columns")), h("gc-drag-container", { "onGc:drop": this.onDrop, "class-container": `gc__table-setting-cols ${columns.length < 6 ? 'less-cols' : ''}`, "class-daggable": ".draggable-item", group: "table-setting-cols" }, columns.map(col => (h("gc-draggable-item", { "data-col-name": col.name, "data-col-check": `${this.showingColumns[col.name]}`, key: `${this.gcId}_${col.name}`, class: { 'draggable-item': !col.alwaysDisplay } }, h("div", { key: `${this.gcId}_${col.name}`, class: { 'gc__table-setting-col-item': true, 'disabled': col.alwaysDisplay } }, h("gc-icon", { color: "var(--gc-color-secondary-grey)", name: "fa-solid fa-grip-dots-vertical" }), h("gc-checkbox", { disabled: col.alwaysDisplay || false, "gc-name": `${this.gcId}_${col.name}`, label: col.label, checked: col.alwaysDisplay || this.showingColumns[col.name], "onGc:change": e => this.onCheck(e, col.name) }))))))))))));
+      return (h("div", { style: { background: this.background, border: this.isNoBorderedAll ? '0' : '' }, class: "gc__table-setting" }, (this.customEmptyState || this.isNoBorderedAll) ? h("div", null, h("slot", { name: "gc__table-setting-title" })) : (h("slot", { name: "gc__table-setting-title" }, "Results: ", totalItems || 0, " ", totalItems <= 1 ? 'entry' : 'entries', " found matching applied filters:")), h("div", null, this.settingColumns && (h("gc-dropdown", { id: `dropdown_${this.gcId}` }, h("gc-link", { icon: "fa-solid fa-table-layout", color: "#51666C" }, h("span", { class: "gc__table-setting-manage-title" }, "Manage Table Columns")), h("div", { slot: "gc__dropdown-content", class: "dropdown" }, h("div", { class: "gc__table-setting-cols-text" }, h("gc-icon", { color: "red", name: "fa-regular fa-square-info" }), h("gc-h2", { class: "gc__table-setting-cols-title" }, "Manage Table Columns")), h("gc-drag-container", { "onGc:drop": this.onDrop, "class-container": `gc__table-setting-cols ${columns.length < 6 ? 'less-cols' : ''}`, "class-daggable": ".draggable-item", group: "table-setting-cols" }, columns.map(col => (h("gc-draggable-item", { "data-col-name": col.name, "data-col-check": `${this.showingColumns[col.name]}`, key: `${this.gcId}_${col.name}`, class: { 'draggable-item': !col.alwaysDisplay } }, h("div", { key: `${this.gcId}_${col.name}`, class: { 'gc__table-setting-col-item': true, 'disabled': col.alwaysDisplay } }, h("gc-icon", { color: "var(--gc-color-secondary-grey)", name: "fa-solid fa-grip-dots-vertical" }), h("gc-checkbox", { disabled: col.alwaysDisplay || false, "gc-name": `${this.gcId}_${col.name}`, label: col.label, checked: col.alwaysDisplay || this.showingColumns[col.name], "onGc:change": e => this.onCheck(e, col.name) }))))))))))));
     }
   }
   render() {
@@ -378,7 +379,7 @@ const GcTable$1 = /*@__PURE__*/ proxyCustomElement(class extends HTMLElement {
     if (this.isLoading) {
       return (h(Host, null, this.renderSettingColumns(), h("div", { class: { 'gc__table': true, 'sortable': this.sortable, 'paginate': this.paginate, 'gc__table-no-stripe': !this.isStripe, 'gc__table-no-border': !this.isBordered } }, h("div", { class: "table-scroll-container", style: { overflow: countCurrentCol.length <= DEFAULT_MAXIMUM_TO_SCALE ? 'hidden' : 'auto', position: this.showTooltip ? 'static' : 'inherit' } }, this.renderHeader(), this.renderBody(), h("div", { class: "loading-section" }, h("gc-spinner", null))), this.paginate && (h("div", { style: { background: this.background }, class: "table-footer" }, this.renderPagination())))));
     }
-    return (h(Host, null, this.renderSettingColumns(), this.getData().length > 0 ? (h("div", { class: { 'gc__table': true, 'sortable': this.sortable, 'paginate': this.paginate, 'gc__table-no-stripe': !this.isStripe, 'gc__table-no-border': !this.isBordered } }, h("div", { class: "table-scroll-container", style: { overflow: countCurrentCol.length <= DEFAULT_MAXIMUM_TO_SCALE ? 'hidden' : 'auto', position: this.showTooltip ? 'static' : 'inherit' } }, this.renderHeader(), this.renderBody()), this.paginate && (h("div", { style: { background: this.background }, class: "table-footer" }, this.renderPagination())))) : (this.renderEmptyState())));
+    return (h(Host, null, this.renderSettingColumns(), this.getData().length > 0 ? (h("div", { style: { border: this.isNoBorderedAll ? '0' : '' }, class: { 'gc__table': true, 'sortable': this.sortable, 'paginate': this.paginate, 'gc__table-no-stripe': !this.isStripe, 'gc__table-no-border': !this.isBordered } }, h("div", { class: "table-scroll-container", style: { overflow: countCurrentCol.length <= DEFAULT_MAXIMUM_TO_SCALE ? 'hidden' : 'auto', position: this.showTooltip ? 'static' : 'inherit' } }, this.renderHeader(), this.renderBody()), this.paginate && (h("div", { style: { background: this.background }, class: "table-footer" }, this.renderPagination())))) : (this.renderEmptyState())));
   }
   renderEmptyState() {
     if (this.customEmptyState) {
@@ -414,6 +415,7 @@ const GcTable$1 = /*@__PURE__*/ proxyCustomElement(class extends HTMLElement {
     "customRowsBorder": [1, "custom-rows-border"],
     "isStripe": [4, "is-stripe"],
     "isBordered": [4, "is-bordered"],
+    "isNoBorderedAll": [4, "is-no-bordered-all"],
     "background": [1],
     "isLoading": [4, "is-loading"],
     "settingTable": [8, "setting-table"],

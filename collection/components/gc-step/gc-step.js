@@ -69,6 +69,9 @@ export class GcStep {
    */
   async closeItem() {
     this.open = false;
+    this.closeEvent.emit({
+      index: this.index,
+    });
   }
   /**
    * open the step item
@@ -100,6 +103,7 @@ export class GcStep {
   render() {
     const successCondition = !this.open && this.status === 'success';
     const opacityCondition = !this.open && this.status !== 'success';
+    const children = this.element.parentElement.querySelectorAll('gc-step');
     return (h(Host, null,
       h("header", { class: { 'gc__head-opening': this.open, 'gc__head': true, 'gc__head-opacity': opacityCondition }, onClick: () => this.toggle() },
         h("div", { class: "gc__step-item-title" },
@@ -111,7 +115,8 @@ export class GcStep {
         !this.open && h("hr", null)),
       h("section", { onTransitionEnd: () => this.handleTransitionEnd(), class: { 'gc__steps-section': true, 'transitioning': this.transitioning, 'open': this.open }, style: this.style },
         h("div", null,
-          h("slot", null)))));
+          h("slot", null))),
+      this.index === children.length - 1 && (h("div", { style: { marginTop: '30px' } }))));
   }
   static get is() { return "gc-step"; }
   static get encapsulation() { return "scoped"; }
@@ -235,6 +240,21 @@ export class GcStep {
   static get events() { return [{
       "method": "openEvent",
       "name": "openEvent",
+      "bubbles": true,
+      "cancelable": true,
+      "composed": true,
+      "docs": {
+        "tags": [],
+        "text": "triggered when the step item is opened"
+      },
+      "complexType": {
+        "original": "any",
+        "resolved": "any",
+        "references": {}
+      }
+    }, {
+      "method": "closeEvent",
+      "name": "closeEvent",
       "bubbles": true,
       "cancelable": true,
       "composed": true,

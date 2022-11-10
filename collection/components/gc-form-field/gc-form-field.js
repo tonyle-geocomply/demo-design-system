@@ -20,6 +20,10 @@ export class GcFormField {
   }
   handleChange(evt) {
     this.value = evt.detail.value;
+    if (this.type === 'select') {
+      this.gcFieldChange.emit({ value: evt.detail.value, label: evt.detail.label });
+      return;
+    }
     this.gcFieldChange.emit({ value: evt.detail.value });
   }
   renderField() {

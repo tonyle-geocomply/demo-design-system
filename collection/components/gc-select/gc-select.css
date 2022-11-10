@@ -183,4 +183,10 @@ div.input-container.has-error {
 
 .gc__section-hidden {
   flex: 1;
+  overflow: hidden;
+  white-space: nowrap;
+  text-overflow: ellipsis;
+  color: var(--gc-color-placeholder);
+  max-width: 98%;
 }
+

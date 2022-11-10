@@ -536,6 +536,7 @@ export namespace Components {
         "gcId": string;
         "isBordered"?: boolean;
         "isLoading"?: false;
+        "isNoBorderedAll"?: boolean;
         "isStripe"?: boolean;
         "keyField": string;
         "page": number;
@@ -1438,6 +1439,10 @@ declare namespace LocalJSX {
          */
         "mutationObserverConfig"?: { childList: boolean; subtree: boolean; };
         /**
+          * triggered when the step item is opened
+         */
+        "onCloseEvent"?: (event: GcStepCustomEvent<any>) => void;
+        /**
           * triggered when the content of the step item changes
          */
         "onContentChanged"?: (event: GcStepCustomEvent<any>) => void;
@@ -1502,6 +1507,7 @@ declare namespace LocalJSX {
         "gcId"?: string;
         "isBordered"?: boolean;
         "isLoading"?: false;
+        "isNoBorderedAll"?: boolean;
         "isStripe"?: boolean;
         "keyField"?: string;
         "onGc:change-page"?: (event: GcTableCustomEvent<any>) => void;

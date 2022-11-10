@@ -55,6 +55,7 @@ export class GcTable {
     this.settingColumns = false;
     this.isStripe = true;
     this.isBordered = true;
+    this.isNoBorderedAll = false;
     this.settingTable = {};
     this.hoveredCell = {};
     this.isSelectAll = false;
@@ -380,14 +381,14 @@ export class GcTable {
             h("gc-pagination", { activePage: this.page, total: this.getTotalItems(), pageSize: this.pageSize }))))));
   }
   renderSettingColumns() {
-    if (this.settingColumns || this.customEmptyState) {
+    if (this.settingColumns || this.customEmptyState || this.isNoBorderedAll) {
       let totalItems = this.getTotalItems();
       totalItems = totalItems ? totalItems.toLocaleString() : '';
       const columnsWithPos = this.getColumns().map((col, idx) => (Object.assign(Object.assign({}, col), { pos: this.settingTable && this.settingTable[col.name] ? this.settingTable[col.name].position : idx })));
       columnsWithPos.sort((a, b) => a.pos - b.pos);
       const columns = columnsWithPos.filter(col => col.name !== 'custom_actions');
-      return (h("div", { style: { background: this.background }, class: "gc__table-setting" },
-        this.customEmptyState ? h("div", null,
+      return (h("div", { style: { background: this.background, border: this.isNoBorderedAll ? '0' : '' }, class: "gc__table-setting" },
+        (this.customEmptyState || this.isNoBorderedAll) ? h("div", null,
           h("slot", { name: "gc__table-setting-title" })) : (h("slot", { name: "gc__table-setting-title" },
           "Results: ",
           totalItems || 0,
@@ -422,7 +423,7 @@ export class GcTable {
     }
     return (h(Host, null,
       this.renderSettingColumns(),
-      this.getData().length > 0 ? (h("div", { class: { 'gc__table': true, 'sortable': this.sortable, 'paginate': this.paginate, 'gc__table-no-stripe': !this.isStripe, 'gc__table-no-border': !this.isBordered } },
+      this.getData().length > 0 ? (h("div", { style: { border: this.isNoBorderedAll ? '0' : '' }, class: { 'gc__table': true, 'sortable': this.sortable, 'paginate': this.paginate, 'gc__table-no-stripe': !this.isStripe, 'gc__table-no-border': !this.isBordered } },
         h("div", { class: "table-scroll-container", style: { overflow: countCurrentCol.length <= DEFAULT_MAXIMUM_TO_SCALE ? 'hidden' : 'auto', position: this.showTooltip ? 'static' : 'inherit' } },
           this.renderHeader(),
           this.renderBody()),
@@ -814,6 +815,24 @@ export class GcTable {
       "attribute": "is-bordered",
       "reflect": false,
       "defaultValue": "true"
+    },
+    "isNoBorderedAll": {
+      "type": "boolean",
+      "mutable": false,
+      "complexType": {
+        "original": "boolean",
+        "resolved": "boolean",
+        "references": {}
+      },
+      "required": false,
+      "optional": true,
+      "docs": {
+        "tags": [],
+        "text": ""
+      },
+      "attribute": "is-no-bordered-all",
+      "reflect": false,
+      "defaultValue": "false"
     },
     "background": {
       "type": "string",

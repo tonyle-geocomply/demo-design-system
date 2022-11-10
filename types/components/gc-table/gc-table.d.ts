@@ -54,6 +54,7 @@ export declare class GcTable {
   customRowsBorder?: string;
   isStripe?: boolean;
   isBordered?: boolean;
+  isNoBorderedAll?: boolean;
   background?: string;
   isLoading?: false;
   settingTable?: any;

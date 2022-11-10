@@ -40,6 +40,10 @@ export declare class GcStep {
    */
   openEvent: EventEmitter;
   /**
+   * triggered when the step item is opened
+   */
+  closeEvent: EventEmitter;
+  /**
    * triggered when the content of the step item changes
    */
   contentChanged: EventEmitter;
