@@ -276,7 +276,7 @@ export class GcSelect {
       const selectedItem = this.getItems().find(item => item.value == this.value);
       if (selectedItem && selectedItem.color) {
         this.selectedColorItem = selectedItem.color;
-        this.stateItems = this.getItems().filter(item => item.value !== selectedItem.value);
+        this.stateItems = this.getItems().filter(item => item.value != selectedItem.value);
       }
     }
   }
@@ -347,7 +347,7 @@ export class GcSelect {
           (() => {
             if (this.search !== 'none' && this.isOpen) {
               const item = this.getItemByValue(this.value);
-              return (h("input", Object.assign({ class: "input input-native", ref: input => (this.nativeInput = input), type: "text", value: this.hasValue() ? item === null || item === void 0 ? void 0 : item.label : this.searchString, placeholder: this.placeholder, onBlur: this.blurHandler, onFocus: this.focusHandler, onInput: this.onInput, onKeyDown: this.keyDownHandler }, this.configAria)));
+              return (h("input", Object.assign({ class: "input input-native", ref: input => (this.nativeInput = input), type: "text", value: this.hasValue() ? item === null || item === void 0 ? void 0 : item.label : this.searchString, placeholder: this.placeholder, onBlur: this.blurHandler, onFocus: this.focusHandler, onInput: this.onInput, onKeyDown: this.keyDownHandler, autoComplete: "off" }, this.configAria)));
             }
             else {
               return (h("div", { class: "gc__section-hidden" },

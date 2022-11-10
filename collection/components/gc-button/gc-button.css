@@ -6,6 +6,7 @@ button {
   border: 0px;
   font-size: var(--gc-font-size);
   cursor: pointer;
+  font-weight: 500;
 }
 
 button.disabled {

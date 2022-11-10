@@ -210,8 +210,11 @@
 .gc__table-arrow {
   display: grid;
 }
-gc-icon.disabled {
+gc-icon {
   opacity: 0.5;
+}
+gc-icon.disabled {
+  opacity: 1;
 }
 gc-icon.down-arrow {
   margin-top: -4px;
