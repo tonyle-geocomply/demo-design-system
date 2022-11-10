@@ -116,7 +116,7 @@ export class GcStep {
       h("section", { onTransitionEnd: () => this.handleTransitionEnd(), class: { 'gc__steps-section': true, 'transitioning': this.transitioning, 'open': this.open }, style: this.style },
         h("div", null,
           h("slot", null))),
-      this.index === children.length - 1 && (h("div", { style: { marginTop: '30px' } }))));
+      +this.index === children.length - 1 && (h("div", { style: { marginTop: '30px' } }))));
   }
   static get is() { return "gc-step"; }
   static get encapsulation() { return "scoped"; }

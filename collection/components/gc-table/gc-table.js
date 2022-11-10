@@ -301,7 +301,7 @@ export class GcTable {
                   this.onCellClick(row, column);
               } },
               h("div", { class: "col-content", style: { justifyContent: 'space-evenly' } }, column.actions.map(action => (h("gc-button", { "onGc:click": () => action.onClick(row), type: action.type, height: "27px", paddingText: "8px" },
-                h("gc-icon", { size: "16px", name: action.icon })))))));
+                h("gc-icon", { color: "white", size: "16px", name: action.icon })))))));
           }
           else {
             column.fixed && countCurrentCol.length > DEFAULT_MAXIMUM_TO_SCALE ? fixedCols.push(colEl) : scrollCols.push(colEl);

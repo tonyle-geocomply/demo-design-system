@@ -303,7 +303,7 @@ const GcTable$1 = /*@__PURE__*/ proxyCustomElement(class extends HTMLElement {
                 const selection = window.getSelection();
                 if (selection.type != 'Range')
                   this.onCellClick(row, column);
-              } }, h("div", { class: "col-content", style: { justifyContent: 'space-evenly' } }, column.actions.map(action => (h("gc-button", { "onGc:click": () => action.onClick(row), type: action.type, height: "27px", paddingText: "8px" }, h("gc-icon", { size: "16px", name: action.icon })))))));
+              } }, h("div", { class: "col-content", style: { justifyContent: 'space-evenly' } }, column.actions.map(action => (h("gc-button", { "onGc:click": () => action.onClick(row), type: action.type, height: "27px", paddingText: "8px" }, h("gc-icon", { color: "white", size: "16px", name: action.icon })))))));
           }
           else {
             column.fixed && countCurrentCol.length > DEFAULT_MAXIMUM_TO_SCALE ? fixedCols.push(colEl) : scrollCols.push(colEl);
