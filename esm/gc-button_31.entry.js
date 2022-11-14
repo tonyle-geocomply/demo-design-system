@@ -4346,7 +4346,7 @@ const GcSteps = class {
   constructor(hostRef) {
     registerInstance(this, hostRef);
     this.gcStepChange = createEvent(this, "gc:step-change", 7);
-    this.activeStep = false;
+    this.activeStep = '';
   }
   openEventHandler(event) {
     const children = this.element.querySelectorAll('gc-step');
@@ -4383,7 +4383,7 @@ const GcSteps = class {
   }
   render() {
     const children = this.element.querySelectorAll('gc-step');
-    return (h("div", { style: { paddingBottom: children && children[children.length - 1].index == this.activeStep ? '30px' : '' } }, h("slot", null)));
+    return (h("div", { style: { paddingBottom: children && children[children.length - 1].index && children[children.length - 1].index == this.activeStep ? '30px' : '' } }, h("slot", null)));
   }
   get element() { return getElement(this); }
 };

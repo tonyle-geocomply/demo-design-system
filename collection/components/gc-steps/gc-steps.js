@@ -1,7 +1,7 @@
 import { Component, Listen, h, Element, State, Method, Event } from '@stencil/core';
 export class GcSteps {
   constructor() {
-    this.activeStep = false;
+    this.activeStep = '';
   }
   openEventHandler(event) {
     const children = this.element.querySelectorAll('gc-step');
@@ -38,7 +38,7 @@ export class GcSteps {
   }
   render() {
     const children = this.element.querySelectorAll('gc-step');
-    return (h("div", { style: { paddingBottom: children && children[children.length - 1].index == this.activeStep ? '30px' : '' } },
+    return (h("div", { style: { paddingBottom: children && children[children.length - 1].index && children[children.length - 1].index == this.activeStep ? '30px' : '' } },
       h("slot", null)));
   }
   static get is() { return "gc-steps"; }

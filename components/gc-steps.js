@@ -5,7 +5,7 @@ const GcSteps$1 = /*@__PURE__*/ proxyCustomElement(class extends HTMLElement {
     super();
     this.__registerHost();
     this.gcStepChange = createEvent(this, "gc:step-change", 7);
-    this.activeStep = false;
+    this.activeStep = '';
   }
   openEventHandler(event) {
     const children = this.element.querySelectorAll('gc-step');
@@ -42,7 +42,7 @@ const GcSteps$1 = /*@__PURE__*/ proxyCustomElement(class extends HTMLElement {
   }
   render() {
     const children = this.element.querySelectorAll('gc-step');
-    return (h("div", { style: { paddingBottom: children && children[children.length - 1].index == this.activeStep ? '30px' : '' } }, h("slot", null)));
+    return (h("div", { style: { paddingBottom: children && children[children.length - 1].index && children[children.length - 1].index == this.activeStep ? '30px' : '' } }, h("slot", null)));
   }
   get element() { return this; }
 }, [6, "gc-steps", {
