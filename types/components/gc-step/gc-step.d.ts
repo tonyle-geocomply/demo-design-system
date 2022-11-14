@@ -34,7 +34,7 @@ export declare class GcStep {
    * Disabled in step
    */
   disabled: boolean;
-  stateChanged(): void;
+  stateChanged(value: any): void;
   /**
    * triggered when the step item is opened
    */

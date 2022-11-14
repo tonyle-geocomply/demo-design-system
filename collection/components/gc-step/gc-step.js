@@ -33,7 +33,17 @@ export class GcStep {
       height: this.open ? this.calculatedHeight + 'px' : '0px',
     };
   }
-  stateChanged() {
+  stateChanged(value) {
+    if (value) {
+      this.openEvent.emit({
+        index: this.index,
+      });
+    }
+    else {
+      this.closeEvent.emit({
+        index: this.index,
+      });
+    }
     this.transitioning = true;
   }
   componentWillLoad() {
@@ -69,18 +79,12 @@ export class GcStep {
    */
   async closeItem() {
     this.open = false;
-    this.closeEvent.emit({
-      index: this.index,
-    });
   }
   /**
    * open the step item
    */
   async openItem() {
     this.open = true;
-    this.openEvent.emit({
-      index: this.index,
-    });
   }
   toggle() {
     if (this.disabled) {

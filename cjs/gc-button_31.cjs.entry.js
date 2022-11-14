@@ -4263,7 +4263,17 @@ const GcStep = class {
       height: this.open ? this.calculatedHeight + 'px' : '0px',
     };
   }
-  stateChanged() {
+  stateChanged(value) {
+    if (value) {
+      this.openEvent.emit({
+        index: this.index,
+      });
+    }
+    else {
+      this.closeEvent.emit({
+        index: this.index,
+      });
+    }
     this.transitioning = true;
   }
   componentWillLoad() {
@@ -4299,18 +4309,12 @@ const GcStep = class {
    */
   async closeItem() {
     this.open = false;
-    this.closeEvent.emit({
-      index: this.index,
-    });
   }
   /**
    * open the step item
    */
   async openItem() {
     this.open = true;
-    this.openEvent.emit({
-      index: this.index,
-    });
   }
   toggle() {
     if (this.disabled) {
@@ -4383,7 +4387,7 @@ const GcSteps = class {
   }
   render() {
     const children = this.element.querySelectorAll('gc-step');
-    return (index$1.h("div", { style: { paddingBottom: children[children.length - 1].index === this.activeStep ? '30px' : '' } }, index$1.h("slot", null)));
+    return (index$1.h("div", { style: { paddingBottom: children && +children[children.length - 1].index === +this.activeStep ? '30px' : '' } }, index$1.h("slot", null)));
   }
   get element() { return index$1.getElement(this); }
 };
