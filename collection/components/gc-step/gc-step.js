@@ -103,8 +103,6 @@ export class GcStep {
   render() {
     const successCondition = !this.open && this.status === 'success';
     const opacityCondition = !this.open && this.status !== 'success';
-    const children = this.element.parentElement.querySelectorAll('gc-step');
-    const lastIndex = children && children[children.length - 1] ? children[children.length - 1].getAttribute('index') : '';
     return (h(Host, null,
       h("header", { class: { 'gc__head-opening': this.open, 'gc__head': true, 'gc__head-opacity': opacityCondition }, onClick: () => this.toggle() },
         h("div", { class: "gc__step-item-title" },
@@ -116,8 +114,7 @@ export class GcStep {
         !this.open && h("hr", null)),
       h("section", { onTransitionEnd: () => this.handleTransitionEnd(), class: { 'gc__steps-section': true, 'transitioning': this.transitioning, 'open': this.open }, style: this.style },
         h("div", null,
-          h("slot", null))),
-      this.index === lastIndex && (h("div", { style: { marginTop: '30px' } }))));
+          h("slot", null)))));
   }
   static get is() { return "gc-step"; }
   static get encapsulation() { return "scoped"; }

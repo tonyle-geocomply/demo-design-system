@@ -1,7 +1,12 @@
-import { Component, Host, Listen, h, Element, Method } from '@stencil/core';
+import { Component, Listen, h, Element, State, Method, Event } from '@stencil/core';
 export class GcSteps {
+  constructor() {
+    this.activeStep = false;
+  }
   openEventHandler(event) {
     const children = this.element.querySelectorAll('gc-step');
+    this.activeStep = event.detail.index;
+    this.gcStepChange.emit({ index: this.activeStep });
     for (let i = 0; i < children.length; i++) {
       if (event.detail.index != i) {
         children[i].closeItem();
@@ -32,11 +37,31 @@ export class GcSteps {
     }
   }
   render() {
-    return (h(Host, null,
+    const children = this.element.querySelectorAll('gc-step');
+    return (h("div", { style: { paddingBottom: children[children.length - 1].index === this.activeStep ? '30px' : '' } },
       h("slot", null)));
   }
   static get is() { return "gc-steps"; }
   static get encapsulation() { return "scoped"; }
+  static get states() { return {
+    "activeStep": {}
+  }; }
+  static get events() { return [{
+      "method": "gcStepChange",
+      "name": "gc:step-change",
+      "bubbles": true,
+      "cancelable": true,
+      "composed": true,
+      "docs": {
+        "tags": [],
+        "text": "triggered when the step item is active"
+      },
+      "complexType": {
+        "original": "any",
+        "resolved": "any",
+        "references": {}
+      }
+    }]; }
   static get methods() { return {
     "open": {
       "complexType": {

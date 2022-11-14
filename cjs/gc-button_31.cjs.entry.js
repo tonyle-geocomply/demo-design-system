@@ -4333,9 +4333,7 @@ const GcStep = class {
   render() {
     const successCondition = !this.open && this.status === 'success';
     const opacityCondition = !this.open && this.status !== 'success';
-    const children = this.element.parentElement.querySelectorAll('gc-step');
-    const lastIndex = children && children[children.length - 1] ? children[children.length - 1].getAttribute('index') : '';
-    return (index$1.h(index$1.Host, null, index$1.h("header", { class: { 'gc__head-opening': this.open, 'gc__head': true, 'gc__head-opacity': opacityCondition }, onClick: () => this.toggle() }, index$1.h("div", { class: "gc__step-item-title" }, index$1.h("div", { style: { borderColor: successCondition ? 'var(--gc-color-green)' : 'var(--gc-color-primary)' }, class: { 'transitioning-rotate': this.transitioning && this.open, 'gc__step-item-icon': true } }, successCondition ? (index$1.h("gc-icon", { name: "fa-regular fa-check", color: "var(--gc-color-green)", size: "24px" })) : (index$1.h("gc-icon", { name: this.icon, color: "var(--gc-color-primary)", size: "22px" }))), index$1.h("div", { class: "gc__step-item-title--content" }, index$1.h("div", { style: { color: successCondition ? 'var(--gc-color-green)' : 'var(--gc-color-primary)' } }, index$1.h("slot", { name: "title" })), index$1.h("slot", { name: "description" }))), !this.open && index$1.h("hr", null)), index$1.h("section", { onTransitionEnd: () => this.handleTransitionEnd(), class: { 'gc__steps-section': true, 'transitioning': this.transitioning, 'open': this.open }, style: this.style }, index$1.h("div", null, index$1.h("slot", null))), this.index === lastIndex && (index$1.h("div", { style: { marginTop: '30px' } }))));
+    return (index$1.h(index$1.Host, null, index$1.h("header", { class: { 'gc__head-opening': this.open, 'gc__head': true, 'gc__head-opacity': opacityCondition }, onClick: () => this.toggle() }, index$1.h("div", { class: "gc__step-item-title" }, index$1.h("div", { style: { borderColor: successCondition ? 'var(--gc-color-green)' : 'var(--gc-color-primary)' }, class: { 'transitioning-rotate': this.transitioning && this.open, 'gc__step-item-icon': true } }, successCondition ? (index$1.h("gc-icon", { name: "fa-regular fa-check", color: "var(--gc-color-green)", size: "24px" })) : (index$1.h("gc-icon", { name: this.icon, color: "var(--gc-color-primary)", size: "22px" }))), index$1.h("div", { class: "gc__step-item-title--content" }, index$1.h("div", { style: { color: successCondition ? 'var(--gc-color-green)' : 'var(--gc-color-primary)' } }, index$1.h("slot", { name: "title" })), index$1.h("slot", { name: "description" }))), !this.open && index$1.h("hr", null)), index$1.h("section", { onTransitionEnd: () => this.handleTransitionEnd(), class: { 'gc__steps-section': true, 'transitioning': this.transitioning, 'open': this.open }, style: this.style }, index$1.h("div", null, index$1.h("slot", null)))));
   }
   get element() { return index$1.getElement(this); }
   static get watchers() { return {
@@ -4347,9 +4345,13 @@ GcStep.style = gcStepCss;
 const GcSteps = class {
   constructor(hostRef) {
     index$1.registerInstance(this, hostRef);
+    this.gcStepChange = index$1.createEvent(this, "gc:step-change", 7);
+    this.activeStep = false;
   }
   openEventHandler(event) {
     const children = this.element.querySelectorAll('gc-step');
+    this.activeStep = event.detail.index;
+    this.gcStepChange.emit({ index: this.activeStep });
     for (let i = 0; i < children.length; i++) {
       if (event.detail.index != i) {
         children[i].closeItem();
@@ -4380,7 +4382,8 @@ const GcSteps = class {
     }
   }
   render() {
-    return (index$1.h(index$1.Host, null, index$1.h("slot", null)));
+    const children = this.element.querySelectorAll('gc-step');
+    return (index$1.h("div", { style: { paddingBottom: children[children.length - 1].index === this.activeStep ? '30px' : '' } }, index$1.h("slot", null)));
   }
   get element() { return index$1.getElement(this); }
 };

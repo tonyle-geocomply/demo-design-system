@@ -719,6 +719,10 @@ export interface GcStepCustomEvent<T> extends CustomEvent<T> {
     detail: T;
     target: HTMLGcStepElement;
 }
+export interface GcStepsCustomEvent<T> extends CustomEvent<T> {
+    detail: T;
+    target: HTMLGcStepsElement;
+}
 export interface GcTabCustomEvent<T> extends CustomEvent<T> {
     detail: T;
     target: HTMLGcTabElement;
@@ -1460,6 +1464,10 @@ declare namespace LocalJSX {
         "status"?: string;
     }
     interface GcSteps {
+        /**
+          * triggered when the step item is active
+         */
+        "onGc:step-change"?: (event: GcStepsCustomEvent<any>) => void;
     }
     interface GcTab {
         /**

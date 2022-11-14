@@ -1,12 +1,16 @@
-import { proxyCustomElement, HTMLElement, h, Host } from '@stencil/core/internal/client';
+import { proxyCustomElement, HTMLElement, createEvent, h } from '@stencil/core/internal/client';
 
 const GcSteps$1 = /*@__PURE__*/ proxyCustomElement(class extends HTMLElement {
   constructor() {
     super();
     this.__registerHost();
+    this.gcStepChange = createEvent(this, "gc:step-change", 7);
+    this.activeStep = false;
   }
   openEventHandler(event) {
     const children = this.element.querySelectorAll('gc-step');
+    this.activeStep = event.detail.index;
+    this.gcStepChange.emit({ index: this.activeStep });
     for (let i = 0; i < children.length; i++) {
       if (event.detail.index != i) {
         children[i].closeItem();
@@ -37,10 +41,12 @@ const GcSteps$1 = /*@__PURE__*/ proxyCustomElement(class extends HTMLElement {
     }
   }
   render() {
-    return (h(Host, null, h("slot", null)));
+    const children = this.element.querySelectorAll('gc-step');
+    return (h("div", { style: { paddingBottom: children[children.length - 1].index === this.activeStep ? '30px' : '' } }, h("slot", null)));
   }
   get element() { return this; }
 }, [6, "gc-steps", {
+    "activeStep": [32],
     "open": [64],
     "close": [64]
   }, [[0, "openEvent", "openEventHandler"]]]);

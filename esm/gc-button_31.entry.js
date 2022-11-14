@@ -4329,9 +4329,7 @@ const GcStep = class {
   render() {
     const successCondition = !this.open && this.status === 'success';
     const opacityCondition = !this.open && this.status !== 'success';
-    const children = this.element.parentElement.querySelectorAll('gc-step');
-    const lastIndex = children && children[children.length - 1] ? children[children.length - 1].getAttribute('index') : '';
-    return (h(Host, null, h("header", { class: { 'gc__head-opening': this.open, 'gc__head': true, 'gc__head-opacity': opacityCondition }, onClick: () => this.toggle() }, h("div", { class: "gc__step-item-title" }, h("div", { style: { borderColor: successCondition ? 'var(--gc-color-green)' : 'var(--gc-color-primary)' }, class: { 'transitioning-rotate': this.transitioning && this.open, 'gc__step-item-icon': true } }, successCondition ? (h("gc-icon", { name: "fa-regular fa-check", color: "var(--gc-color-green)", size: "24px" })) : (h("gc-icon", { name: this.icon, color: "var(--gc-color-primary)", size: "22px" }))), h("div", { class: "gc__step-item-title--content" }, h("div", { style: { color: successCondition ? 'var(--gc-color-green)' : 'var(--gc-color-primary)' } }, h("slot", { name: "title" })), h("slot", { name: "description" }))), !this.open && h("hr", null)), h("section", { onTransitionEnd: () => this.handleTransitionEnd(), class: { 'gc__steps-section': true, 'transitioning': this.transitioning, 'open': this.open }, style: this.style }, h("div", null, h("slot", null))), this.index === lastIndex && (h("div", { style: { marginTop: '30px' } }))));
+    return (h(Host, null, h("header", { class: { 'gc__head-opening': this.open, 'gc__head': true, 'gc__head-opacity': opacityCondition }, onClick: () => this.toggle() }, h("div", { class: "gc__step-item-title" }, h("div", { style: { borderColor: successCondition ? 'var(--gc-color-green)' : 'var(--gc-color-primary)' }, class: { 'transitioning-rotate': this.transitioning && this.open, 'gc__step-item-icon': true } }, successCondition ? (h("gc-icon", { name: "fa-regular fa-check", color: "var(--gc-color-green)", size: "24px" })) : (h("gc-icon", { name: this.icon, color: "var(--gc-color-primary)", size: "22px" }))), h("div", { class: "gc__step-item-title--content" }, h("div", { style: { color: successCondition ? 'var(--gc-color-green)' : 'var(--gc-color-primary)' } }, h("slot", { name: "title" })), h("slot", { name: "description" }))), !this.open && h("hr", null)), h("section", { onTransitionEnd: () => this.handleTransitionEnd(), class: { 'gc__steps-section': true, 'transitioning': this.transitioning, 'open': this.open }, style: this.style }, h("div", null, h("slot", null)))));
   }
   get element() { return getElement(this); }
   static get watchers() { return {
@@ -4343,9 +4341,13 @@ GcStep.style = gcStepCss;
 const GcSteps = class {
   constructor(hostRef) {
     registerInstance(this, hostRef);
+    this.gcStepChange = createEvent(this, "gc:step-change", 7);
+    this.activeStep = false;
   }
   openEventHandler(event) {
     const children = this.element.querySelectorAll('gc-step');
+    this.activeStep = event.detail.index;
+    this.gcStepChange.emit({ index: this.activeStep });
     for (let i = 0; i < children.length; i++) {
       if (event.detail.index != i) {
         children[i].closeItem();
@@ -4376,7 +4378,8 @@ const GcSteps = class {
     }
   }
   render() {
-    return (h(Host, null, h("slot", null)));
+    const children = this.element.querySelectorAll('gc-step');
+    return (h("div", { style: { paddingBottom: children[children.length - 1].index === this.activeStep ? '30px' : '' } }, h("slot", null)));
   }
   get element() { return getElement(this); }
 };
