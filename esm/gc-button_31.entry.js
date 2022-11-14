@@ -4383,7 +4383,7 @@ const GcSteps = class {
   }
   render() {
     const children = this.element.querySelectorAll('gc-step');
-    return (h("div", { style: { paddingBottom: children && +children[children.length - 1].index === +this.activeStep ? '30px' : '' } }, h("slot", null)));
+    return (h("div", { style: { paddingBottom: children && children[children.length - 1].index == this.activeStep ? '30px' : '' } }, h("slot", null)));
   }
   get element() { return getElement(this); }
 };
