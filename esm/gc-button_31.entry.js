@@ -3319,7 +3319,7 @@ const GcFormField = class {
   renderField() {
     switch (this.type) {
       case 'select':
-        return (h("gc-select", { search: this.search, items: this.items, "gc-id": this.gcId, "gc-name": this.gcName, value: this.value, disabled: this.disabled, placeholder: this.placeholder, "onGc:change": e => this.handleChange(e), "is-error": !!this.errorText }));
+        return (h("gc-select", { search: this.search, items: this.items, "gc-id": this.gcId, "gc-name": this.gcName, value: this.value, defaultValue: this.defaultValue, disabled: this.disabled, placeholder: this.placeholder, "onGc:change": e => this.handleChange(e), "is-error": !!this.errorText }));
       case 'textarea':
         return (h("gc-textarea", { "gc-id": this.gcId, "gc-name": this.gcName, value: this.value, disabled: this.disabled, placeholder: this.placeholder, "onGc:change": e => this.handleChange(e), "is-error": !!this.errorText, cols: this.cols, rows: this.rows, height: this.height, maxlength: this.maxlength }));
       default:
@@ -4090,8 +4090,8 @@ const GcSelect = class {
     this.startSlotHasContent = !!this.elm.querySelector('[slot="start"]');
     this.endSlotHasContent = !!this.elm.querySelector('[slot="end"]');
     this.stateItems = this.getItems();
-    if (this.value) {
-      const selectedItem = this.getItems().find(item => item.value == this.value);
+    if (this.value || this.defaultValue) {
+      const selectedItem = this.getItems().find(item => item.value == this.value || item.value == this.defaultValue);
       if (selectedItem && selectedItem.color) {
         this.selectedColorItem = selectedItem.color;
         this.stateItems = this.getItems().filter(item => item.value != selectedItem.value);
@@ -4508,6 +4508,7 @@ const gcTableCss = ":host{display:block;height:100%;--table-border-color:var(--g
 const DEFAULT_CELL_WIDTH = '16vw'; // in vw
 const DEFAULT_MAXIMUM_TO_SCALE = 6;
 const MAX_LONG_TEXT$1 = 100;
+const DEFAULT_SCREEN_WIDTH_TO_STOP_SCALE = 1024;
 const GcTable = class {
   constructor(hostRef) {
     registerInstance(this, hostRef);
@@ -4571,6 +4572,7 @@ const GcTable = class {
     this.posColumns = {};
     this.showTooltip = false;
     this.clickedCell = {};
+    this.isStopScaleWidth = false;
     this.onSelectAllClick = () => {
       let selectedRowKeys = [];
       this.isSelectAll = !this.isSelectAll;
@@ -4659,6 +4661,10 @@ const GcTable = class {
   handleToggleTooltip(ev) {
     this.showTooltip = ev.detail.value;
   }
+  handleResize(ev) {
+    this.isStopScaleWidth = ev.target.innerWidth <= DEFAULT_SCREEN_WIDTH_TO_STOP_SCALE;
+    console.log(this.isStopScaleWidth);
+  }
   onSelectChange(selectedRowKeys) {
     this.selectedRowKeys = selectedRowKeys;
     this.gcSelectChange.emit({ value: this.selectedRowKeys, isSelectAll: this.isSelectAll });
@@ -4687,12 +4693,13 @@ const GcTable = class {
       fixedCols.push(h("div", { class: "gc__col center" }, h("div", { class: "col-content" })));
     }
     const columnsWithPos = this.getColumns().map(col => (Object.assign(Object.assign({}, col), { pos: this.posColumns[col.name] })));
+    console.log(this.isStopScaleWidth);
     columnsWithPos.sort((a, b) => a.pos - b.pos);
-    const countCurrentCol = Object.keys(this.showingColumns) && Object.keys(this.showingColumns).filter(key => this.showingColumns[key]);
+    const countCurrentCol = Object.keys(this.showingColumns) && Object.keys(this.showingColumns).filter(key => this.showingColumns[key] && key !== 'custom_actions');
     columnsWithPos.forEach((col, i) => {
       if (this.showingColumns[col.name]) {
         let colWidth = countCurrentCol && countCurrentCol.length > 0 ? `${100 / countCurrentCol.length}%` : DEFAULT_CELL_WIDTH;
-        if (countCurrentCol.length > DEFAULT_MAXIMUM_TO_SCALE)
+        if (countCurrentCol.length > DEFAULT_MAXIMUM_TO_SCALE || (countCurrentCol.length <= DEFAULT_MAXIMUM_TO_SCALE && this.isStopScaleWidth))
           colWidth = i === columnsWithPos.length - 1 ? DEFAULT_CELL_WIDTH : col.width || this.getColumns()[i].width;
         const colEl = (h("div", { onClick: () => {
             if (!this.sortable || !col.sortable)
@@ -4718,11 +4725,13 @@ const GcTable = class {
           fixedLastCol = (h("div", { class: { gc__col: true, sort: false }, style: { width: `${col.actions.length * 3}vw`, background: this.background } }, h("div", { class: "col-content" }, h("div", { class: "col-text" }, col.label))));
         }
         else {
-          col.fixed && countCurrentCol.length > DEFAULT_MAXIMUM_TO_SCALE ? fixedCols.push(colEl) : scrollCols.push(colEl);
+          col.fixed && (countCurrentCol.length > DEFAULT_MAXIMUM_TO_SCALE || (countCurrentCol.length <= DEFAULT_MAXIMUM_TO_SCALE && this.isStopScaleWidth))
+            ? fixedCols.push(colEl)
+            : scrollCols.push(colEl);
         }
       }
     });
-    return (h("div", { class: "header" }, h("div", { class: "gc__row" }, h("div", { class: "fixed-columns columns-container", style: { position: countCurrentCol.length <= DEFAULT_MAXIMUM_TO_SCALE ? 'relative' : 'sticky' } }, fixedCols), h("div", { class: "scrollable-columns columns-container" }, scrollCols), h("div", { class: "fixed-right-columns columns-container", style: { position: countCurrentCol.length <= DEFAULT_MAXIMUM_TO_SCALE ? 'relative' : 'sticky' } }, fixedLastCol))));
+    return (h("div", { class: "header" }, h("div", { class: "gc__row" }, h("div", { class: "fixed-columns columns-container", style: { position: countCurrentCol.length <= DEFAULT_MAXIMUM_TO_SCALE && !this.isStopScaleWidth ? 'relative' : 'sticky' } }, fixedCols), h("div", { class: "scrollable-columns columns-container" }, scrollCols), h("div", { class: "fixed-right-columns columns-container", style: { position: countCurrentCol.length <= DEFAULT_MAXIMUM_TO_SCALE && !this.isStopScaleWidth ? 'relative' : 'sticky' } }, fixedLastCol))));
   }
   renderActions(row, column, conditionToDisplayActions) {
     return conditionToDisplayActions ? (h("div", { class: { gc__actions: true } }, column.actions.map(action => {
@@ -4766,12 +4775,12 @@ const GcTable = class {
         fixedCols.push(h("div", { class: { gc__col: true, center: true } }, h("div", { class: "col-content" })));
       const columnsWithPos = this.getColumns().map(col => (Object.assign(Object.assign({}, col), { pos: this.posColumns[col.name] })));
       columnsWithPos.sort((a, b) => a.pos - b.pos);
-      const countCurrentCol = Object.keys(this.showingColumns) && Object.keys(this.showingColumns).filter(key => this.showingColumns[key]);
+      const countCurrentCol = Object.keys(this.showingColumns) && Object.keys(this.showingColumns).filter(key => this.showingColumns[key] && key !== 'custom_actions');
       columnsWithPos.forEach((column, i) => {
         var _a;
         if (this.showingColumns[column.name]) {
           let colWidth = countCurrentCol && countCurrentCol.length > 0 ? `${100 / countCurrentCol.length}%` : DEFAULT_CELL_WIDTH;
-          if (countCurrentCol.length > DEFAULT_MAXIMUM_TO_SCALE)
+          if (countCurrentCol.length > DEFAULT_MAXIMUM_TO_SCALE || (countCurrentCol.length <= DEFAULT_MAXIMUM_TO_SCALE && this.isStopScaleWidth))
             colWidth = i === columnsWithPos.length - 1 ? DEFAULT_CELL_WIDTH : column.width || this.getColumns()[i].width;
           const conditionToDisplayActions = row.actions && row.actions[column.name] && column.actions && column.actions.length > 0 && ((_a = this.hoveredCell) === null || _a === void 0 ? void 0 : _a.row) === row;
           const colEl = (h("div", { class: { 'gc__col': true, 'col-hover': this.hoveredCell.row === row && this.hoveredCell.column === column, 'col-center': column.center }, style: {
@@ -4794,14 +4803,14 @@ const GcTable = class {
               } }, h("div", { class: "col-content", style: { justifyContent: 'space-evenly' } }, column.actions.map(action => (h("gc-button", { "onGc:click": () => action.onClick(row), type: action.type, height: "27px", paddingText: "8px" }, h("gc-icon", { color: "white", size: "16px", name: action.icon })))))));
           }
           else {
-            column.fixed && countCurrentCol.length > DEFAULT_MAXIMUM_TO_SCALE ? fixedCols.push(colEl) : scrollCols.push(colEl);
+            column.fixed && (countCurrentCol.length > DEFAULT_MAXIMUM_TO_SCALE || (countCurrentCol.length <= DEFAULT_MAXIMUM_TO_SCALE && this.isStopScaleWidth)) ? fixedCols.push(colEl) : scrollCols.push(colEl);
           }
         }
       });
       rows.push(h("div", { class: { 'gc__row': true, 'row-hover': this.hoveredCell.row === row }, style: {
           background: this.customRows && this.customRowsBackground && this.customRows.includes(`${idx}`) ? this.customRowsBackground : '',
           border: this.customRows && this.customRowsBorder && this.customRows.includes(`${idx}`) ? this.customRowsBorder : '',
-        } }, h("div", { class: "fixed-columns columns-container", style: { position: countCurrentCol.length <= DEFAULT_MAXIMUM_TO_SCALE ? 'relative' : 'sticky' } }, fixedCols), h("div", { class: "scrollable-columns columns-container" }, scrollCols), h("div", { class: "fixed-right-columns columns-container", style: { position: countCurrentCol.length <= DEFAULT_MAXIMUM_TO_SCALE ? 'relative' : 'sticky' } }, fixedLastCol)));
+        } }, h("div", { class: "fixed-columns columns-container", style: { position: countCurrentCol.length <= DEFAULT_MAXIMUM_TO_SCALE && !this.isStopScaleWidth ? 'relative' : 'sticky' } }, fixedCols), h("div", { class: "scrollable-columns columns-container" }, scrollCols), h("div", { class: "fixed-right-columns columns-container", style: { position: countCurrentCol.length <= DEFAULT_MAXIMUM_TO_SCALE && !this.isStopScaleWidth ? 'relative' : 'sticky' } }, fixedLastCol)));
     });
     return h("div", { class: "gc__table-body" }, rows);
   }
@@ -4846,6 +4855,7 @@ const GcTable = class {
       res = Object.assign(Object.assign({}, res), { [col.name]: this.settingTable && this.settingTable[col.name] ? this.settingTable[col.name].position : idx });
       return res;
     }, {});
+    console.log(window);
   }
   renderPagination() {
     let totalItems = this.getTotalItems();
@@ -4865,9 +4875,15 @@ const GcTable = class {
   render() {
     const countCurrentCol = Object.keys(this.showingColumns) && Object.keys(this.showingColumns).filter(key => this.showingColumns[key]);
     if (this.isLoading) {
-      return (h(Host, null, this.renderSettingColumns(), h("div", { class: { 'gc__table': true, 'sortable': this.sortable, 'paginate': this.paginate, 'gc__table-no-stripe': !this.isStripe, 'gc__table-no-border': !this.isBordered } }, h("div", { class: "table-scroll-container", style: { overflow: countCurrentCol.length <= DEFAULT_MAXIMUM_TO_SCALE ? 'hidden' : 'auto', position: this.showTooltip ? 'static' : 'inherit' } }, this.renderHeader(), this.renderBody(), h("div", { class: "loading-section" }, h("gc-spinner", null))), this.paginate && (h("div", { style: { background: this.background }, class: "table-footer" }, this.renderPagination())))));
+      return (h(Host, null, this.renderSettingColumns(), h("div", { class: { 'gc__table': true, 'sortable': this.sortable, 'paginate': this.paginate, 'gc__table-no-stripe': !this.isStripe, 'gc__table-no-border': !this.isBordered } }, h("div", { class: "table-scroll-container", style: {
+          overflow: countCurrentCol.length <= DEFAULT_MAXIMUM_TO_SCALE && !this.isStopScaleWidth ? 'hidden' : 'auto',
+          position: this.showTooltip ? 'static' : 'inherit',
+        } }, this.renderHeader(), this.renderBody(), h("div", { class: "loading-section" }, h("gc-spinner", null))), this.paginate && (h("div", { style: { background: this.background }, class: "table-footer" }, this.renderPagination())))));
     }
-    return (h(Host, null, this.renderSettingColumns(), this.getData().length > 0 ? (h("div", { style: { border: this.isNoBorderedAll ? '0' : '' }, class: { 'gc__table': true, 'sortable': this.sortable, 'paginate': this.paginate, 'gc__table-no-stripe': !this.isStripe, 'gc__table-no-border': !this.isBordered } }, h("div", { class: "table-scroll-container", style: { overflow: countCurrentCol.length <= DEFAULT_MAXIMUM_TO_SCALE ? 'hidden' : 'auto', position: this.showTooltip ? 'static' : 'inherit' } }, this.renderHeader(), this.renderBody()), this.paginate && (h("div", { style: { background: this.background }, class: "table-footer" }, this.renderPagination())))) : (this.renderEmptyState())));
+    return (h(Host, null, this.renderSettingColumns(), this.getData().length > 0 ? (h("div", { style: { border: this.isNoBorderedAll ? '0' : '' }, class: { 'gc__table': true, 'sortable': this.sortable, 'paginate': this.paginate, 'gc__table-no-stripe': !this.isStripe, 'gc__table-no-border': !this.isBordered } }, h("div", { class: "table-scroll-container", style: {
+        overflow: countCurrentCol.length <= DEFAULT_MAXIMUM_TO_SCALE && !this.isStopScaleWidth ? 'hidden' : 'auto',
+        position: this.showTooltip ? 'static' : 'inherit',
+      } }, this.renderHeader(), this.renderBody()), this.paginate && (h("div", { style: { background: this.background }, class: "table-footer" }, this.renderPagination())))) : (this.renderEmptyState())));
   }
   renderEmptyState() {
     if (this.customEmptyState) {

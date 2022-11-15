@@ -68,6 +68,10 @@ export declare class GcSelect implements ComponentInterface {
    */
   isError?: boolean;
   /**
+   * Default value
+   */
+  defaultValue?: string;
+  /**
    * Emitted when the value has changed.
    */
   gcChange: EventEmitter;

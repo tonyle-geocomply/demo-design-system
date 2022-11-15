@@ -272,8 +272,8 @@ export class GcSelect {
     this.startSlotHasContent = !!this.elm.querySelector('[slot="start"]');
     this.endSlotHasContent = !!this.elm.querySelector('[slot="end"]');
     this.stateItems = this.getItems();
-    if (this.value) {
-      const selectedItem = this.getItems().find(item => item.value == this.value);
+    if (this.value || this.defaultValue) {
+      const selectedItem = this.getItems().find(item => item.value == this.value || item.value == this.defaultValue);
       if (selectedItem && selectedItem.color) {
         this.selectedColorItem = selectedItem.color;
         this.stateItems = this.getItems().filter(item => item.value != selectedItem.value);
@@ -744,6 +744,23 @@ export class GcSelect {
       "attribute": "is-error",
       "reflect": false,
       "defaultValue": "false"
+    },
+    "defaultValue": {
+      "type": "string",
+      "mutable": false,
+      "complexType": {
+        "original": "string",
+        "resolved": "string",
+        "references": {}
+      },
+      "required": false,
+      "optional": true,
+      "docs": {
+        "tags": [],
+        "text": "Default value"
+      },
+      "attribute": "default-value",
+      "reflect": false
     }
   }; }
   static get states() { return {

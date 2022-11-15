@@ -98,6 +98,10 @@ export namespace Components {
          */
         "cols"?: number;
         /**
+          * Default value
+         */
+        "defaultValue"?: string;
+        /**
           * Is disabled ?
          */
         "disabled"?: boolean;
@@ -387,6 +391,10 @@ export namespace Components {
           * Set the amount of time, in milliseconds, to wait to trigger the `goatChange` event after each keystroke.
          */
         "debounce": number;
+        /**
+          * Default value
+         */
+        "defaultValue"?: string;
         /**
           * If true, the user cannot interact with the button. Defaults to `false`.
          */
@@ -1072,6 +1080,10 @@ declare namespace LocalJSX {
          */
         "cols"?: number;
         /**
+          * Default value
+         */
+        "defaultValue"?: string;
+        /**
           * Is disabled ?
          */
         "disabled"?: boolean;
@@ -1366,6 +1378,10 @@ declare namespace LocalJSX {
           * Set the amount of time, in milliseconds, to wait to trigger the `goatChange` event after each keystroke.
          */
         "debounce"?: number;
+        /**
+          * Default value
+         */
+        "defaultValue"?: string;
         /**
           * If true, the user cannot interact with the button. Defaults to `false`.
          */

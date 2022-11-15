@@ -283,8 +283,8 @@ const GcSelect = /*@__PURE__*/ proxyCustomElement(class extends HTMLElement {
     this.startSlotHasContent = !!this.elm.querySelector('[slot="start"]');
     this.endSlotHasContent = !!this.elm.querySelector('[slot="end"]');
     this.stateItems = this.getItems();
-    if (this.value) {
-      const selectedItem = this.getItems().find(item => item.value == this.value);
+    if (this.value || this.defaultValue) {
+      const selectedItem = this.getItems().find(item => item.value == this.value || item.value == this.defaultValue);
       if (selectedItem && selectedItem.color) {
         this.selectedColorItem = selectedItem.color;
         this.stateItems = this.getItems().filter(item => item.value != selectedItem.value);
@@ -423,6 +423,7 @@ const GcSelect = /*@__PURE__*/ proxyCustomElement(class extends HTMLElement {
     "clearable": [4],
     "debounce": [2],
     "isError": [4, "is-error"],
+    "defaultValue": [1, "default-value"],
     "hasFocus": [32],
     "searchString": [32],
     "startSlotHasContent": [32],

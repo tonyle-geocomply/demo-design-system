@@ -65,6 +65,7 @@ export declare class GcTable {
   private posColumns;
   private showTooltip;
   private clickedCell;
+  private isStopScaleWidth;
   gcCellClick: EventEmitter;
   gcSelectChange: EventEmitter;
   gcSort: EventEmitter;
@@ -75,6 +76,7 @@ export declare class GcTable {
   watchSettingTablePropHandler(newSetting: any): void;
   handleChangePage(ev: any): void;
   handleToggleTooltip(ev: any): void;
+  handleResize(ev: any): void;
   onSelectAllClick: () => void;
   onRowSelectClick: (row: any) => void;
   onCellMouseOver: (row: any, column: any) => void;

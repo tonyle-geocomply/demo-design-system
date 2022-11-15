@@ -29,7 +29,7 @@ export class GcFormField {
   renderField() {
     switch (this.type) {
       case 'select':
-        return (h("gc-select", { search: this.search, items: this.items, "gc-id": this.gcId, "gc-name": this.gcName, value: this.value, disabled: this.disabled, placeholder: this.placeholder, "onGc:change": e => this.handleChange(e), "is-error": !!this.errorText }));
+        return (h("gc-select", { search: this.search, items: this.items, "gc-id": this.gcId, "gc-name": this.gcName, value: this.value, defaultValue: this.defaultValue, disabled: this.disabled, placeholder: this.placeholder, "onGc:change": e => this.handleChange(e), "is-error": !!this.errorText }));
       case 'textarea':
         return (h("gc-textarea", { "gc-id": this.gcId, "gc-name": this.gcName, value: this.value, disabled: this.disabled, placeholder: this.placeholder, "onGc:change": e => this.handleChange(e), "is-error": !!this.errorText, cols: this.cols, rows: this.rows, height: this.height, maxlength: this.maxlength }));
       default:
@@ -326,6 +326,23 @@ export class GcFormField {
         "text": "Height of textarea"
       },
       "attribute": "height",
+      "reflect": false
+    },
+    "defaultValue": {
+      "type": "string",
+      "mutable": false,
+      "complexType": {
+        "original": "string",
+        "resolved": "string",
+        "references": {}
+      },
+      "required": false,
+      "optional": true,
+      "docs": {
+        "tags": [],
+        "text": "Default value"
+      },
+      "attribute": "default-value",
       "reflect": false
     }
   }; }

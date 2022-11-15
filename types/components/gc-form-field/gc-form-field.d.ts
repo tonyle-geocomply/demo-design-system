@@ -69,6 +69,10 @@ export declare class GcFormField {
    */
   height?: string;
   /**
+   * Default value
+   */
+  defaultValue?: string;
+  /**
    * Emitted when the value has changed.
    */
   gcFieldChange: EventEmitter;

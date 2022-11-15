@@ -42,7 +42,7 @@ const GcFormField$1 = /*@__PURE__*/ proxyCustomElement(class extends HTMLElement
   renderField() {
     switch (this.type) {
       case 'select':
-        return (h("gc-select", { search: this.search, items: this.items, "gc-id": this.gcId, "gc-name": this.gcName, value: this.value, disabled: this.disabled, placeholder: this.placeholder, "onGc:change": e => this.handleChange(e), "is-error": !!this.errorText }));
+        return (h("gc-select", { search: this.search, items: this.items, "gc-id": this.gcId, "gc-name": this.gcName, value: this.value, defaultValue: this.defaultValue, disabled: this.disabled, placeholder: this.placeholder, "onGc:change": e => this.handleChange(e), "is-error": !!this.errorText }));
       case 'textarea':
         return (h("gc-textarea", { "gc-id": this.gcId, "gc-name": this.gcName, value: this.value, disabled: this.disabled, placeholder: this.placeholder, "onGc:change": e => this.handleChange(e), "is-error": !!this.errorText, cols: this.cols, rows: this.rows, height: this.height, maxlength: this.maxlength }));
       default:
@@ -70,7 +70,8 @@ const GcFormField$1 = /*@__PURE__*/ proxyCustomElement(class extends HTMLElement
     "cols": [2],
     "rows": [2],
     "maxlength": [2],
-    "height": [1]
+    "height": [1],
+    "defaultValue": [1, "default-value"]
   }]);
 function defineCustomElement$1() {
   if (typeof customElements === "undefined") {
