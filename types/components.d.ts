@@ -329,6 +329,10 @@ export namespace Components {
     }
     interface GcModal {
         /**
+          * Header Icon
+         */
+        "headerIcon"?: string;
+        /**
           * Is custom content?
          */
         "isCustomContent": boolean;
@@ -1298,6 +1302,10 @@ declare namespace LocalJSX {
         "value"?: string | number | null;
     }
     interface GcModal {
+        /**
+          * Header Icon
+         */
+        "headerIcon"?: string;
         /**
           * Is custom content?
          */

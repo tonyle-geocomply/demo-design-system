@@ -17,17 +17,35 @@ export class GcModal {
      * Is custom content?
      */
     this.isCustomContent = false;
+    /**
+     * Header Icon
+     */
+    this.headerIcon = '';
   }
   onOpen(isOpen) {
     if (isOpen) {
       this.gcModalOpen.emit();
     }
   }
+  getHeaderIcon() {
+    if (this.headerIcon) {
+      try {
+        return JSON.parse(this.headerIcon);
+      }
+      catch (e) {
+        return this.headerIcon || '';
+      }
+    }
+  }
   render() {
+    const header = this.getHeaderIcon();
     return (h("div", { class: 'gc__modal-overlay ' + (this.open ? 'is-visible' : '') + ' ' + (this.transparent ? 'is-transparent' : '') },
       h("div", { class: "gc__modal-window", style: { width: this.width } },
         h("div", { class: "gc__modal-window--content" },
           !this.isCustomContent && (h("div", { class: "gc__modal-heading" },
+            header && h("span", { style: { color: (header === null || header === void 0 ? void 0 : header.color) || 'var(--gc-color-primary)' }, class: "fa-stack fa-2x" },
+              h("gc-icon", { size: "62px", name: "fa fa-thin fa-circle fa-stack-1x" }),
+              h("gc-icon", { size: "25px", name: `${(header === null || header === void 0 ? void 0 : header.name) || header} fa-stack-1x` })),
             h("slot", { name: "heading" }))),
           !this.isCustomContent && (h("div", { class: "gc__modal-body" },
             h("slot", { name: "content" }))),
@@ -115,6 +133,24 @@ export class GcModal {
       "attribute": "is-custom-content",
       "reflect": false,
       "defaultValue": "false"
+    },
+    "headerIcon": {
+      "type": "string",
+      "mutable": false,
+      "complexType": {
+        "original": "string",
+        "resolved": "string",
+        "references": {}
+      },
+      "required": false,
+      "optional": true,
+      "docs": {
+        "tags": [],
+        "text": "Header Icon"
+      },
+      "attribute": "header-icon",
+      "reflect": false,
+      "defaultValue": "''"
     }
   }; }
   static get events() { return [{

@@ -16,7 +16,12 @@ export declare class GcModal {
    * Is custom content?
    */
   isCustomContent: boolean;
+  /**
+   * Header Icon
+   */
+  headerIcon?: string;
   gcModalOpen: EventEmitter;
   onOpen(isOpen: any): void;
+  private getHeaderIcon;
   render(): any;
 }

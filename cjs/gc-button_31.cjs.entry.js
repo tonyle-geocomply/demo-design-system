@@ -3695,7 +3695,7 @@ const GcMenuItem = class {
 };
 GcMenuItem.style = gcMenuItemCss;
 
-const gcModalCss = ".sc-gc-modal-h{--z-index-modal:9999}.gc__modal-overlay.sc-gc-modal{z-index:var(--z-index-modal);opacity:0;visibility:hidden;position:fixed;width:100%;height:100%;top:0;left:0;background:rgba(0,0,0,0.42);-webkit-transition:opacity 0.5s, visibility 0s 0.5s;transition:opacity 0.5s, visibility 0s 0.5s;display:flex;align-items:center;justify-content:center}.is-visible.sc-gc-modal{opacity:1;visibility:visible;-webkit-transition:opacity 0.5s;transition:opacity 0.5s}.is-transparent.sc-gc-modal{opacity:0}.gc__modal-window.sc-gc-modal{background:white;border-radius:8px;width:488px;height:auto;min-height:100px;display:flex;align-items:center;justify-content:center}.gc__modal-window--content.sc-gc-modal{width:100%;height:100%}.gc__modal-heading.sc-gc-modal{min-height:70px;display:flex;align-items:center;justify-content:center}.gc__modal-body.sc-gc-modal{background:#F4F7FA;min-height:100px;align-items:center;justify-content:center;display:flex}.gc__modal-footer.sc-gc-modal{min-height:70px;display:flex;align-items:center;justify-content:flex-end;padding:4px 17px}";
+const gcModalCss = ".sc-gc-modal-h{--z-index-modal:9999}.gc__modal-overlay.sc-gc-modal{z-index:var(--z-index-modal);opacity:0;visibility:hidden;position:fixed;width:100%;height:100%;top:0;left:0;background:rgba(0,0,0,0.42);-webkit-transition:opacity 0.5s, visibility 0s 0.5s;transition:opacity 0.5s, visibility 0s 0.5s;display:flex;align-items:center;justify-content:center}.is-visible.sc-gc-modal{opacity:1;visibility:visible;-webkit-transition:opacity 0.5s;transition:opacity 0.5s}.is-transparent.sc-gc-modal{opacity:0}.gc__modal-window.sc-gc-modal{background:white;border-radius:8px;width:488px;height:auto;min-height:100px;display:flex;align-items:center;justify-content:center}.gc__modal-window--content.sc-gc-modal{width:100%;height:100%}.gc__modal-heading.sc-gc-modal{display:flex;align-items:center;justify-content:center;margin-top:28px}.gc__modal-body.sc-gc-modal{background:white;align-items:center;justify-content:center;display:flex;margin-top:12px}.gc__modal-footer.sc-gc-modal{display:flex;align-items:center;justify-content:center;padding:4px 17px;margin-top:40px;margin-bottom:29px}";
 
 const GcModal = class {
   constructor(hostRef) {
@@ -3717,14 +3717,29 @@ const GcModal = class {
      * Is custom content?
      */
     this.isCustomContent = false;
+    /**
+     * Header Icon
+     */
+    this.headerIcon = '';
   }
   onOpen(isOpen) {
     if (isOpen) {
       this.gcModalOpen.emit();
     }
   }
+  getHeaderIcon() {
+    if (this.headerIcon) {
+      try {
+        return JSON.parse(this.headerIcon);
+      }
+      catch (e) {
+        return this.headerIcon || '';
+      }
+    }
+  }
   render() {
-    return (index$1.h("div", { class: 'gc__modal-overlay ' + (this.open ? 'is-visible' : '') + ' ' + (this.transparent ? 'is-transparent' : '') }, index$1.h("div", { class: "gc__modal-window", style: { width: this.width } }, index$1.h("div", { class: "gc__modal-window--content" }, !this.isCustomContent && (index$1.h("div", { class: "gc__modal-heading" }, index$1.h("slot", { name: "heading" }))), !this.isCustomContent && (index$1.h("div", { class: "gc__modal-body" }, index$1.h("slot", { name: "content" }))), !this.isCustomContent && (index$1.h("div", { class: "gc__modal-footer" }, index$1.h("slot", { name: "footer" }))), this.isCustomContent && index$1.h("slot", null)))));
+    const header = this.getHeaderIcon();
+    return (index$1.h("div", { class: 'gc__modal-overlay ' + (this.open ? 'is-visible' : '') + ' ' + (this.transparent ? 'is-transparent' : '') }, index$1.h("div", { class: "gc__modal-window", style: { width: this.width } }, index$1.h("div", { class: "gc__modal-window--content" }, !this.isCustomContent && (index$1.h("div", { class: "gc__modal-heading" }, header && index$1.h("span", { style: { color: (header === null || header === void 0 ? void 0 : header.color) || 'var(--gc-color-primary)' }, class: "fa-stack fa-2x" }, index$1.h("gc-icon", { size: "62px", name: "fa fa-thin fa-circle fa-stack-1x" }), index$1.h("gc-icon", { size: "25px", name: `${(header === null || header === void 0 ? void 0 : header.name) || header} fa-stack-1x` })), index$1.h("slot", { name: "heading" }))), !this.isCustomContent && (index$1.h("div", { class: "gc__modal-body" }, index$1.h("slot", { name: "content" }))), !this.isCustomContent && (index$1.h("div", { class: "gc__modal-footer" }, index$1.h("slot", { name: "footer" }))), this.isCustomContent && index$1.h("slot", null)))));
   }
   static get watchers() { return {
     "open": ["onOpen"]
