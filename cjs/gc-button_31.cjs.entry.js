@@ -4863,7 +4863,8 @@ const GcDropdown = class {
   }
   componentWillLoad() {
     if (this.positions) {
-      this.position = this.positions.split(',')[0];
+      const firstPos = this.positions.split(',')[0];
+      this.position = firstPos ? this.getPosition(firstPos) : 'bottom';
     }
   }
   renderItems() {
