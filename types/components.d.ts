@@ -490,6 +490,14 @@ export namespace Components {
          */
         "openItem": () => Promise<void>;
         /**
+          * Prevent in step
+         */
+        "prevent": boolean;
+        /**
+          * prevent to open the step item
+         */
+        "preventOpen": () => Promise<void>;
+        /**
           * The status in step
          */
         "status": string;
@@ -1476,6 +1484,10 @@ declare namespace LocalJSX {
          */
         "mutationObserverConfig"?: { childList: boolean; subtree: boolean; };
         /**
+          * triggered before the step item is opened
+         */
+        "onBeforeOpenEvent"?: (event: GcStepCustomEvent<any>) => void;
+        /**
           * triggered when the step item is opened
          */
         "onCloseEvent"?: (event: GcStepCustomEvent<any>) => void;
@@ -1492,11 +1504,19 @@ declare namespace LocalJSX {
          */
         "open"?: boolean;
         /**
+          * Prevent in step
+         */
+        "prevent"?: boolean;
+        /**
           * The status in step
          */
         "status"?: string;
     }
     interface GcSteps {
+        /**
+          * triggered before the step item is active
+         */
+        "onGc:before-step-change"?: (event: GcStepsCustomEvent<any>) => void;
         /**
           * triggered when the step item is active
          */

@@ -7,7 +7,12 @@ export declare class GcSteps {
    * triggered when the step item is active
    */
   gcStepChange: EventEmitter;
+  /**
+   * triggered before the step item is active
+   */
+  gcBeforeStepChange: EventEmitter;
   openEventHandler(event: CustomEvent): void;
+  beforeOpenEventHandler(event: CustomEvent): void;
   /**
    * Open an step item
    * @param index

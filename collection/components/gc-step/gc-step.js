@@ -27,6 +27,10 @@ export class GcStep {
      * Disabled in step
      */
     this.disabled = false;
+    /**
+     * Prevent in step
+     */
+    this.prevent = false;
   }
   get style() {
     return {
@@ -86,8 +90,15 @@ export class GcStep {
   async openItem() {
     this.open = true;
   }
+  /**
+   * prevent to open the step item
+   */
+  async preventOpen() {
+    this.prevent = true;
+  }
   toggle() {
-    if (this.disabled) {
+    this.beforeOpenEvent.emit({ index: this.index });
+    if (this.disabled || this.prevent) {
       return;
     }
     if (this.open) {
@@ -234,6 +245,24 @@ export class GcStep {
       "attribute": "disabled",
       "reflect": true,
       "defaultValue": "false"
+    },
+    "prevent": {
+      "type": "boolean",
+      "mutable": true,
+      "complexType": {
+        "original": "boolean",
+        "resolved": "boolean",
+        "references": {}
+      },
+      "required": false,
+      "optional": false,
+      "docs": {
+        "tags": [],
+        "text": "Prevent in step"
+      },
+      "attribute": "prevent",
+      "reflect": false,
+      "defaultValue": "false"
     }
   }; }
   static get states() { return {
@@ -284,6 +313,21 @@ export class GcStep {
         "resolved": "any",
         "references": {}
       }
+    }, {
+      "method": "beforeOpenEvent",
+      "name": "beforeOpenEvent",
+      "bubbles": true,
+      "cancelable": true,
+      "composed": true,
+      "docs": {
+        "tags": [],
+        "text": "triggered before the step item is opened"
+      },
+      "complexType": {
+        "original": "any",
+        "resolved": "any",
+        "references": {}
+      }
     }]; }
   static get methods() { return {
     "closeItem": {
@@ -315,6 +359,22 @@ export class GcStep {
       },
       "docs": {
         "text": "open the step item",
+        "tags": []
+      }
+    },
+    "preventOpen": {
+      "complexType": {
+        "signature": "() => Promise<void>",
+        "parameters": [],
+        "references": {
+          "Promise": {
+            "location": "global"
+          }
+        },
+        "return": "Promise<void>"
+      },
+      "docs": {
+        "text": "prevent to open the step item",
         "tags": []
       }
     }

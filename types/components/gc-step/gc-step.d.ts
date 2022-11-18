@@ -34,6 +34,10 @@ export declare class GcStep {
    * Disabled in step
    */
   disabled: boolean;
+  /**
+   * Prevent in step
+   */
+  prevent: boolean;
   stateChanged(value: any): void;
   /**
    * triggered when the step item is opened
@@ -47,6 +51,10 @@ export declare class GcStep {
    * triggered when the content of the step item changes
    */
   contentChanged: EventEmitter;
+  /**
+   * triggered before the step item is opened
+   */
+  beforeOpenEvent: EventEmitter;
   componentWillLoad(): void;
   componentDidLoad(): void;
   disconnectedCallback(): void;
@@ -62,6 +70,10 @@ export declare class GcStep {
    * open the step item
    */
   openItem(): Promise<void>;
+  /**
+   * prevent to open the step item
+   */
+  preventOpen(): Promise<void>;
   toggle(): void;
   handleTransitionEnd(): void;
   calculateHeight(): number;

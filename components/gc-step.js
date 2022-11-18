@@ -10,6 +10,7 @@ const GcStep$1 = /*@__PURE__*/ proxyCustomElement(class extends HTMLElement {
     this.openEvent = createEvent(this, "openEvent", 7);
     this.closeEvent = createEvent(this, "closeEvent", 7);
     this.contentChanged = createEvent(this, "contentChanged", 7);
+    this.beforeOpenEvent = createEvent(this, "beforeOpenEvent", 7);
     this.calculatedHeight = 0;
     this.transitioning = false;
     /**
@@ -36,6 +37,10 @@ const GcStep$1 = /*@__PURE__*/ proxyCustomElement(class extends HTMLElement {
      * Disabled in step
      */
     this.disabled = false;
+    /**
+     * Prevent in step
+     */
+    this.prevent = false;
   }
   get style() {
     return {
@@ -95,8 +100,15 @@ const GcStep$1 = /*@__PURE__*/ proxyCustomElement(class extends HTMLElement {
   async openItem() {
     this.open = true;
   }
+  /**
+   * prevent to open the step item
+   */
+  async preventOpen() {
+    this.prevent = true;
+  }
   toggle() {
-    if (this.disabled) {
+    this.beforeOpenEvent.emit({ index: this.index });
+    if (this.disabled || this.prevent) {
       return;
     }
     if (this.open) {
@@ -130,9 +142,11 @@ const GcStep$1 = /*@__PURE__*/ proxyCustomElement(class extends HTMLElement {
     "icon": [1537],
     "status": [1537],
     "disabled": [1540],
+    "prevent": [1028],
     "transitioning": [32],
     "closeItem": [64],
-    "openItem": [64]
+    "openItem": [64],
+    "preventOpen": [64]
   }, [[0, "contentChanged", "recalculateHeight"]]]);
 function defineCustomElement$1() {
   if (typeof customElements === "undefined") {

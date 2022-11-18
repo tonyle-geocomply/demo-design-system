@@ -52,6 +52,65 @@
 }
 
 
+#tooltip[data-popper-placement^='right'] > #arrow::before {
+  visibility: visible;
+  content: '';
+  width: 0;
+  height: 0;
+  top: 0px;
+  left:-1px;
+  border-left: 8px solid transparent;
+  border-right: 8px solid transparent;
+  border-bottom: 8px solid var(--gc-color-second-grey);
+  background: transparent;
+  rotate: 270deg;
+
+}
+
+#tooltip[data-popper-placement^='right'] > #arrow::after {
+  visibility: visible;
+  content: '';
+  width: 0;
+  height: 0;
+  top: 0px;
+  position: absolute;
+  border-left: 8px solid transparent;
+  border-right: 8px solid transparent;
+  border-bottom: 8px solid white;
+  background: transparent;
+  rotate: 270deg;
+}
+
+
+#tooltip[data-popper-placement^='left'] > #arrow::before {
+  visibility: visible;
+  content: '';
+  width: 0;
+  height: 0;
+  top: 0px;
+  left:-1px;
+  border-left: 8px solid transparent;
+  border-right: 8px solid transparent;
+  border-bottom: 8px solid var(--gc-color-second-grey);
+  background: transparent;
+  rotate: 360deg;
+
+}
+
+#tooltip[data-popper-placement^='left'] > #arrow::after {
+  visibility: visible;
+  content: '';
+  width: 0;
+  height: 0;
+  top: 0px;
+  position: absolute;
+  border-left: 8px solid transparent;
+  border-right: 8px solid transparent;
+  border-bottom: 8px solid white;
+  background: transparent;
+  rotate: 360deg;
+}
+
 #tooltip[data-popper-placement^='top'] > #arrow {
   bottom: -4px;
 }
@@ -65,5 +124,5 @@
 }
 
 #tooltip[data-popper-placement^='right'] > #arrow {
-  left: -4px;
+  left: -12px;
 }

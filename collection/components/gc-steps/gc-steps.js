@@ -17,6 +17,11 @@ export class GcSteps {
       }
     }
   }
+  beforeOpenEventHandler(event) {
+    const oldIndex = this.activeStep !== event.detail.index ? this.activeStep : this.oldStep;
+    const newIndex = event.detail.index;
+    this.gcBeforeStepChange.emit({ index: oldIndex, newIndex });
+  }
   /**
    * Open an step item
    * @param index
@@ -60,6 +65,21 @@ export class GcSteps {
       "docs": {
         "tags": [],
         "text": "triggered when the step item is active"
+      },
+      "complexType": {
+        "original": "any",
+        "resolved": "any",
+        "references": {}
+      }
+    }, {
+      "method": "gcBeforeStepChange",
+      "name": "gc:before-step-change",
+      "bubbles": true,
+      "cancelable": true,
+      "composed": true,
+      "docs": {
+        "tags": [],
+        "text": "triggered before the step item is active"
       },
       "complexType": {
         "original": "any",
@@ -123,6 +143,12 @@ export class GcSteps {
   static get listeners() { return [{
       "name": "openEvent",
       "method": "openEventHandler",
+      "target": undefined,
+      "capture": false,
+      "passive": false
+    }, {
+      "name": "beforeOpenEvent",
+      "method": "beforeOpenEventHandler",
       "target": undefined,
       "capture": false,
       "passive": false
