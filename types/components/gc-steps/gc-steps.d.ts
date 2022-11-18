@@ -3,6 +3,7 @@ export declare class GcSteps {
   element: any;
   activeStep: string;
   oldStep: string;
+  customOpen: boolean;
   /**
    * triggered when the step item is active
    */
@@ -24,5 +25,6 @@ export declare class GcSteps {
    */
   close(index: number): Promise<void>;
   getStepItem(index: number): any;
+  componentWillLoad(): void;
   render(): any;
 }

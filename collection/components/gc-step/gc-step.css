@@ -46,6 +46,7 @@ header.gc__head-opening {
 }
 header.gc__head-opacity {
   opacity: 0.5;
+  cursor: not-allowed;
 }
 .transitioning-rotate {
   transition: transform .3s ease-in-out;

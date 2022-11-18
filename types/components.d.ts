@@ -465,6 +465,7 @@ export namespace Components {
           * close the step item
          */
         "closeItem": () => Promise<void>;
+        "customOpen": boolean;
         /**
           * Disabled in step
          */
@@ -508,6 +509,7 @@ export namespace Components {
           * @param index
          */
         "close": (index: number) => Promise<void>;
+        "customOpen": boolean;
         /**
           * Open an step item
           * @param index
@@ -1467,6 +1469,7 @@ declare namespace LocalJSX {
         "isFloat"?: boolean;
     }
     interface GcStep {
+        "customOpen"?: boolean;
         /**
           * Disabled in step
          */
@@ -1513,6 +1516,7 @@ declare namespace LocalJSX {
         "status"?: string;
     }
     interface GcSteps {
+        "customOpen"?: boolean;
         /**
           * triggered before the step item is active
          */

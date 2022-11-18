@@ -1,8 +1,9 @@
-import { Component, Listen, h, Element, State, Method, Event } from '@stencil/core';
+import { Component, Listen, h, Element, State, Method, Event, Prop } from '@stencil/core';
 export class GcSteps {
   constructor() {
     this.activeStep = '';
     this.oldStep = '';
+    this.customOpen = false;
   }
   openEventHandler(event) {
     const children = this.element.querySelectorAll('gc-step');
@@ -45,6 +46,14 @@ export class GcSteps {
       throw new Error('index out of bounds');
     }
   }
+  componentWillLoad() {
+    if (this.customOpen) {
+      const children = this.element.querySelectorAll('gc-step');
+      for (let i = 0; i < children.length; i++) {
+        children[i].customOpen = true;
+      }
+    }
+  }
   render() {
     const children = this.element.querySelectorAll('gc-step');
     return (h("div", { style: { paddingBottom: children && children[children.length - 1].index && children[children.length - 1].index == this.activeStep ? '30px' : '' } },
@@ -52,6 +61,26 @@ export class GcSteps {
   }
   static get is() { return "gc-steps"; }
   static get encapsulation() { return "scoped"; }
+  static get properties() { return {
+    "customOpen": {
+      "type": "boolean",
+      "mutable": false,
+      "complexType": {
+        "original": "boolean",
+        "resolved": "boolean",
+        "references": {}
+      },
+      "required": false,
+      "optional": false,
+      "docs": {
+        "tags": [],
+        "text": ""
+      },
+      "attribute": "custom-open",
+      "reflect": false,
+      "defaultValue": "false"
+    }
+  }; }
   static get states() { return {
     "activeStep": {},
     "oldStep": {}

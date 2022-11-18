@@ -31,6 +31,7 @@ export class GcStep {
      * Prevent in step
      */
     this.prevent = false;
+    this.customOpen = false;
   }
   get style() {
     return {
@@ -38,6 +39,8 @@ export class GcStep {
     };
   }
   stateChanged(value) {
+    if (this.prevent || this.disabled)
+      return;
     if (value) {
       this.openEvent.emit({
         index: this.index,
@@ -88,6 +91,8 @@ export class GcStep {
    * open the step item
    */
   async openItem() {
+    this.prevent = false;
+    this.disabled = false;
     this.open = true;
   }
   /**
@@ -98,6 +103,9 @@ export class GcStep {
   }
   toggle() {
     this.beforeOpenEvent.emit({ index: this.index });
+    if (this.customOpen) {
+      return;
+    }
     if (this.disabled || this.prevent) {
       return;
     }
@@ -117,7 +125,7 @@ export class GcStep {
   }
   render() {
     const successCondition = !this.open && this.status === 'success';
-    const opacityCondition = !this.open && this.status !== 'success';
+    const opacityCondition = this.disabled;
     return (h(Host, null,
       h("header", { class: { 'gc__head-opening': this.open, 'gc__head': true, 'gc__head-opacity': opacityCondition }, onClick: () => this.toggle() },
         h("div", { class: "gc__step-item-title" },
@@ -261,6 +269,24 @@ export class GcStep {
         "text": "Prevent in step"
       },
       "attribute": "prevent",
+      "reflect": false,
+      "defaultValue": "false"
+    },
+    "customOpen": {
+      "type": "boolean",
+      "mutable": false,
+      "complexType": {
+        "original": "boolean",
+        "resolved": "boolean",
+        "references": {}
+      },
+      "required": false,
+      "optional": false,
+      "docs": {
+        "tags": [],
+        "text": ""
+      },
+      "attribute": "custom-open",
       "reflect": false,
       "defaultValue": "false"
     }

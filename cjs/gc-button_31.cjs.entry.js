@@ -4804,7 +4804,7 @@ var createPopper = /*#__PURE__*/popperGenerator({
   defaultModifiers: defaultModifiers
 }); // eslint-disable-next-line import/no-unused-modules
 
-const gcDropdownCss = ":host{display:inline-block;height:var(--dropdown-height, auto)}#tooltip{display:none;border:1px solid var(--gc-color-second-grey);border-radius:5px;background-color:var(--gc-color-contrast-white);font-size:13px;z-index:var(--gc-z-index-gc__dropdown-content)}#tooltip[data-show]{display:block}#arrow,#arrow::before{position:absolute;width:8px;height:8px;background:inherit}#arrow{visibility:hidden}#tooltip[data-popper-placement^='bottom']>#arrow::before{visibility:visible;content:'';width:0;height:0;top:-5px;border-left:8px solid transparent;border-right:8px solid transparent;border-bottom:8px solid var(--gc-color-second-grey)}#tooltip[data-popper-placement^='bottom']>#arrow::after{visibility:visible;content:'';width:0;height:0;top:-4px;position:absolute;border-left:8px solid transparent;border-right:8px solid transparent;border-bottom:8px solid white}#tooltip[data-popper-placement^='top']>#arrow{bottom:-4px}#tooltip[data-popper-placement^='bottom']>#arrow{top:-4px}#tooltip[data-popper-placement^='left']>#arrow{right:-4px}#tooltip[data-popper-placement^='right']>#arrow{left:-4px}";
+const gcDropdownCss = ":host{display:inline-block;height:var(--dropdown-height, auto)}#tooltip{display:none;border:1px solid var(--gc-color-second-grey);border-radius:5px;background-color:var(--gc-color-contrast-white);font-size:13px;z-index:var(--gc-z-index-gc__dropdown-content)}#tooltip[data-show]{display:block}#arrow,#arrow::before{position:absolute;width:8px;height:8px;background:inherit}#arrow{visibility:hidden}#tooltip[data-popper-placement^='bottom']>#arrow::before{visibility:visible;content:'';width:0;height:0;top:-5px;border-left:8px solid transparent;border-right:8px solid transparent;border-bottom:8px solid var(--gc-color-second-grey)}#tooltip[data-popper-placement^='bottom']>#arrow::after{visibility:visible;content:'';width:0;height:0;top:-4px;position:absolute;border-left:8px solid transparent;border-right:8px solid transparent;border-bottom:8px solid white}#tooltip[data-popper-placement^='right']>#arrow::before{visibility:visible;content:'';width:0;height:0;top:0px;left:-1px;border-left:8px solid transparent;border-right:8px solid transparent;border-bottom:8px solid var(--gc-color-second-grey);background:transparent;rotate:270deg}#tooltip[data-popper-placement^='right']>#arrow::after{visibility:visible;content:'';width:0;height:0;top:0px;position:absolute;border-left:8px solid transparent;border-right:8px solid transparent;border-bottom:8px solid white;background:transparent;rotate:270deg}#tooltip[data-popper-placement^='left']>#arrow::before{visibility:visible;content:'';width:0;height:0;top:0px;left:-1px;border-left:8px solid transparent;border-right:8px solid transparent;border-bottom:8px solid var(--gc-color-second-grey);background:transparent;rotate:360deg}#tooltip[data-popper-placement^='left']>#arrow::after{visibility:visible;content:'';width:0;height:0;top:0px;position:absolute;border-left:8px solid transparent;border-right:8px solid transparent;border-bottom:8px solid white;background:transparent;rotate:360deg}#tooltip[data-popper-placement^='top']>#arrow{bottom:-4px}#tooltip[data-popper-placement^='bottom']>#arrow{top:-4px}#tooltip[data-popper-placement^='left']>#arrow{right:-4px}#tooltip[data-popper-placement^='right']>#arrow{left:-12px}";
 
 const GcDropdown = class {
   constructor(hostRef) {
@@ -5958,7 +5958,7 @@ const GcSpinner = class {
 };
 GcSpinner.style = gcSpinnerCss;
 
-const gcStepCss = ".gc__steps-section.sc-gc-step{overflow:hidden}.gc__steps-section.open.sc-gc-step{overflow:unset}.gc__steps-section.sc-gc-step div.sc-gc-step{padding:0px 40px;border-left:1px solid #DAE1E8;margin-left:44px}.gc__step-item-title.sc-gc-step{display:flex;align-items:center;padding-left:20px}.gc__step-item-icon.sc-gc-step{border-radius:50%;border-width:2px;border-style:solid;width:48px;height:48px}.gc__step-item-icon.sc-gc-step>gc-icon.sc-gc-step{display:flex;align-items:center;justify-content:center;width:-moz-available;width:-webkit-fill-available;width:fill-available;height:44px;position:relative}.gc__step-item-title--content.sc-gc-step{margin-left:14px}.transitioning.sc-gc-step{transition:height .35s ease}header.gc__head.sc-gc-step{margin-top:12px;cursor:pointer}header.gc__head-opening.sc-gc-step{margin-bottom:10px}header.gc__head-opacity.sc-gc-step{opacity:0.5}.transitioning-rotate.sc-gc-step{transition:transform .3s ease-in-out;transform:rotateY(90deg)}header.gc__head.sc-gc-step hr.sc-gc-step{border:1px solid #DAE1E8;margin-top:12px;margin-bottom:0px}.sc-gc-step-s>div[slot=\"title\"]{font-weight:700;font-size:12px}.sc-gc-step-s>div[slot=\"description\"]{font-weight:600;font-size:15px}";
+const gcStepCss = ".gc__steps-section.sc-gc-step{overflow:hidden}.gc__steps-section.open.sc-gc-step{overflow:unset}.gc__steps-section.sc-gc-step div.sc-gc-step{padding:0px 40px;border-left:1px solid #DAE1E8;margin-left:44px}.gc__step-item-title.sc-gc-step{display:flex;align-items:center;padding-left:20px}.gc__step-item-icon.sc-gc-step{border-radius:50%;border-width:2px;border-style:solid;width:48px;height:48px}.gc__step-item-icon.sc-gc-step>gc-icon.sc-gc-step{display:flex;align-items:center;justify-content:center;width:-moz-available;width:-webkit-fill-available;width:fill-available;height:44px;position:relative}.gc__step-item-title--content.sc-gc-step{margin-left:14px}.transitioning.sc-gc-step{transition:height .35s ease}header.gc__head.sc-gc-step{margin-top:12px;cursor:pointer}header.gc__head-opening.sc-gc-step{margin-bottom:10px}header.gc__head-opacity.sc-gc-step{opacity:0.5;cursor:not-allowed}.transitioning-rotate.sc-gc-step{transition:transform .3s ease-in-out;transform:rotateY(90deg)}header.gc__head.sc-gc-step hr.sc-gc-step{border:1px solid #DAE1E8;margin-top:12px;margin-bottom:0px}.sc-gc-step-s>div[slot=\"title\"]{font-weight:700;font-size:12px}.sc-gc-step-s>div[slot=\"description\"]{font-weight:600;font-size:15px}";
 
 const GcStep = class {
   constructor(hostRef) {
@@ -5966,6 +5966,7 @@ const GcStep = class {
     this.openEvent = index$1.createEvent(this, "openEvent", 7);
     this.closeEvent = index$1.createEvent(this, "closeEvent", 7);
     this.contentChanged = index$1.createEvent(this, "contentChanged", 7);
+    this.beforeOpenEvent = index$1.createEvent(this, "beforeOpenEvent", 7);
     this.calculatedHeight = 0;
     this.transitioning = false;
     /**
@@ -5992,6 +5993,11 @@ const GcStep = class {
      * Disabled in step
      */
     this.disabled = false;
+    /**
+     * Prevent in step
+     */
+    this.prevent = false;
+    this.customOpen = false;
   }
   get style() {
     return {
@@ -5999,6 +6005,8 @@ const GcStep = class {
     };
   }
   stateChanged(value) {
+    if (this.prevent || this.disabled)
+      return;
     if (value) {
       this.openEvent.emit({
         index: this.index,
@@ -6049,10 +6057,22 @@ const GcStep = class {
    * open the step item
    */
   async openItem() {
+    this.prevent = false;
+    this.disabled = false;
     this.open = true;
   }
+  /**
+   * prevent to open the step item
+   */
+  async preventOpen() {
+    this.prevent = true;
+  }
   toggle() {
-    if (this.disabled) {
+    this.beforeOpenEvent.emit({ index: this.index });
+    if (this.customOpen) {
+      return;
+    }
+    if (this.disabled || this.prevent) {
       return;
     }
     if (this.open) {
@@ -6071,7 +6091,7 @@ const GcStep = class {
   }
   render() {
     const successCondition = !this.open && this.status === 'success';
-    const opacityCondition = !this.open && this.status !== 'success';
+    const opacityCondition = this.disabled;
     return (index$1.h(index$1.Host, null, index$1.h("header", { class: { 'gc__head-opening': this.open, 'gc__head': true, 'gc__head-opacity': opacityCondition }, onClick: () => this.toggle() }, index$1.h("div", { class: "gc__step-item-title" }, index$1.h("div", { style: { borderColor: successCondition ? 'var(--gc-color-green)' : 'var(--gc-color-primary)' }, class: { 'transitioning-rotate': this.transitioning && this.open, 'gc__step-item-icon': true } }, successCondition ? (index$1.h("gc-icon", { name: "fa-regular fa-check", color: "var(--gc-color-green)", size: "24px" })) : (index$1.h("gc-icon", { name: this.icon, color: "var(--gc-color-primary)", size: "22px" }))), index$1.h("div", { class: "gc__step-item-title--content" }, index$1.h("div", { style: { color: successCondition ? 'var(--gc-color-green)' : 'var(--gc-color-primary)' } }, index$1.h("slot", { name: "title" })), index$1.h("slot", { name: "description" }))), !this.open && index$1.h("hr", null)), index$1.h("section", { onTransitionEnd: () => this.handleTransitionEnd(), class: { 'gc__steps-section': true, 'transitioning': this.transitioning, 'open': this.open }, style: this.style }, index$1.h("div", null, index$1.h("slot", null)))));
   }
   get element() { return index$1.getElement(this); }
@@ -6085,8 +6105,10 @@ const GcSteps = class {
   constructor(hostRef) {
     index$1.registerInstance(this, hostRef);
     this.gcStepChange = index$1.createEvent(this, "gc:step-change", 7);
+    this.gcBeforeStepChange = index$1.createEvent(this, "gc:before-step-change", 7);
     this.activeStep = '';
     this.oldStep = '';
+    this.customOpen = false;
   }
   openEventHandler(event) {
     const children = this.element.querySelectorAll('gc-step');
@@ -6100,6 +6122,11 @@ const GcSteps = class {
         children[i].closeItem();
       }
     }
+  }
+  beforeOpenEventHandler(event) {
+    const oldIndex = this.activeStep !== event.detail.index ? this.activeStep : this.oldStep;
+    const newIndex = event.detail.index;
+    this.gcBeforeStepChange.emit({ index: oldIndex, newIndex });
   }
   /**
    * Open an step item
@@ -6122,6 +6149,14 @@ const GcSteps = class {
     }
     else {
       throw new Error('index out of bounds');
+    }
+  }
+  componentWillLoad() {
+    if (this.customOpen) {
+      const children = this.element.querySelectorAll('gc-step');
+      for (let i = 0; i < children.length; i++) {
+        children[i].customOpen = true;
+      }
     }
   }
   render() {

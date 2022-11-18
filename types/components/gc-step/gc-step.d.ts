@@ -38,6 +38,7 @@ export declare class GcStep {
    * Prevent in step
    */
   prevent: boolean;
+  customOpen: boolean;
   stateChanged(value: any): void;
   /**
    * triggered when the step item is opened
