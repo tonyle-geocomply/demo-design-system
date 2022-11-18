@@ -10,33 +10,38 @@ export declare class GcDropdown implements ComponentInterface {
    * If true, the user cannot interact with the button. Defaults to `false`.
    */
   disabled: boolean;
+  /**
+   * Positions
+   *    | 'auto'
+        | 'auto-left'
+        | 'auto-right'
+        | 'top'
+        | 'top-left'
+        | 'top-right'
+        | 'bottom'
+        | 'bottom-left'
+        | 'bottom-right'
+        | 'right'
+        | 'right-start'
+        | 'right-end'
+        | 'left'
+        | 'left-start'
+        | 'left-end'
+  */
   positions: string;
   items: any[];
   trigger: 'click' | 'hover';
-  windowClick(evt: any): void;
-  setFocus(elm?: HTMLElement): Promise<void>;
-  listenMenuItemClick(evt: any): void;
-  listenClick(evt: any): void;
-  listenKeyDown(evt: KeyboardEvent): void;
-  elm: HTMLElement;
-  hasFocus: boolean;
-  position: string;
-  private dropdownContentHeight;
-  private dropdownContentWidth;
   private containerElm?;
   private dropdownElm?;
-  private closeList;
-  private openList;
+  private popperInstance;
+  elm: HTMLElement;
+  hasFocus: boolean;
+  position: any;
+  getPosition(position: any): any;
   componentWillLoad(): void;
-  fixPosition(): void;
-  private toggleList;
-  private blurHandler;
-  private focusHandler;
-  private keyDownHandler;
-  private mouseEnterHandler;
-  private mouseLeaveHandler;
-  private getMenuElement;
   renderItems(): any;
+  toggle(): void;
+  windowClick(evt: any): void;
   componentDidLoad(): void;
   render(): any;
 }

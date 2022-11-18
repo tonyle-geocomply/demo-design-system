@@ -1,24 +1,29 @@
-import { Component, Prop, State, Listen, Element, Event, h } from '@stencil/core';
+import { Component, Prop, State, Listen, Element, Event, Host, h } from '@stencil/core';
+import { createPopper } from '@popperjs/core';
 import { copyClipboard } from '../../utils/utils';
 const MAX_LONG_TEXT = 100;
 export class GcTooltip {
   constructor() {
     /**
-   * Is Long Text?
-   */
+     * Is Long Text?
+     */
     this.isLongText = false;
     /**
      * Is Toggle?
      */
     this.isToggle = false;
     /**
-   * Right position
-   */
+     * Right position
+     */
     this.rightPos = '';
     /**
      * Top position
      */
     this.topPos = '';
+    /**
+     * Is Popover?
+     */
+    this.isPopover = false;
     this.showTooltip = false;
     this.isCopied = false;
   }
@@ -45,6 +50,7 @@ export class GcTooltip {
     if (this.isCopied)
       return false;
     this.showTooltip = false;
+    this.dropdownElm.removeAttribute('data-show');
     this.gcToggleTooltip.emit(this.showTooltip);
   }
   renderCutText() {
@@ -69,19 +75,41 @@ export class GcTooltip {
       }, 500);
       return;
     }
+    if (!this.dropdownElm.hasAttribute('data-show')) {
+      this.dropdownElm.setAttribute('data-show', '');
+      // We need to tell Popper to update the tooltip position
+      // after we show the tooltip, otherwise it will be incorrect
+      this.popperInstance.update();
+    }
+    else {
+      this.dropdownElm.removeAttribute('data-show');
+    }
     this.showTooltip = !this.showTooltip;
     this.gcToggleTooltip.emit(this.showTooltip);
   }
+  componentDidLoad() {
+    this.popperInstance = createPopper(this.containerElm, this.dropdownElm, {
+      placement: 'bottom',
+      modifiers: [
+        {
+          name: 'offset',
+          options: {
+            offset: [0, 8],
+          },
+        },
+      ],
+    });
+  }
   render() {
-    return (h("div", { onClick: () => this.onToggleTooltip(), style: { color: 'var(--gc-color-text-grey)', textDecoration: 'underline', cursor: 'pointer' }, class: { 'has-tooltip': true, 'active': this.isToggle ? this.showTooltip && this.isToggle : this.showTooltip } },
-      this.renderCutText(),
-      h("span", { class: "tooltip-wrapper" },
-        h("div", { class: "tooltip", style: { right: this.rightPos || '35%', top: this.topPos || '1rem' } },
-          this.content,
-          this.getIsCopyText() && (h("div", { style: { marginTop: '8px' } },
-            h("gc-button", { height: "29px", type: "primary", "onGc:click": () => copyClipboard(this.content, () => {
-                this.isCopied = !this.isCopied;
-              }) }, this.isCopied ? 'Copied' : this.getIsCopyText().text || 'Copy')))))));
+    return (h(Host, null,
+      h("div", { style: { color: 'var(--gc-color-text-grey)', textDecoration: this.isPopover ? '' : 'underline', cursor: 'pointer' }, onClick: () => this.onToggleTooltip(), class: "slot-container", id: "host-element", "aria-describedby": "tooltip", ref: elm => (this.containerElm = elm) }, this.renderCutText()),
+      h("div", { class: "gc__dropdown-content", id: "tooltip", role: "tooltip", ref: elm => (this.dropdownElm = elm) },
+        this.content,
+        this.getIsCopyText() && (h("div", { style: { marginTop: '8px' } },
+          h("gc-button", { height: "29px", type: "primary", "onGc:click": () => copyClipboard(this.content, () => {
+              this.isCopied = !this.isCopied;
+            }) }, this.isCopied ? 'Copied' : this.getIsCopyText().text || 'Copy'))),
+        h("div", { id: "arrow", "data-popper-arrow": true }))));
   }
   static get is() { return "gc-tooltip"; }
   static get encapsulation() { return "scoped"; }
@@ -197,6 +225,24 @@ export class GcTooltip {
       "attribute": "top-pos",
       "reflect": false,
       "defaultValue": "''"
+    },
+    "isPopover": {
+      "type": "boolean",
+      "mutable": false,
+      "complexType": {
+        "original": "boolean",
+        "resolved": "boolean",
+        "references": {}
+      },
+      "required": false,
+      "optional": false,
+      "docs": {
+        "tags": [],
+        "text": "Is Popover?"
+      },
+      "attribute": "is-popover",
+      "reflect": false,
+      "defaultValue": "false"
     }
   }; }
   static get states() { return {

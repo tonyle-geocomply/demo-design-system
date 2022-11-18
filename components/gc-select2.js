@@ -1,5 +1,5 @@
 import { proxyCustomElement, HTMLElement, createEvent, h, Host } from '@stencil/core/internal/client';
-import { d as debounceEvent, a as isMobile, b as isOutOfViewport } from './utils.js';
+import { d as debounceEvent, i as isMobile, a as isOutOfViewport } from './utils.js';
 import { d as defineCustomElement$3 } from './gc-icon2.js';
 import { d as defineCustomElement$2 } from './gc-menu2.js';
 import { d as defineCustomElement$1 } from './gc-menu-item2.js';

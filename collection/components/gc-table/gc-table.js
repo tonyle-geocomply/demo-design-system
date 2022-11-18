@@ -155,7 +155,6 @@ export class GcTable {
   }
   handleResize(ev) {
     this.isStopScaleWidth = ev.target.innerWidth <= DEFAULT_SCREEN_WIDTH_TO_STOP_SCALE;
-    console.log(this.isStopScaleWidth);
   }
   onSelectChange(selectedRowKeys) {
     this.selectedRowKeys = selectedRowKeys;
@@ -186,7 +185,6 @@ export class GcTable {
         h("div", { class: "col-content" })));
     }
     const columnsWithPos = this.getColumns().map(col => (Object.assign(Object.assign({}, col), { pos: this.posColumns[col.name] })));
-    console.log(this.isStopScaleWidth);
     columnsWithPos.sort((a, b) => a.pos - b.pos);
     const countCurrentCol = Object.keys(this.showingColumns) && Object.keys(this.showingColumns).filter(key => this.showingColumns[key] && key !== 'custom_actions');
     columnsWithPos.forEach((col, i) => {
@@ -368,7 +366,6 @@ export class GcTable {
       res = Object.assign(Object.assign({}, res), { [col.name]: this.settingTable && this.settingTable[col.name] ? this.settingTable[col.name].position : idx });
       return res;
     }, {});
-    console.log(window);
   }
   renderPagination() {
     let totalItems = this.getTotalItems();

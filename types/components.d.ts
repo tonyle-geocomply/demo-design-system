@@ -84,8 +84,10 @@ export namespace Components {
         "disabled": boolean;
         "isOpen": boolean;
         "items": any[];
+        /**
+          * Positions    | 'auto'    | 'auto-left'    | 'auto-right'    | 'top'    | 'top-left'    | 'top-right'    | 'bottom'    | 'bottom-left'    | 'bottom-right'    | 'right'    | 'right-start'    | 'right-end'    | 'left'    | 'left-start'    | 'left-end'
+         */
         "positions": string;
-        "setFocus": (elm?: HTMLElement) => Promise<void>;
         /**
           * The button size. Possible values are: `"sm"`, `"md"`, `"lg"`. Defaults to `"md"`.
          */
@@ -668,6 +670,10 @@ export namespace Components {
          */
         "isLongText": boolean;
         /**
+          * Is Popover?
+         */
+        "isPopover": boolean;
+        /**
           * Is Toggle?
          */
         "isToggle": boolean;
@@ -1067,6 +1073,9 @@ declare namespace LocalJSX {
         "disabled"?: boolean;
         "isOpen"?: boolean;
         "items"?: any[];
+        /**
+          * Positions    | 'auto'    | 'auto-left'    | 'auto-right'    | 'top'    | 'top-left'    | 'top-right'    | 'bottom'    | 'bottom-left'    | 'bottom-right'    | 'right'    | 'right-start'    | 'right-end'    | 'left'    | 'left-start'    | 'left-end'
+         */
         "positions"?: string;
         /**
           * The button size. Possible values are: `"sm"`, `"md"`, `"lg"`. Defaults to `"md"`.
@@ -1672,6 +1681,10 @@ declare namespace LocalJSX {
           * Is Long Text?
          */
         "isLongText"?: boolean;
+        /**
+          * Is Popover?
+         */
+        "isPopover"?: boolean;
         /**
           * Is Toggle?
          */

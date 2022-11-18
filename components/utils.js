@@ -42,14 +42,6 @@ var ElementSize;
   ElementSize["XX_LARGE"] = "xxl";
   ElementSize["XXX_LARGE"] = "xxxl";
 })(ElementSize || (ElementSize = {}));
-function isEventTriggerByElement(event, element) {
-  const path = event.composedPath();
-  for (const elm of path) {
-    if (elm === element)
-      return true;
-  }
-  return false;
-}
 const debounceEvent = (event, wait) => {
   const original = event._original || event;
   return {
@@ -93,4 +85,4 @@ const copyClipboard = (content, callback = undefined) => {
   }
 };
 
-export { isMobile as a, isOutOfViewport as b, copyClipboard as c, debounceEvent as d, isEventTriggerByElement as i };
+export { isOutOfViewport as a, copyClipboard as c, debounceEvent as d, isMobile as i };

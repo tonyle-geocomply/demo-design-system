@@ -1,10 +1,10 @@
 import { proxyCustomElement, HTMLElement, h, Host } from '@stencil/core/internal/client';
-import { i as isEventTriggerByElement, a as isMobile, b as isOutOfViewport } from './utils.js';
 import { d as defineCustomElement$3 } from './gc-icon2.js';
 import { d as defineCustomElement$2 } from './gc-menu2.js';
 import { d as defineCustomElement$1 } from './gc-menu-item2.js';
+import { c as createPopper } from './popper.js';
 
-const gcDropdownCss = ":host{display:inline-block;height:var(--dropdown-height, auto)}.dropdown{position:relative;height:var(--dropdown-height, auto)}.dropdown .dropdown-button{border:none;background:none;padding:0;margin:0;height:100%;width:100%}.dropdown .dropdown-button .slot-container{height:100%}.dropdown .gc__dropdown-content{z-index:var(--gc-z-index-gc__dropdown-content);position:absolute;width:max-content;transform:scale(0);transition:transform 0.1s ease-out 0s}.dropdown.is-open .gc__dropdown-content{transform:scale(1)}.dropdown.bottom-right .gc__dropdown-content{top:calc(100% + 0.5rem);left:0;transform-origin:top}.dropdown.bottom-left .gc__dropdown-content{top:calc(100% + 0.5rem);right:0;transform-origin:top}.dropdown.top-right .gc__dropdown-content{bottom:calc(100% + 0.5rem);left:0;transform-origin:bottom}.dropdown.top-left .gc__dropdown-content{bottom:calc(100% + 0.5rem);right:0;transform-origin:bottom}.dropdown.center .gc__dropdown-content{top:0;left:0;position:fixed;transform-origin:center;display:flex;align-items:center;width:100vw;height:100vh;justify-content:center;background:rgba(0, 0, 0, 0.5);pointer-events:none}.dropdown .items{min-width:12rem}:host([has-focus]) .dropdown{outline:none}div.gc__dropdown-content{border:1px solid var(--gc-color-second-grey);border-radius:5px;background-color:var(--gc-color-contrast-white)}.bottom-right div.gc__dropdown-content::before{content:\"\";position:absolute;border-left:8px solid transparent;border-right:8px solid transparent;top:-9px;left:15%;margin-left:-10px;border-top:0px;border-bottom:8px solid var(--gc-color-second-grey)}.bottom-right div.gc__dropdown-content::after{border-bottom:8px solid white;margin-top:2px;z-index:1;content:\"\";position:absolute;border-left:8px solid transparent;border-right:8px solid transparent;top:-9px;left:15%;margin-left:-10px}.bottom-left div.gc__dropdown-content::before{content:\"\";position:absolute;border-left:8px solid transparent;border-right:8px solid transparent;top:-9px;right:15%;margin-left:-10px;border-top:0px;border-bottom:8px solid var(--gc-color-second-grey)}.bottom-left div.gc__dropdown-content::after{border-bottom:8px solid white;margin-top:2px;z-index:1;content:\"\";position:absolute;border-left:8px solid transparent;border-right:8px solid transparent;top:-9px;right:15%;margin-left:-10px}.bottom-right div.gc__dropdown-content-small::before{left:10px}.bottom-right div.gc__dropdown-content-small::after{left:10px}.bottom-left div.gc__dropdown-content-small::before{right:10px}.bottom-left div.gc__dropdown-content-small::after{right:10px}";
+const gcDropdownCss = ":host{display:inline-block;height:var(--dropdown-height, auto)}#tooltip{display:none;border:1px solid var(--gc-color-second-grey);border-radius:5px;background-color:var(--gc-color-contrast-white);font-size:13px;z-index:var(--gc-z-index-gc__dropdown-content)}#tooltip[data-show]{display:block}#arrow,#arrow::before{position:absolute;width:8px;height:8px;background:inherit}#arrow{visibility:hidden}#arrow::before{visibility:visible;content:'';width:0;height:0;top:-5px;border-left:8px solid transparent;border-right:8px solid transparent;border-bottom:8px solid var(--gc-color-second-grey)}#arrow::after{visibility:visible;content:'';width:0;height:0;top:-4px;position:absolute;border-left:8px solid transparent;border-right:8px solid transparent;border-bottom:8px solid white}#tooltip[data-popper-placement^='top']>#arrow{bottom:-4px}#tooltip[data-popper-placement^='bottom']>#arrow{top:-4px}#tooltip[data-popper-placement^='left']>#arrow{right:-4px}#tooltip[data-popper-placement^='right']>#arrow{left:-4px}";
 
 const GcDropdown = /*@__PURE__*/ proxyCustomElement(class extends HTMLElement {
   constructor() {
@@ -21,62 +21,68 @@ const GcDropdown = /*@__PURE__*/ proxyCustomElement(class extends HTMLElement {
      * If true, the user cannot interact with the button. Defaults to `false`.
      */
     this.disabled = false;
-    this.positions = 'bottom-right,top-right,bottom-left,top-left';
+    /**
+     * Positions
+     *    | 'auto'
+          | 'auto-left'
+          | 'auto-right'
+          | 'top'
+          | 'top-left'
+          | 'top-right'
+          | 'bottom'
+          | 'bottom-left'
+          | 'bottom-right'
+          | 'right'
+          | 'right-start'
+          | 'right-end'
+          | 'left'
+          | 'left-start'
+          | 'left-end'
+    */
+    this.positions = 'bottom,bottom-right,top,top-right,bottom-left,top-left';
     this.items = null;
     this.trigger = 'click';
     this.hasFocus = false;
-    this.openList = () => {
-      if (!this.disabled && !this.isOpen) {
-        this.isOpen = true;
-        setTimeout(() => {
-          const dropdownContent = this.elm.querySelector('[slot="gc__dropdown-content"]');
-          this.dropdownContentHeight = dropdownContent.getBoundingClientRect().height;
-          this.dropdownContentWidth = dropdownContent.getBoundingClientRect().width;
-          this.fixPosition();
-        }, 100);
-      }
-    };
-    this.toggleList = () => {
-      if (this.isOpen)
-        this.closeList();
-      else
-        this.openList();
-    };
-    this.blurHandler = () => {
-      this.hasFocus = false;
-    };
-    this.focusHandler = () => {
-      this.hasFocus = true;
-    };
-    this.keyDownHandler = evt => {
-      const $menuElm = this.getMenuElement();
-      if (evt.key === 'Enter') {
-        evt.preventDefault();
-        this.toggleList();
-      }
-      else if (evt.key === 'ArrowDown') {
-        if (this.isOpen) {
-          evt.preventDefault();
-          $menuElm === null || $menuElm === void 0 ? void 0 : $menuElm.setFocus();
-        }
-      }
-      else if (evt.key === 'ArrowUp') {
-        if (this.isOpen) {
-          evt.preventDefault();
-          $menuElm === null || $menuElm === void 0 ? void 0 : $menuElm.setFocus(); // focus on previous item
-        }
-      }
-    };
-    this.mouseEnterHandler = () => {
-      if (this.trigger === 'hover') {
-        this.isOpen = true;
-      }
-    };
-    this.mouseLeaveHandler = () => {
-      if (this.trigger === 'hover') {
-        this.isOpen = false;
-      }
-    };
+    this.position = '';
+  }
+  getPosition(position) {
+    switch (position) {
+      case 'auto-left':
+        return 'auto-start';
+      case 'auto-right':
+        return 'auto-end';
+      case 'top-left':
+        return 'top-start';
+      case 'top-right':
+        return 'top-end';
+      case 'bottom-left':
+        return 'bottom-start';
+      case 'bottom-right':
+        return 'bottom-end';
+      default:
+        return position;
+    }
+  }
+  componentWillLoad() {
+    if (this.positions) {
+      this.position = this.positions.split(',')[0];
+    }
+  }
+  renderItems() {
+    if (this.items)
+      return (h("gc-menu", { class: "items" }, this.items.map(item => {
+        return (h("gc-menu-item", { value: item.value, tabindex: this.isOpen ? '0' : '-1' }, item.icon && h("gc-icon", { name: item.icon, slot: "start", size: "sm" }), item.label, item.hint && h("span", { slot: "end" }, item.hint)));
+      })));
+  }
+  toggle() {
+    if (!this.dropdownElm.hasAttribute('data-show')) {
+      this.dropdownElm.setAttribute('data-show', '');
+      // We need to tell Popper to update the tooltip position
+      // after we show the tooltip, otherwise it will be incorrect
+      this.popperInstance.update();
+      return;
+    }
+    this.dropdownElm.removeAttribute('data-show');
   }
   windowClick(evt) {
     const path = evt.path || evt.composedPath();
@@ -85,110 +91,23 @@ const GcDropdown = /*@__PURE__*/ proxyCustomElement(class extends HTMLElement {
         return;
       }
     }
-    this.isOpen = false;
-  }
-  async setFocus(elm) {
-    const firstChild = elm.children[0] || this.elm.children[0];
-    if (firstChild.setFocus) {
-      firstChild.setFocus();
-    }
-  }
-  listenMenuItemClick(evt) {
-    if (isEventTriggerByElement(evt, this.elm)) {
-      this.closeList();
-    }
-    this.isOpen = false;
-  }
-  listenClick(evt) {
-    if (isEventTriggerByElement(evt, this.elm)) {
-      this.closeList();
-    }
-    this.isOpen = false;
-  }
-  listenKeyDown(evt) {
-    if (isEventTriggerByElement(evt, this.elm)) {
-      if (evt.key === 'Escape') {
-        this.closeList();
-      }
-    }
-  }
-  closeList() {
-    if (!this.disabled && this.isOpen) {
-      this.isOpen = false;
-      setTimeout(() => {
-        this.setFocus(this.elm);
-      }, 100);
-    }
-  }
-  componentWillLoad() {
-    if (this.positions) {
-      this.position = this.positions.split(',')[0];
-    }
-  }
-  fixPosition() {
-    if (this.isOpen && this.dropdownContentHeight && this.dropdownContentWidth) {
-      if (isMobile()) {
-        this.position = 'center';
-        return;
-      }
-      const positions = this.positions.split(',');
-      for (let i = 0; i < positions.length; i++) {
-        const dropdownButtonRect = this.elm.getBoundingClientRect();
-        const dropdownContentRect = {};
-        if (positions[i] === 'bottom-right') {
-          dropdownContentRect.top = dropdownButtonRect.top + dropdownButtonRect.height;
-          dropdownContentRect.bottom = dropdownContentRect.top + this.dropdownContentHeight;
-          dropdownContentRect.left = dropdownButtonRect.left;
-          dropdownContentRect.right = dropdownButtonRect.left + this.dropdownContentWidth;
-        }
-        else if (positions[i] === 'top-right') {
-          dropdownContentRect.top = dropdownButtonRect.top - this.dropdownContentHeight;
-          dropdownContentRect.bottom = dropdownButtonRect.top;
-          dropdownContentRect.left = dropdownButtonRect.left;
-          dropdownContentRect.right = dropdownButtonRect.left + this.dropdownContentWidth;
-        }
-        else if (positions[i] === 'bottom-left') {
-          dropdownContentRect.top = dropdownButtonRect.top + dropdownButtonRect.height;
-          dropdownContentRect.bottom = dropdownContentRect.top + this.dropdownContentHeight;
-          dropdownContentRect.left = dropdownButtonRect.left - this.dropdownContentWidth;
-          dropdownContentRect.right = dropdownButtonRect.left;
-        }
-        else if (positions[i] === 'top-left') {
-          dropdownContentRect.top = dropdownButtonRect.top - this.dropdownContentHeight;
-          dropdownContentRect.bottom = dropdownButtonRect.top;
-          dropdownContentRect.left = dropdownButtonRect.left - this.dropdownContentWidth;
-          dropdownContentRect.right = dropdownButtonRect.left;
-        }
-        const isOut = isOutOfViewport(dropdownContentRect);
-        if (!isOut.any) {
-          this.position = positions[i];
-          break;
-        }
-      }
-    }
-  }
-  getMenuElement() {
-    return this.elm.querySelector('gc-menu');
-  }
-  renderItems() {
-    if (this.items)
-      return (h("gc-menu", { class: "items" }, this.items.map(item => {
-        return (h("gc-menu-item", { value: item.value, tabindex: this.isOpen ? '0' : '-1' }, item.icon && h("gc-icon", { name: item.icon, slot: "start", size: "sm" }), item.label, item.hint && h("span", { slot: "end" }, item.hint)));
-      })));
+    this.dropdownElm.removeAttribute('data-show');
   }
   componentDidLoad() {
-    if (this.containerElm.getBoundingClientRect().width < 100) {
-      this.dropdownElm.classList.add("gc__dropdown-content-small");
-    }
+    this.popperInstance = createPopper(this.containerElm, this.dropdownElm, {
+      placement: this.position || 'bottom',
+      modifiers: [
+        {
+          name: 'offset',
+          options: {
+            offset: [0, 8],
+          },
+        },
+      ],
+    });
   }
   render() {
-    return (h(Host, { "has-focus": this.hasFocus, "is-open": this.isOpen }, h("div", { class: {
-        'dropdown': true,
-        [this.position]: true,
-        'is-open': this.isOpen,
-      }, onMouseEnter: this.mouseEnterHandler, onMouseLeave: this.mouseLeaveHandler }, h("button", { class: "dropdown-button", onKeyDown: this.keyDownHandler, tabindex: "-1", onBlur: this.blurHandler, onFocus: this.focusHandler, disabled: this.disabled, onClick: () => {
-        this.toggleList();
-      } }, h("div", { class: "slot-container", ref: elm => (this.containerElm = elm) }, h("slot", null))), h("div", { class: "gc__dropdown-content", ref: elm => (this.dropdownElm = elm) }, this.renderItems(), h("slot", { name: "gc__dropdown-content" })))));
+    return (h(Host, null, h("div", { onClick: () => this.toggle(), class: "slot-container", id: "host-element", "aria-describedby": "tooltip", ref: elm => (this.containerElm = elm) }, h("slot", null)), h("div", { class: "gc__dropdown-content", id: "tooltip", role: "tooltip", ref: elm => (this.dropdownElm = elm) }, this.renderItems(), h("slot", { name: "gc__dropdown-content" }), h("div", { id: "arrow", "data-popper-arrow": true }))));
   }
   get elm() { return this; }
   static get style() { return gcDropdownCss; }
@@ -200,9 +119,8 @@ const GcDropdown = /*@__PURE__*/ proxyCustomElement(class extends HTMLElement {
     "items": [16],
     "trigger": [1],
     "hasFocus": [32],
-    "position": [32],
-    "setFocus": [64]
-  }, [[8, "click", "windowClick"], [8, "gc:menu-item-click", "listenMenuItemClick"], [8, "gc:click", "listenClick"], [8, "keydown", "listenKeyDown"], [9, "scroll", "fixPosition"]]]);
+    "position": [32]
+  }, [[8, "click", "windowClick"]]]);
 function defineCustomElement() {
   if (typeof customElements === "undefined") {
     return;

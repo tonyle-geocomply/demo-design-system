@@ -6,8 +6,8 @@ export declare class GcTooltip {
    */
   isCopyText?: any;
   /**
- * Is Long Text?
- */
+   * Is Long Text?
+   */
   isLongText: boolean;
   /**
    * The content
@@ -18,19 +18,27 @@ export declare class GcTooltip {
    */
   isToggle: boolean;
   /**
- * Right position
- */
+   * Right position
+   */
   rightPos: string;
   /**
    * Top position
    */
   topPos: string;
+  /**
+   * Is Popover?
+   */
+  isPopover: boolean;
   gcToggleTooltip: EventEmitter;
   private showTooltip;
   private isCopied;
+  private containerElm?;
+  private dropdownElm?;
+  private popperInstance;
   private getIsCopyText;
   windowClick(evt: any): boolean;
   renderCutText(): any;
   onToggleTooltip(): void;
+  componentDidLoad(): void;
   render(): any;
 }
