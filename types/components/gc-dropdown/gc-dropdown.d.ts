@@ -43,5 +43,7 @@ export declare class GcDropdown implements ComponentInterface {
   toggle(): void;
   windowClick(evt: any): void;
   componentDidLoad(): void;
+  handleClick(): void;
+  handleHover(): void;
   render(): any;
 }

@@ -4804,7 +4804,7 @@ var createPopper = /*#__PURE__*/popperGenerator({
   defaultModifiers: defaultModifiers
 }); // eslint-disable-next-line import/no-unused-modules
 
-const gcDropdownCss = ":host{display:inline-block;height:var(--dropdown-height, auto)}#tooltip{display:none;border:1px solid var(--gc-color-second-grey);border-radius:5px;background-color:var(--gc-color-contrast-white);font-size:13px;z-index:var(--gc-z-index-gc__dropdown-content)}#tooltip[data-show]{display:block}#arrow,#arrow::before{position:absolute;width:8px;height:8px;background:inherit}#arrow{visibility:hidden}#arrow::before{visibility:visible;content:'';width:0;height:0;top:-5px;border-left:8px solid transparent;border-right:8px solid transparent;border-bottom:8px solid var(--gc-color-second-grey)}#arrow::after{visibility:visible;content:'';width:0;height:0;top:-4px;position:absolute;border-left:8px solid transparent;border-right:8px solid transparent;border-bottom:8px solid white}#tooltip[data-popper-placement^='top']>#arrow{bottom:-4px}#tooltip[data-popper-placement^='bottom']>#arrow{top:-4px}#tooltip[data-popper-placement^='left']>#arrow{right:-4px}#tooltip[data-popper-placement^='right']>#arrow{left:-4px}";
+const gcDropdownCss = ":host{display:inline-block;height:var(--dropdown-height, auto)}#tooltip{display:none;border:1px solid var(--gc-color-second-grey);border-radius:5px;background-color:var(--gc-color-contrast-white);font-size:13px;z-index:var(--gc-z-index-gc__dropdown-content)}#tooltip[data-show]{display:block}#arrow,#arrow::before{position:absolute;width:8px;height:8px;background:inherit}#arrow{visibility:hidden}#tooltip[data-popper-placement^='bottom']>#arrow::before{visibility:visible;content:'';width:0;height:0;top:-5px;border-left:8px solid transparent;border-right:8px solid transparent;border-bottom:8px solid var(--gc-color-second-grey)}#tooltip[data-popper-placement^='bottom']>#arrow::after{visibility:visible;content:'';width:0;height:0;top:-4px;position:absolute;border-left:8px solid transparent;border-right:8px solid transparent;border-bottom:8px solid white}#tooltip[data-popper-placement^='top']>#arrow{bottom:-4px}#tooltip[data-popper-placement^='bottom']>#arrow{top:-4px}#tooltip[data-popper-placement^='left']>#arrow{right:-4px}#tooltip[data-popper-placement^='right']>#arrow{left:-4px}";
 
 const GcDropdown = class {
   constructor(hostRef) {
@@ -4850,13 +4850,13 @@ const GcDropdown = class {
       case 'auto-right':
         return 'auto-end';
       case 'top-left':
-        return 'top-start';
+        return 'top';
       case 'top-right':
-        return 'top-end';
+        return 'top';
       case 'bottom-left':
-        return 'bottom-start';
+        return 'bottom';
       case 'bottom-right':
-        return 'bottom-end';
+        return 'bottom';
       default:
         return position;
     }
@@ -4904,8 +4904,18 @@ const GcDropdown = class {
       ],
     });
   }
+  handleClick() {
+    if (this.trigger === 'click') {
+      this.toggle();
+    }
+  }
+  handleHover() {
+    if (this.trigger === 'hover') {
+      this.toggle();
+    }
+  }
   render() {
-    return (index$1.h(index$1.Host, null, index$1.h("div", { onClick: () => this.toggle(), class: "slot-container", id: "host-element", "aria-describedby": "tooltip", ref: elm => (this.containerElm = elm) }, index$1.h("slot", null)), index$1.h("div", { class: "gc__dropdown-content", id: "tooltip", role: "tooltip", ref: elm => (this.dropdownElm = elm) }, this.renderItems(), index$1.h("slot", { name: "gc__dropdown-content" }), index$1.h("div", { id: "arrow", "data-popper-arrow": true }))));
+    return (index$1.h(index$1.Host, { onMouseLeave: () => this.handleHover() }, index$1.h("div", { onClick: () => this.handleClick(), onMouseEnter: () => this.handleHover(), class: "slot-container", id: "host-element", "aria-describedby": "tooltip", ref: elm => (this.containerElm = elm) }, index$1.h("slot", null)), index$1.h("div", { class: "gc__dropdown-content", id: "tooltip", role: "tooltip", ref: elm => (this.dropdownElm = elm) }, this.renderItems(), index$1.h("slot", { name: "gc__dropdown-content" }), index$1.h("div", { id: "arrow", "data-popper-arrow": true }))));
   }
   get elm() { return index$1.getElement(this); }
 };
@@ -5947,7 +5957,7 @@ const GcSpinner = class {
 };
 GcSpinner.style = gcSpinnerCss;
 
-const gcStepCss = ".gc__steps-section.sc-gc-step{overflow:hidden}.gc__steps-section.open.sc-gc-step{overflow:unset}.gc__steps-section.sc-gc-step div.sc-gc-step{padding:0px 40px;border-left:2px solid #DAE1E8;margin-left:42px}.gc__step-item-title.sc-gc-step{display:flex;align-items:center;padding-left:20px}.gc__step-item-icon.sc-gc-step{border-radius:50%;border-width:2px;border-style:solid;width:48px;height:48px}.gc__step-item-icon.sc-gc-step>gc-icon.sc-gc-step{display:flex;align-items:center;justify-content:center;height:48px;width:48px;position:relative}.gc__step-item-title--content.sc-gc-step{margin-left:14px}.transitioning.sc-gc-step{transition:height .35s ease}header.gc__head.sc-gc-step{margin-top:12px;cursor:pointer}header.gc__head-opening.sc-gc-step{margin-bottom:10px}header.gc__head-opacity.sc-gc-step{opacity:0.5}.transitioning-rotate.sc-gc-step{transition:transform .3s ease-in-out;transform:rotateY(90deg)}header.gc__head.sc-gc-step hr.sc-gc-step{border:1px solid #DAE1E8;margin-top:12px;margin-bottom:0px}.sc-gc-step-s>div[slot=\"title\"]{font-weight:700;font-size:12px}.sc-gc-step-s>div[slot=\"description\"]{font-weight:600;font-size:15px}";
+const gcStepCss = ".gc__steps-section.sc-gc-step{overflow:hidden}.gc__steps-section.open.sc-gc-step{overflow:unset}.gc__steps-section.sc-gc-step div.sc-gc-step{padding:0px 40px;border-left:1px solid #DAE1E8;margin-left:44px}.gc__step-item-title.sc-gc-step{display:flex;align-items:center;padding-left:20px}.gc__step-item-icon.sc-gc-step{border-radius:50%;border-width:2px;border-style:solid;width:48px;height:48px}.gc__step-item-icon.sc-gc-step>gc-icon.sc-gc-step{display:flex;align-items:center;justify-content:center;width:-moz-available;width:-webkit-fill-available;width:fill-available;height:44px;position:relative}.gc__step-item-title--content.sc-gc-step{margin-left:14px}.transitioning.sc-gc-step{transition:height .35s ease}header.gc__head.sc-gc-step{margin-top:12px;cursor:pointer}header.gc__head-opening.sc-gc-step{margin-bottom:10px}header.gc__head-opacity.sc-gc-step{opacity:0.5}.transitioning-rotate.sc-gc-step{transition:transform .3s ease-in-out;transform:rotateY(90deg)}header.gc__head.sc-gc-step hr.sc-gc-step{border:1px solid #DAE1E8;margin-top:12px;margin-bottom:0px}.sc-gc-step-s>div[slot=\"title\"]{font-weight:700;font-size:12px}.sc-gc-step-s>div[slot=\"description\"]{font-weight:600;font-size:15px}";
 
 const GcStep = class {
   constructor(hostRef) {
@@ -6075,11 +6085,15 @@ const GcSteps = class {
     index$1.registerInstance(this, hostRef);
     this.gcStepChange = index$1.createEvent(this, "gc:step-change", 7);
     this.activeStep = '';
+    this.oldStep = '';
   }
   openEventHandler(event) {
     const children = this.element.querySelectorAll('gc-step');
-    this.activeStep = event.detail.index;
-    this.gcStepChange.emit({ index: this.activeStep });
+    const oldIndex = this.activeStep !== event.detail.index ? this.activeStep : this.oldStep;
+    const newIndex = event.detail.index;
+    this.gcStepChange.emit({ index: newIndex, oldIndex });
+    this.oldStep = oldIndex;
+    this.activeStep = newIndex;
     for (let i = 0; i < children.length; i++) {
       if (event.detail.index != i) {
         children[i].closeItem();

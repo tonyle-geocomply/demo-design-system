@@ -28,7 +28,7 @@
   visibility: hidden;
 }
 
-#arrow::before {
+#tooltip[data-popper-placement^='bottom'] > #arrow::before {
   visibility: visible;
   content: '';
   width: 0;
@@ -39,7 +39,7 @@
   border-bottom: 8px solid var(--gc-color-second-grey);
 }
 
-#arrow::after {
+#tooltip[data-popper-placement^='bottom'] > #arrow::after {
   visibility: visible;
   content: '';
   width: 0;

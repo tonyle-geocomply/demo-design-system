@@ -6,8 +6,8 @@
 }
 .gc__steps-section div {
   padding: 0px 40px;
-  border-left: 2px solid #DAE1E8;
-  margin-left: 42px;
+  border-left: 1px solid #DAE1E8;
+  margin-left: 44px;
 }
 .gc__step-item-title {
   display: flex;
@@ -25,8 +25,10 @@
   display: flex;
   align-items: center;
   justify-content: center;
-  height: 48px;
-  width: 48px;
+  width: -moz-available;          /* WebKit-based browsers will ignore this. */
+  width: -webkit-fill-available;  /* Mozilla-based browsers will ignore this. */
+  width: fill-available;
+  height: 44px;
   position: relative;
 }
 .gc__step-item-title--content {

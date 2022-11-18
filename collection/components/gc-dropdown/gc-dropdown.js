@@ -43,13 +43,13 @@ export class GcDropdown {
       case 'auto-right':
         return 'auto-end';
       case 'top-left':
-        return 'top-start';
+        return 'top';
       case 'top-right':
-        return 'top-end';
+        return 'top';
       case 'bottom-left':
-        return 'bottom-start';
+        return 'bottom';
       case 'bottom-right':
-        return 'bottom-end';
+        return 'bottom';
       default:
         return position;
     }
@@ -100,9 +100,19 @@ export class GcDropdown {
       ],
     });
   }
+  handleClick() {
+    if (this.trigger === 'click') {
+      this.toggle();
+    }
+  }
+  handleHover() {
+    if (this.trigger === 'hover') {
+      this.toggle();
+    }
+  }
   render() {
-    return (h(Host, null,
-      h("div", { onClick: () => this.toggle(), class: "slot-container", id: "host-element", "aria-describedby": "tooltip", ref: elm => (this.containerElm = elm) },
+    return (h(Host, { onMouseLeave: () => this.handleHover() },
+      h("div", { onClick: () => this.handleClick(), onMouseEnter: () => this.handleHover(), class: "slot-container", id: "host-element", "aria-describedby": "tooltip", ref: elm => (this.containerElm = elm) },
         h("slot", null)),
       h("div", { class: "gc__dropdown-content", id: "tooltip", role: "tooltip", ref: elm => (this.dropdownElm = elm) },
         this.renderItems(),

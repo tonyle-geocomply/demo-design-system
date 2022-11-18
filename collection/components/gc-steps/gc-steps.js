@@ -2,11 +2,15 @@ import { Component, Listen, h, Element, State, Method, Event } from '@stencil/co
 export class GcSteps {
   constructor() {
     this.activeStep = '';
+    this.oldStep = '';
   }
   openEventHandler(event) {
     const children = this.element.querySelectorAll('gc-step');
-    this.activeStep = event.detail.index;
-    this.gcStepChange.emit({ index: this.activeStep });
+    const oldIndex = this.activeStep !== event.detail.index ? this.activeStep : this.oldStep;
+    const newIndex = event.detail.index;
+    this.gcStepChange.emit({ index: newIndex, oldIndex });
+    this.oldStep = oldIndex;
+    this.activeStep = newIndex;
     for (let i = 0; i < children.length; i++) {
       if (event.detail.index != i) {
         children[i].closeItem();
@@ -44,7 +48,8 @@ export class GcSteps {
   static get is() { return "gc-steps"; }
   static get encapsulation() { return "scoped"; }
   static get states() { return {
-    "activeStep": {}
+    "activeStep": {},
+    "oldStep": {}
   }; }
   static get events() { return [{
       "method": "gcStepChange",

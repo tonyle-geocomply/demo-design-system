@@ -2,6 +2,7 @@ import { EventEmitter } from '../../stencil-public-runtime';
 export declare class GcSteps {
   element: any;
   activeStep: string;
+  oldStep: string;
   /**
    * triggered when the step item is active
    */

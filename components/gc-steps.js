@@ -6,11 +6,15 @@ const GcSteps$1 = /*@__PURE__*/ proxyCustomElement(class extends HTMLElement {
     this.__registerHost();
     this.gcStepChange = createEvent(this, "gc:step-change", 7);
     this.activeStep = '';
+    this.oldStep = '';
   }
   openEventHandler(event) {
     const children = this.element.querySelectorAll('gc-step');
-    this.activeStep = event.detail.index;
-    this.gcStepChange.emit({ index: this.activeStep });
+    const oldIndex = this.activeStep !== event.detail.index ? this.activeStep : this.oldStep;
+    const newIndex = event.detail.index;
+    this.gcStepChange.emit({ index: newIndex, oldIndex });
+    this.oldStep = oldIndex;
+    this.activeStep = newIndex;
     for (let i = 0; i < children.length; i++) {
       if (event.detail.index != i) {
         children[i].closeItem();
@@ -47,6 +51,7 @@ const GcSteps$1 = /*@__PURE__*/ proxyCustomElement(class extends HTMLElement {
   get element() { return this; }
 }, [6, "gc-steps", {
     "activeStep": [32],
+    "oldStep": [32],
     "open": [64],
     "close": [64]
   }, [[0, "openEvent", "openEventHandler"]]]);
