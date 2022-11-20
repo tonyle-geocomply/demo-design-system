@@ -9,7 +9,12 @@ export class GcSteps {
     const children = this.element.querySelectorAll('gc-step');
     const oldIndex = this.activeStep !== event.detail.index ? this.activeStep : this.oldStep;
     const newIndex = event.detail.index;
+    const eventBefore = this.gcBeforeStepChange.emit({ index: newIndex, oldIndex });
+    if (eventBefore.defaultPrevented) {
+      return false;
+    }
     this.gcStepChange.emit({ index: newIndex, oldIndex });
+    children[event.detail.index].openItem();
     this.oldStep = oldIndex;
     this.activeStep = newIndex;
     for (let i = 0; i < children.length; i++) {
@@ -17,11 +22,6 @@ export class GcSteps {
         children[i].closeItem();
       }
     }
-  }
-  beforeOpenEventHandler(event) {
-    const oldIndex = this.activeStep !== event.detail.index ? this.activeStep : this.oldStep;
-    const newIndex = event.detail.index;
-    this.gcBeforeStepChange.emit({ index: oldIndex, newIndex });
   }
   /**
    * Open an step item
@@ -170,14 +170,8 @@ export class GcSteps {
   }; }
   static get elementRef() { return "element"; }
   static get listeners() { return [{
-      "name": "openEvent",
-      "method": "openEventHandler",
-      "target": undefined,
-      "capture": false,
-      "passive": false
-    }, {
       "name": "beforeOpenEvent",
-      "method": "beforeOpenEventHandler",
+      "method": "openEventHandler",
       "target": undefined,
       "capture": false,
       "passive": false

@@ -5964,9 +5964,9 @@ const GcStep = class {
   constructor(hostRef) {
     index$1.registerInstance(this, hostRef);
     this.openEvent = index$1.createEvent(this, "openEvent", 7);
+    this.beforeOpenEvent = index$1.createEvent(this, "beforeOpenEvent", 7);
     this.closeEvent = index$1.createEvent(this, "closeEvent", 7);
     this.contentChanged = index$1.createEvent(this, "contentChanged", 7);
-    this.beforeOpenEvent = index$1.createEvent(this, "beforeOpenEvent", 7);
     this.calculatedHeight = 0;
     this.transitioning = false;
     /**
@@ -5993,10 +5993,6 @@ const GcStep = class {
      * Disabled in step
      */
     this.disabled = false;
-    /**
-     * Prevent in step
-     */
-    this.prevent = false;
     this.customOpen = false;
   }
   get style() {
@@ -6005,7 +6001,7 @@ const GcStep = class {
     };
   }
   stateChanged(value) {
-    if (this.prevent || this.disabled)
+    if (this.disabled)
       return;
     if (value) {
       this.openEvent.emit({
@@ -6057,29 +6053,26 @@ const GcStep = class {
    * open the step item
    */
   async openItem() {
-    this.prevent = false;
     this.disabled = false;
     this.open = true;
   }
   /**
-   * prevent to open the step item
+   * before open the step item
    */
-  async preventOpen() {
-    this.prevent = true;
+  async beforeOpenItem() {
+    this.beforeOpenEvent.emit({
+      index: this.index,
+    });
   }
   toggle() {
-    this.beforeOpenEvent.emit({ index: this.index });
-    if (this.customOpen) {
-      return;
-    }
-    if (this.disabled || this.prevent) {
+    if (this.customOpen || this.disabled) {
       return;
     }
     if (this.open) {
       this.closeItem();
     }
     else {
-      this.openItem();
+      this.beforeOpenItem();
     }
   }
   handleTransitionEnd() {
@@ -6114,7 +6107,12 @@ const GcSteps = class {
     const children = this.element.querySelectorAll('gc-step');
     const oldIndex = this.activeStep !== event.detail.index ? this.activeStep : this.oldStep;
     const newIndex = event.detail.index;
+    const eventBefore = this.gcBeforeStepChange.emit({ index: newIndex, oldIndex });
+    if (eventBefore.defaultPrevented) {
+      return false;
+    }
     this.gcStepChange.emit({ index: newIndex, oldIndex });
+    children[event.detail.index].openItem();
     this.oldStep = oldIndex;
     this.activeStep = newIndex;
     for (let i = 0; i < children.length; i++) {
@@ -6122,11 +6120,6 @@ const GcSteps = class {
         children[i].closeItem();
       }
     }
-  }
-  beforeOpenEventHandler(event) {
-    const oldIndex = this.activeStep !== event.detail.index ? this.activeStep : this.oldStep;
-    const newIndex = event.detail.index;
-    this.gcBeforeStepChange.emit({ index: oldIndex, newIndex });
   }
   /**
    * Open an step item

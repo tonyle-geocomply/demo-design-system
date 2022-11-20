@@ -14,7 +14,12 @@ const GcSteps$1 = /*@__PURE__*/ proxyCustomElement(class extends HTMLElement {
     const children = this.element.querySelectorAll('gc-step');
     const oldIndex = this.activeStep !== event.detail.index ? this.activeStep : this.oldStep;
     const newIndex = event.detail.index;
+    const eventBefore = this.gcBeforeStepChange.emit({ index: newIndex, oldIndex });
+    if (eventBefore.defaultPrevented) {
+      return false;
+    }
     this.gcStepChange.emit({ index: newIndex, oldIndex });
+    children[event.detail.index].openItem();
     this.oldStep = oldIndex;
     this.activeStep = newIndex;
     for (let i = 0; i < children.length; i++) {
@@ -22,11 +27,6 @@ const GcSteps$1 = /*@__PURE__*/ proxyCustomElement(class extends HTMLElement {
         children[i].closeItem();
       }
     }
-  }
-  beforeOpenEventHandler(event) {
-    const oldIndex = this.activeStep !== event.detail.index ? this.activeStep : this.oldStep;
-    const newIndex = event.detail.index;
-    this.gcBeforeStepChange.emit({ index: oldIndex, newIndex });
   }
   /**
    * Open an step item
@@ -70,7 +70,7 @@ const GcSteps$1 = /*@__PURE__*/ proxyCustomElement(class extends HTMLElement {
     "oldStep": [32],
     "open": [64],
     "close": [64]
-  }, [[0, "openEvent", "openEventHandler"], [0, "beforeOpenEvent", "beforeOpenEventHandler"]]]);
+  }, [[0, "beforeOpenEvent", "openEventHandler"]]]);
 function defineCustomElement$1() {
   if (typeof customElements === "undefined") {
     return;

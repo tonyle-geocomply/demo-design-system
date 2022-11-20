@@ -462,6 +462,10 @@ export namespace Components {
     }
     interface GcStep {
         /**
+          * before open the step item
+         */
+        "beforeOpenItem": () => Promise<void>;
+        /**
           * close the step item
          */
         "closeItem": () => Promise<void>;
@@ -490,14 +494,6 @@ export namespace Components {
           * open the step item
          */
         "openItem": () => Promise<void>;
-        /**
-          * Prevent in step
-         */
-        "prevent": boolean;
-        /**
-          * prevent to open the step item
-         */
-        "preventOpen": () => Promise<void>;
         /**
           * The status in step
          */
@@ -1506,10 +1502,6 @@ declare namespace LocalJSX {
           * step item is open or opening (css transition)
          */
         "open"?: boolean;
-        /**
-          * Prevent in step
-         */
-        "prevent"?: boolean;
         /**
           * The status in step
          */

@@ -8,9 +8,9 @@ const GcStep$1 = /*@__PURE__*/ proxyCustomElement(class extends HTMLElement {
     super();
     this.__registerHost();
     this.openEvent = createEvent(this, "openEvent", 7);
+    this.beforeOpenEvent = createEvent(this, "beforeOpenEvent", 7);
     this.closeEvent = createEvent(this, "closeEvent", 7);
     this.contentChanged = createEvent(this, "contentChanged", 7);
-    this.beforeOpenEvent = createEvent(this, "beforeOpenEvent", 7);
     this.calculatedHeight = 0;
     this.transitioning = false;
     /**
@@ -37,10 +37,6 @@ const GcStep$1 = /*@__PURE__*/ proxyCustomElement(class extends HTMLElement {
      * Disabled in step
      */
     this.disabled = false;
-    /**
-     * Prevent in step
-     */
-    this.prevent = false;
     this.customOpen = false;
   }
   get style() {
@@ -49,7 +45,7 @@ const GcStep$1 = /*@__PURE__*/ proxyCustomElement(class extends HTMLElement {
     };
   }
   stateChanged(value) {
-    if (this.prevent || this.disabled)
+    if (this.disabled)
       return;
     if (value) {
       this.openEvent.emit({
@@ -101,29 +97,26 @@ const GcStep$1 = /*@__PURE__*/ proxyCustomElement(class extends HTMLElement {
    * open the step item
    */
   async openItem() {
-    this.prevent = false;
     this.disabled = false;
     this.open = true;
   }
   /**
-   * prevent to open the step item
+   * before open the step item
    */
-  async preventOpen() {
-    this.prevent = true;
+  async beforeOpenItem() {
+    this.beforeOpenEvent.emit({
+      index: this.index,
+    });
   }
   toggle() {
-    this.beforeOpenEvent.emit({ index: this.index });
-    if (this.customOpen) {
-      return;
-    }
-    if (this.disabled || this.prevent) {
+    if (this.customOpen || this.disabled) {
       return;
     }
     if (this.open) {
       this.closeItem();
     }
     else {
-      this.openItem();
+      this.beforeOpenItem();
     }
   }
   handleTransitionEnd() {
@@ -150,12 +143,11 @@ const GcStep$1 = /*@__PURE__*/ proxyCustomElement(class extends HTMLElement {
     "icon": [1537],
     "status": [1537],
     "disabled": [1540],
-    "prevent": [1028],
     "customOpen": [4, "custom-open"],
     "transitioning": [32],
     "closeItem": [64],
     "openItem": [64],
-    "preventOpen": [64]
+    "beforeOpenItem": [64]
   }, [[0, "contentChanged", "recalculateHeight"]]]);
 function defineCustomElement$1() {
   if (typeof customElements === "undefined") {

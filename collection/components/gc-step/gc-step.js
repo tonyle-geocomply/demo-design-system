@@ -27,10 +27,6 @@ export class GcStep {
      * Disabled in step
      */
     this.disabled = false;
-    /**
-     * Prevent in step
-     */
-    this.prevent = false;
     this.customOpen = false;
   }
   get style() {
@@ -39,7 +35,7 @@ export class GcStep {
     };
   }
   stateChanged(value) {
-    if (this.prevent || this.disabled)
+    if (this.disabled)
       return;
     if (value) {
       this.openEvent.emit({
@@ -91,29 +87,26 @@ export class GcStep {
    * open the step item
    */
   async openItem() {
-    this.prevent = false;
     this.disabled = false;
     this.open = true;
   }
   /**
-   * prevent to open the step item
+   * before open the step item
    */
-  async preventOpen() {
-    this.prevent = true;
+  async beforeOpenItem() {
+    this.beforeOpenEvent.emit({
+      index: this.index,
+    });
   }
   toggle() {
-    this.beforeOpenEvent.emit({ index: this.index });
-    if (this.customOpen) {
-      return;
-    }
-    if (this.disabled || this.prevent) {
+    if (this.customOpen || this.disabled) {
       return;
     }
     if (this.open) {
       this.closeItem();
     }
     else {
-      this.openItem();
+      this.beforeOpenItem();
     }
   }
   handleTransitionEnd() {
@@ -254,24 +247,6 @@ export class GcStep {
       "reflect": true,
       "defaultValue": "false"
     },
-    "prevent": {
-      "type": "boolean",
-      "mutable": true,
-      "complexType": {
-        "original": "boolean",
-        "resolved": "boolean",
-        "references": {}
-      },
-      "required": false,
-      "optional": false,
-      "docs": {
-        "tags": [],
-        "text": "Prevent in step"
-      },
-      "attribute": "prevent",
-      "reflect": false,
-      "defaultValue": "false"
-    },
     "customOpen": {
       "type": "boolean",
       "mutable": false,
@@ -310,6 +285,21 @@ export class GcStep {
         "references": {}
       }
     }, {
+      "method": "beforeOpenEvent",
+      "name": "beforeOpenEvent",
+      "bubbles": true,
+      "cancelable": true,
+      "composed": true,
+      "docs": {
+        "tags": [],
+        "text": "triggered before the step item is opened"
+      },
+      "complexType": {
+        "original": "any",
+        "resolved": "any",
+        "references": {}
+      }
+    }, {
       "method": "closeEvent",
       "name": "closeEvent",
       "bubbles": true,
@@ -333,21 +323,6 @@ export class GcStep {
       "docs": {
         "tags": [],
         "text": "triggered when the content of the step item changes"
-      },
-      "complexType": {
-        "original": "any",
-        "resolved": "any",
-        "references": {}
-      }
-    }, {
-      "method": "beforeOpenEvent",
-      "name": "beforeOpenEvent",
-      "bubbles": true,
-      "cancelable": true,
-      "composed": true,
-      "docs": {
-        "tags": [],
-        "text": "triggered before the step item is opened"
       },
       "complexType": {
         "original": "any",
@@ -388,7 +363,7 @@ export class GcStep {
         "tags": []
       }
     },
-    "preventOpen": {
+    "beforeOpenItem": {
       "complexType": {
         "signature": "() => Promise<void>",
         "parameters": [],
@@ -400,7 +375,7 @@ export class GcStep {
         "return": "Promise<void>"
       },
       "docs": {
-        "text": "prevent to open the step item",
+        "text": "before open the step item",
         "tags": []
       }
     }
