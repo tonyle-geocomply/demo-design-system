@@ -13,6 +13,7 @@ const GcStep$1 = /*@__PURE__*/ proxyCustomElement(class extends HTMLElement {
     this.contentChanged = createEvent(this, "contentChanged", 7);
     this.calculatedHeight = 0;
     this.transitioning = false;
+    this.isResize = false;
     /**
      * index of step item from top to bottom
      */
@@ -41,7 +42,7 @@ const GcStep$1 = /*@__PURE__*/ proxyCustomElement(class extends HTMLElement {
   }
   get style() {
     return {
-      height: this.open ? this.calculatedHeight + 'px' : '0px',
+      height: this.isResize && this.open ? 'auto' : this.open ? this.calculatedHeight + 'px' : '0px',
     };
   }
   stateChanged(value) {
@@ -78,14 +79,20 @@ const GcStep$1 = /*@__PURE__*/ proxyCustomElement(class extends HTMLElement {
       this.mutationObserver.disconnect();
     }
   }
-  /**
-   * recalculate Height of step item (e.g., when the content of the item changes)
-   */
   recalculateHeight() {
     const oldCalculatedHeight = this.calculatedHeight;
     if (this.calculateHeight() != oldCalculatedHeight && this.open) {
       this.transitioning = true;
     }
+  }
+  /**
+   * recalculate Height of step item (e.g., when the content of the item changes)
+   */
+  handleContentChanged() {
+    this.recalculateHeight();
+  }
+  handleResize() {
+    this.isResize = true;
   }
   /**
    * close the step item
@@ -129,7 +136,10 @@ const GcStep$1 = /*@__PURE__*/ proxyCustomElement(class extends HTMLElement {
   render() {
     const successCondition = !this.open && this.status === 'success';
     const opacityCondition = this.disabled;
-    return (h(Host, null, h("header", { class: { 'gc__head-opening': this.open, 'gc__head': true, 'gc__head-opacity': opacityCondition }, onClick: () => this.toggle() }, h("div", { class: "gc__step-item-title" }, h("div", { style: { borderColor: successCondition ? 'var(--gc-color-green)' : 'var(--gc-color-primary)' }, class: { 'transitioning-rotate': this.transitioning && this.open, 'gc__step-item-icon': true } }, successCondition ? (h("gc-icon", { name: "fa-regular fa-check", color: "var(--gc-color-green)", size: "24px" })) : (h("gc-icon", { name: this.icon, color: "var(--gc-color-primary)", size: "22px" }))), h("div", { class: "gc__step-item-title--content" }, h("div", { style: { color: successCondition ? 'var(--gc-color-green)' : 'var(--gc-color-primary)' } }, h("slot", { name: "title" })), h("slot", { name: "description" }))), !this.open && h("hr", null)), h("section", { onTransitionEnd: () => this.handleTransitionEnd(), class: { 'gc__steps-section': true, 'transitioning': this.transitioning, 'open': this.open }, style: this.style }, h("div", null, h("slot", null)))));
+    return (h(Host, null, h("header", { class: { 'gc__head-opening': this.open, 'gc__head': true, 'gc__head-opacity': opacityCondition }, onClick: () => this.toggle() }, h("div", { class: "gc__step-item-title" }, h("div", { style: { borderColor: successCondition ? 'var(--gc-color-green)' : 'var(--gc-color-primary)' }, class: { 'transitioning-rotate': this.transitioning && this.open, 'gc__step-item-icon': true }, onTransitionEnd: () => this.handleTransitionEnd() }, successCondition ? (h("gc-icon", { name: "fa-regular fa-check", color: "var(--gc-color-green)", size: "24px" })) : (h("gc-icon", { name: this.icon, color: "var(--gc-color-primary)", size: "22px" }))), h("div", { class: "gc__step-item-title--content" }, h("div", { style: { color: successCondition ? 'var(--gc-color-green)' : 'var(--gc-color-primary)' } }, h("slot", { name: "title" })), h("slot", { name: "description" }))), !this.open && h("hr", null)), h("section", {
+      // onTransitionEnd={() => this.handleTransitionEnd()}
+      class: { 'gc__steps-section': true, 'transitioning': this.transitioning, 'open': this.open }, style: this.style
+    }, h("div", null, h("slot", null)))));
   }
   get element() { return this; }
   static get watchers() { return {
@@ -145,10 +155,11 @@ const GcStep$1 = /*@__PURE__*/ proxyCustomElement(class extends HTMLElement {
     "disabled": [1540],
     "customOpen": [4, "custom-open"],
     "transitioning": [32],
+    "isResize": [32],
     "closeItem": [64],
     "openItem": [64],
     "beforeOpenItem": [64]
-  }, [[0, "contentChanged", "recalculateHeight"]]]);
+  }, [[0, "contentChanged", "handleContentChanged"], [9, "resize", "handleResize"]]]);
 function defineCustomElement$1() {
   if (typeof customElements === "undefined") {
     return;

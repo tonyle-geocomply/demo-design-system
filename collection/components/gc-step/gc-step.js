@@ -3,6 +3,7 @@ export class GcStep {
   constructor() {
     this.calculatedHeight = 0;
     this.transitioning = false;
+    this.isResize = false;
     /**
      * index of step item from top to bottom
      */
@@ -31,7 +32,7 @@ export class GcStep {
   }
   get style() {
     return {
-      height: this.open ? this.calculatedHeight + 'px' : '0px',
+      height: this.isResize && this.open ? 'auto' : this.open ? this.calculatedHeight + 'px' : '0px',
     };
   }
   stateChanged(value) {
@@ -68,14 +69,20 @@ export class GcStep {
       this.mutationObserver.disconnect();
     }
   }
-  /**
-   * recalculate Height of step item (e.g., when the content of the item changes)
-   */
   recalculateHeight() {
     const oldCalculatedHeight = this.calculatedHeight;
     if (this.calculateHeight() != oldCalculatedHeight && this.open) {
       this.transitioning = true;
     }
+  }
+  /**
+   * recalculate Height of step item (e.g., when the content of the item changes)
+   */
+  handleContentChanged() {
+    this.recalculateHeight();
+  }
+  handleResize() {
+    this.isResize = true;
   }
   /**
    * close the step item
@@ -122,13 +129,15 @@ export class GcStep {
     return (h(Host, null,
       h("header", { class: { 'gc__head-opening': this.open, 'gc__head': true, 'gc__head-opacity': opacityCondition }, onClick: () => this.toggle() },
         h("div", { class: "gc__step-item-title" },
-          h("div", { style: { borderColor: successCondition ? 'var(--gc-color-green)' : 'var(--gc-color-primary)' }, class: { 'transitioning-rotate': this.transitioning && this.open, 'gc__step-item-icon': true } }, successCondition ? (h("gc-icon", { name: "fa-regular fa-check", color: "var(--gc-color-green)", size: "24px" })) : (h("gc-icon", { name: this.icon, color: "var(--gc-color-primary)", size: "22px" }))),
+          h("div", { style: { borderColor: successCondition ? 'var(--gc-color-green)' : 'var(--gc-color-primary)' }, class: { 'transitioning-rotate': this.transitioning && this.open, 'gc__step-item-icon': true }, onTransitionEnd: () => this.handleTransitionEnd() }, successCondition ? (h("gc-icon", { name: "fa-regular fa-check", color: "var(--gc-color-green)", size: "24px" })) : (h("gc-icon", { name: this.icon, color: "var(--gc-color-primary)", size: "22px" }))),
           h("div", { class: "gc__step-item-title--content" },
             h("div", { style: { color: successCondition ? 'var(--gc-color-green)' : 'var(--gc-color-primary)' } },
               h("slot", { name: "title" })),
             h("slot", { name: "description" }))),
         !this.open && h("hr", null)),
-      h("section", { onTransitionEnd: () => this.handleTransitionEnd(), class: { 'gc__steps-section': true, 'transitioning': this.transitioning, 'open': this.open }, style: this.style },
+      h("section", { 
+        // onTransitionEnd={() => this.handleTransitionEnd()}
+        class: { 'gc__steps-section': true, 'transitioning': this.transitioning, 'open': this.open }, style: this.style },
         h("div", null,
           h("slot", null)))));
   }
@@ -267,7 +276,8 @@ export class GcStep {
     }
   }; }
   static get states() { return {
-    "transitioning": {}
+    "transitioning": {},
+    "isResize": {}
   }; }
   static get events() { return [{
       "method": "openEvent",
@@ -387,9 +397,15 @@ export class GcStep {
     }]; }
   static get listeners() { return [{
       "name": "contentChanged",
-      "method": "recalculateHeight",
+      "method": "handleContentChanged",
       "target": undefined,
       "capture": false,
       "passive": false
+    }, {
+      "name": "resize",
+      "method": "handleResize",
+      "target": "window",
+      "capture": false,
+      "passive": true
     }]; }
 }

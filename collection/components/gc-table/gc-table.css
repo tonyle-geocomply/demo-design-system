@@ -3,6 +3,7 @@
   height: 100%;
   --table-border-color: var(--gc-color-second-grey);
   --z-index-table-header: 12;
+  --z-index-fixed-col: 13;
   --font-weight-table-header: 600;
 }
 .gc__table {
@@ -129,6 +130,7 @@
 }
 .header .fixed-columns {
   background: var(--gc-color-second-blue);
+  z-index: var(--z-index-fixed-col);
 }
 .gc__row .scrollable-columns {
   flex: 1;

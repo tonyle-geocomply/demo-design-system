@@ -7,6 +7,7 @@ export declare class GcStep {
   };
   element: HTMLElement;
   transitioning: boolean;
+  isResize: boolean;
   /**
    * index of step item from top to bottom
    */
@@ -55,10 +56,12 @@ export declare class GcStep {
   componentWillLoad(): void;
   componentDidLoad(): void;
   disconnectedCallback(): void;
+  recalculateHeight(): void;
   /**
    * recalculate Height of step item (e.g., when the content of the item changes)
    */
-  recalculateHeight(): void;
+  handleContentChanged(): void;
+  handleResize(): void;
   /**
    * close the step item
    */
