@@ -36,7 +36,7 @@ export declare class GcTooltip {
   private dropdownElm?;
   private popperInstance;
   private getIsCopyText;
-  windowClick(evt: any): boolean;
+  windowClick(evt: any): void;
   renderCutText(): any;
   onToggleTooltip(): void;
   componentDidLoad(): void;

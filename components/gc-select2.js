@@ -392,7 +392,7 @@ const GcSelect = /*@__PURE__*/ proxyCustomElement(class extends HTMLElement {
     if (this.search === 'managed')
       return this.getItems();
     const items = this.search !== 'none' ? this.getItems() : this.stateItems;
-    if (this.hasValue() && !this.searchString) {
+    if (!this.searchString) {
       return items.filter(item => {
         return item.value !== this.value;
       });

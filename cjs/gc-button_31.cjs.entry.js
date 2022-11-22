@@ -5924,7 +5924,7 @@ const GcSelect = class {
     if (this.search === 'managed')
       return this.getItems();
     const items = this.search !== 'none' ? this.getItems() : this.stateItems;
-    if (this.hasValue() && !this.searchString) {
+    if (!this.searchString) {
       return items.filter(item => {
         return item.value !== this.value;
       });
@@ -6488,13 +6488,13 @@ const GcTable = class {
               this.sortOrder = 'asc';
             }
             this.gcSort.emit({ sortBy: this.sortBy, sortOrder: this.sortOrder });
-          }, class: { gc__col: true, sort: this.sortBy === col.name || col.sortable }, style: { width: colWidth, background: this.background, padding: col.padding } }, index$1.h("div", { class: "col-content" }, index$1.h("div", { class: "col-text" }, col.label), index$1.h("div", { class: "col-actions" }, (() => {
+          }, class: { gc__col: true, sort: this.sortBy === col.name || col.sortable }, style: { width: colWidth, background: this.background, padding: col.padding } }, index$1.h("div", { class: "col-content" }, index$1.h("div", { class: "col-text", style: { padding: col.paddingText || '' } }, col.label), index$1.h("div", { class: "col-actions" }, (() => {
           if (!this.sortable || !col.sortable || columnsWithPos.length === 1)
             return;
           return (index$1.h("div", { class: "gc__table-arrow" }, index$1.h("gc-icon", { class: { disabled: this.sortBy === col.name && this.sortOrder === 'desc' }, name: "fa-regular fa-chevron-up", size: "13px", "font-weight": "bold" }), index$1.h("gc-icon", { class: { 'disabled': this.sortBy === col.name && this.sortOrder === 'asc', 'down-arrow': true }, name: "fa-regular fa-chevron-down", size: "13px", "font-weight": "bold" })));
         })()))));
         if (i === columnsWithPos.length - 1 && col.name === 'custom_actions') {
-          fixedLastCol = (index$1.h("div", { class: { gc__col: true, sort: false }, style: { width: `${col.actions.length * 3}vw`, background: this.background } }, index$1.h("div", { class: "col-content" }, index$1.h("div", { class: "col-text" }, col.label))));
+          fixedLastCol = (index$1.h("div", { class: { gc__col: true, sort: false }, style: { width: `${col.actions.length * 3}vw`, background: this.background } }, index$1.h("div", { class: "col-content" }, index$1.h("div", { class: "col-text", style: { padding: col.paddingText || '' } }, col.label))));
         }
         else {
           col.fixed && (countCurrentCol.length > DEFAULT_MAXIMUM_TO_SCALE || (countCurrentCol.length <= DEFAULT_MAXIMUM_TO_SCALE && this.isStopScaleWidth))
@@ -6518,9 +6518,9 @@ const GcTable = class {
   renderColumnContent(row, column, conditionToDisplayActions) {
     var _a, _b;
     if ((column.isLongText && (row === null || row === void 0 ? void 0 : row[column.name]) && (row === null || row === void 0 ? void 0 : row[column.name].length) > MAX_LONG_TEXT$1) || column.isCopyText) {
-      return (index$1.h("div", { class: "col-text" }, index$1.h("gc-tooltip", { isLongText: column.isLongText, isCopyText: column.isCopyText, content: row === null || row === void 0 ? void 0 : row[column.name], isToggle: ((_a = this.clickedCell) === null || _a === void 0 ? void 0 : _a.row) === row && ((_b = this.clickedCell) === null || _b === void 0 ? void 0 : _b.column.name) === column.name }), this.renderActions(row, column, conditionToDisplayActions)));
+      return (index$1.h("div", { class: "col-text", style: { padding: column.paddingText || '' } }, index$1.h("gc-tooltip", { isLongText: column.isLongText, isCopyText: column.isCopyText, content: row === null || row === void 0 ? void 0 : row[column.name], isToggle: ((_a = this.clickedCell) === null || _a === void 0 ? void 0 : _a.row) === row && ((_b = this.clickedCell) === null || _b === void 0 ? void 0 : _b.column.name) === column.name }), this.renderActions(row, column, conditionToDisplayActions)));
     }
-    return (index$1.h("div", { class: "col-text", innerHTML: row === null || row === void 0 ? void 0 : row[column.name] }, this.renderActions(row, column, conditionToDisplayActions)));
+    return (index$1.h("div", { class: "col-text", innerHTML: row === null || row === void 0 ? void 0 : row[column.name], style: { padding: column.paddingText || '' } }, this.renderActions(row, column, conditionToDisplayActions)));
   }
   renderBody() {
     const rows = [];
@@ -6883,8 +6883,6 @@ const GcTooltip = class {
         return;
       }
     }
-    if (this.isCopied)
-      return false;
     this.showTooltip = false;
     this.dropdownElm.removeAttribute('data-show');
     this.gcToggleTooltip.emit(this.showTooltip);
@@ -6906,9 +6904,6 @@ const GcTooltip = class {
   }
   onToggleTooltip() {
     if (this.isCopied) {
-      setTimeout(() => {
-        this.isCopied = false;
-      }, 500);
       return;
     }
     if (!this.dropdownElm.hasAttribute('data-show')) {
@@ -6939,6 +6934,9 @@ const GcTooltip = class {
   render() {
     return (index$1.h(index$1.Host, null, index$1.h("div", { style: { color: 'var(--gc-color-text-grey)', textDecoration: this.isPopover ? '' : 'underline', cursor: 'pointer' }, onClick: () => this.onToggleTooltip(), class: "slot-container", id: "host-element", "aria-describedby": "tooltip", ref: elm => (this.containerElm = elm) }, this.renderCutText()), index$1.h("div", { class: "gc__dropdown-content", id: "tooltip", role: "tooltip", ref: elm => (this.dropdownElm = elm) }, this.content, this.getIsCopyText() && (index$1.h("div", { style: { marginTop: '8px' } }, index$1.h("gc-button", { height: "29px", type: "primary", "onGc:click": () => copyClipboard(this.content, () => {
         this.isCopied = !this.isCopied;
+        setTimeout(() => {
+          this.isCopied = false;
+        }, 500);
       }) }, this.isCopied ? 'Copied' : this.getIsCopyText().text || 'Copy'))), index$1.h("div", { id: "arrow", "data-popper-arrow": true }))));
   }
   get elm() { return index$1.getElement(this); }

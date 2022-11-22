@@ -47,8 +47,6 @@ export class GcTooltip {
         return;
       }
     }
-    if (this.isCopied)
-      return false;
     this.showTooltip = false;
     this.dropdownElm.removeAttribute('data-show');
     this.gcToggleTooltip.emit(this.showTooltip);
@@ -70,9 +68,6 @@ export class GcTooltip {
   }
   onToggleTooltip() {
     if (this.isCopied) {
-      setTimeout(() => {
-        this.isCopied = false;
-      }, 500);
       return;
     }
     if (!this.dropdownElm.hasAttribute('data-show')) {
@@ -108,6 +103,9 @@ export class GcTooltip {
         this.getIsCopyText() && (h("div", { style: { marginTop: '8px' } },
           h("gc-button", { height: "29px", type: "primary", "onGc:click": () => copyClipboard(this.content, () => {
               this.isCopied = !this.isCopied;
+              setTimeout(() => {
+                this.isCopied = false;
+              }, 500);
             }) }, this.isCopied ? 'Copied' : this.getIsCopyText().text || 'Copy'))),
         h("div", { id: "arrow", "data-popper-arrow": true }))));
   }

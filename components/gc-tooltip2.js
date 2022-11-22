@@ -55,8 +55,6 @@ const GcTooltip = /*@__PURE__*/ proxyCustomElement(class extends HTMLElement {
         return;
       }
     }
-    if (this.isCopied)
-      return false;
     this.showTooltip = false;
     this.dropdownElm.removeAttribute('data-show');
     this.gcToggleTooltip.emit(this.showTooltip);
@@ -78,9 +76,6 @@ const GcTooltip = /*@__PURE__*/ proxyCustomElement(class extends HTMLElement {
   }
   onToggleTooltip() {
     if (this.isCopied) {
-      setTimeout(() => {
-        this.isCopied = false;
-      }, 500);
       return;
     }
     if (!this.dropdownElm.hasAttribute('data-show')) {
@@ -111,6 +106,9 @@ const GcTooltip = /*@__PURE__*/ proxyCustomElement(class extends HTMLElement {
   render() {
     return (h(Host, null, h("div", { style: { color: 'var(--gc-color-text-grey)', textDecoration: this.isPopover ? '' : 'underline', cursor: 'pointer' }, onClick: () => this.onToggleTooltip(), class: "slot-container", id: "host-element", "aria-describedby": "tooltip", ref: elm => (this.containerElm = elm) }, this.renderCutText()), h("div", { class: "gc__dropdown-content", id: "tooltip", role: "tooltip", ref: elm => (this.dropdownElm = elm) }, this.content, this.getIsCopyText() && (h("div", { style: { marginTop: '8px' } }, h("gc-button", { height: "29px", type: "primary", "onGc:click": () => copyClipboard(this.content, () => {
         this.isCopied = !this.isCopied;
+        setTimeout(() => {
+          this.isCopied = false;
+        }, 500);
       }) }, this.isCopied ? 'Copied' : this.getIsCopyText().text || 'Copy'))), h("div", { id: "arrow", "data-popper-arrow": true }))));
   }
   get elm() { return this; }
