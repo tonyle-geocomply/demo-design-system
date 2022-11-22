@@ -5209,7 +5209,7 @@ const GcMenu = class {
 };
 GcMenu.style = gcMenuCss;
 
-const gcMenuItemCss = ":host{display:block;border-bottom:1px solid var(--gc-color-second-grey)}.menu-item{cursor:pointer;padding:14px;box-sizing:border-box;display:flex;align-items:center;color:var(--gc-color-text-grey);outline:none}.menu-item .item-section{display:flex;align-items:center}.menu-item .slot-main{display:block;flex:1;text-overflow:ellipsis;overflow:hidden;white-space:nowrap}.menu-item:hover,.menu-item.has-focus:not(.active){background:var(--gc-color-primary);color:var(--gc-color-contrast-white)}.menu-item:hover .slot-end,.menu-item.has-focus:not(.active) .slot-end{color:var(--gc-color-contrast-white)}.menu-item:hover .slot-end{color:var(--gc-color-contrast-white)}.menu-item.active,.menu-item.selected{background:var(--gc-color-primary);color:var(--gc-color-contrast-white)}.menu-item.disabled{cursor:not-allowed;color:var(--gc-color-disabled);background-color:var(--gc-color-background-disabled);opacity:0.2}.menu-item.disabled:hover,.menu-item.disabled.has-focus:not(.active){color:var(--gc-color-disabled);background-color:var(--gc-color-background-disabled)}.menu-item.disabled.active,.menu-item.disabled.selected{color:var(--gc-color-disabled);background-color:var(--gc-color-background-disabled)}.menu-item:not(.start-slot-has-content) .slot-start{display:none}.menu-item:not(.end-slot-has-content) .slot-end{display:none}:host:last-child{border-bottom:0px}";
+const gcMenuItemCss = ":host{display:block;border-bottom:1px solid var(--gc-color-second-grey)}.menu-item{cursor:pointer;padding:14px;box-sizing:border-box;display:flex;align-items:center;color:var(--gc-color-text-grey);outline:none}.menu-item .item-section{display:flex;align-items:center}.menu-item .slot-main{display:block;flex:1;text-overflow:ellipsis;overflow:hidden;white-space:nowrap;line-height:13px}.menu-item:hover,.menu-item.has-focus:not(.active){background:var(--gc-color-primary);color:var(--gc-color-contrast-white)}.menu-item:hover .slot-end,.menu-item.has-focus:not(.active) .slot-end{color:var(--gc-color-contrast-white)}.menu-item:hover .slot-end{color:var(--gc-color-contrast-white)}.menu-item.active,.menu-item.selected{background:var(--gc-color-primary);color:var(--gc-color-contrast-white)}.menu-item.disabled{cursor:not-allowed;color:var(--gc-color-disabled);background-color:var(--gc-color-background-disabled);opacity:0.2}.menu-item.disabled:hover,.menu-item.disabled.has-focus:not(.active){color:var(--gc-color-disabled);background-color:var(--gc-color-background-disabled)}.menu-item.disabled.active,.menu-item.disabled.selected{color:var(--gc-color-disabled);background-color:var(--gc-color-background-disabled)}.menu-item:not(.start-slot-has-content) .slot-start{display:none}.menu-item:not(.end-slot-has-content) .slot-end{display:none}:host:last-child{border-bottom:0px}.dot{border-radius:50%;background:white;width:13px;height:13px;margin-right:8px;display:inline-block;vertical-align:bottom}";
 
 const GcMenuItem = class {
   constructor(hostRef) {
@@ -5235,6 +5235,7 @@ const GcMenuItem = class {
           value: this.value || '',
           color: this.color || '',
           label: this.label || '',
+          dot: this.dot || '',
         });
       }
       else {
@@ -5283,7 +5284,7 @@ const GcMenuItem = class {
           'start-slot-has-content': this.startSlotHasContent,
           'end-slot-has-content': this.endSlotHasContent,
           [this.class]: this.class ? true : false,
-        }, tabindex: this.tabindex, onBlur: this.blurHandler, onFocus: this.focusHandler, onClick: this.clickHandler, onMouseDown: this.mouseDownHandler, onKeyDown: this.keyDownHandler, onMouseEnter: this.mouseEnterHandler, onMouseLeave: this.mouseLeaveHandler, "aria-disabled": this.disabled }, index$1.h("div", { style: this.getStyles(), class: "item-section slot-main" }, index$1.h("slot", null)))));
+        }, tabindex: this.tabindex, onBlur: this.blurHandler, onFocus: this.focusHandler, onClick: this.clickHandler, onMouseDown: this.mouseDownHandler, onKeyDown: this.keyDownHandler, onMouseEnter: this.mouseEnterHandler, onMouseLeave: this.mouseLeaveHandler, "aria-disabled": this.disabled }, index$1.h("div", { style: this.getStyles(), class: "item-section slot-main" }, this.dot && index$1.h("div", { style: { background: this.dot }, class: "dot" }), index$1.h("slot", null)))));
     };
   }
   /**
@@ -5536,7 +5537,7 @@ const copyClipboard = (content, callback = undefined) => {
   }
 };
 
-const gcSelectCss = ".input-container.sc-gc-select{display:flex;align-items:center;justify-content:center;overflow:hidden;background:var(--gc-color-contrast-grey);border-color:var(--gc-color-second-grey);border-style:solid;border-radius:5px;border-width:1px;height:42px;width:100%;min-width:0;padding:12px;box-sizing:border-box;position:relative}.input-container.sc-gc-select .input.sc-gc-select{flex:1;border:none;outline:none;background:none;width:100%;cursor:inherit;padding:0}.input-container.sc-gc-select .slot-container.sc-gc-select{display:flex;align-items:center;justify-content:center;line-height:0}.input-container .slot-container slot.sc-gc-select-s>*{padding-bottom:0 !important;margin-bottom:0 !important}.input-container.start-slot-has-content.sc-gc-select .input.sc-gc-select{padding-left:0.5rem}.input-container.end-slot-has-content.sc-gc-select .input.sc-gc-select{padding-right:0.5rem}.input-container.sc-gc-select:not(.start-slot-has-content) .slot-container.start.sc-gc-select{display:none}.input-container.sc-gc-select:not(.end-slot-has-content) .slot-container.end.sc-gc-select{display:none}.input-container.sc-gc-select .input-action.sc-gc-select{cursor:pointer}.input-container.sc-gc-select .input-action.sc-gc-select:hover{--text-color:var(--text-secondary)}.dropdown.sc-gc-select{position:relative;display:block;background:var(--gc-color-contrast-grey)}.dropdown.sc-gc-select .gc__dropdown-content.sc-gc-select{z-index:var(--gc-z-index-gc__dropdown-content);position:absolute;width:max-content;transition:transform 0.1s ease-out 0s}.dropdown.sc-gc-select .caret-down.sc-gc-select{transition:transform 0.1s ease-out 0s}.dropdown.is-open.sc-gc-select .gc__dropdown-content.sc-gc-select{transform:scale(1)}.dropdown.is-open.sc-gc-select .caret-down.sc-gc-select{transform:rotate(180deg)}.dropdown.bottom-right.sc-gc-select .gc__dropdown-content.sc-gc-select{top:calc(100%);left:0;transform-origin:top}.dropdown.bottom-left.sc-gc-select .gc__dropdown-content.sc-gc-select{top:calc(100%);right:0;transform-origin:top}.dropdown.top-right.sc-gc-select .gc__dropdown-content.sc-gc-select{bottom:calc(100%);left:0;transform-origin:bottom}.dropdown.top-left.sc-gc-select .gc__dropdown-content.sc-gc-select{bottom:calc(100%);right:0;transform-origin:bottom}.select.sc-gc-select{cursor:pointer}.select.sc-gc-select .gc__dropdown-content.sc-gc-select{width:100%;min-width:10rem}.select.sc-gc-select .menu.sc-gc-select{width:100%;max-height:260px;overflow-x:auto}.select.sc-gc-select .menu.sc-gc-select::-webkit-scrollbar{width:2px}.select.sc-gc-select .menu.sc-gc-select::-webkit-scrollbar-track{border-radius:5px;background:var(--gc-color-second-grey)}.select.sc-gc-select .menu.sc-gc-select::-webkit-scrollbar-thumb{border-radius:5px;background:var(--gc-color-primary)}.select.sc-gc-select .display-value.sc-gc-select{overflow:hidden;white-space:nowrap;text-overflow:ellipsis;color:var(--gc-color-placeholder);max-width:98%}.select.sc-gc-select .has-value.sc-gc-select .display-value.sc-gc-select{color:var(--gc-color-text-grey)}.select.sc-gc-select .multi-select-value.sc-gc-select{padding-inline-end:0.5rem}.select.sc-gc-select .multi-select-value.sc-gc-select:last-child{padding-inline-end:0}.select.sc-gc-select .start-search.sc-gc-select{height:10rem;display:flex;align-items:center;justify-content:center;flex-direction:column}.dropdown.bottom-right.is-open.sc-gc-select .input-container.sc-gc-select,.dropdown.bottom-left.is-open.sc-gc-select .input-container.sc-gc-select{border-bottom-width:0;border-bottom-right-radius:0;border-bottom-left-radius:0}.dropdown.top-right.is-open.sc-gc-select .input-container.sc-gc-select,.dropdown.top-left.is-open.sc-gc-select .input-container.sc-gc-select{border-top-width:0;border-top-right-radius:0;border-top-left-radius:0}.dropdown.top-right.is-open.sc-gc-select gc-menu.sc-gc-select::part(custom){border-top-right-radius:5px;border-top-left-radius:5px;border-bottom-right-radius:0;border-bottom-left-radius:0}div.input-container.search-none.sc-gc-select.has-value.sc-gc-select>div.input.display-value.sc-gc-select.sc-gc-select{color:var(--gc-color-grey-text)}div.input-container.search-contains.sc-gc-select.has-value.sc-gc-select>div.input.display-value.sc-gc-select.sc-gc-select{color:var(--gc-color-grey-text)}div.input-container.has-error.sc-gc-select{background:#FFF9F9;border:1px solid var(--gc-color-red)}.gc__section-hidden.sc-gc-select{flex:1;overflow:hidden;white-space:nowrap;text-overflow:ellipsis;color:var(--gc-color-placeholder);max-width:98%}";
+const gcSelectCss = ".input-container.sc-gc-select{display:flex;align-items:center;justify-content:center;overflow:hidden;background:var(--gc-color-contrast-grey);border-color:var(--gc-color-second-grey);border-style:solid;border-radius:5px;border-width:1px;height:42px;width:100%;min-width:0;padding:12px;box-sizing:border-box;position:relative}.input-container.sc-gc-select .input.sc-gc-select{flex:1;border:none;outline:none;background:none;width:100%;cursor:inherit;padding:0}.input-container.sc-gc-select .slot-container.sc-gc-select{display:flex;align-items:center;justify-content:center;line-height:0}.input-container .slot-container slot.sc-gc-select-s>*{padding-bottom:0 !important;margin-bottom:0 !important}.input-container.start-slot-has-content.sc-gc-select .input.sc-gc-select{padding-left:0.5rem}.input-container.end-slot-has-content.sc-gc-select .input.sc-gc-select{padding-right:0.5rem}.input-container.sc-gc-select:not(.start-slot-has-content) .slot-container.start.sc-gc-select{display:none}.input-container.sc-gc-select:not(.end-slot-has-content) .slot-container.end.sc-gc-select{display:none}.input-container.sc-gc-select .input-action.sc-gc-select{cursor:pointer}.input-container.sc-gc-select .input-action.sc-gc-select:hover{--text-color:var(--text-secondary)}.dropdown.sc-gc-select{position:relative;display:block;background:var(--gc-color-contrast-grey)}.dropdown.sc-gc-select .gc__dropdown-content.sc-gc-select{z-index:var(--gc-z-index-gc__dropdown-content);position:absolute;width:max-content;transition:transform 0.1s ease-out 0s}.dropdown.sc-gc-select .caret-down.sc-gc-select{transition:transform 0.1s ease-out 0s}.dropdown.is-open.sc-gc-select .gc__dropdown-content.sc-gc-select{transform:scale(1)}.dropdown.is-open.sc-gc-select .caret-down.sc-gc-select{transform:rotate(180deg)}.dropdown.bottom-right.sc-gc-select .gc__dropdown-content.sc-gc-select{top:calc(100%);left:0;transform-origin:top}.dropdown.bottom-left.sc-gc-select .gc__dropdown-content.sc-gc-select{top:calc(100%);right:0;transform-origin:top}.dropdown.top-right.sc-gc-select .gc__dropdown-content.sc-gc-select{bottom:calc(100%);left:0;transform-origin:bottom}.dropdown.top-left.sc-gc-select .gc__dropdown-content.sc-gc-select{bottom:calc(100%);right:0;transform-origin:bottom}.select.sc-gc-select{cursor:pointer}.select.sc-gc-select .gc__dropdown-content.sc-gc-select{width:100%;min-width:10rem}.select.sc-gc-select .menu.sc-gc-select{width:100%;max-height:260px;overflow-x:auto}.select.sc-gc-select .menu.sc-gc-select::-webkit-scrollbar{width:2px}.select.sc-gc-select .menu.sc-gc-select::-webkit-scrollbar-track{border-radius:5px;background:var(--gc-color-second-grey)}.select.sc-gc-select .menu.sc-gc-select::-webkit-scrollbar-thumb{border-radius:5px;background:var(--gc-color-primary)}.select.sc-gc-select .display-value.sc-gc-select{overflow:hidden;white-space:nowrap;text-overflow:ellipsis;color:var(--gc-color-placeholder);max-width:98%}.select.sc-gc-select .has-value.sc-gc-select .display-value.sc-gc-select{color:var(--gc-color-text-grey)}.select.sc-gc-select .multi-select-value.sc-gc-select{padding-inline-end:0.5rem}.select.sc-gc-select .multi-select-value.sc-gc-select:last-child{padding-inline-end:0}.select.sc-gc-select .start-search.sc-gc-select{height:10rem;display:flex;align-items:center;justify-content:center;flex-direction:column}.dropdown.bottom-right.is-open.sc-gc-select .input-container.sc-gc-select,.dropdown.bottom-left.is-open.sc-gc-select .input-container.sc-gc-select{border-bottom-width:0;border-bottom-right-radius:0;border-bottom-left-radius:0}.dropdown.top-right.is-open.sc-gc-select .input-container.sc-gc-select,.dropdown.top-left.is-open.sc-gc-select .input-container.sc-gc-select{border-top-width:0;border-top-right-radius:0;border-top-left-radius:0}.dropdown.top-right.is-open.sc-gc-select gc-menu.sc-gc-select::part(custom){border-top-right-radius:5px;border-top-left-radius:5px;border-bottom-right-radius:0;border-bottom-left-radius:0}div.input-container.search-none.sc-gc-select.has-value.sc-gc-select>div.input.display-value.sc-gc-select.sc-gc-select{color:var(--gc-color-grey-text)}div.input-container.search-contains.sc-gc-select.has-value.sc-gc-select>div.input.display-value.sc-gc-select.sc-gc-select{color:var(--gc-color-grey-text)}div.input-container.has-error.sc-gc-select{background:#FFF9F9;border:1px solid var(--gc-color-red)}.gc__section-hidden.sc-gc-select{flex:1;overflow:hidden;white-space:nowrap;text-overflow:ellipsis;color:var(--gc-color-placeholder);max-width:98%}.gc__select-dot.sc-gc-select{border-radius:50%;background:white;width:13px;height:13px;margin-right:8px;display:inline-block;vertical-align:middle}";
 
 const GcSelect = class {
   constructor(hostRef) {
@@ -5605,6 +5606,7 @@ const GcSelect = class {
     this.endSlotHasContent = false;
     this.stateItems = [];
     this.selectedColorItem = '';
+    this.selectedDotItem = '';
     this.selectHandler = (selectItemValue, selectedLabel) => {
       if (!this.disabled && !this.readonly) {
         // if (this.search !== 'none') {
@@ -5706,8 +5708,9 @@ const GcSelect = class {
   watchPropHandler(newValue) {
     this.value = newValue;
     const selectedItem = this.stateItems.length > 0 ? this.stateItems.find(item => item.value == newValue) : this.getItems().find(item => item.value == newValue);
-    if (selectedItem && selectedItem.color) {
+    if (selectedItem && (selectedItem.color || selectedItem.dot)) {
       this.selectedColorItem = selectedItem.color;
+      this.selectedDotItem = selectedItem.dot;
     }
     if (!newValue) {
       this.stateItems = this.getItems();
@@ -5724,6 +5727,7 @@ const GcSelect = class {
   menuItemClick(evt) {
     this.selectHandler(evt.detail.value, evt.detail.label);
     this.selectedColorItem = evt.detail.color;
+    this.selectedDotItem = evt.detail.dot;
   }
   tagDismissClick(evt) {
     this.removeItem(evt.detail.value);
@@ -5781,7 +5785,7 @@ const GcSelect = class {
       if (this.items) {
         const item = this.getItemByValue(this.value);
         if (item && item.value) {
-          return index$1.h("span", { style: { color: this.selectedColorItem } }, item.label);
+          return (index$1.h("span", { style: { color: this.selectedColorItem } }, this.selectedDotItem && index$1.h("div", { style: { background: this.selectedDotItem }, class: "gc__select-dot" }), item.label));
         }
       }
       if (!this.disabled && !this.readonly) {
@@ -5816,8 +5820,9 @@ const GcSelect = class {
     this.stateItems = this.getItems();
     if (this.value || this.defaultValue) {
       const selectedItem = this.getItems().find(item => item.value == this.value || item.value == this.defaultValue);
-      if (selectedItem && selectedItem.color) {
-        this.selectedColorItem = selectedItem.color;
+      if (selectedItem && (selectedItem.color || selectedItem.dot)) {
+        this.selectedColorItem = (selectedItem === null || selectedItem === void 0 ? void 0 : selectedItem.color) || '';
+        this.selectedDotItem = (selectedItem === null || selectedItem === void 0 ? void 0 : selectedItem.dot) || '';
         this.stateItems = this.getItems().filter(item => item.value != selectedItem.value);
       }
     }
@@ -5910,7 +5915,7 @@ const GcSelect = class {
       const filteredItems = this.filterItems();
       return (index$1.h("gc-menu", { class: "menu", empty: filteredItems.length == 0, ref: el => (this.menuElm = el) }, (() => {
         return filteredItems.map(item => {
-          return (index$1.h("gc-menu-item", { disabled: item.disabled, color: item.color, value: item.value, label: item.label }, item.label || item.value));
+          return (index$1.h("gc-menu-item", { disabled: item.disabled, dot: item.dot, color: item.color, value: item.value, label: item.label }, item.label || item.value));
         });
       })()));
     }
@@ -5970,6 +5975,7 @@ const GcStep = class {
     this.calculatedHeight = 0;
     this.transitioning = false;
     this.isResize = false;
+    this.openCount = 0;
     /**
      * index of step item from top to bottom
      */
@@ -6008,11 +6014,13 @@ const GcStep = class {
       this.openEvent.emit({
         index: this.index,
       });
+      this.openCount = this.openCount + 1;
     }
     else {
       this.closeEvent.emit({
         index: this.index,
       });
+      this.openCount = 0;
     }
     this.transitioning = true;
   }
@@ -6092,7 +6100,7 @@ const GcStep = class {
   render() {
     const successCondition = !this.open && this.status === 'success';
     const opacityCondition = this.disabled;
-    return (index$1.h(index$1.Host, null, index$1.h("header", { class: { 'gc__head-opening': this.open, 'gc__head': true, 'gc__head-opacity': opacityCondition }, onClick: () => this.toggle() }, index$1.h("div", { class: "gc__step-item-title" }, index$1.h("div", { style: { borderColor: successCondition ? 'var(--gc-color-green)' : 'var(--gc-color-primary)' }, class: { 'transitioning-rotate': this.transitioning && this.open, 'gc__step-item-icon': true }, onTransitionEnd: () => this.handleTransitionEnd() }, successCondition ? (index$1.h("gc-icon", { name: "fa-regular fa-check", color: "var(--gc-color-green)", size: "24px" })) : (index$1.h("gc-icon", { name: this.icon, color: "var(--gc-color-primary)", size: "22px" }))), index$1.h("div", { class: "gc__step-item-title--content" }, index$1.h("div", { style: { color: successCondition ? 'var(--gc-color-green)' : 'var(--gc-color-primary)' } }, index$1.h("slot", { name: "title" })), index$1.h("slot", { name: "description" }))), !this.open && index$1.h("hr", null)), index$1.h("section", {
+    return (index$1.h(index$1.Host, null, index$1.h("header", { class: { 'gc__head-opening': this.open, 'gc__head': true, 'gc__head-opacity': opacityCondition }, onClick: () => this.toggle() }, index$1.h("div", { class: "gc__step-item-title" }, index$1.h("div", { style: { borderColor: successCondition ? 'var(--gc-color-green)' : 'var(--gc-color-primary)' }, class: { 'transitioning-rotate': this.transitioning && this.open && this.openCount === 1, 'gc__step-item-icon': true }, onTransitionEnd: () => this.handleTransitionEnd() }, successCondition ? (index$1.h("gc-icon", { name: "fa-regular fa-check", color: "var(--gc-color-green)", size: "24px" })) : (index$1.h("gc-icon", { name: this.icon, color: "var(--gc-color-primary)", size: "22px" }))), index$1.h("div", { class: "gc__step-item-title--content" }, index$1.h("div", { style: { color: successCondition ? 'var(--gc-color-green)' : 'var(--gc-color-primary)' } }, index$1.h("slot", { name: "title" })), index$1.h("slot", { name: "description" }))), !this.open && index$1.h("hr", null)), index$1.h("section", {
       // onTransitionEnd={() => this.handleTransitionEnd()}
       class: { 'gc__steps-section': true, 'transitioning': this.transitioning, 'open': this.open }, style: this.style
     }, index$1.h("div", null, index$1.h("slot", null)))));
@@ -6169,7 +6177,7 @@ const GcSteps = class {
   get element() { return index$1.getElement(this); }
 };
 
-const gcTabCss = ".sc-gc-tab-h{flex:1;--z-index-tab:999}.gc__tab.sc-gc-tab{position:relative;display:flex;align-items:center;justify-content:center;height:50px}.gc__tab.sc-gc-tab .native-button.sc-gc-tab{height:100%;cursor:pointer;z-index:var(--z-index-tab);background:transparent;padding:0;border:none;outline:none;width:100%;display:flex;align-items:center;justify-content:center;color:#727272;font-weight:600;font-size:13px;line-height:23px;border-right:1px solid var(--gc-color-second-grey);border-bottom:1px solid var(--gc-color-second-grey)}.sc-gc-tab-h:last-child .native-button.sc-gc-tab{border-right:0;border-radius:0px 6px 0 0}.sc-gc-tab-h:first-child .gc__tab-background.sc-gc-tab{border-radius:6px 0 0}.sc-gc-tab-h:last-child .gc__tab-background.sc-gc-tab{border-radius:0px 6px 0 0}.sc-gc-tab-h:first-child .native-button.sc-gc-tab{border-right:0;border-radius:6px 0 0}.gc__tab.sc-gc-tab .gc__tab-background.sc-gc-tab{display:block;position:absolute;width:100%;height:100%;pointer-events:none}.gc__tab.disabled.sc-gc-tab .native-button.sc-gc-tab{cursor:not-allowed}.gc__tab.has-content.sc-gc-tab .slot-container.sc-gc-tab{display:flex}.gc__tab.sc-gc-tab .gc__tab-background.sc-gc-tab{background:var(--gc-color-light-grey)}.gc__tab.selected.sc-gc-tab .native-button.sc-gc-tab{color:#FFFFFF;background:var(--gc-color-second-blue);border:none}.gc__tab.selected.sc-gc-tab .native-button.sc-gc-tab:after{content:'';position:absolute;top:100%;left:50%;margin-left:-8px;width:0;height:0;border-top:solid 4px var(--gc-color-second-blue);border-left:solid 8px transparent;border-right:solid 8px transparent}.gc__tab.disabled.sc-gc-tab .native-button.sc-gc-tab{color:#727272}";
+const gcTabCss = ".sc-gc-tab-h{flex:1;--z-index-tab:999}.gc__tab.sc-gc-tab{position:relative;display:flex;align-items:center;justify-content:center;height:50px}.gc__tab.sc-gc-tab .native-button.sc-gc-tab{height:100%;cursor:pointer;z-index:var(--z-index-tab);background:transparent;padding:0;border:none;outline:none;width:100%;display:flex;align-items:center;justify-content:center;color:#727272;font-weight:600;font-size:13px;line-height:23px;border-right:1px solid var(--gc-color-second-grey);border-bottom:1px solid var(--gc-color-second-grey)}.sc-gc-tab-h:last-child .native-button.sc-gc-tab{border-right:0;border-radius:0px 6px 0 0}.sc-gc-tab-h:first-child .gc__tab-background.sc-gc-tab{border-radius:6px 0 0}.sc-gc-tab-h:last-child .gc__tab-background.sc-gc-tab{border-radius:0px 6px 0 0}.sc-gc-tab-h:first-child .native-button.sc-gc-tab{border-right:0;border-radius:6px 0 0}.gc__tab.sc-gc-tab .gc__tab-background.sc-gc-tab{display:block;position:absolute;width:100%;height:100%;pointer-events:none}.gc__tab.disabled.sc-gc-tab .native-button.sc-gc-tab{cursor:not-allowed}.gc__tab.has-content.sc-gc-tab .slot-container.sc-gc-tab{display:flex;line-height:18px}.gc__tab.sc-gc-tab .gc__tab-background.sc-gc-tab{background:var(--gc-color-light-grey)}.gc__tab.selected.sc-gc-tab .native-button.sc-gc-tab{color:#FFFFFF;background:var(--gc-color-second-blue);border:none}.gc__tab.selected.sc-gc-tab .native-button.sc-gc-tab:after{content:'';position:absolute;top:100%;left:50%;margin-left:-8px;width:0;height:0;border-top:solid 4px var(--gc-color-second-blue);border-left:solid 8px transparent;border-right:solid 8px transparent}.gc__tab.disabled.sc-gc-tab .native-button.sc-gc-tab{color:#727272}";
 
 const GcTab = class {
   constructor(hostRef) {
@@ -6250,7 +6258,7 @@ const GcTab = class {
         'active': this.isActive,
         'has-content': this.slotHasContent,
         'show-loader': this.showLoader,
-      } }, index$1.h("div", { class: "gc__tab-background" }), index$1.h("button", { class: "native-button", tabindex: this.tabindex, ref: input => (this.nativeInput = input), onBlur: this.blurHandler, onFocus: this.focusHandler, onClick: this.clickHandler, onMouseDown: this.mouseDownHandler, onKeyDown: this.keyDownHandler, disabled: this.disabled, "aria-disabled": (this.disabled || this.showLoader) + '' }, index$1.h("div", { class: "gc__tab-content" }, index$1.h("div", { class: "slot-container" }, this.icon && (index$1.h("span", { style: { marginRight: '8px' } }, index$1.h("gc-icon", { name: this.icon, size: "sm" }))), index$1.h("slot", null)))))));
+      } }, index$1.h("div", { class: "gc__tab-background" }), index$1.h("button", { class: "native-button", tabindex: this.tabindex, ref: input => (this.nativeInput = input), onBlur: this.blurHandler, onFocus: this.focusHandler, onClick: this.clickHandler, onMouseDown: this.mouseDownHandler, onKeyDown: this.keyDownHandler, disabled: this.disabled, "aria-disabled": (this.disabled || this.showLoader) + '' }, index$1.h("div", { class: "gc__tab-content" }, index$1.h("div", { class: "slot-container" }, this.icon && (index$1.h("span", { style: { marginRight: '8px', verticalAlign: 'middle' } }, index$1.h("gc-icon", { name: this.icon, size: "18px" }))), index$1.h("slot", null)))))));
   }
   get elm() { return index$1.getElement(this); }
 };

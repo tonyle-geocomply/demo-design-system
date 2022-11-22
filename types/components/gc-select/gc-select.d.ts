@@ -110,6 +110,7 @@ export declare class GcSelect implements ComponentInterface {
   position: string;
   stateItems: any[];
   selectedColorItem: string;
+  selectedDotItem: string;
   private displayElement?;
   tagDismissClick(evt: any): void;
   private getValues;

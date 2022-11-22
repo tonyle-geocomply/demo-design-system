@@ -31,6 +31,10 @@ export declare class GcMenuItem {
   */
   label?: string;
   /**
+   * The color of dot
+   */
+  dot?: string;
+  /**
    * Emitted when the menu item is clicked.
    */
   goatMenuItemClick: EventEmitter;

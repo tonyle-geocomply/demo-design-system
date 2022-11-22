@@ -59,6 +59,7 @@
 }
 .gc__tab.has-content .slot-container {
   display: flex;
+  line-height: 18px;
 }
 .gc__tab .gc__tab-background {
   background: var(--gc-color-light-grey);

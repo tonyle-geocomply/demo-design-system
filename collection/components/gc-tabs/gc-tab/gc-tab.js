@@ -82,8 +82,8 @@ export class GcTab {
         h("button", { class: "native-button", tabindex: this.tabindex, ref: input => (this.nativeInput = input), onBlur: this.blurHandler, onFocus: this.focusHandler, onClick: this.clickHandler, onMouseDown: this.mouseDownHandler, onKeyDown: this.keyDownHandler, disabled: this.disabled, "aria-disabled": (this.disabled || this.showLoader) + '' },
           h("div", { class: "gc__tab-content" },
             h("div", { class: "slot-container" },
-              this.icon && (h("span", { style: { marginRight: '8px' } },
-                h("gc-icon", { name: this.icon, size: "sm" }))),
+              this.icon && (h("span", { style: { marginRight: '8px', verticalAlign: 'middle' } },
+                h("gc-icon", { name: this.icon, size: "18px" }))),
               h("slot", null)))))));
   }
   static get is() { return "gc-tab"; }

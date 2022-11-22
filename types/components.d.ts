@@ -309,6 +309,10 @@ export namespace Components {
          */
         "disabled": boolean;
         /**
+          * The color of dot
+         */
+        "dot"?: string;
+        /**
           * The id
          */
         "gcId": string;
@@ -1307,6 +1311,10 @@ declare namespace LocalJSX {
           * If true, the user cannot interact with the button. Defaults to `false`.
          */
         "disabled"?: boolean;
+        /**
+          * The color of dot
+         */
+        "dot"?: string;
         /**
           * The id
          */

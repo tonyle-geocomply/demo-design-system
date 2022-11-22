@@ -21,6 +21,7 @@
   text-overflow: ellipsis;
   overflow: hidden;
   white-space: nowrap;
+  line-height: 13px;
 }
 .menu-item:hover, .menu-item.has-focus:not(.active) {
   background: var(--gc-color-primary);
@@ -58,4 +59,13 @@
 }
 :host:last-child {
   border-bottom: 0px;
+}
+.dot {
+  border-radius: 50%;
+  background: white;
+  width: 13px;
+  height: 13px;
+  margin-right: 8px;
+  display: inline-block;
+  vertical-align: bottom;
 }

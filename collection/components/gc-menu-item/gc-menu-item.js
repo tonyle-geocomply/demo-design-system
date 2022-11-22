@@ -21,6 +21,7 @@ export class GcMenuItem {
           value: this.value || '',
           color: this.color || '',
           label: this.label || '',
+          dot: this.dot || '',
         });
       }
       else {
@@ -72,6 +73,7 @@ export class GcMenuItem {
             [this.class]: this.class ? true : false,
           }, tabindex: this.tabindex, onBlur: this.blurHandler, onFocus: this.focusHandler, onClick: this.clickHandler, onMouseDown: this.mouseDownHandler, onKeyDown: this.keyDownHandler, onMouseEnter: this.mouseEnterHandler, onMouseLeave: this.mouseLeaveHandler, "aria-disabled": this.disabled },
           h("div", { style: this.getStyles(), class: "item-section slot-main" },
+            this.dot && h("div", { style: { background: this.dot }, class: "dot" }),
             h("slot", null)))));
     };
   }
@@ -241,6 +243,23 @@ export class GcMenuItem {
         "text": "The label"
       },
       "attribute": "label",
+      "reflect": false
+    },
+    "dot": {
+      "type": "string",
+      "mutable": false,
+      "complexType": {
+        "original": "string",
+        "resolved": "string",
+        "references": {}
+      },
+      "required": false,
+      "optional": true,
+      "docs": {
+        "tags": [],
+        "text": "The color of dot"
+      },
+      "attribute": "dot",
       "reflect": false
     }
   }; }

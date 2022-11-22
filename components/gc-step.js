@@ -14,6 +14,7 @@ const GcStep$1 = /*@__PURE__*/ proxyCustomElement(class extends HTMLElement {
     this.calculatedHeight = 0;
     this.transitioning = false;
     this.isResize = false;
+    this.openCount = 0;
     /**
      * index of step item from top to bottom
      */
@@ -52,11 +53,13 @@ const GcStep$1 = /*@__PURE__*/ proxyCustomElement(class extends HTMLElement {
       this.openEvent.emit({
         index: this.index,
       });
+      this.openCount = this.openCount + 1;
     }
     else {
       this.closeEvent.emit({
         index: this.index,
       });
+      this.openCount = 0;
     }
     this.transitioning = true;
   }
@@ -136,7 +139,7 @@ const GcStep$1 = /*@__PURE__*/ proxyCustomElement(class extends HTMLElement {
   render() {
     const successCondition = !this.open && this.status === 'success';
     const opacityCondition = this.disabled;
-    return (h(Host, null, h("header", { class: { 'gc__head-opening': this.open, 'gc__head': true, 'gc__head-opacity': opacityCondition }, onClick: () => this.toggle() }, h("div", { class: "gc__step-item-title" }, h("div", { style: { borderColor: successCondition ? 'var(--gc-color-green)' : 'var(--gc-color-primary)' }, class: { 'transitioning-rotate': this.transitioning && this.open, 'gc__step-item-icon': true }, onTransitionEnd: () => this.handleTransitionEnd() }, successCondition ? (h("gc-icon", { name: "fa-regular fa-check", color: "var(--gc-color-green)", size: "24px" })) : (h("gc-icon", { name: this.icon, color: "var(--gc-color-primary)", size: "22px" }))), h("div", { class: "gc__step-item-title--content" }, h("div", { style: { color: successCondition ? 'var(--gc-color-green)' : 'var(--gc-color-primary)' } }, h("slot", { name: "title" })), h("slot", { name: "description" }))), !this.open && h("hr", null)), h("section", {
+    return (h(Host, null, h("header", { class: { 'gc__head-opening': this.open, 'gc__head': true, 'gc__head-opacity': opacityCondition }, onClick: () => this.toggle() }, h("div", { class: "gc__step-item-title" }, h("div", { style: { borderColor: successCondition ? 'var(--gc-color-green)' : 'var(--gc-color-primary)' }, class: { 'transitioning-rotate': this.transitioning && this.open && this.openCount === 1, 'gc__step-item-icon': true }, onTransitionEnd: () => this.handleTransitionEnd() }, successCondition ? (h("gc-icon", { name: "fa-regular fa-check", color: "var(--gc-color-green)", size: "24px" })) : (h("gc-icon", { name: this.icon, color: "var(--gc-color-primary)", size: "22px" }))), h("div", { class: "gc__step-item-title--content" }, h("div", { style: { color: successCondition ? 'var(--gc-color-green)' : 'var(--gc-color-primary)' } }, h("slot", { name: "title" })), h("slot", { name: "description" }))), !this.open && h("hr", null)), h("section", {
       // onTransitionEnd={() => this.handleTransitionEnd()}
       class: { 'gc__steps-section': true, 'transitioning': this.transitioning, 'open': this.open }, style: this.style
     }, h("div", null, h("slot", null)))));
@@ -156,6 +159,7 @@ const GcStep$1 = /*@__PURE__*/ proxyCustomElement(class extends HTMLElement {
     "customOpen": [4, "custom-open"],
     "transitioning": [32],
     "isResize": [32],
+    "openCount": [32],
     "closeItem": [64],
     "openItem": [64],
     "beforeOpenItem": [64]

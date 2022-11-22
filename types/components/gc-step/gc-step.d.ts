@@ -8,6 +8,7 @@ export declare class GcStep {
   element: HTMLElement;
   transitioning: boolean;
   isResize: boolean;
+  openCount: number;
   /**
    * index of step item from top to bottom
    */

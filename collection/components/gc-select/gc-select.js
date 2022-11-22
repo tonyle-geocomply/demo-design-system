@@ -63,6 +63,7 @@ export class GcSelect {
     this.endSlotHasContent = false;
     this.stateItems = [];
     this.selectedColorItem = '';
+    this.selectedDotItem = '';
     this.selectHandler = (selectItemValue, selectedLabel) => {
       if (!this.disabled && !this.readonly) {
         // if (this.search !== 'none') {
@@ -164,8 +165,9 @@ export class GcSelect {
   watchPropHandler(newValue) {
     this.value = newValue;
     const selectedItem = this.stateItems.length > 0 ? this.stateItems.find(item => item.value == newValue) : this.getItems().find(item => item.value == newValue);
-    if (selectedItem && selectedItem.color) {
+    if (selectedItem && (selectedItem.color || selectedItem.dot)) {
       this.selectedColorItem = selectedItem.color;
+      this.selectedDotItem = selectedItem.dot;
     }
     if (!newValue) {
       this.stateItems = this.getItems();
@@ -182,6 +184,7 @@ export class GcSelect {
   menuItemClick(evt) {
     this.selectHandler(evt.detail.value, evt.detail.label);
     this.selectedColorItem = evt.detail.color;
+    this.selectedDotItem = evt.detail.dot;
   }
   tagDismissClick(evt) {
     this.removeItem(evt.detail.value);
@@ -239,7 +242,9 @@ export class GcSelect {
       if (this.items) {
         const item = this.getItemByValue(this.value);
         if (item && item.value) {
-          return h("span", { style: { color: this.selectedColorItem } }, item.label);
+          return (h("span", { style: { color: this.selectedColorItem } },
+            this.selectedDotItem && h("div", { style: { background: this.selectedDotItem }, class: "gc__select-dot" }),
+            item.label));
         }
       }
       if (!this.disabled && !this.readonly) {
@@ -274,8 +279,9 @@ export class GcSelect {
     this.stateItems = this.getItems();
     if (this.value || this.defaultValue) {
       const selectedItem = this.getItems().find(item => item.value == this.value || item.value == this.defaultValue);
-      if (selectedItem && selectedItem.color) {
-        this.selectedColorItem = selectedItem.color;
+      if (selectedItem && (selectedItem.color || selectedItem.dot)) {
+        this.selectedColorItem = (selectedItem === null || selectedItem === void 0 ? void 0 : selectedItem.color) || '';
+        this.selectedDotItem = (selectedItem === null || selectedItem === void 0 ? void 0 : selectedItem.dot) || '';
         this.stateItems = this.getItems().filter(item => item.value != selectedItem.value);
       }
     }
@@ -379,7 +385,7 @@ export class GcSelect {
       const filteredItems = this.filterItems();
       return (h("gc-menu", { class: "menu", empty: filteredItems.length == 0, ref: el => (this.menuElm = el) }, (() => {
         return filteredItems.map(item => {
-          return (h("gc-menu-item", { disabled: item.disabled, color: item.color, value: item.value, label: item.label }, item.label || item.value));
+          return (h("gc-menu-item", { disabled: item.disabled, dot: item.dot, color: item.color, value: item.value, label: item.label }, item.label || item.value));
         });
       })()));
     }
@@ -770,7 +776,8 @@ export class GcSelect {
     "endSlotHasContent": {},
     "position": {},
     "stateItems": {},
-    "selectedColorItem": {}
+    "selectedColorItem": {},
+    "selectedDotItem": {}
   }; }
   static get events() { return [{
       "method": "gcChange",
