@@ -8,6 +8,7 @@ const GcSteps$1 = /*@__PURE__*/ proxyCustomElement(class extends HTMLElement {
     this.gcBeforeStepChange = createEvent(this, "gc:before-step-change", 7);
     this.activeStep = '';
     this.oldStep = '';
+    this.activeStepState = false;
     this.customOpen = false;
   }
   openEventHandler(event) {
@@ -61,13 +62,18 @@ const GcSteps$1 = /*@__PURE__*/ proxyCustomElement(class extends HTMLElement {
   }
   render() {
     const children = this.element.querySelectorAll('gc-step');
-    return (h("div", { style: { paddingBottom: children && children[children.length - 1].index && children[children.length - 1].index == this.activeStep ? '30px' : '' } }, h("slot", null)));
+    return (h("div", { style: {
+        paddingBottom: children && children[children.length - 1].index && children[children.length - 1].index == this.activeStep && children[children.length - 1].hasAttribute('open')
+          ? '30px'
+          : '',
+      } }, h("slot", null)));
   }
   get element() { return this; }
 }, [6, "gc-steps", {
     "customOpen": [4, "custom-open"],
     "activeStep": [32],
     "oldStep": [32],
+    "activeStepState": [32],
     "open": [64],
     "close": [64]
   }, [[0, "beforeOpenEvent", "openEventHandler"]]]);

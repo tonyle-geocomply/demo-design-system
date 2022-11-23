@@ -112,8 +112,8 @@ export class GcDropdown {
     }
   }
   render() {
-    return (h(Host, { onMouseLeave: () => this.handleHover() },
-      h("div", { onClick: () => this.handleClick(), onMouseEnter: () => this.handleHover(), class: "slot-container", id: "host-element", "aria-describedby": "tooltip", ref: elm => (this.containerElm = elm) },
+    return (h(Host, null,
+      h("div", { onClick: () => this.handleClick(), onMouseEnter: () => this.handleHover(), onMouseLeave: () => this.handleHover(), class: "slot-container", id: "host-element", "aria-describedby": "tooltip", ref: elm => (this.containerElm = elm) },
         h("slot", null)),
       h("div", { class: "gc__dropdown-content", id: "tooltip", role: "tooltip", ref: elm => (this.dropdownElm = elm) },
         this.renderItems(),

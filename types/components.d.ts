@@ -148,6 +148,10 @@ export namespace Components {
          */
         "prefixIcon": string;
         /**
+          * Resize in textarea
+         */
+        "resize"?: string;
+        /**
           * Specifies the visible number of lines in a text area
          */
         "rows"?: number;
@@ -658,6 +662,10 @@ export namespace Components {
          */
         "placeholder"?: string;
         /**
+          * Resize in textarea
+         */
+        "resize"?: string;
+        /**
           * Specifies the visible number of lines in a text area
          */
         "rows"?: number;
@@ -1150,6 +1158,10 @@ declare namespace LocalJSX {
           * Prefix icon
          */
         "prefixIcon"?: string;
+        /**
+          * Resize in textarea
+         */
+        "resize"?: string;
         /**
           * Specifies the visible number of lines in a text area
          */
@@ -1683,6 +1695,10 @@ declare namespace LocalJSX {
           * The placeholder
          */
         "placeholder"?: string;
+        /**
+          * Resize in textarea
+         */
+        "resize"?: string;
         /**
           * Specifies the visible number of lines in a text area
          */

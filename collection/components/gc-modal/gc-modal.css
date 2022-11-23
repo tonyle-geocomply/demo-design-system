@@ -53,7 +53,7 @@
   display: flex;
   align-items: center;
   justify-content: center;
-  margin-top: 28px;
+  margin-top: 32px;
 }
 
 .gc__modal-body {
@@ -69,6 +69,6 @@
   align-items: center;
   justify-content: center;
   padding: 4px 17px;
-  margin-top: 40px;
-  margin-bottom: 29px;
+  margin-top: 35px;
+  margin-bottom: 28px;
 }

@@ -198,4 +198,5 @@ div.input-container.has-error {
   margin-right: 8px;
   display: inline-block;
   vertical-align: middle;
+  margin-top: -2px;
 }

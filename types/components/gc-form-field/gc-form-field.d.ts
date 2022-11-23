@@ -73,6 +73,10 @@ export declare class GcFormField {
    */
   defaultValue?: string;
   /**
+   * Resize in textarea
+   */
+  resize?: string;
+  /**
    * Emitted when the value has changed.
    */
   gcFieldChange: EventEmitter;

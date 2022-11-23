@@ -3,6 +3,7 @@ export declare class GcSteps {
   element: any;
   activeStep: string;
   oldStep: string;
+  activeStepState: boolean;
   customOpen: boolean;
   /**
    * triggered when the step item is active

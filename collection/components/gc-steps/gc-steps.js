@@ -3,6 +3,7 @@ export class GcSteps {
   constructor() {
     this.activeStep = '';
     this.oldStep = '';
+    this.activeStepState = false;
     this.customOpen = false;
   }
   openEventHandler(event) {
@@ -56,7 +57,11 @@ export class GcSteps {
   }
   render() {
     const children = this.element.querySelectorAll('gc-step');
-    return (h("div", { style: { paddingBottom: children && children[children.length - 1].index && children[children.length - 1].index == this.activeStep ? '30px' : '' } },
+    return (h("div", { style: {
+        paddingBottom: children && children[children.length - 1].index && children[children.length - 1].index == this.activeStep && children[children.length - 1].hasAttribute('open')
+          ? '30px'
+          : '',
+      } },
       h("slot", null)));
   }
   static get is() { return "gc-steps"; }
@@ -83,7 +88,8 @@ export class GcSteps {
   }; }
   static get states() { return {
     "activeStep": {},
-    "oldStep": {}
+    "oldStep": {},
+    "activeStepState": {}
   }; }
   static get events() { return [{
       "method": "gcStepChange",

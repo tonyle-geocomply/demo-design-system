@@ -118,7 +118,7 @@ const GcDropdown = /*@__PURE__*/ proxyCustomElement(class extends HTMLElement {
     }
   }
   render() {
-    return (h(Host, { onMouseLeave: () => this.handleHover() }, h("div", { onClick: () => this.handleClick(), onMouseEnter: () => this.handleHover(), class: "slot-container", id: "host-element", "aria-describedby": "tooltip", ref: elm => (this.containerElm = elm) }, h("slot", null)), h("div", { class: "gc__dropdown-content", id: "tooltip", role: "tooltip", ref: elm => (this.dropdownElm = elm) }, this.renderItems(), h("slot", { name: "gc__dropdown-content" }), h("div", { id: "arrow", "data-popper-arrow": true }))));
+    return (h(Host, null, h("div", { onClick: () => this.handleClick(), onMouseEnter: () => this.handleHover(), onMouseLeave: () => this.handleHover(), class: "slot-container", id: "host-element", "aria-describedby": "tooltip", ref: elm => (this.containerElm = elm) }, h("slot", null)), h("div", { class: "gc__dropdown-content", id: "tooltip", role: "tooltip", ref: elm => (this.dropdownElm = elm) }, this.renderItems(), h("slot", { name: "gc__dropdown-content" }), h("div", { id: "arrow", "data-popper-arrow": true }))));
   }
   get elm() { return this; }
   static get style() { return gcDropdownCss; }
