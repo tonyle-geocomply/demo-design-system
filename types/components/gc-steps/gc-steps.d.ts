@@ -2,6 +2,7 @@ import { EventEmitter } from '../../stencil-public-runtime';
 export declare class GcSteps {
   element: any;
   activeStep: string;
+  activeStatus: string;
   oldStep: string;
   activeStepState: boolean;
   customOpen: boolean;
@@ -14,6 +15,7 @@ export declare class GcSteps {
    */
   gcBeforeStepChange: EventEmitter;
   openEventHandler(event: CustomEvent): boolean;
+  closeEventHandler(): void;
   /**
    * Open an step item
    * @param index

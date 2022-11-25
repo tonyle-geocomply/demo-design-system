@@ -7,7 +7,7 @@ import { d as defineCustomElement$4 } from './gc-menu-item2.js';
 import { d as defineCustomElement$3 } from './gc-select2.js';
 import { d as defineCustomElement$2 } from './gc-textarea2.js';
 
-const gcFormFieldCss = ".sc-gc-form-field-h{width:100%}gc-label.sc-gc-form-field{white-space:nowrap;overflow:hidden;text-overflow:ellipsis}.gc__form-field-error.sc-gc-form-field{color:var(--gc-color-red);font-size:11px;text-align:right}.gc__form-field-info.sc-gc-form-field{color:#7A7A7A;font-size:11px;text-align:right}";
+const gcFormFieldCss = ".sc-gc-form-field-h{width:100%}gc-label.sc-gc-form-field{white-space:nowrap;overflow:hidden;text-overflow:ellipsis}.gc__form-field-error.sc-gc-form-field{color:var(--gc-color-red);font-size:11px;text-align:right}.gc__form-field-info.sc-gc-form-field{color:#7A7A7A;font-size:11px;text-align:right;margin-top:5px}";
 
 const GcFormField$1 = /*@__PURE__*/ proxyCustomElement(class extends HTMLElement {
   constructor() {

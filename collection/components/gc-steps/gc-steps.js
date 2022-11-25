@@ -2,6 +2,7 @@ import { Component, Listen, h, Element, State, Method, Event, Prop } from '@sten
 export class GcSteps {
   constructor() {
     this.activeStep = '';
+    this.activeStatus = '';
     this.oldStep = '';
     this.activeStepState = false;
     this.customOpen = false;
@@ -18,11 +19,15 @@ export class GcSteps {
     children[event.detail.index].openItem();
     this.oldStep = oldIndex;
     this.activeStep = newIndex;
+    this.activeStatus = 'open';
     for (let i = 0; i < children.length; i++) {
       if (event.detail.index != i) {
         children[i].closeItem();
       }
     }
+  }
+  closeEventHandler() {
+    this.activeStatus = 'close';
   }
   /**
    * Open an step item
@@ -58,9 +63,7 @@ export class GcSteps {
   render() {
     const children = this.element.querySelectorAll('gc-step');
     return (h("div", { style: {
-        paddingBottom: children && children[children.length - 1].index && children[children.length - 1].index == this.activeStep && children[children.length - 1].hasAttribute('open')
-          ? '30px'
-          : '',
+        paddingBottom: children && children[children.length - 1].index && children[children.length - 1].index == this.activeStep && this.activeStatus === 'open' ? '30px' : '',
       } },
       h("slot", null)));
   }
@@ -88,6 +91,7 @@ export class GcSteps {
   }; }
   static get states() { return {
     "activeStep": {},
+    "activeStatus": {},
     "oldStep": {},
     "activeStepState": {}
   }; }
@@ -178,6 +182,12 @@ export class GcSteps {
   static get listeners() { return [{
       "name": "beforeOpenEvent",
       "method": "openEventHandler",
+      "target": undefined,
+      "capture": false,
+      "passive": false
+    }, {
+      "name": "closeEvent",
+      "method": "closeEventHandler",
       "target": undefined,
       "capture": false,
       "passive": false
