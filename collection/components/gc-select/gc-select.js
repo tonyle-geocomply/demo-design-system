@@ -333,7 +333,7 @@ export class GcSelect {
   }
   render() {
     return (h(Host, { id: this.gcId, "has-value": this.hasValue(), "has-focus": this.hasFocus, "is-open": this.isOpen, position: this.position },
-      h("div", { class: { 'dropdown': true, 'select': true, [this.position]: true, 'is-open': this.isOpen } },
+      h("div", { class: { 'dropdown': true, 'select': true, [this.position]: true, 'is-open': this.isOpen, 'gc__select-disabled': this.disabled } },
         h("div", { onClick: evt => {
             evt.preventDefault();
             this.toggleList();
@@ -353,7 +353,10 @@ export class GcSelect {
           (() => {
             if (this.search !== 'none' && this.isOpen) {
               const item = this.getItemByValue(this.value);
-              return (h("input", Object.assign({ class: "input input-native", ref: input => (this.nativeInput = input), type: "text", value: this.hasValue() ? item === null || item === void 0 ? void 0 : item.label : this.searchString, placeholder: this.placeholder, onBlur: this.blurHandler, onFocus: this.focusHandler, onInput: this.onInput, onKeyDown: this.keyDownHandler, autoComplete: "off" }, this.configAria)));
+              return (h("input", Object.assign({ class: {
+                  'input input-native': true,
+                  'disabled': this.disabled,
+                }, ref: input => (this.nativeInput = input), type: "text", value: this.hasValue() ? item === null || item === void 0 ? void 0 : item.label : this.searchString, placeholder: this.placeholder, onBlur: this.blurHandler, onFocus: this.focusHandler, onInput: this.onInput, onKeyDown: this.keyDownHandler, autoComplete: "off" }, this.configAria)));
             }
             else {
               return (h("div", { class: "gc__section-hidden" },
