@@ -6124,22 +6124,24 @@ const GcSteps = class {
     const oldIndex = this.activeStep !== event.detail.index ? this.activeStep : this.oldStep;
     const newIndex = event.detail.index;
     const eventBefore = this.gcBeforeStepChange.emit({ index: newIndex, oldIndex });
+    this.activeStep = newIndex;
+    this.activeStatus = 'open';
     if (eventBefore.defaultPrevented) {
       return false;
     }
     this.gcStepChange.emit({ index: newIndex, oldIndex });
     children[event.detail.index].openItem();
     this.oldStep = oldIndex;
-    this.activeStep = newIndex;
-    this.activeStatus = 'open';
     for (let i = 0; i < children.length; i++) {
       if (event.detail.index != i) {
         children[i].closeItem();
       }
     }
   }
-  closeEventHandler() {
-    this.activeStatus = 'close';
+  closeEventHandler(event) {
+    if (event.detail.index === this.activeStep) {
+      this.activeStatus = 'close';
+    }
   }
   /**
    * Open an step item
