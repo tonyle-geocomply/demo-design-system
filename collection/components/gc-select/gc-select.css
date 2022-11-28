@@ -205,3 +205,13 @@ div.input-container.has-error {
   opacity: 0.7;
   cursor: not-allowed;
 }
+
+.gc__select-disabled .input-container {
+  opacity: 0.7;
+  cursor: not-allowed;
+}
+
+.gc__select-disabled .input-container .gc__section-hidden {
+  opacity: 0.7;
+  cursor: not-allowed;
+}
