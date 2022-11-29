@@ -2,8 +2,8 @@ import { Component, Prop, h } from '@stencil/core';
 export class GcSpinner {
   constructor() {
     /**
-   * Is float above background
-   */
+    * Is float above background
+    */
     this.isFloat = false;
   }
   getClass() {

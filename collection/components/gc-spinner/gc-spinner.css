@@ -24,7 +24,7 @@
   display: inline-block;
   width: 49px;
   height: 58px;
-  animation: lds-circle 1s cubic-bezier(0, 0.2, 0.8, 1) infinite;
+  animation: lds-circle 0.8s cubic-bezier(0, 0.2, 0.8, 1) infinite;
 }
 @keyframes lds-circle {
   0%, 100% {
