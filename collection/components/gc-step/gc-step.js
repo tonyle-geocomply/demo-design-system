@@ -29,6 +29,13 @@ export class GcStep {
      * Disabled in step
      */
     this.disabled = false;
+    /**
+     * Should open in step
+     */
+    this.shouldOpen = false;
+    /**
+     * Customize in step opening
+     */
     this.customOpen = false;
   }
   get style() {
@@ -92,6 +99,7 @@ export class GcStep {
    */
   async closeItem() {
     this.open = false;
+    this.shouldOpen = false;
   }
   /**
    * open the step item
@@ -113,6 +121,9 @@ export class GcStep {
       return;
     }
     if (this.open) {
+      if (this.shouldOpen) {
+        return;
+      }
       this.closeItem();
     }
     else {
@@ -259,6 +270,24 @@ export class GcStep {
       "reflect": true,
       "defaultValue": "false"
     },
+    "shouldOpen": {
+      "type": "boolean",
+      "mutable": true,
+      "complexType": {
+        "original": "boolean",
+        "resolved": "boolean",
+        "references": {}
+      },
+      "required": false,
+      "optional": false,
+      "docs": {
+        "tags": [],
+        "text": "Should open in step"
+      },
+      "attribute": "should-open",
+      "reflect": false,
+      "defaultValue": "false"
+    },
     "customOpen": {
       "type": "boolean",
       "mutable": false,
@@ -271,7 +300,7 @@ export class GcStep {
       "optional": false,
       "docs": {
         "tags": [],
-        "text": ""
+        "text": "Customize in step opening"
       },
       "attribute": "custom-open",
       "reflect": false,

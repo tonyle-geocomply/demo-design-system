@@ -36,6 +36,13 @@ export declare class GcStep {
    * Disabled in step
    */
   disabled: boolean;
+  /**
+   * Should open in step
+   */
+  shouldOpen: boolean;
+  /**
+   * Customize in step opening
+   */
   customOpen: boolean;
   stateChanged(value: any): void;
   /**

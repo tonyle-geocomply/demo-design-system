@@ -39,6 +39,13 @@ const GcStep$1 = /*@__PURE__*/ proxyCustomElement(class extends HTMLElement {
      * Disabled in step
      */
     this.disabled = false;
+    /**
+     * Should open in step
+     */
+    this.shouldOpen = false;
+    /**
+     * Customize in step opening
+     */
     this.customOpen = false;
   }
   get style() {
@@ -102,6 +109,7 @@ const GcStep$1 = /*@__PURE__*/ proxyCustomElement(class extends HTMLElement {
    */
   async closeItem() {
     this.open = false;
+    this.shouldOpen = false;
   }
   /**
    * open the step item
@@ -123,6 +131,9 @@ const GcStep$1 = /*@__PURE__*/ proxyCustomElement(class extends HTMLElement {
       return;
     }
     if (this.open) {
+      if (this.shouldOpen) {
+        return;
+      }
       this.closeItem();
     }
     else {
@@ -156,6 +167,7 @@ const GcStep$1 = /*@__PURE__*/ proxyCustomElement(class extends HTMLElement {
     "icon": [1537],
     "status": [1537],
     "disabled": [1540],
+    "shouldOpen": [1028, "should-open"],
     "customOpen": [4, "custom-open"],
     "transitioning": [32],
     "isResize": [32],

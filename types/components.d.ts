@@ -477,6 +477,9 @@ export namespace Components {
           * close the step item
          */
         "closeItem": () => Promise<void>;
+        /**
+          * Customize in step opening
+         */
         "customOpen": boolean;
         /**
           * Disabled in step
@@ -502,6 +505,10 @@ export namespace Components {
           * open the step item
          */
         "openItem": () => Promise<void>;
+        /**
+          * Should open in step
+         */
+        "shouldOpen": boolean;
         /**
           * The status in step
          */
@@ -1485,6 +1492,9 @@ declare namespace LocalJSX {
         "isFloat"?: boolean;
     }
     interface GcStep {
+        /**
+          * Customize in step opening
+         */
         "customOpen"?: boolean;
         /**
           * Disabled in step
@@ -1522,6 +1532,10 @@ declare namespace LocalJSX {
           * step item is open or opening (css transition)
          */
         "open"?: boolean;
+        /**
+          * Should open in step
+         */
+        "shouldOpen"?: boolean;
         /**
           * The status in step
          */
