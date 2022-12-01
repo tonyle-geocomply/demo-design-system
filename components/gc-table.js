@@ -375,7 +375,7 @@ const GcTable$1 = /*@__PURE__*/ proxyCustomElement(class extends HTMLElement {
     return (h("div", { class: "pagination" }, h("div", { class: "page-sizes-select" }), h("div", { class: "pagination-item-count" }, h("span", null, "Showing"), "\u00A0", this.pageSize * (this.page - 1) + 1, "\u00A0to\u00A0", this.pageSize * this.page < this.getTotalItems() ? this.pageSize * this.page : this.getTotalItems(), "\u00A0of\u00A0", totalItems || 0, "\u00A0", +totalItems === 1 ? 'entry' : 'entries'), h("div", { class: "pagination-right" }, h("div", { class: "table-footer-right-content" }, h("div", { class: "table-footer-right-content-pagination" }, h("gc-pagination", { activePage: this.page, total: this.getTotalItems(), pageSize: this.pageSize }))))));
   }
   renderSettingColumns() {
-    if (this.settingColumns || this.customEmptyState || this.isNoBorderedAll) {
+    if (this.settingColumns || this.customEmptyState || this.isNoBorderedAll || this.isCustomHeader) {
       let totalItems = this.getTotalItems();
       totalItems = totalItems ? totalItems.toLocaleString() : '';
       const columnsWithPos = this.getColumns().map((col, idx) => (Object.assign(Object.assign({}, col), { pos: this.settingTable && this.settingTable[col.name] ? this.settingTable[col.name].position : idx })));
@@ -392,7 +392,7 @@ const GcTable$1 = /*@__PURE__*/ proxyCustomElement(class extends HTMLElement {
           position: this.showTooltip ? 'static' : 'inherit',
         } }, this.renderHeader(), this.renderBody(), h("div", { class: "loading-section" }, h("gc-spinner", null))), this.paginate && (h("div", { style: { background: this.background }, class: "table-footer" }, this.renderPagination())))));
     }
-    return (h(Host, null, this.renderSettingColumns(), this.getData().length > 0 ? (h("div", { style: { border: this.isNoBorderedAll ? '0' : '' }, class: { 'gc__table': true, 'sortable': this.sortable, 'paginate': this.paginate, 'gc__table-no-stripe': !this.isStripe, 'gc__table-no-border': !this.isBordered } }, h("div", { class: "table-scroll-container", style: {
+    return (h(Host, null, this.renderSettingColumns(), this.getData().length > 0 ? (h("div", { style: { border: this.isNoBorderedAll && !this.isStripe ? '0' : '' }, class: { 'gc__table': true, 'sortable': this.sortable, 'paginate': this.paginate, 'gc__table-no-stripe': !this.isStripe, 'gc__table-no-border': !this.isBordered } }, h("div", { class: "table-scroll-container", style: {
         overflow: countCurrentCol.length <= DEFAULT_MAXIMUM_TO_SCALE && !this.isStopScaleWidth ? 'hidden' : 'auto',
         position: this.showTooltip ? 'static' : 'inherit',
       } }, this.renderHeader(), this.renderBody()), this.paginate && (h("div", { style: { background: this.background }, class: "table-footer" }, this.renderPagination())))) : (this.renderEmptyState())));

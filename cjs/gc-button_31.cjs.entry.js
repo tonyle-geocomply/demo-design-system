@@ -6665,7 +6665,7 @@ const GcTable = class {
     return (index$1.h("div", { class: "pagination" }, index$1.h("div", { class: "page-sizes-select" }), index$1.h("div", { class: "pagination-item-count" }, index$1.h("span", null, "Showing"), "\u00A0", this.pageSize * (this.page - 1) + 1, "\u00A0to\u00A0", this.pageSize * this.page < this.getTotalItems() ? this.pageSize * this.page : this.getTotalItems(), "\u00A0of\u00A0", totalItems || 0, "\u00A0", +totalItems === 1 ? 'entry' : 'entries'), index$1.h("div", { class: "pagination-right" }, index$1.h("div", { class: "table-footer-right-content" }, index$1.h("div", { class: "table-footer-right-content-pagination" }, index$1.h("gc-pagination", { activePage: this.page, total: this.getTotalItems(), pageSize: this.pageSize }))))));
   }
   renderSettingColumns() {
-    if (this.settingColumns || this.customEmptyState || this.isNoBorderedAll) {
+    if (this.settingColumns || this.customEmptyState || this.isNoBorderedAll || this.isCustomHeader) {
       let totalItems = this.getTotalItems();
       totalItems = totalItems ? totalItems.toLocaleString() : '';
       const columnsWithPos = this.getColumns().map((col, idx) => (Object.assign(Object.assign({}, col), { pos: this.settingTable && this.settingTable[col.name] ? this.settingTable[col.name].position : idx })));
@@ -6682,7 +6682,7 @@ const GcTable = class {
           position: this.showTooltip ? 'static' : 'inherit',
         } }, this.renderHeader(), this.renderBody(), index$1.h("div", { class: "loading-section" }, index$1.h("gc-spinner", null))), this.paginate && (index$1.h("div", { style: { background: this.background }, class: "table-footer" }, this.renderPagination())))));
     }
-    return (index$1.h(index$1.Host, null, this.renderSettingColumns(), this.getData().length > 0 ? (index$1.h("div", { style: { border: this.isNoBorderedAll ? '0' : '' }, class: { 'gc__table': true, 'sortable': this.sortable, 'paginate': this.paginate, 'gc__table-no-stripe': !this.isStripe, 'gc__table-no-border': !this.isBordered } }, index$1.h("div", { class: "table-scroll-container", style: {
+    return (index$1.h(index$1.Host, null, this.renderSettingColumns(), this.getData().length > 0 ? (index$1.h("div", { style: { border: this.isNoBorderedAll && !this.isStripe ? '0' : '' }, class: { 'gc__table': true, 'sortable': this.sortable, 'paginate': this.paginate, 'gc__table-no-stripe': !this.isStripe, 'gc__table-no-border': !this.isBordered } }, index$1.h("div", { class: "table-scroll-container", style: {
         overflow: countCurrentCol.length <= DEFAULT_MAXIMUM_TO_SCALE && !this.isStopScaleWidth ? 'hidden' : 'auto',
         position: this.showTooltip ? 'static' : 'inherit',
       } }, this.renderHeader(), this.renderBody()), this.paginate && (index$1.h("div", { style: { background: this.background }, class: "table-footer" }, this.renderPagination())))) : (this.renderEmptyState())));

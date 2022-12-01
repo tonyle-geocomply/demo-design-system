@@ -391,7 +391,7 @@ export class GcTable {
             h("gc-pagination", { activePage: this.page, total: this.getTotalItems(), pageSize: this.pageSize }))))));
   }
   renderSettingColumns() {
-    if (this.settingColumns || this.customEmptyState || this.isNoBorderedAll) {
+    if (this.settingColumns || this.customEmptyState || this.isNoBorderedAll || this.isCustomHeader) {
       let totalItems = this.getTotalItems();
       totalItems = totalItems ? totalItems.toLocaleString() : '';
       const columnsWithPos = this.getColumns().map((col, idx) => (Object.assign(Object.assign({}, col), { pos: this.settingTable && this.settingTable[col.name] ? this.settingTable[col.name].position : idx })));
@@ -436,7 +436,7 @@ export class GcTable {
     }
     return (h(Host, null,
       this.renderSettingColumns(),
-      this.getData().length > 0 ? (h("div", { style: { border: this.isNoBorderedAll ? '0' : '' }, class: { 'gc__table': true, 'sortable': this.sortable, 'paginate': this.paginate, 'gc__table-no-stripe': !this.isStripe, 'gc__table-no-border': !this.isBordered } },
+      this.getData().length > 0 ? (h("div", { style: { border: this.isNoBorderedAll && !this.isStripe ? '0' : '' }, class: { 'gc__table': true, 'sortable': this.sortable, 'paginate': this.paginate, 'gc__table-no-stripe': !this.isStripe, 'gc__table-no-border': !this.isBordered } },
         h("div", { class: "table-scroll-container", style: {
             overflow: countCurrentCol.length <= DEFAULT_MAXIMUM_TO_SCALE && !this.isStopScaleWidth ? 'hidden' : 'auto',
             position: this.showTooltip ? 'static' : 'inherit',
