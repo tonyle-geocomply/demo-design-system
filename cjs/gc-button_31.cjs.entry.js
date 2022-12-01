@@ -4944,6 +4944,10 @@ const GcFormField = class {
      * Possible values are `"none"`, `"initial"`, `"contains"`, `"managed"`. Defaults to `"none"`.
      */
     this.search = 'none';
+    /**
+     * Is error
+     */
+    this.isError = false;
   }
   handleChange(evt) {
     this.value = evt.detail.value;
@@ -4956,11 +4960,11 @@ const GcFormField = class {
   renderField() {
     switch (this.type) {
       case 'select':
-        return (index$1.h("gc-select", { search: this.search, items: this.items, "gc-id": this.gcId, "gc-name": this.gcName, value: this.value, defaultValue: this.defaultValue, disabled: this.disabled, placeholder: this.placeholder, "onGc:change": e => this.handleChange(e), "is-error": !!this.errorText }));
+        return (index$1.h("gc-select", { search: this.search, items: this.items, "gc-id": this.gcId, "gc-name": this.gcName, value: this.value, defaultValue: this.defaultValue, disabled: this.disabled, placeholder: this.placeholder, "onGc:change": e => this.handleChange(e), "is-error": !!this.errorText || this.isError }));
       case 'textarea':
-        return (index$1.h("gc-textarea", { "gc-id": this.gcId, "gc-name": this.gcName, value: this.value, disabled: this.disabled, placeholder: this.placeholder, "onGc:change": e => this.handleChange(e), "is-error": !!this.errorText, cols: this.cols, rows: this.rows, height: this.height, maxlength: this.maxlength, resize: this.resize }));
+        return (index$1.h("gc-textarea", { "gc-id": this.gcId, "gc-name": this.gcName, value: this.value, disabled: this.disabled, placeholder: this.placeholder, "onGc:change": e => this.handleChange(e), "is-error": !!this.errorText || this.isError, cols: this.cols, rows: this.rows, height: this.height, maxlength: this.maxlength, resize: this.resize }));
       default:
-        return (index$1.h("gc-input", { "prefix-icon": this.prefixIcon, "gc-id": this.gcId, "gc-name": this.gcName, value: this.value, disabled: this.disabled, type: this.type, placeholder: this.placeholder, "onGc:change": e => this.handleChange(e), "is-error": !!this.errorText }));
+        return (index$1.h("gc-input", { "prefix-icon": this.prefixIcon, "gc-id": this.gcId, "gc-name": this.gcName, value: this.value, disabled: this.disabled, type: this.type, placeholder: this.placeholder, "onGc:change": e => this.handleChange(e), "is-error": !!this.errorText || this.isError }));
     }
   }
   render() {
@@ -6364,6 +6368,7 @@ const GcTable = class {
     this.isBordered = true;
     this.isNoBorderedAll = false;
     this.settingTable = {};
+    this.isCustomHeader = false;
     this.hoveredCell = {};
     this.isSelectAll = false;
     this.showingColumns = {};
@@ -6599,7 +6604,9 @@ const GcTable = class {
               } }, index$1.h("div", { class: "col-content", style: { justifyContent: 'space-evenly' } }, column.actions.map(action => (index$1.h("gc-button", { "onGc:click": () => action.onClick(row), type: action.type, height: "27px", paddingText: "8px" }, index$1.h("gc-icon", { color: "white", size: "16px", name: action.icon })))))));
           }
           else {
-            column.fixed && (countCurrentCol.length > DEFAULT_MAXIMUM_TO_SCALE || (countCurrentCol.length <= DEFAULT_MAXIMUM_TO_SCALE && this.isStopScaleWidth)) ? fixedCols.push(colEl) : scrollCols.push(colEl);
+            column.fixed && (countCurrentCol.length > DEFAULT_MAXIMUM_TO_SCALE || (countCurrentCol.length <= DEFAULT_MAXIMUM_TO_SCALE && this.isStopScaleWidth))
+              ? fixedCols.push(colEl)
+              : scrollCols.push(colEl);
           }
         }
       });
@@ -6664,7 +6671,7 @@ const GcTable = class {
       const columnsWithPos = this.getColumns().map((col, idx) => (Object.assign(Object.assign({}, col), { pos: this.settingTable && this.settingTable[col.name] ? this.settingTable[col.name].position : idx })));
       columnsWithPos.sort((a, b) => a.pos - b.pos);
       const columns = columnsWithPos.filter(col => col.name !== 'custom_actions');
-      return (index$1.h("div", { style: { background: this.background, border: this.isNoBorderedAll ? '0' : '' }, class: "gc__table-setting" }, (this.customEmptyState || this.isNoBorderedAll) ? index$1.h("div", null, index$1.h("slot", { name: "gc__table-setting-title" })) : (index$1.h("slot", { name: "gc__table-setting-title" }, "Results: ", totalItems || 0, " ", +totalItems === 1 ? 'entry' : 'entries', " found matching applied filters:")), index$1.h("div", null, this.settingColumns && (index$1.h("gc-dropdown", { id: `dropdown_${this.gcId}` }, index$1.h("gc-link", { icon: "fa-solid fa-table-layout", color: "#51666C" }, index$1.h("span", { class: "gc__table-setting-manage-title" }, "Manage Table Columns")), index$1.h("div", { slot: "gc__dropdown-content", class: "dropdown" }, index$1.h("div", { class: "gc__table-setting-cols-text" }, index$1.h("gc-icon", { color: "red", name: "fa-regular fa-square-info" }), index$1.h("gc-h2", { class: "gc__table-setting-cols-title" }, "Manage Table Columns")), index$1.h("gc-drag-container", { "onGc:drop": this.onDrop, "class-container": `gc__table-setting-cols ${columns.length < 6 ? 'less-cols' : ''}`, "class-daggable": ".draggable-item", group: "table-setting-cols" }, columns.map(col => (index$1.h("gc-draggable-item", { "data-col-name": col.name, "data-col-check": `${this.showingColumns[col.name]}`, key: `${this.gcId}_${col.name}`, class: { 'draggable-item': !col.alwaysDisplay } }, index$1.h("div", { key: `${this.gcId}_${col.name}`, class: { 'gc__table-setting-col-item': true, 'disabled': col.alwaysDisplay } }, index$1.h("gc-icon", { color: "var(--gc-color-secondary-grey)", name: "fa-solid fa-grip-dots-vertical" }), index$1.h("gc-checkbox", { disabled: col.alwaysDisplay || false, "gc-name": `${this.gcId}_${col.name}`, label: col.label, checked: col.alwaysDisplay || this.showingColumns[col.name], "onGc:change": e => this.onCheck(e, col.name) }))))))))))));
+      return (index$1.h("div", { style: { background: this.background, border: this.isNoBorderedAll ? '0' : '' }, class: "gc__table-setting" }, this.customEmptyState || this.isNoBorderedAll || this.isCustomHeader ? (index$1.h("div", null, index$1.h("slot", { name: "gc__table-setting-title" }))) : (index$1.h("slot", { name: "gc__table-setting-title" }, "Results: ", totalItems || 0, " ", +totalItems === 1 ? 'entry' : 'entries', " found matching applied filters:")), index$1.h("div", null, this.settingColumns && (index$1.h("gc-dropdown", { id: `dropdown_${this.gcId}` }, index$1.h("gc-link", { icon: "fa-solid fa-table-layout", color: "#51666C" }, index$1.h("span", { class: "gc__table-setting-manage-title" }, "Manage Table Columns")), index$1.h("div", { slot: "gc__dropdown-content", class: "dropdown" }, index$1.h("div", { class: "gc__table-setting-cols-text" }, index$1.h("gc-icon", { color: "red", name: "fa-regular fa-square-info" }), index$1.h("gc-h2", { class: "gc__table-setting-cols-title" }, "Manage Table Columns")), index$1.h("gc-drag-container", { "onGc:drop": this.onDrop, "class-container": `gc__table-setting-cols ${columns.length < 6 ? 'less-cols' : ''}`, "class-daggable": ".draggable-item", group: "table-setting-cols" }, columns.map(col => (index$1.h("gc-draggable-item", { "data-col-name": col.name, "data-col-check": `${this.showingColumns[col.name]}`, key: `${this.gcId}_${col.name}`, class: { 'draggable-item': !col.alwaysDisplay } }, index$1.h("div", { key: `${this.gcId}_${col.name}`, class: { 'gc__table-setting-col-item': true, 'disabled': col.alwaysDisplay } }, index$1.h("gc-icon", { color: "var(--gc-color-secondary-grey)", name: "fa-solid fa-grip-dots-vertical" }), index$1.h("gc-checkbox", { disabled: col.alwaysDisplay || false, "gc-name": `${this.gcId}_${col.name}`, label: col.label, checked: col.alwaysDisplay || this.showingColumns[col.name], "onGc:change": e => this.onCheck(e, col.name) }))))))))))));
     }
   }
   render() {

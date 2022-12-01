@@ -128,6 +128,10 @@ export namespace Components {
          */
         "infoText": string;
         /**
+          * Is error
+         */
+        "isError": boolean;
+        /**
           * [{   label: 'Shivaji Varma',   value: 'shivaji-varma' }]
          */
         "items": string | [];
@@ -570,6 +574,7 @@ export namespace Components {
         "emptyState": any;
         "gcId": string;
         "isBordered"?: boolean;
+        "isCustomHeader": boolean;
         "isLoading"?: false;
         "isNoBorderedAll"?: boolean;
         "isStripe"?: boolean;
@@ -1142,6 +1147,10 @@ declare namespace LocalJSX {
          */
         "infoText"?: string;
         /**
+          * Is error
+         */
+        "isError"?: boolean;
+        /**
           * [{   label: 'Shivaji Varma',   value: 'shivaji-varma' }]
          */
         "items"?: string | [];
@@ -1597,6 +1606,7 @@ declare namespace LocalJSX {
         "emptyState"?: any;
         "gcId"?: string;
         "isBordered"?: boolean;
+        "isCustomHeader"?: boolean;
         "isLoading"?: false;
         "isNoBorderedAll"?: boolean;
         "isStripe"?: boolean;

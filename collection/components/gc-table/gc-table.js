@@ -58,6 +58,7 @@ export class GcTable {
     this.isBordered = true;
     this.isNoBorderedAll = false;
     this.settingTable = {};
+    this.isCustomHeader = false;
     this.hoveredCell = {};
     this.isSelectAll = false;
     this.showingColumns = {};
@@ -311,7 +312,9 @@ export class GcTable {
                 h("gc-icon", { color: "white", size: "16px", name: action.icon })))))));
           }
           else {
-            column.fixed && (countCurrentCol.length > DEFAULT_MAXIMUM_TO_SCALE || (countCurrentCol.length <= DEFAULT_MAXIMUM_TO_SCALE && this.isStopScaleWidth)) ? fixedCols.push(colEl) : scrollCols.push(colEl);
+            column.fixed && (countCurrentCol.length > DEFAULT_MAXIMUM_TO_SCALE || (countCurrentCol.length <= DEFAULT_MAXIMUM_TO_SCALE && this.isStopScaleWidth))
+              ? fixedCols.push(colEl)
+              : scrollCols.push(colEl);
           }
         }
       });
@@ -395,8 +398,8 @@ export class GcTable {
       columnsWithPos.sort((a, b) => a.pos - b.pos);
       const columns = columnsWithPos.filter(col => col.name !== 'custom_actions');
       return (h("div", { style: { background: this.background, border: this.isNoBorderedAll ? '0' : '' }, class: "gc__table-setting" },
-        (this.customEmptyState || this.isNoBorderedAll) ? h("div", null,
-          h("slot", { name: "gc__table-setting-title" })) : (h("slot", { name: "gc__table-setting-title" },
+        this.customEmptyState || this.isNoBorderedAll || this.isCustomHeader ? (h("div", null,
+          h("slot", { name: "gc__table-setting-title" }))) : (h("slot", { name: "gc__table-setting-title" },
           "Results: ",
           totalItems || 0,
           " ",
@@ -915,6 +918,24 @@ export class GcTable {
       },
       "attribute": "custom-empty-state",
       "reflect": false
+    },
+    "isCustomHeader": {
+      "type": "boolean",
+      "mutable": false,
+      "complexType": {
+        "original": "boolean",
+        "resolved": "boolean",
+        "references": {}
+      },
+      "required": false,
+      "optional": false,
+      "docs": {
+        "tags": [],
+        "text": ""
+      },
+      "attribute": "is-custom-header",
+      "reflect": false,
+      "defaultValue": "false"
     }
   }; }
   static get states() { return {
