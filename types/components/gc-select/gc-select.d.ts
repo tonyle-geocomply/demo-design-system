@@ -82,7 +82,7 @@ export declare class GcSelect implements ComponentInterface {
   /**
    * Emitted when a keyboard input occurred.
    */
-  goatSearch: EventEmitter;
+  gcSearch: EventEmitter;
   /**
    * Sets focus on the native `input` in `ion-input`. Use this method instead of the global
    * `input.focus()`.
@@ -111,6 +111,7 @@ export declare class GcSelect implements ComponentInterface {
   stateItems: any[];
   selectedColorItem: string;
   selectedDotItem: string;
+  textValue: string;
   private displayElement?;
   tagDismissClick(evt: any): void;
   private getValues;

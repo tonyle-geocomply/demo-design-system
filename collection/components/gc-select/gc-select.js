@@ -64,13 +64,14 @@ export class GcSelect {
     this.stateItems = [];
     this.selectedColorItem = '';
     this.selectedDotItem = '';
+    this.textValue = '';
     this.selectHandler = (selectItemValue, selectedLabel) => {
       if (!this.disabled && !this.readonly) {
         // if (this.search !== 'none') {
         //   const item = this.getItemByValue(selectItemValue);
         //   this.searchString = item.label;
         // }
-        this.stateItems = this.getItems().filter(item => item.value !== selectItemValue);
+        this.stateItems = this.getItems().filter(item => item.value != selectItemValue);
         this.addItem(selectItemValue, selectedLabel);
       }
       this.closeList();
@@ -92,6 +93,8 @@ export class GcSelect {
         this.isOpen = true;
         if (this.search !== 'none') {
           this.searchString = '';
+          const item = this.getItemByValue(this.value);
+          this.textValue = this.value ? item.label : '';
           setTimeout(() => {
             const dropdownContent = this.dropdownContentElm;
             this.dropdownContentHeight = dropdownContent.getBoundingClientRect().height;
@@ -140,7 +143,7 @@ export class GcSelect {
       if (!this.searchString) {
         this.value = '';
       }
-      this.goatSearch.emit({ value: this.searchString });
+      this.gcSearch.emit({ value: this.searchString });
     };
   }
   /**
@@ -160,7 +163,7 @@ export class GcSelect {
     }
   }
   debounceChanged() {
-    this.goatSearch = debounceEvent(this.goatSearch, this.debounce);
+    this.gcSearch = debounceEvent(this.gcSearch, this.debounce);
   }
   watchPropHandler(newValue) {
     this.value = newValue;
@@ -352,11 +355,10 @@ export class GcSelect {
             h("slot", { name: "start" })),
           (() => {
             if (this.search !== 'none' && this.isOpen) {
-              const item = this.getItemByValue(this.value);
               return (h("input", Object.assign({ class: {
                   'input input-native': true,
                   'disabled': this.disabled,
-                }, ref: input => (this.nativeInput = input), type: "text", value: this.hasValue() ? item === null || item === void 0 ? void 0 : item.label : this.searchString, placeholder: this.placeholder, onBlur: this.blurHandler, onFocus: this.focusHandler, onInput: this.onInput, onKeyDown: this.keyDownHandler, autoComplete: "off" }, this.configAria)));
+                }, ref: input => (this.nativeInput = input), type: "text", value: this.textValue, placeholder: this.placeholder, onBlur: this.blurHandler, onFocus: this.focusHandler, onInput: this.onInput, onKeyDown: this.keyDownHandler, autoComplete: "off" }, this.configAria)));
             }
             else {
               return (h("div", { class: "gc__section-hidden" },
@@ -399,7 +401,7 @@ export class GcSelect {
     const items = this.search !== 'none' ? this.getItems() : this.stateItems;
     if (!this.searchString) {
       return items.filter(item => {
-        return item.value !== this.value;
+        return item.value != this.value;
       });
     }
     return items.filter(item => {
@@ -780,7 +782,8 @@ export class GcSelect {
     "position": {},
     "stateItems": {},
     "selectedColorItem": {},
-    "selectedDotItem": {}
+    "selectedDotItem": {},
+    "textValue": {}
   }; }
   static get events() { return [{
       "method": "gcChange",
@@ -813,7 +816,7 @@ export class GcSelect {
         "references": {}
       }
     }, {
-      "method": "goatSearch",
+      "method": "gcSearch",
       "name": "gc:search",
       "bubbles": true,
       "cancelable": true,

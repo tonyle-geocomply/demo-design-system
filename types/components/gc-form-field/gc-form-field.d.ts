@@ -84,6 +84,7 @@ export declare class GcFormField {
    * Emitted when the value has changed.
    */
   gcFieldChange: EventEmitter;
+  handleSearchSelect(evt: any): void;
   handleChange(evt: any): void;
   renderField(): any;
   render(): any;

@@ -12,7 +12,7 @@ const GcSelect = /*@__PURE__*/ proxyCustomElement(class extends HTMLElement {
     this.__registerHost();
     this.gcChange = createEvent(this, "gc:change", 7);
     this.p4ActionClick = createEvent(this, "gc:action-click", 7);
-    this.goatSearch = createEvent(this, "gc:search", 7);
+    this.gcSearch = createEvent(this, "gc:search", 7);
     /**
      * The input field value.
      */
@@ -75,13 +75,14 @@ const GcSelect = /*@__PURE__*/ proxyCustomElement(class extends HTMLElement {
     this.stateItems = [];
     this.selectedColorItem = '';
     this.selectedDotItem = '';
+    this.textValue = '';
     this.selectHandler = (selectItemValue, selectedLabel) => {
       if (!this.disabled && !this.readonly) {
         // if (this.search !== 'none') {
         //   const item = this.getItemByValue(selectItemValue);
         //   this.searchString = item.label;
         // }
-        this.stateItems = this.getItems().filter(item => item.value !== selectItemValue);
+        this.stateItems = this.getItems().filter(item => item.value != selectItemValue);
         this.addItem(selectItemValue, selectedLabel);
       }
       this.closeList();
@@ -103,6 +104,8 @@ const GcSelect = /*@__PURE__*/ proxyCustomElement(class extends HTMLElement {
         this.isOpen = true;
         if (this.search !== 'none') {
           this.searchString = '';
+          const item = this.getItemByValue(this.value);
+          this.textValue = this.value ? item.label : '';
           setTimeout(() => {
             const dropdownContent = this.dropdownContentElm;
             this.dropdownContentHeight = dropdownContent.getBoundingClientRect().height;
@@ -151,7 +154,7 @@ const GcSelect = /*@__PURE__*/ proxyCustomElement(class extends HTMLElement {
       if (!this.searchString) {
         this.value = '';
       }
-      this.goatSearch.emit({ value: this.searchString });
+      this.gcSearch.emit({ value: this.searchString });
     };
   }
   /**
@@ -171,7 +174,7 @@ const GcSelect = /*@__PURE__*/ proxyCustomElement(class extends HTMLElement {
     }
   }
   debounceChanged() {
-    this.goatSearch = debounceEvent(this.goatSearch, this.debounce);
+    this.gcSearch = debounceEvent(this.gcSearch, this.debounce);
   }
   watchPropHandler(newValue) {
     this.value = newValue;
@@ -356,11 +359,10 @@ const GcSelect = /*@__PURE__*/ proxyCustomElement(class extends HTMLElement {
         'has-error': this.isError,
       } }, h("div", { class: "slot-container start" }, h("slot", { name: "start" })), (() => {
       if (this.search !== 'none' && this.isOpen) {
-        const item = this.getItemByValue(this.value);
         return (h("input", Object.assign({ class: {
             'input input-native': true,
             'disabled': this.disabled,
-          }, ref: input => (this.nativeInput = input), type: "text", value: this.hasValue() ? item === null || item === void 0 ? void 0 : item.label : this.searchString, placeholder: this.placeholder, onBlur: this.blurHandler, onFocus: this.focusHandler, onInput: this.onInput, onKeyDown: this.keyDownHandler, autoComplete: "off" }, this.configAria)));
+          }, ref: input => (this.nativeInput = input), type: "text", value: this.textValue, placeholder: this.placeholder, onBlur: this.blurHandler, onFocus: this.focusHandler, onInput: this.onInput, onKeyDown: this.keyDownHandler, autoComplete: "off" }, this.configAria)));
       }
       else {
         return (h("div", { class: "gc__section-hidden" }, h("div", Object.assign({ class: "input display-value", tabindex: "0", ref: input => (this.displayElement = input), "aria-disabled": this.disabled ? 'true' : null, onFocus: this.focusHandler, onBlur: this.blurHandler, onKeyDown: this.keyDownHandler }, this.configAria), this.getDisplayValue()), h("input", { id: this.gcId, style: { display: 'none' }, value: this.value })));
@@ -397,7 +399,7 @@ const GcSelect = /*@__PURE__*/ proxyCustomElement(class extends HTMLElement {
     const items = this.search !== 'none' ? this.getItems() : this.stateItems;
     if (!this.searchString) {
       return items.filter(item => {
-        return item.value !== this.value;
+        return item.value != this.value;
       });
     }
     return items.filter(item => {
@@ -439,6 +441,7 @@ const GcSelect = /*@__PURE__*/ proxyCustomElement(class extends HTMLElement {
     "stateItems": [32],
     "selectedColorItem": [32],
     "selectedDotItem": [32],
+    "textValue": [32],
     "setFocus": [64],
     "setBlur": [64]
   }, [[8, "click", "windowClick"], [0, "gc:menu-item-click", "menuItemClick"], [0, "gc:tag-dismiss", "tagDismissClick"], [9, "scroll", "fixPosition"]]]);

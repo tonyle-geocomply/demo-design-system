@@ -4949,6 +4949,10 @@ const GcFormField = class {
      */
     this.isError = false;
   }
+  handleSearchSelect(evt) {
+    var _a;
+    this.value = (_a = evt.detail) === null || _a === void 0 ? void 0 : _a.value;
+  }
   handleChange(evt) {
     this.value = evt.detail.value;
     if (this.type === 'select') {
@@ -4960,7 +4964,7 @@ const GcFormField = class {
   renderField() {
     switch (this.type) {
       case 'select':
-        return (index$1.h("gc-select", { search: this.search, items: this.items, "gc-id": this.gcId, "gc-name": this.gcName, value: this.value, defaultValue: this.defaultValue, disabled: this.disabled, placeholder: this.placeholder, "onGc:change": e => this.handleChange(e), "is-error": !!this.errorText || this.isError }));
+        return (index$1.h("gc-select", { search: this.search, items: this.items, "gc-id": this.gcId, "gc-name": this.gcName, value: this.value, defaultValue: this.defaultValue, disabled: this.disabled, placeholder: this.placeholder, "onGc:change": e => this.handleChange(e), "onGc:search": e => this.handleSearchSelect(e), "is-error": !!this.errorText || this.isError }));
       case 'textarea':
         return (index$1.h("gc-textarea", { "gc-id": this.gcId, "gc-name": this.gcName, value: this.value, disabled: this.disabled, placeholder: this.placeholder, "onGc:change": e => this.handleChange(e), "is-error": !!this.errorText || this.isError, cols: this.cols, rows: this.rows, height: this.height, maxlength: this.maxlength, resize: this.resize }));
       default:
@@ -5548,7 +5552,7 @@ const GcSelect = class {
     index$1.registerInstance(this, hostRef);
     this.gcChange = index$1.createEvent(this, "gc:change", 7);
     this.p4ActionClick = index$1.createEvent(this, "gc:action-click", 7);
-    this.goatSearch = index$1.createEvent(this, "gc:search", 7);
+    this.gcSearch = index$1.createEvent(this, "gc:search", 7);
     /**
      * The input field value.
      */
@@ -5611,13 +5615,14 @@ const GcSelect = class {
     this.stateItems = [];
     this.selectedColorItem = '';
     this.selectedDotItem = '';
+    this.textValue = '';
     this.selectHandler = (selectItemValue, selectedLabel) => {
       if (!this.disabled && !this.readonly) {
         // if (this.search !== 'none') {
         //   const item = this.getItemByValue(selectItemValue);
         //   this.searchString = item.label;
         // }
-        this.stateItems = this.getItems().filter(item => item.value !== selectItemValue);
+        this.stateItems = this.getItems().filter(item => item.value != selectItemValue);
         this.addItem(selectItemValue, selectedLabel);
       }
       this.closeList();
@@ -5639,6 +5644,8 @@ const GcSelect = class {
         this.isOpen = true;
         if (this.search !== 'none') {
           this.searchString = '';
+          const item = this.getItemByValue(this.value);
+          this.textValue = this.value ? item.label : '';
           setTimeout(() => {
             const dropdownContent = this.dropdownContentElm;
             this.dropdownContentHeight = dropdownContent.getBoundingClientRect().height;
@@ -5687,7 +5694,7 @@ const GcSelect = class {
       if (!this.searchString) {
         this.value = '';
       }
-      this.goatSearch.emit({ value: this.searchString });
+      this.gcSearch.emit({ value: this.searchString });
     };
   }
   /**
@@ -5707,7 +5714,7 @@ const GcSelect = class {
     }
   }
   debounceChanged() {
-    this.goatSearch = debounceEvent(this.goatSearch, this.debounce);
+    this.gcSearch = debounceEvent(this.gcSearch, this.debounce);
   }
   watchPropHandler(newValue) {
     this.value = newValue;
@@ -5892,11 +5899,10 @@ const GcSelect = class {
         'has-error': this.isError,
       } }, index$1.h("div", { class: "slot-container start" }, index$1.h("slot", { name: "start" })), (() => {
       if (this.search !== 'none' && this.isOpen) {
-        const item = this.getItemByValue(this.value);
         return (index$1.h("input", Object.assign({ class: {
             'input input-native': true,
             'disabled': this.disabled,
-          }, ref: input => (this.nativeInput = input), type: "text", value: this.hasValue() ? item === null || item === void 0 ? void 0 : item.label : this.searchString, placeholder: this.placeholder, onBlur: this.blurHandler, onFocus: this.focusHandler, onInput: this.onInput, onKeyDown: this.keyDownHandler, autoComplete: "off" }, this.configAria)));
+          }, ref: input => (this.nativeInput = input), type: "text", value: this.textValue, placeholder: this.placeholder, onBlur: this.blurHandler, onFocus: this.focusHandler, onInput: this.onInput, onKeyDown: this.keyDownHandler, autoComplete: "off" }, this.configAria)));
       }
       else {
         return (index$1.h("div", { class: "gc__section-hidden" }, index$1.h("div", Object.assign({ class: "input display-value", tabindex: "0", ref: input => (this.displayElement = input), "aria-disabled": this.disabled ? 'true' : null, onFocus: this.focusHandler, onBlur: this.blurHandler, onKeyDown: this.keyDownHandler }, this.configAria), this.getDisplayValue()), index$1.h("input", { id: this.gcId, style: { display: 'none' }, value: this.value })));
@@ -5933,7 +5939,7 @@ const GcSelect = class {
     const items = this.search !== 'none' ? this.getItems() : this.stateItems;
     if (!this.searchString) {
       return items.filter(item => {
-        return item.value !== this.value;
+        return item.value != this.value;
       });
     }
     return items.filter(item => {
