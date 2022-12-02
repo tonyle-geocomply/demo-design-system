@@ -78,9 +78,6 @@ export class GcSelect {
     };
     this.blurHandler = () => {
       this.hasFocus = false;
-      if (!this.textValue && this.search !== 'none') {
-        this.gcChange.emit({ value: '', label: '' });
-      }
     };
     this.focusHandler = () => {
       this.hasFocus = true;
@@ -147,6 +144,9 @@ export class GcSelect {
         this.value = '';
       }
       this.gcSearch.emit({ value: this.searchString });
+      if (!this.value && this.search !== 'none') {
+        this.gcChange.emit({ value: '', label: '' });
+      }
     };
   }
   /**

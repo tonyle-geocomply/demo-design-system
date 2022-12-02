@@ -89,9 +89,6 @@ const GcSelect = /*@__PURE__*/ proxyCustomElement(class extends HTMLElement {
     };
     this.blurHandler = () => {
       this.hasFocus = false;
-      if (!this.textValue && this.search !== 'none') {
-        this.gcChange.emit({ value: '', label: '' });
-      }
     };
     this.focusHandler = () => {
       this.hasFocus = true;
@@ -158,6 +155,9 @@ const GcSelect = /*@__PURE__*/ proxyCustomElement(class extends HTMLElement {
         this.value = '';
       }
       this.gcSearch.emit({ value: this.searchString });
+      if (!this.value && this.search !== 'none') {
+        this.gcChange.emit({ value: '', label: '' });
+      }
     };
   }
   /**
