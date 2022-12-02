@@ -37,7 +37,9 @@ const GcFormField$1 = /*@__PURE__*/ proxyCustomElement(class extends HTMLElement
   }
   handleSearchSelect(evt) {
     var _a;
-    this.value = (_a = evt.detail) === null || _a === void 0 ? void 0 : _a.value;
+    if (!((_a = evt.detail) === null || _a === void 0 ? void 0 : _a.value)) {
+      this.value = '';
+    }
   }
   handleChange(evt) {
     this.value = evt.detail.value;
