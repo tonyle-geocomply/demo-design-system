@@ -577,6 +577,7 @@ export namespace Components {
         "isCustomHeader": boolean;
         "isLoading"?: false;
         "isNoBorderedAll"?: boolean;
+        "isNoBorderedEmptyState": boolean;
         "isStripe"?: boolean;
         "keyField": string;
         "page": number;
@@ -1609,6 +1610,7 @@ declare namespace LocalJSX {
         "isCustomHeader"?: boolean;
         "isLoading"?: false;
         "isNoBorderedAll"?: boolean;
+        "isNoBorderedEmptyState"?: boolean;
         "isStripe"?: boolean;
         "keyField"?: string;
         "onGc:change-page"?: (event: GcTableCustomEvent<any>) => void;

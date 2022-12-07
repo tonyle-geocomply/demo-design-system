@@ -132,6 +132,7 @@ export class GcStep {
   }
   handleTransitionEnd() {
     this.transitioning = false;
+    this.openCount = 0;
   }
   calculateHeight() {
     this.calculatedHeight = this.element.querySelector('gc-step > section > div').clientHeight;

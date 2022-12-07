@@ -59,6 +59,7 @@ export class GcTable {
     this.isNoBorderedAll = false;
     this.settingTable = {};
     this.isCustomHeader = false;
+    this.isNoBorderedEmptyState = false;
     this.hoveredCell = {};
     this.isSelectAll = false;
     this.showingColumns = {};
@@ -449,7 +450,7 @@ export class GcTable {
     if (this.customEmptyState) {
       return h("div", { innerHTML: this.customEmptyState });
     }
-    return (h("div", { class: "empty-table" },
+    return (h("div", { class: { 'empty-table': true, 'empty-table-no-bordered': this.isNoBorderedEmptyState } },
       h("div", { class: "empty-title" },
         h("gc-h2", null, "There is no records found matching applied filters")),
       h("gc-button", { onClick: () => this.onClearEmptyState(), type: "secondary", icon: "fa-regular fa-filter-slash" }, "Clear applied filters")));
@@ -934,6 +935,24 @@ export class GcTable {
         "text": ""
       },
       "attribute": "is-custom-header",
+      "reflect": false,
+      "defaultValue": "false"
+    },
+    "isNoBorderedEmptyState": {
+      "type": "boolean",
+      "mutable": false,
+      "complexType": {
+        "original": "boolean",
+        "resolved": "boolean",
+        "references": {}
+      },
+      "required": false,
+      "optional": false,
+      "docs": {
+        "tags": [],
+        "text": ""
+      },
+      "attribute": "is-no-bordered-empty-state",
       "reflect": false,
       "defaultValue": "false"
     }

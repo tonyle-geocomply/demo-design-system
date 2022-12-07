@@ -25,6 +25,9 @@
   border: 1px solid var(--gc-color-second-grey);
   background: var(--gc-color-contrast-white);
 }
+.empty-table-no-bordered {
+  border: none;
+}
 .empty-title {
   margin-bottom: 14px;
 }
