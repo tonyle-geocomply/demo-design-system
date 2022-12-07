@@ -40,7 +40,7 @@ export class GcStep {
   }
   get style() {
     return {
-      height: this.isResize && this.open ? 'auto' : this.open ? this.calculatedHeight + 'px' : '0px',
+      maxHeight: this.isResize && this.open ? '1500px' : this.open ? this.calculatedHeight + 'px' : '0px',
     };
   }
   stateChanged(value) {

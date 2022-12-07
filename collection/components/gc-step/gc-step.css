@@ -35,7 +35,7 @@
   margin-left: 14px;
 }
 .transitioning {
-  transition: height .35s ease;
+  transition: max-height .35s ease;
 }
 header.gc__head {
   margin-top: 12px;

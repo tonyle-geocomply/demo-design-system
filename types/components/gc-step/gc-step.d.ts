@@ -3,7 +3,7 @@ export declare class GcStep {
   protected calculatedHeight: number;
   protected mutationObserver: MutationObserver;
   get style(): {
-    height: string;
+    maxHeight: string;
   };
   element: HTMLElement;
   transitioning: boolean;
