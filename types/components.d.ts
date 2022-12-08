@@ -497,6 +497,7 @@ export namespace Components {
           * index of step item from top to bottom
          */
         "index": string;
+        "maxHeight": string;
         /**
           * The mutation observer config to listen for content changes in the step item
          */
@@ -1518,6 +1519,7 @@ declare namespace LocalJSX {
           * index of step item from top to bottom
          */
         "index"?: string;
+        "maxHeight"?: string;
         /**
           * The mutation observer config to listen for content changes in the step item
          */

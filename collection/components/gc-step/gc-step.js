@@ -2,6 +2,7 @@ import { Component, Host, h, Prop, Event, Method, Element, State, Watch, Listen 
 export class GcStep {
   constructor() {
     this.calculatedHeight = 0;
+    this.maxHeight = '1500px';
     this.transitioning = false;
     this.isResize = false;
     this.openCount = 0;
@@ -40,7 +41,7 @@ export class GcStep {
   }
   get style() {
     return {
-      maxHeight: this.isResize && this.open ? '1500px' : this.open ? this.calculatedHeight + 'px' : '0px',
+      maxHeight: this.isResize && this.open ? this.maxHeight : this.open ? this.maxHeight : '0px',
     };
   }
   stateChanged(value) {
@@ -165,6 +166,24 @@ export class GcStep {
     "$": ["gc-step.css"]
   }; }
   static get properties() { return {
+    "maxHeight": {
+      "type": "string",
+      "mutable": false,
+      "complexType": {
+        "original": "string",
+        "resolved": "string",
+        "references": {}
+      },
+      "required": false,
+      "optional": false,
+      "docs": {
+        "tags": [],
+        "text": ""
+      },
+      "attribute": "max-height",
+      "reflect": false,
+      "defaultValue": "'1500px'"
+    },
     "index": {
       "type": "string",
       "mutable": true,

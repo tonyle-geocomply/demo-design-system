@@ -2,6 +2,7 @@ import { EventEmitter } from '../../stencil-public-runtime';
 export declare class GcStep {
   protected calculatedHeight: number;
   protected mutationObserver: MutationObserver;
+  maxHeight: string;
   get style(): {
     maxHeight: string;
   };

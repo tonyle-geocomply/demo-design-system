@@ -12,6 +12,7 @@ const GcStep$1 = /*@__PURE__*/ proxyCustomElement(class extends HTMLElement {
     this.closeEvent = createEvent(this, "closeEvent", 7);
     this.contentChanged = createEvent(this, "contentChanged", 7);
     this.calculatedHeight = 0;
+    this.maxHeight = '1500px';
     this.transitioning = false;
     this.isResize = false;
     this.openCount = 0;
@@ -50,7 +51,7 @@ const GcStep$1 = /*@__PURE__*/ proxyCustomElement(class extends HTMLElement {
   }
   get style() {
     return {
-      maxHeight: this.isResize && this.open ? '1500px' : this.open ? this.calculatedHeight + 'px' : '0px',
+      maxHeight: this.isResize && this.open ? this.maxHeight : this.open ? this.maxHeight : '0px',
     };
   }
   stateChanged(value) {
@@ -162,6 +163,7 @@ const GcStep$1 = /*@__PURE__*/ proxyCustomElement(class extends HTMLElement {
   }; }
   static get style() { return gcStepCss; }
 }, [6, "gc-step", {
+    "maxHeight": [1, "max-height"],
     "index": [1537],
     "open": [1540],
     "mutationObserverConfig": [16],

@@ -5987,6 +5987,7 @@ const GcStep = class {
     this.closeEvent = createEvent(this, "closeEvent", 7);
     this.contentChanged = createEvent(this, "contentChanged", 7);
     this.calculatedHeight = 0;
+    this.maxHeight = '1500px';
     this.transitioning = false;
     this.isResize = false;
     this.openCount = 0;
@@ -6025,7 +6026,7 @@ const GcStep = class {
   }
   get style() {
     return {
-      maxHeight: this.isResize && this.open ? '1500px' : this.open ? this.calculatedHeight + 'px' : '0px',
+      maxHeight: this.isResize && this.open ? this.maxHeight : this.open ? this.maxHeight : '0px',
     };
   }
   stateChanged(value) {
