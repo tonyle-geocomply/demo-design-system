@@ -28,11 +28,11 @@ export const isOutOfViewport = function (bounding) {
   return out;
 };
 export const observeThemeChange = (() => {
-  let callbacks = [];
+  const callbacks = [];
   const elem = document.documentElement;
   let lastClassName = elem.getAttribute('data-theme');
   window.setInterval(function () {
-    let className = elem.getAttribute('data-theme');
+    const className = elem.getAttribute('data-theme');
     if (className !== lastClassName) {
       callbacks.forEach(callback => callback());
       lastClassName = className;
@@ -139,5 +139,63 @@ export const copyClipboard = (content, callback = undefined) => {
       if (callback)
         callback();
     });
+  }
+};
+export const getIconExtension = (fileExtension) => {
+  switch (fileExtension) {
+    case 'csv':
+      return 'fa-file-csv';
+    case 'pdf':
+      return 'fa-file-pdf';
+    case 'png':
+    case 'jpg':
+    case 'jpeg':
+    case 'tiff':
+      return 'fa-file-image';
+    case 'xls':
+    case 'xl':
+    case 'xlsx':
+      return 'fa-file-excel';
+    case 'ppt':
+    case 'pptx':
+      return 'fa-file-powerpoint';
+    case 'doc':
+    case 'docx':
+      return 'fa-file-word';
+    case 'txt':
+      return 'fa-file-alt';
+    case 'md':
+      return 'fa-file-markdown';
+    default:
+      return 'fa-file';
+  }
+};
+export const getAcceptTypes = (fileExtension) => {
+  switch (fileExtension) {
+    case 'csv':
+      return '.csv';
+    case 'pdf':
+      return '.pdf';
+    case 'png':
+    case 'jpg':
+    case 'jpeg':
+    case 'tiff':
+      return '.png, .jpg, .jpeg, .tiff';
+    case 'xls':
+    case 'xl':
+    case 'xlsx':
+      return '.xls, .xlsx';
+    case 'ppt':
+    case 'pptx':
+      return '.ppt, .pptx';
+    case 'doc':
+    case 'docx':
+      return '.doc, .docx';
+    case 'txt':
+      return '.txt';
+    case 'md':
+      return '.md';
+    default:
+      return '*';
   }
 };

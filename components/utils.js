@@ -19,11 +19,11 @@ const isOutOfViewport = function (bounding) {
   return out;
 };
 (() => {
-  let callbacks = [];
+  const callbacks = [];
   const elem = document.documentElement;
   let lastClassName = elem.getAttribute('data-theme');
   window.setInterval(function () {
-    let className = elem.getAttribute('data-theme');
+    const className = elem.getAttribute('data-theme');
     if (className !== lastClassName) {
       callbacks.forEach(callback => callback());
       lastClassName = className;
@@ -84,5 +84,63 @@ const copyClipboard = (content, callback = undefined) => {
     });
   }
 };
+const getIconExtension = (fileExtension) => {
+  switch (fileExtension) {
+    case 'csv':
+      return 'fa-file-csv';
+    case 'pdf':
+      return 'fa-file-pdf';
+    case 'png':
+    case 'jpg':
+    case 'jpeg':
+    case 'tiff':
+      return 'fa-file-image';
+    case 'xls':
+    case 'xl':
+    case 'xlsx':
+      return 'fa-file-excel';
+    case 'ppt':
+    case 'pptx':
+      return 'fa-file-powerpoint';
+    case 'doc':
+    case 'docx':
+      return 'fa-file-word';
+    case 'txt':
+      return 'fa-file-alt';
+    case 'md':
+      return 'fa-file-markdown';
+    default:
+      return 'fa-file';
+  }
+};
+const getAcceptTypes = (fileExtension) => {
+  switch (fileExtension) {
+    case 'csv':
+      return '.csv';
+    case 'pdf':
+      return '.pdf';
+    case 'png':
+    case 'jpg':
+    case 'jpeg':
+    case 'tiff':
+      return '.png, .jpg, .jpeg, .tiff';
+    case 'xls':
+    case 'xl':
+    case 'xlsx':
+      return '.xls, .xlsx';
+    case 'ppt':
+    case 'pptx':
+      return '.ppt, .pptx';
+    case 'doc':
+    case 'docx':
+      return '.doc, .docx';
+    case 'txt':
+      return '.txt';
+    case 'md':
+      return '.md';
+    default:
+      return '*';
+  }
+};
 
-export { isOutOfViewport as a, copyClipboard as c, debounceEvent as d, isMobile as i };
+export { getAcceptTypes as a, isOutOfViewport as b, copyClipboard as c, debounceEvent as d, getIconExtension as g, isMobile as i };

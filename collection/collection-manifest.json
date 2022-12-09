@@ -1,5 +1,6 @@
 {
   "entries": [
+    "./components/gc-alert/gc-alert.js",
     "./components/gc-button/gc-button.js",
     "./components/gc-checkbox/gc-checkbox.js",
     "./components/gc-drag-container/gc-drag-container.js",
@@ -18,6 +19,7 @@
     "./components/gc-modal/gc-modal.js",
     "./components/gc-ol/gc-ol.js",
     "./components/gc-pagination/gc-pagination.js",
+    "./components/gc-progress/gc-progress.js",
     "./components/gc-select/gc-select.js",
     "./components/gc-spinner/gc-spinner.js",
     "./components/gc-step/gc-step.js",
@@ -30,7 +32,8 @@
     "./components/gc-tag/gc-tag.js",
     "./components/gc-textarea/gc-textarea.js",
     "./components/gc-tooltip/gc-tooltip.js",
-    "./components/gc-ul/gc-ul.js"
+    "./components/gc-ul/gc-ul.js",
+    "./components/gc-upload/gc-upload.js"
   ],
   "compiler": {
     "name": "@stencil/core",

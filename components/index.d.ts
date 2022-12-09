@@ -1,4 +1,5 @@
 /* GcWebDesignSystem custom elements */
+export { GcAlert as GcAlert } from '../types/components/gc-alert/gc-alert';
 export { GcButton as GcButton } from '../types/components/gc-button/gc-button';
 export { GcCheckbox as GcCheckbox } from '../types/components/gc-checkbox/gc-checkbox';
 export { GcDragContainer as GcDragContainer } from '../types/components/gc-drag-container/gc-drag-container';
@@ -17,6 +18,7 @@ export { GcMenuItem as GcMenuItem } from '../types/components/gc-menu-item/gc-me
 export { GcModal as GcModal } from '../types/components/gc-modal/gc-modal';
 export { GcOl as GcOl } from '../types/components/gc-ol/gc-ol';
 export { GcPagination as GcPagination } from '../types/components/gc-pagination/gc-pagination';
+export { GcProgress as GcProgress } from '../types/components/gc-progress/gc-progress';
 export { GcSelect as GcSelect } from '../types/components/gc-select/gc-select';
 export { GcSpinner as GcSpinner } from '../types/components/gc-spinner/gc-spinner';
 export { GcStep as GcStep } from '../types/components/gc-step/gc-step';
@@ -30,6 +32,7 @@ export { GcTag as GcTag } from '../types/components/gc-tag/gc-tag';
 export { GcTextarea as GcTextarea } from '../types/components/gc-textarea/gc-textarea';
 export { GcTooltip as GcTooltip } from '../types/components/gc-tooltip/gc-tooltip';
 export { GcUl as GcUl } from '../types/components/gc-ul/gc-ul';
+export { GcUpload as GcUpload } from '../types/components/gc-upload/gc-upload';
 
 /**
  * Used to manually set the base path where assets can be found.

@@ -1,4 +1,5 @@
 export { setAssetPath, setPlatformOptions } from '@stencil/core/internal/client';
+export { GcAlert, defineCustomElement as defineCustomElementGcAlert } from './gc-alert.js';
 export { GcButton, defineCustomElement as defineCustomElementGcButton } from './gc-button.js';
 export { GcCheckbox, defineCustomElement as defineCustomElementGcCheckbox } from './gc-checkbox.js';
 export { GcDragContainer, defineCustomElement as defineCustomElementGcDragContainer } from './gc-drag-container.js';
@@ -17,6 +18,7 @@ export { GcMenuItem, defineCustomElement as defineCustomElementGcMenuItem } from
 export { GcModal, defineCustomElement as defineCustomElementGcModal } from './gc-modal.js';
 export { GcOl, defineCustomElement as defineCustomElementGcOl } from './gc-ol.js';
 export { GcPagination, defineCustomElement as defineCustomElementGcPagination } from './gc-pagination.js';
+export { GcProgress, defineCustomElement as defineCustomElementGcProgress } from './gc-progress.js';
 export { GcSelect, defineCustomElement as defineCustomElementGcSelect } from './gc-select.js';
 export { GcSpinner, defineCustomElement as defineCustomElementGcSpinner } from './gc-spinner.js';
 export { GcStep, defineCustomElement as defineCustomElementGcStep } from './gc-step.js';
@@ -30,3 +32,4 @@ export { GcTag, defineCustomElement as defineCustomElementGcTag } from './gc-tag
 export { GcTextarea, defineCustomElement as defineCustomElementGcTextarea } from './gc-textarea.js';
 export { GcTooltip, defineCustomElement as defineCustomElementGcTooltip } from './gc-tooltip.js';
 export { GcUl, defineCustomElement as defineCustomElementGcUl } from './gc-ul.js';
+export { GcUpload, defineCustomElement as defineCustomElementGcUpload } from './gc-upload.js';

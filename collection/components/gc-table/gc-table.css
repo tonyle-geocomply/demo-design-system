@@ -6,10 +6,16 @@
   --z-index-fixed-col: 13;
   --font-weight-table-header: 600;
 }
+:host(.is-loading) {
+  position: relative;
+}
 .gc__table {
   height: 100%;
   border: 1px solid var(--table-border-color);
   font-size: 12px;
+}
+.gc__table-loading {
+  opacity: 0.3;
 }
 .gc__table .table-scroll-container {
   position: relative;
@@ -324,10 +330,16 @@ gc-icon.down-arrow {
 }
 
 .loading-section {
+  width: 50%;
+  height: 50%;
+  overflow: auto;
+  margin: auto;
   position: absolute;
-  right: 0;
+  top: 0;
   left: 0;
-  top: 50%;
+  bottom: 0;
+  right: 0;
+  z-index: 9999999999;
 }
 
 .gc__actions {
