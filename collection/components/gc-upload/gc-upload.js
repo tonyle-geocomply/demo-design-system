@@ -67,14 +67,17 @@ export class GcUpload {
     }
   }
   handleChange(e) {
-    this.gcUploadedFile.emit({ file: e.target.files[0] });
+    var _a;
+    if ((_a = e === null || e === void 0 ? void 0 : e.target) === null || _a === void 0 ? void 0 : _a.files) {
+      this.gcUploadedFile.emit({ file: e.target.files[0] });
+    }
   }
   render() {
     if (this.isCustom) {
       return (h(Host, null,
         h("label", { htmlFor: "file-upload", class: "custom-file-upload" },
           h("slot", null)),
-        h("input", { accept: this.getAcceptFiles(), id: "file-upload", type: "file", onChange: this.handleChange })));
+        h("input", { accept: this.getAcceptFiles(), id: "file-upload", type: "file", onChange: (e) => this.handleChange(e) })));
     }
     return (h(Host, null,
       h("form", { id: "dropzone", action: "/upload", class: { 'dropzone': true, 'dropzone-dragging': this.dragging }, ref: el => (this.container = el), style: { width: this.width } },

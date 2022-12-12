@@ -9303,11 +9303,14 @@ const GcUpload = class {
     }
   }
   handleChange(e) {
-    this.gcUploadedFile.emit({ file: e.target.files[0] });
+    var _a;
+    if ((_a = e === null || e === void 0 ? void 0 : e.target) === null || _a === void 0 ? void 0 : _a.files) {
+      this.gcUploadedFile.emit({ file: e.target.files[0] });
+    }
   }
   render() {
     if (this.isCustom) {
-      return (index$1.h(index$1.Host, null, index$1.h("label", { htmlFor: "file-upload", class: "custom-file-upload" }, index$1.h("slot", null)), index$1.h("input", { accept: this.getAcceptFiles(), id: "file-upload", type: "file", onChange: this.handleChange })));
+      return (index$1.h(index$1.Host, null, index$1.h("label", { htmlFor: "file-upload", class: "custom-file-upload" }, index$1.h("slot", null)), index$1.h("input", { accept: this.getAcceptFiles(), id: "file-upload", type: "file", onChange: (e) => this.handleChange(e) })));
     }
     return (index$1.h(index$1.Host, null, index$1.h("form", { id: "dropzone", action: "/upload", class: { 'dropzone': true, 'dropzone-dragging': this.dragging }, ref: el => (this.container = el), style: { width: this.width } }, index$1.h("div", { class: "dz-message" }, !this.fileName && (index$1.h("div", { class: "gc__dropzone-heading" }, index$1.h("slot", { name: "gc__dropzone-heading" }))), index$1.h("div", { class: "gc__dropzone-icon" }, index$1.h("gc-icon", { name: `fa-regular ${this.getIcon()}`, size: "40px", color: "var(--gc-color-primary)" }), index$1.h("div", { class: "gc__dropzone-extension" }, "*.", this.acceptType)), !!this.fileName && index$1.h("div", { class: "gc__dropzone-filename" }, this.fileName), !this.fileName && (index$1.h("div", { class: "gc__dropzone-body" }, index$1.h("slot", { name: "gc__dropzone-body" }))), !this.fileName && (index$1.h("div", { class: "gc__dropzone-buttons" }, index$1.h("gc-button", { id: "browse_files", type: "primary", "padding-text": "30px", height: "32px" }, "Browse Files"), index$1.h("div", { class: "gc__dropzone-type" }, "Drop your *.", this.acceptType, " file here"))), !this.fileName && (index$1.h("div", { class: "gc__dropzone-notes" }, index$1.h("slot", { name: "gc__dropzone-notes" }))))), !!this.progress && index$1.h("gc-progress", { percent: this.progress, width: `calc(${this.width} + 45px)` })));
   }

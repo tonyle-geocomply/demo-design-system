@@ -2203,11 +2203,14 @@ const GcUpload$1 = /*@__PURE__*/ proxyCustomElement(class extends HTMLElement {
     }
   }
   handleChange(e) {
-    this.gcUploadedFile.emit({ file: e.target.files[0] });
+    var _a;
+    if ((_a = e === null || e === void 0 ? void 0 : e.target) === null || _a === void 0 ? void 0 : _a.files) {
+      this.gcUploadedFile.emit({ file: e.target.files[0] });
+    }
   }
   render() {
     if (this.isCustom) {
-      return (h(Host, null, h("label", { htmlFor: "file-upload", class: "custom-file-upload" }, h("slot", null)), h("input", { accept: this.getAcceptFiles(), id: "file-upload", type: "file", onChange: this.handleChange })));
+      return (h(Host, null, h("label", { htmlFor: "file-upload", class: "custom-file-upload" }, h("slot", null)), h("input", { accept: this.getAcceptFiles(), id: "file-upload", type: "file", onChange: (e) => this.handleChange(e) })));
     }
     return (h(Host, null, h("form", { id: "dropzone", action: "/upload", class: { 'dropzone': true, 'dropzone-dragging': this.dragging }, ref: el => (this.container = el), style: { width: this.width } }, h("div", { class: "dz-message" }, !this.fileName && (h("div", { class: "gc__dropzone-heading" }, h("slot", { name: "gc__dropzone-heading" }))), h("div", { class: "gc__dropzone-icon" }, h("gc-icon", { name: `fa-regular ${this.getIcon()}`, size: "40px", color: "var(--gc-color-primary)" }), h("div", { class: "gc__dropzone-extension" }, "*.", this.acceptType)), !!this.fileName && h("div", { class: "gc__dropzone-filename" }, this.fileName), !this.fileName && (h("div", { class: "gc__dropzone-body" }, h("slot", { name: "gc__dropzone-body" }))), !this.fileName && (h("div", { class: "gc__dropzone-buttons" }, h("gc-button", { id: "browse_files", type: "primary", "padding-text": "30px", height: "32px" }, "Browse Files"), h("div", { class: "gc__dropzone-type" }, "Drop your *.", this.acceptType, " file here"))), !this.fileName && (h("div", { class: "gc__dropzone-notes" }, h("slot", { name: "gc__dropzone-notes" }))))), !!this.progress && h("gc-progress", { percent: this.progress, width: `calc(${this.width} + 45px)` })));
   }
