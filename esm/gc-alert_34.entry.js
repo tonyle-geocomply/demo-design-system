@@ -6054,7 +6054,7 @@ const GcSelect = class {
 };
 GcSelect.style = gcSelectCss;
 
-const gcSpinnerCss = ":host{--z-index-floating:9999999999;--background-color-behind:rgba(255,255,255, 0.5)}.gc__spinner{display:flex;align-items:center;justify-content:center}.gc__spinner-float{position:fixed;left:0px;top:0px;width:100%;height:100%;z-index:var(--z-index-floating);overflow:hidden;background:var(--background-color-behind)}.gc__spinner-loading{display:inline-block}.gc__spinner-loading>svg{display:inline-block;width:49px;height:58px;animation:lds-circle 0.8s cubic-bezier(0, 0.2, 0.8, 1) infinite}@keyframes lds-circle{0%,100%{animation-timing-function:cubic-bezier(0.5, 0, 1, 0.5)}0%{transform:rotateY(0deg)}50%{transform:rotateY(0deg);animation-timing-function:cubic-bezier(0, 0.5, 0.5, 1)}100%{transform:rotateY(360deg)}}";
+const gcSpinnerCss = ":host{--z-index-floating:1001;--background-color-behind:rgba(255,255,255, 0.5)}.gc__spinner{display:flex;align-items:center;justify-content:center}.gc__spinner-float{position:fixed;left:0px;top:0px;width:100%;height:100%;z-index:var(--z-index-floating);overflow:hidden;background:var(--background-color-behind)}.gc__spinner-loading{display:inline-block}.gc__spinner-loading>svg{display:inline-block;width:49px;height:58px;animation:lds-circle 0.8s cubic-bezier(0, 0.2, 0.8, 1) infinite}@keyframes lds-circle{0%,100%{animation-timing-function:cubic-bezier(0.5, 0, 1, 0.5)}0%{transform:rotateY(0deg)}50%{transform:rotateY(0deg);animation-timing-function:cubic-bezier(0, 0.5, 0.5, 1)}100%{transform:rotateY(360deg)}}";
 
 const GcSpinner = class {
   constructor(hostRef) {
@@ -6799,9 +6799,9 @@ const GcTable = class {
   }
   renderEmptyState() {
     if (this.customEmptyState) {
-      return h("div", { innerHTML: this.customEmptyState });
+      return h("div", { class: { 'gc__table-loading': this.isLoading }, innerHTML: this.customEmptyState });
     }
-    return (h("div", { class: { 'empty-table': true, 'empty-table-no-bordered': this.isNoBorderedEmptyState } }, h("div", { class: "empty-title" }, h("gc-h2", null, "There is no records found matching applied filters")), h("gc-button", { onClick: () => this.onClearEmptyState(), type: "secondary", icon: "fa-regular fa-filter-slash" }, "Clear applied filters")));
+    return (h("div", { class: { 'empty-table': true, 'empty-table-no-bordered': this.isNoBorderedEmptyState, 'gc__table-loading': this.isLoading } }, h("div", { class: "empty-title" }, h("gc-h2", null, "There is no records found matching applied filters")), h("gc-button", { onClick: () => this.onClearEmptyState(), type: "secondary", icon: "fa-regular fa-filter-slash" }, "Clear applied filters")));
   }
   get elm() { return getElement(this); }
   static get watchers() { return {

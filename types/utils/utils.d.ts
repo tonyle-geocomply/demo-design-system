@@ -21,3 +21,5 @@ export declare function loadScriptModule(src: any): Promise<unknown>;
 export declare function loadScript(src: any): Promise<unknown>;
 export declare const getFromObject: (obj: any, path: any, defaultValue?: any) => any;
 export declare const copyClipboard: (content: string, callback?: any) => Promise<unknown>;
+export declare const getIconExtension: (fileExtension: string) => string;
+export declare const getAcceptTypes: (fileExtension: string) => string;

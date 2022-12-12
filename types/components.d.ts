@@ -6,6 +6,16 @@
  */
 import { HTMLStencilElement, JSXBase } from "./stencil-public-runtime";
 export namespace Components {
+    interface GcAlert {
+        /**
+          * The content of alert
+         */
+        "content"?: string;
+        /**
+          * The type of alert: info | success | error
+         */
+        "type"?: string;
+    }
     interface GcButton {
         /**
           * The class name
@@ -391,6 +401,16 @@ export namespace Components {
          */
         "total": number;
     }
+    interface GcProgress {
+        /**
+          * The percent of progress
+         */
+        "percent"?: number;
+        /**
+          * The width of progress
+         */
+        "width"?: string;
+    }
     interface GcSelect {
         /**
           * The class name
@@ -728,6 +748,24 @@ export namespace Components {
          */
         "gcId": string;
     }
+    interface GcUpload {
+        /**
+          * Accept type
+         */
+        "acceptType"?: string;
+        /**
+          * Disabled
+         */
+        "disabled"?: boolean;
+        /**
+          * Option
+         */
+        "option"?: {};
+        /**
+          * Width of upload
+         */
+        "width"?: string;
+    }
 }
 export interface GcButtonCustomEvent<T> extends CustomEvent<T> {
     detail: T;
@@ -793,7 +831,17 @@ export interface GcTooltipCustomEvent<T> extends CustomEvent<T> {
     detail: T;
     target: HTMLGcTooltipElement;
 }
+export interface GcUploadCustomEvent<T> extends CustomEvent<T> {
+    detail: T;
+    target: HTMLGcUploadElement;
+}
 declare global {
+    interface HTMLGcAlertElement extends Components.GcAlert, HTMLStencilElement {
+    }
+    var HTMLGcAlertElement: {
+        prototype: HTMLGcAlertElement;
+        new (): HTMLGcAlertElement;
+    };
     interface HTMLGcButtonElement extends Components.GcButton, HTMLStencilElement {
     }
     var HTMLGcButtonElement: {
@@ -902,6 +950,12 @@ declare global {
         prototype: HTMLGcPaginationElement;
         new (): HTMLGcPaginationElement;
     };
+    interface HTMLGcProgressElement extends Components.GcProgress, HTMLStencilElement {
+    }
+    var HTMLGcProgressElement: {
+        prototype: HTMLGcProgressElement;
+        new (): HTMLGcProgressElement;
+    };
     interface HTMLGcSelectElement extends Components.GcSelect, HTMLStencilElement {
     }
     var HTMLGcSelectElement: {
@@ -980,7 +1034,14 @@ declare global {
         prototype: HTMLGcUlElement;
         new (): HTMLGcUlElement;
     };
+    interface HTMLGcUploadElement extends Components.GcUpload, HTMLStencilElement {
+    }
+    var HTMLGcUploadElement: {
+        prototype: HTMLGcUploadElement;
+        new (): HTMLGcUploadElement;
+    };
     interface HTMLElementTagNameMap {
+        "gc-alert": HTMLGcAlertElement;
         "gc-button": HTMLGcButtonElement;
         "gc-checkbox": HTMLGcCheckboxElement;
         "gc-drag-container": HTMLGcDragContainerElement;
@@ -999,6 +1060,7 @@ declare global {
         "gc-modal": HTMLGcModalElement;
         "gc-ol": HTMLGcOlElement;
         "gc-pagination": HTMLGcPaginationElement;
+        "gc-progress": HTMLGcProgressElement;
         "gc-select": HTMLGcSelectElement;
         "gc-spinner": HTMLGcSpinnerElement;
         "gc-step": HTMLGcStepElement;
@@ -1012,9 +1074,20 @@ declare global {
         "gc-textarea": HTMLGcTextareaElement;
         "gc-tooltip": HTMLGcTooltipElement;
         "gc-ul": HTMLGcUlElement;
+        "gc-upload": HTMLGcUploadElement;
     }
 }
 declare namespace LocalJSX {
+    interface GcAlert {
+        /**
+          * The content of alert
+         */
+        "content"?: string;
+        /**
+          * The type of alert: info | success | error
+         */
+        "type"?: string;
+    }
     interface GcButton {
         /**
           * The class name
@@ -1417,6 +1490,16 @@ declare namespace LocalJSX {
          */
         "total"?: number;
     }
+    interface GcProgress {
+        /**
+          * The percent of progress
+         */
+        "percent"?: number;
+        /**
+          * The width of progress
+         */
+        "width"?: string;
+    }
     interface GcSelect {
         /**
           * The class name
@@ -1777,7 +1860,29 @@ declare namespace LocalJSX {
          */
         "gcId"?: string;
     }
+    interface GcUpload {
+        /**
+          * Accept type
+         */
+        "acceptType"?: string;
+        /**
+          * Disabled
+         */
+        "disabled"?: boolean;
+        "onGc:upload-completed"?: (event: GcUploadCustomEvent<any>) => void;
+        "onGc:upload-progress"?: (event: GcUploadCustomEvent<any>) => void;
+        "onGc:uploaded-file"?: (event: GcUploadCustomEvent<any>) => void;
+        /**
+          * Option
+         */
+        "option"?: {};
+        /**
+          * Width of upload
+         */
+        "width"?: string;
+    }
     interface IntrinsicElements {
+        "gc-alert": GcAlert;
         "gc-button": GcButton;
         "gc-checkbox": GcCheckbox;
         "gc-drag-container": GcDragContainer;
@@ -1796,6 +1901,7 @@ declare namespace LocalJSX {
         "gc-modal": GcModal;
         "gc-ol": GcOl;
         "gc-pagination": GcPagination;
+        "gc-progress": GcProgress;
         "gc-select": GcSelect;
         "gc-spinner": GcSpinner;
         "gc-step": GcStep;
@@ -1809,12 +1915,14 @@ declare namespace LocalJSX {
         "gc-textarea": GcTextarea;
         "gc-tooltip": GcTooltip;
         "gc-ul": GcUl;
+        "gc-upload": GcUpload;
     }
 }
 export { LocalJSX as JSX };
 declare module "@stencil/core" {
     export namespace JSX {
         interface IntrinsicElements {
+            "gc-alert": LocalJSX.GcAlert & JSXBase.HTMLAttributes<HTMLGcAlertElement>;
             "gc-button": LocalJSX.GcButton & JSXBase.HTMLAttributes<HTMLGcButtonElement>;
             "gc-checkbox": LocalJSX.GcCheckbox & JSXBase.HTMLAttributes<HTMLGcCheckboxElement>;
             "gc-drag-container": LocalJSX.GcDragContainer & JSXBase.HTMLAttributes<HTMLGcDragContainerElement>;
@@ -1833,6 +1941,7 @@ declare module "@stencil/core" {
             "gc-modal": LocalJSX.GcModal & JSXBase.HTMLAttributes<HTMLGcModalElement>;
             "gc-ol": LocalJSX.GcOl & JSXBase.HTMLAttributes<HTMLGcOlElement>;
             "gc-pagination": LocalJSX.GcPagination & JSXBase.HTMLAttributes<HTMLGcPaginationElement>;
+            "gc-progress": LocalJSX.GcProgress & JSXBase.HTMLAttributes<HTMLGcProgressElement>;
             "gc-select": LocalJSX.GcSelect & JSXBase.HTMLAttributes<HTMLGcSelectElement>;
             "gc-spinner": LocalJSX.GcSpinner & JSXBase.HTMLAttributes<HTMLGcSpinnerElement>;
             "gc-step": LocalJSX.GcStep & JSXBase.HTMLAttributes<HTMLGcStepElement>;
@@ -1846,6 +1955,7 @@ declare module "@stencil/core" {
             "gc-textarea": LocalJSX.GcTextarea & JSXBase.HTMLAttributes<HTMLGcTextareaElement>;
             "gc-tooltip": LocalJSX.GcTooltip & JSXBase.HTMLAttributes<HTMLGcTooltipElement>;
             "gc-ul": LocalJSX.GcUl & JSXBase.HTMLAttributes<HTMLGcUlElement>;
+            "gc-upload": LocalJSX.GcUpload & JSXBase.HTMLAttributes<HTMLGcUploadElement>;
         }
     }
 }

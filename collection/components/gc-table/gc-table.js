@@ -443,9 +443,9 @@ export class GcTable {
   }
   renderEmptyState() {
     if (this.customEmptyState) {
-      return h("div", { innerHTML: this.customEmptyState });
+      return h("div", { class: { 'gc__table-loading': this.isLoading }, innerHTML: this.customEmptyState });
     }
-    return (h("div", { class: { 'empty-table': true, 'empty-table-no-bordered': this.isNoBorderedEmptyState } },
+    return (h("div", { class: { 'empty-table': true, 'empty-table-no-bordered': this.isNoBorderedEmptyState, 'gc__table-loading': this.isLoading } },
       h("div", { class: "empty-title" },
         h("gc-h2", null, "There is no records found matching applied filters")),
       h("gc-button", { onClick: () => this.onClearEmptyState(), type: "secondary", icon: "fa-regular fa-filter-slash" }, "Clear applied filters")));
