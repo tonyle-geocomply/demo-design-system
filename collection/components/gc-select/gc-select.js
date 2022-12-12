@@ -177,6 +177,8 @@ export class GcSelect {
     }
     if (!newValue) {
       this.stateItems = this.getItems();
+      this.selectedColorItem = '';
+      this.selectedDotItem = '';
     }
   }
   windowClick(evt) {

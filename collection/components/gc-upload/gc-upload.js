@@ -20,6 +20,10 @@ export class GcUpload {
      * Option
      */
     this.option = {};
+    /**
+     * Custom how to display
+     */
+    this.isCustom = false;
     this.dragging = false;
     this.progress = 0;
     this.fileName = '';
@@ -32,35 +36,46 @@ export class GcUpload {
     return getAcceptTypes(this.acceptType);
   }
   componentDidLoad() {
-    const dropzone = new Dropzone(this.container, Object.assign({ disablePreviews: true, clickable: this.disabled || !this.disableState, acceptedFiles: this.getAcceptFiles() }, this.option));
-    if (dropzone && dropzone.on) {
-      dropzone.on('addedfile', file => {
-        this.gcUploadedFile.emit({ file });
-      });
-      dropzone.on('uploadprogress', (file, progress, bytesSent) => {
-        this.dragging = false;
-        this.fileName = file.upload.filename;
-        this.disableState = true;
-        this.progress = Math.floor(progress * 1);
-        this.gcUploadProgress.emit({ file, progress, bytesSent });
-      });
-      dropzone.on('complete', file => {
-        setTimeout(() => {
-          this.fileName = '';
-          this.progress = 0;
-          this.disableState = false;
-        }, TIMEOUT);
-        this.gcUploadCompleted.emit(file);
-      });
-      dropzone.on('dragover', () => {
-        this.dragging = true;
-      });
-      dropzone.on('dragleave', () => {
-        this.dragging = false;
-      });
+    if (!this.isCustom) {
+      const dropzone = new Dropzone(this.container, Object.assign({ disablePreviews: true, clickable: this.disabled || !this.disableState, acceptedFiles: this.getAcceptFiles() }, this.option));
+      if (dropzone && dropzone.on) {
+        dropzone.on('addedfile', file => {
+          this.gcUploadedFile.emit({ file });
+        });
+        dropzone.on('uploadprogress', (file, progress, bytesSent) => {
+          this.dragging = false;
+          this.fileName = file.upload.filename;
+          this.disableState = true;
+          this.progress = Math.floor(progress * 1);
+          this.gcUploadProgress.emit({ file, progress, bytesSent });
+        });
+        dropzone.on('complete', file => {
+          setTimeout(() => {
+            this.fileName = '';
+            this.progress = 0;
+            this.disableState = false;
+          }, TIMEOUT);
+          this.gcUploadCompleted.emit(file);
+        });
+        dropzone.on('dragover', () => {
+          this.dragging = true;
+        });
+        dropzone.on('dragleave', () => {
+          this.dragging = false;
+        });
+      }
     }
   }
+  handleChange(e) {
+    this.gcUploadedFile.emit({ file: e.target.files[0] });
+  }
   render() {
+    if (this.isCustom) {
+      return (h(Host, null,
+        h("label", { htmlFor: "file-upload", class: "custom-file-upload" },
+          h("slot", null)),
+        h("input", { accept: this.getAcceptFiles(), id: "file-upload", type: "file", onChange: this.handleChange })));
+    }
     return (h(Host, null,
       h("form", { id: "dropzone", action: "/upload", class: { 'dropzone': true, 'dropzone-dragging': this.dragging }, ref: el => (this.container = el), style: { width: this.width } },
         h("div", { class: "dz-message" },
@@ -162,6 +177,24 @@ export class GcUpload {
         "text": "Option"
       },
       "defaultValue": "{}"
+    },
+    "isCustom": {
+      "type": "boolean",
+      "mutable": false,
+      "complexType": {
+        "original": "boolean",
+        "resolved": "boolean",
+        "references": {}
+      },
+      "required": false,
+      "optional": true,
+      "docs": {
+        "tags": [],
+        "text": "Custom how to display"
+      },
+      "attribute": "is-custom",
+      "reflect": false,
+      "defaultValue": "false"
     }
   }; }
   static get states() { return {

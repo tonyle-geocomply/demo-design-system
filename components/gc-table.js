@@ -80,6 +80,7 @@ const GcTable$1 = /*@__PURE__*/ proxyCustomElement(class extends HTMLElement {
     this.settingTable = {};
     this.isCustomHeader = false;
     this.isNoBorderedEmptyState = false;
+    this.maxHeight = '';
     this.hoveredCell = {};
     this.isSelectAll = false;
     this.showingColumns = {};
@@ -127,7 +128,7 @@ const GcTable$1 = /*@__PURE__*/ proxyCustomElement(class extends HTMLElement {
     };
   }
   watchColumnsPropHandler(newValue) {
-    let currentColumns = [];
+    let currentColumns = newValue;
     if (typeof newValue === 'string') {
       try {
         currentColumns = JSON.parse(newValue);
@@ -260,6 +261,9 @@ const GcTable$1 = /*@__PURE__*/ proxyCustomElement(class extends HTMLElement {
     if ((column.isLongText && (row === null || row === void 0 ? void 0 : row[column.name]) && (row === null || row === void 0 ? void 0 : row[column.name].length) > MAX_LONG_TEXT) || column.isCopyText) {
       return (h("div", { class: "col-text", style: { padding: column.paddingText || '' } }, h("gc-tooltip", { isLongText: column.isLongText, isCopyText: column.isCopyText, content: row === null || row === void 0 ? void 0 : row[column.name], isToggle: ((_a = this.clickedCell) === null || _a === void 0 ? void 0 : _a.row) === row && ((_b = this.clickedCell) === null || _b === void 0 ? void 0 : _b.column.name) === column.name }), this.renderActions(row, column, conditionToDisplayActions)));
     }
+    if ((row === null || row === void 0 ? void 0 : row[column.name]) && typeof (row === null || row === void 0 ? void 0 : row[column.name]) === 'string' && (row === null || row === void 0 ? void 0 : row[column.name].includes('gc-cell-invalid'))) {
+      return h("div", { class: "col-text", innerHTML: row === null || row === void 0 ? void 0 : row[column.name], style: { height: '100%', padding: '0' } });
+    }
     return (h("div", { class: "col-text", innerHTML: row === null || row === void 0 ? void 0 : row[column.name], style: { padding: column.paddingText || '' } }, this.renderActions(row, column, conditionToDisplayActions)));
   }
   renderBody() {
@@ -326,7 +330,7 @@ const GcTable$1 = /*@__PURE__*/ proxyCustomElement(class extends HTMLElement {
           border: this.customRows && this.customRowsBorder && this.customRows.includes(`${idx}`) ? this.customRowsBorder : '',
         } }, h("div", { class: "fixed-columns columns-container", style: { position: countCurrentCol.length <= DEFAULT_MAXIMUM_TO_SCALE && !this.isStopScaleWidth ? 'relative' : 'sticky' } }, fixedCols), h("div", { class: "scrollable-columns columns-container" }, scrollCols), h("div", { class: "fixed-right-columns columns-container", style: { position: countCurrentCol.length <= DEFAULT_MAXIMUM_TO_SCALE && !this.isStopScaleWidth ? 'relative' : 'sticky' } }, fixedLastCol)));
     });
-    return h("div", { class: "gc__table-body" }, rows);
+    return h("div", { style: { maxHeight: this.maxHeight }, class: "gc__table-body" }, rows);
   }
   getTotalItems() {
     let totalItems = this.totalItems;
@@ -440,6 +444,7 @@ const GcTable$1 = /*@__PURE__*/ proxyCustomElement(class extends HTMLElement {
     "customEmptyState": [1, "custom-empty-state"],
     "isCustomHeader": [4, "is-custom-header"],
     "isNoBorderedEmptyState": [4, "is-no-bordered-empty-state"],
+    "maxHeight": [1, "max-height"],
     "hoveredCell": [32],
     "isSelectAll": [32],
     "showingColumns": [32],

@@ -1,6 +1,7 @@
 export { setAssetPath, setPlatformOptions } from '@stencil/core/internal/client';
 export { GcAlert, defineCustomElement as defineCustomElementGcAlert } from './gc-alert.js';
 export { GcButton, defineCustomElement as defineCustomElementGcButton } from './gc-button.js';
+export { GcCellInvalid, defineCustomElement as defineCustomElementGcCellInvalid } from './gc-cell-invalid.js';
 export { GcCheckbox, defineCustomElement as defineCustomElementGcCheckbox } from './gc-checkbox.js';
 export { GcDragContainer, defineCustomElement as defineCustomElementGcDragContainer } from './gc-drag-container.js';
 export { GcDraggableItem, defineCustomElement as defineCustomElementGcDraggableItem } from './gc-draggable-item.js';

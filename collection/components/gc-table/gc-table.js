@@ -60,6 +60,7 @@ export class GcTable {
     this.settingTable = {};
     this.isCustomHeader = false;
     this.isNoBorderedEmptyState = false;
+    this.maxHeight = '';
     this.hoveredCell = {};
     this.isSelectAll = false;
     this.showingColumns = {};
@@ -107,7 +108,7 @@ export class GcTable {
     };
   }
   watchColumnsPropHandler(newValue) {
-    let currentColumns = [];
+    let currentColumns = newValue;
     if (typeof newValue === 'string') {
       try {
         currentColumns = JSON.parse(newValue);
@@ -254,6 +255,9 @@ export class GcTable {
         h("gc-tooltip", { isLongText: column.isLongText, isCopyText: column.isCopyText, content: row === null || row === void 0 ? void 0 : row[column.name], isToggle: ((_a = this.clickedCell) === null || _a === void 0 ? void 0 : _a.row) === row && ((_b = this.clickedCell) === null || _b === void 0 ? void 0 : _b.column.name) === column.name }),
         this.renderActions(row, column, conditionToDisplayActions)));
     }
+    if ((row === null || row === void 0 ? void 0 : row[column.name]) && typeof (row === null || row === void 0 ? void 0 : row[column.name]) === 'string' && (row === null || row === void 0 ? void 0 : row[column.name].includes('gc-cell-invalid'))) {
+      return h("div", { class: "col-text", innerHTML: row === null || row === void 0 ? void 0 : row[column.name], style: { height: '100%', padding: '0' } });
+    }
     return (h("div", { class: "col-text", innerHTML: row === null || row === void 0 ? void 0 : row[column.name], style: { padding: column.paddingText || '' } }, this.renderActions(row, column, conditionToDisplayActions)));
   }
   renderBody() {
@@ -327,7 +331,7 @@ export class GcTable {
         h("div", { class: "scrollable-columns columns-container" }, scrollCols),
         h("div", { class: "fixed-right-columns columns-container", style: { position: countCurrentCol.length <= DEFAULT_MAXIMUM_TO_SCALE && !this.isStopScaleWidth ? 'relative' : 'sticky' } }, fixedLastCol)));
     });
-    return h("div", { class: "gc__table-body" }, rows);
+    return h("div", { style: { maxHeight: this.maxHeight }, class: "gc__table-body" }, rows);
   }
   getTotalItems() {
     let totalItems = this.totalItems;
@@ -950,6 +954,24 @@ export class GcTable {
       "attribute": "is-no-bordered-empty-state",
       "reflect": false,
       "defaultValue": "false"
+    },
+    "maxHeight": {
+      "type": "string",
+      "mutable": false,
+      "complexType": {
+        "original": "string",
+        "resolved": "string",
+        "references": {}
+      },
+      "required": false,
+      "optional": false,
+      "docs": {
+        "tags": [],
+        "text": ""
+      },
+      "attribute": "max-height",
+      "reflect": false,
+      "defaultValue": "''"
     }
   }; }
   static get states() { return {

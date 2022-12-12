@@ -4,7 +4,7 @@ Object.defineProperty(exports, '__esModule', { value: true });
 
 const index$1 = require('./index-76b0c208.js');
 
-const gcAlertCss = ".gc__alert{width:fit-content;padding:12px;border-radius:8px}.gc__alert.gc__alert-info{background-color:#e6f4ff;border:1px solid var(--gc-color-primary);color:var(--gc-color-primary)}.gc__alert.gc__alert-error{background-color:#FFF8F8;border:1px solid var(--gc-color-red);color:var(--gc-color-red)}.gc__alert.gc__alert-success{background-color:rgba(21, 191, 33, 0.05);border:1px solid var(--gc-color-green);color:var(--gc-color-green)}.gc__alert-message{display:flex;align-items:center}.gc__alert-content{margin-left:12px}";
+const gcAlertCss = ".gc__alert{width:fit-content;padding:12px;border-radius:8px}.gc__alert.gc__alert-info{background-color:#e6f4ff;border:1px solid var(--gc-color-primary);color:var(--gc-color-primary)}.gc__alert.gc__alert-error{background-color:var(--gc-color-light-red);border:1px solid var(--gc-color-red);color:var(--gc-color-red)}.gc__alert.gc__alert-success{background-color:rgba(21, 191, 33, 0.05);border:1px solid var(--gc-color-green);color:var(--gc-color-green)}.gc__alert-message{display:flex;align-items:center}.gc__alert-content{margin-left:12px}";
 
 const GcAlert = class {
   constructor(hostRef) {
@@ -5829,6 +5829,8 @@ const GcSelect = class {
     }
     if (!newValue) {
       this.stateItems = this.getItems();
+      this.selectedColorItem = '';
+      this.selectedDotItem = '';
     }
   }
   windowClick(evt) {
@@ -6482,6 +6484,7 @@ const GcTable = class {
     this.settingTable = {};
     this.isCustomHeader = false;
     this.isNoBorderedEmptyState = false;
+    this.maxHeight = '';
     this.hoveredCell = {};
     this.isSelectAll = false;
     this.showingColumns = {};
@@ -6529,7 +6532,7 @@ const GcTable = class {
     };
   }
   watchColumnsPropHandler(newValue) {
-    let currentColumns = [];
+    let currentColumns = newValue;
     if (typeof newValue === 'string') {
       try {
         currentColumns = JSON.parse(newValue);
@@ -6662,6 +6665,9 @@ const GcTable = class {
     if ((column.isLongText && (row === null || row === void 0 ? void 0 : row[column.name]) && (row === null || row === void 0 ? void 0 : row[column.name].length) > MAX_LONG_TEXT$1) || column.isCopyText) {
       return (index$1.h("div", { class: "col-text", style: { padding: column.paddingText || '' } }, index$1.h("gc-tooltip", { isLongText: column.isLongText, isCopyText: column.isCopyText, content: row === null || row === void 0 ? void 0 : row[column.name], isToggle: ((_a = this.clickedCell) === null || _a === void 0 ? void 0 : _a.row) === row && ((_b = this.clickedCell) === null || _b === void 0 ? void 0 : _b.column.name) === column.name }), this.renderActions(row, column, conditionToDisplayActions)));
     }
+    if ((row === null || row === void 0 ? void 0 : row[column.name]) && typeof (row === null || row === void 0 ? void 0 : row[column.name]) === 'string' && (row === null || row === void 0 ? void 0 : row[column.name].includes('gc-cell-invalid'))) {
+      return index$1.h("div", { class: "col-text", innerHTML: row === null || row === void 0 ? void 0 : row[column.name], style: { height: '100%', padding: '0' } });
+    }
     return (index$1.h("div", { class: "col-text", innerHTML: row === null || row === void 0 ? void 0 : row[column.name], style: { padding: column.paddingText || '' } }, this.renderActions(row, column, conditionToDisplayActions)));
   }
   renderBody() {
@@ -6728,7 +6734,7 @@ const GcTable = class {
           border: this.customRows && this.customRowsBorder && this.customRows.includes(`${idx}`) ? this.customRowsBorder : '',
         } }, index$1.h("div", { class: "fixed-columns columns-container", style: { position: countCurrentCol.length <= DEFAULT_MAXIMUM_TO_SCALE && !this.isStopScaleWidth ? 'relative' : 'sticky' } }, fixedCols), index$1.h("div", { class: "scrollable-columns columns-container" }, scrollCols), index$1.h("div", { class: "fixed-right-columns columns-container", style: { position: countCurrentCol.length <= DEFAULT_MAXIMUM_TO_SCALE && !this.isStopScaleWidth ? 'relative' : 'sticky' } }, fixedLastCol)));
     });
-    return index$1.h("div", { class: "gc__table-body" }, rows);
+    return index$1.h("div", { style: { maxHeight: this.maxHeight }, class: "gc__table-body" }, rows);
   }
   getTotalItems() {
     let totalItems = this.totalItems;
@@ -9225,7 +9231,7 @@ function $3ed269f2f0fb224b$var$__guardMethod__(obj, methodName, transform) {
     else return undefined;
 }
 
-const gcUploadCss = ":host{display:block}.dropzone{background:var(--gc-color-contrast-grey);border-radius:5px;border:1px dashed var(--gc-color-fourth-grey);border-image:none;padding:30px 22px;cursor:pointer;height:100%;min-height:275px}.dropzone-dragging{opacity:0.5;background:#ECF5FE;border:1px dashed var(--gc-color-primary)}.gc__dropzone-heading,.gc__dropzone-body,.gc__dropzone-buttons,.gc__dropzone-notes,.gc__dropzone-icon{text-align:center}.gc__dropzone-heading{font-size:14px;font-weight:600}.gc__dropzone-extension{margin-top:10px}.gc__dropzone-body{margin-top:10px}.gc__dropzone-buttons{margin-top:20px}.gc__dropzone-notes{margin-top:20px;font-style:italic;font-size:12px;font-weight:400}.gc__dropzone-icon{font-size:14px;color:var(--gc-color-primary);margin-top:15px}.gc__dropzone-type{color:var(--gc-color-fourth-grey);font-size:12px;margin-top:8px}.gc__dropzone-body div{font-weight:400}.gc__dropzone-body b{font-weight:600}.gc__dropzone-filename{font-size:12px;margin-top:8px;text-align:center;font-weight:400}";
+const gcUploadCss = ":host{display:block}input[type=\"file\"]{display:none}.dropzone{background:var(--gc-color-contrast-grey);border-radius:5px;border:1px dashed var(--gc-color-fourth-grey);border-image:none;padding:30px 22px;cursor:pointer;height:100%;min-height:275px}.dropzone-dragging{opacity:0.5;background:#ECF5FE;border:1px dashed var(--gc-color-primary)}.gc__dropzone-heading,.gc__dropzone-body,.gc__dropzone-buttons,.gc__dropzone-notes,.gc__dropzone-icon{text-align:center}.gc__dropzone-heading{font-size:14px;font-weight:600}.gc__dropzone-extension{margin-top:10px}.gc__dropzone-body{margin-top:10px}.gc__dropzone-buttons{margin-top:20px}.gc__dropzone-notes{margin-top:20px;font-style:italic;font-size:12px;font-weight:400}.gc__dropzone-icon{font-size:14px;color:var(--gc-color-primary);margin-top:15px}.gc__dropzone-type{color:var(--gc-color-fourth-grey);font-size:12px;margin-top:8px}.gc__dropzone-body div{font-weight:400}.gc__dropzone-body b{font-weight:600}.gc__dropzone-filename{font-size:12px;margin-top:8px;text-align:center;font-weight:400}";
 
 const TIMEOUT = 700;
 const GcUpload = class {
@@ -9250,6 +9256,10 @@ const GcUpload = class {
      * Option
      */
     this.option = {};
+    /**
+     * Custom how to display
+     */
+    this.isCustom = false;
     this.dragging = false;
     this.progress = 0;
     this.fileName = '';
@@ -9262,35 +9272,43 @@ const GcUpload = class {
     return getAcceptTypes(this.acceptType);
   }
   componentDidLoad() {
-    const dropzone = new $3ed269f2f0fb224b$export$2e2bcd8739ae039(this.container, Object.assign({ disablePreviews: true, clickable: this.disabled || !this.disableState, acceptedFiles: this.getAcceptFiles() }, this.option));
-    if (dropzone && dropzone.on) {
-      dropzone.on('addedfile', file => {
-        this.gcUploadedFile.emit({ file });
-      });
-      dropzone.on('uploadprogress', (file, progress, bytesSent) => {
-        this.dragging = false;
-        this.fileName = file.upload.filename;
-        this.disableState = true;
-        this.progress = Math.floor(progress * 1);
-        this.gcUploadProgress.emit({ file, progress, bytesSent });
-      });
-      dropzone.on('complete', file => {
-        setTimeout(() => {
-          this.fileName = '';
-          this.progress = 0;
-          this.disableState = false;
-        }, TIMEOUT);
-        this.gcUploadCompleted.emit(file);
-      });
-      dropzone.on('dragover', () => {
-        this.dragging = true;
-      });
-      dropzone.on('dragleave', () => {
-        this.dragging = false;
-      });
+    if (!this.isCustom) {
+      const dropzone = new $3ed269f2f0fb224b$export$2e2bcd8739ae039(this.container, Object.assign({ disablePreviews: true, clickable: this.disabled || !this.disableState, acceptedFiles: this.getAcceptFiles() }, this.option));
+      if (dropzone && dropzone.on) {
+        dropzone.on('addedfile', file => {
+          this.gcUploadedFile.emit({ file });
+        });
+        dropzone.on('uploadprogress', (file, progress, bytesSent) => {
+          this.dragging = false;
+          this.fileName = file.upload.filename;
+          this.disableState = true;
+          this.progress = Math.floor(progress * 1);
+          this.gcUploadProgress.emit({ file, progress, bytesSent });
+        });
+        dropzone.on('complete', file => {
+          setTimeout(() => {
+            this.fileName = '';
+            this.progress = 0;
+            this.disableState = false;
+          }, TIMEOUT);
+          this.gcUploadCompleted.emit(file);
+        });
+        dropzone.on('dragover', () => {
+          this.dragging = true;
+        });
+        dropzone.on('dragleave', () => {
+          this.dragging = false;
+        });
+      }
     }
   }
+  handleChange(e) {
+    this.gcUploadedFile.emit({ file: e.target.files[0] });
+  }
   render() {
+    if (this.isCustom) {
+      return (index$1.h(index$1.Host, null, index$1.h("label", { htmlFor: "file-upload", class: "custom-file-upload" }, index$1.h("slot", null)), index$1.h("input", { accept: this.getAcceptFiles(), id: "file-upload", type: "file", onChange: this.handleChange })));
+    }
     return (index$1.h(index$1.Host, null, index$1.h("form", { id: "dropzone", action: "/upload", class: { 'dropzone': true, 'dropzone-dragging': this.dragging }, ref: el => (this.container = el), style: { width: this.width } }, index$1.h("div", { class: "dz-message" }, !this.fileName && (index$1.h("div", { class: "gc__dropzone-heading" }, index$1.h("slot", { name: "gc__dropzone-heading" }))), index$1.h("div", { class: "gc__dropzone-icon" }, index$1.h("gc-icon", { name: `fa-regular ${this.getIcon()}`, size: "40px", color: "var(--gc-color-primary)" }), index$1.h("div", { class: "gc__dropzone-extension" }, "*.", this.acceptType)), !!this.fileName && index$1.h("div", { class: "gc__dropzone-filename" }, this.fileName), !this.fileName && (index$1.h("div", { class: "gc__dropzone-body" }, index$1.h("slot", { name: "gc__dropzone-body" }))), !this.fileName && (index$1.h("div", { class: "gc__dropzone-buttons" }, index$1.h("gc-button", { id: "browse_files", type: "primary", "padding-text": "30px", height: "32px" }, "Browse Files"), index$1.h("div", { class: "gc__dropzone-type" }, "Drop your *.", this.acceptType, " file here"))), !this.fileName && (index$1.h("div", { class: "gc__dropzone-notes" }, index$1.h("slot", { name: "gc__dropzone-notes" }))))), !!this.progress && index$1.h("gc-progress", { percent: this.progress, width: `calc(${this.width} + 45px)` })));
   }
 };

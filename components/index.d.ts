@@ -1,6 +1,7 @@
 /* GcWebDesignSystem custom elements */
 export { GcAlert as GcAlert } from '../types/components/gc-alert/gc-alert';
 export { GcButton as GcButton } from '../types/components/gc-button/gc-button';
+export { GcCellInvalid as GcCellInvalid } from '../types/components/gc-table/gc-cell-invalid/gc-cell-invalid';
 export { GcCheckbox as GcCheckbox } from '../types/components/gc-checkbox/gc-checkbox';
 export { GcDragContainer as GcDragContainer } from '../types/components/gc-drag-container/gc-drag-container';
 export { GcDraggableItem as GcDraggableItem } from '../types/components/gc-draggable-item/gc-draggable-item';

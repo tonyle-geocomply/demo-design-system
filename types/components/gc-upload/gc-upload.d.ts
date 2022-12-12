@@ -17,6 +17,10 @@ export declare class GcUpload {
    * Option
    */
   option?: {};
+  /**
+   * Custom how to display
+   */
+  isCustom?: boolean;
   dragging: boolean;
   progress: number;
   fileName: string;
@@ -27,5 +31,6 @@ export declare class GcUpload {
   private getIcon;
   private getAcceptFiles;
   componentDidLoad(): void;
+  handleChange(e: any): void;
   render(): any;
 }

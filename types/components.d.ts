@@ -54,6 +54,16 @@ export namespace Components {
          */
         "type": string;
     }
+    interface GcCellInvalid {
+        /**
+          * The error message
+         */
+        "message"?: string;
+        /**
+          * The tooltip position
+         */
+        "tooltipPosition": string;
+    }
     interface GcCheckbox {
         /**
           * Is checked ?
@@ -601,6 +611,7 @@ export namespace Components {
         "isNoBorderedEmptyState": boolean;
         "isStripe"?: boolean;
         "keyField": string;
+        "maxHeight": string;
         "page": number;
         "pageSize": number;
         "paginate": boolean;
@@ -758,6 +769,10 @@ export namespace Components {
          */
         "disabled"?: boolean;
         /**
+          * Custom how to display
+         */
+        "isCustom"?: boolean;
+        /**
           * Option
          */
         "option"?: {};
@@ -847,6 +862,12 @@ declare global {
     var HTMLGcButtonElement: {
         prototype: HTMLGcButtonElement;
         new (): HTMLGcButtonElement;
+    };
+    interface HTMLGcCellInvalidElement extends Components.GcCellInvalid, HTMLStencilElement {
+    }
+    var HTMLGcCellInvalidElement: {
+        prototype: HTMLGcCellInvalidElement;
+        new (): HTMLGcCellInvalidElement;
     };
     interface HTMLGcCheckboxElement extends Components.GcCheckbox, HTMLStencilElement {
     }
@@ -1043,6 +1064,7 @@ declare global {
     interface HTMLElementTagNameMap {
         "gc-alert": HTMLGcAlertElement;
         "gc-button": HTMLGcButtonElement;
+        "gc-cell-invalid": HTMLGcCellInvalidElement;
         "gc-checkbox": HTMLGcCheckboxElement;
         "gc-drag-container": HTMLGcDragContainerElement;
         "gc-draggable-item": HTMLGcDraggableItemElement;
@@ -1129,6 +1151,16 @@ declare namespace LocalJSX {
           * The type name
          */
         "type"?: string;
+    }
+    interface GcCellInvalid {
+        /**
+          * The error message
+         */
+        "message"?: string;
+        /**
+          * The tooltip position
+         */
+        "tooltipPosition"?: string;
     }
     interface GcCheckbox {
         /**
@@ -1698,6 +1730,7 @@ declare namespace LocalJSX {
         "isNoBorderedEmptyState"?: boolean;
         "isStripe"?: boolean;
         "keyField"?: string;
+        "maxHeight"?: string;
         "onGc:change-page"?: (event: GcTableCustomEvent<any>) => void;
         "onGc:clear-empty-state"?: (event: GcTableCustomEvent<any>) => void;
         "onGc:sort"?: (event: GcTableCustomEvent<any>) => void;
@@ -1869,6 +1902,10 @@ declare namespace LocalJSX {
           * Disabled
          */
         "disabled"?: boolean;
+        /**
+          * Custom how to display
+         */
+        "isCustom"?: boolean;
         "onGc:upload-completed"?: (event: GcUploadCustomEvent<any>) => void;
         "onGc:upload-progress"?: (event: GcUploadCustomEvent<any>) => void;
         "onGc:uploaded-file"?: (event: GcUploadCustomEvent<any>) => void;
@@ -1884,6 +1921,7 @@ declare namespace LocalJSX {
     interface IntrinsicElements {
         "gc-alert": GcAlert;
         "gc-button": GcButton;
+        "gc-cell-invalid": GcCellInvalid;
         "gc-checkbox": GcCheckbox;
         "gc-drag-container": GcDragContainer;
         "gc-draggable-item": GcDraggableItem;
@@ -1924,6 +1962,7 @@ declare module "@stencil/core" {
         interface IntrinsicElements {
             "gc-alert": LocalJSX.GcAlert & JSXBase.HTMLAttributes<HTMLGcAlertElement>;
             "gc-button": LocalJSX.GcButton & JSXBase.HTMLAttributes<HTMLGcButtonElement>;
+            "gc-cell-invalid": LocalJSX.GcCellInvalid & JSXBase.HTMLAttributes<HTMLGcCellInvalidElement>;
             "gc-checkbox": LocalJSX.GcCheckbox & JSXBase.HTMLAttributes<HTMLGcCheckboxElement>;
             "gc-drag-container": LocalJSX.GcDragContainer & JSXBase.HTMLAttributes<HTMLGcDragContainerElement>;
             "gc-draggable-item": LocalJSX.GcDraggableItem & JSXBase.HTMLAttributes<HTMLGcDraggableItemElement>;
