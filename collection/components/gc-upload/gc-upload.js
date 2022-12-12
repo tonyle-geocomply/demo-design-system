@@ -82,7 +82,7 @@ export class GcUpload {
               " file here"))),
           !this.fileName && (h("div", { class: "gc__dropzone-notes" },
             h("slot", { name: "gc__dropzone-notes" }))))),
-      !!this.progress && h("gc-progress", { percent: this.progress, width: `calc(${this.width} + 40px)` })));
+      !!this.progress && h("gc-progress", { percent: this.progress, width: `calc(${this.width} + 45px)` })));
   }
   static get is() { return "gc-upload"; }
   static get encapsulation() { return "shadow"; }
