@@ -7,6 +7,7 @@ export class GcCellExpandable {
     this.value = '';
     this.total = 0;
     this.numberOfEntryPerPage = 0;
+    this.maxWidth = '';
     this.transitioning = false;
     this.isResize = false;
     /**
@@ -134,7 +135,7 @@ export class GcCellExpandable {
   render() {
     return (h(Host, null,
       h("header", { class: { 'gc__head-opening': this.open, 'gc__head': true }, onClick: () => this.toggle() },
-        h("div", { class: "gc__step-item-title" },
+        h("div", { class: "gc__step-item-title", style: { width: this.maxWidth || 'calc(97vw + 10px)' } },
           h("div", { class: { 'transitioning-rotate': this.open, 'gc__step-item-icon': true }, onTransitionEnd: () => this.handleTransitionEnd() },
             h("gc-icon", { name: "fa-regular fa-chevron-down", color: "var(--gc-color-primary)", size: "12px" })),
           h("div", { class: "gc__step-item-title--content" },
@@ -142,21 +143,16 @@ export class GcCellExpandable {
               this.fieldName,
               ": ",
               h("b", null, this.value)),
-            h("div", { class: "divider" }),
-            h("gc-dropdown", { trigger: "hover", positions: "bottom-end" },
+            this.total > 0 ? h("div", { class: "divider" }) : null,
+            this.total > 0 ? (h("gc-dropdown", { trigger: "hover", positions: "bottom-end" },
               h("gc-link", null,
                 h("b", null,
                   this.total,
                   " total ",
                   this.totalText)),
               h("div", { slot: "gc__dropdown-content", style: { padding: '16px' } },
-                h("div", null, this.tooltipMessage)))),
-          h("div", { class: "gc__step-item-title--entry" },
-            "Showing last ",
-            this.numberOfEntryPerPage,
-            " of ",
-            this.total,
-            " entries"))),
+                h("div", null, this.tooltipMessage)))) : null),
+          h("div", { class: "gc__step-item-title--entry" }, this.numberOfEntryPerPage > 0 && this.open ? `Showing last ${this.numberOfEntryPerPage} of ${this.total} entries` : null))),
       h("section", { class: { 'gc__steps-section': true, 'transitioning': this.transitioning, 'open': this.open }, style: this.style },
         h("div", null,
           h("slot", null)))));
@@ -259,6 +255,24 @@ export class GcCellExpandable {
       "attribute": "number-of-entry-per-page",
       "reflect": false,
       "defaultValue": "0"
+    },
+    "maxWidth": {
+      "type": "string",
+      "mutable": false,
+      "complexType": {
+        "original": "string",
+        "resolved": "string",
+        "references": {}
+      },
+      "required": false,
+      "optional": false,
+      "docs": {
+        "tags": [],
+        "text": ""
+      },
+      "attribute": "max-width",
+      "reflect": false,
+      "defaultValue": "''"
     },
     "index": {
       "type": "string",

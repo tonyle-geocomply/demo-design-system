@@ -69,6 +69,7 @@ export namespace Components {
          */
         "index": string;
         "maxHeight": string;
+        "maxWidth": string;
         /**
           * The mutation observer config to listen for content changes in the step item
          */
@@ -661,6 +662,7 @@ export namespace Components {
         "keyField": string;
         "loadingGroupIndex": any[];
         "maxHeight": string;
+        "maxWidthInExpandRow": string;
         "page": number;
         "pageSize": number;
         "paginate": boolean;
@@ -1224,6 +1226,7 @@ declare namespace LocalJSX {
          */
         "index"?: string;
         "maxHeight"?: string;
+        "maxWidth"?: string;
         /**
           * The mutation observer config to listen for content changes in the step item
          */
@@ -1845,6 +1848,7 @@ declare namespace LocalJSX {
         "keyField"?: string;
         "loadingGroupIndex"?: any[];
         "maxHeight"?: string;
+        "maxWidthInExpandRow"?: string;
         "onGc:change-page"?: (event: GcTableCustomEvent<any>) => void;
         "onGc:clear-empty-state"?: (event: GcTableCustomEvent<any>) => void;
         "onGc:sort"?: (event: GcTableCustomEvent<any>) => void;

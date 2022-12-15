@@ -386,6 +386,9 @@ gc-icon.down-arrow {
   color: #51666C;
 }
 
+.gc__table-body > gc-cell-expandable:nth-child(even) > header {background-color: var(--gc-color-contrast-grey);}
+.gc__table-body > gc-cell-expandable:nth-child(odd) > header {background-color: var(--gc-color-contrast-white);}
+
 @keyframes fadeInShow {
   0% {
       opacity: 0;

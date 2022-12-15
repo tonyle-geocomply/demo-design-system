@@ -64,6 +64,7 @@ export class GcTable {
     this.isExpandable = false;
     this.treeData = [];
     this.loadingGroupIndex = [];
+    this.maxWidthInExpandRow = '';
     this.hoveredCell = {};
     this.isSelectAll = false;
     this.showingColumns = {};
@@ -392,7 +393,7 @@ export class GcTable {
     const collapsedRows = [];
     treeData.forEach(expandedRow => {
       const rows = [];
-      const { index, field_name: fieldName, value, total, tooltip_message: tooltipMessage, total_text: totalText, data = [], number_of_entry_per_page: numberOfEntryPerPage = 0 } = expandedRow;
+      const { index, field_name: fieldName, value, total, tooltip_message: tooltipMessage, total_text: totalText, data = [], number_of_entry_per_page: numberOfEntryPerPage = 0, } = expandedRow;
       data.forEach((row, idx) => {
         const scrollCols = [];
         const columnsWithPos = this.getColumns().map(col => (Object.assign(Object.assign({}, col), { pos: this.posColumns[col.name] })));
@@ -424,10 +425,10 @@ export class GcTable {
           } },
           h("div", { class: "scrollable-columns columns-container" }, scrollCols)));
       });
-      const expandableRows = (h("gc-cell-expandable", { class: { 'is-loading': this.loadingGroupIndex.includes(`${index}`) }, index: index, fieldName: fieldName, value: value, total: total, totalText: totalText, tooltipMessage: tooltipMessage, numberOfEntryPerPage: numberOfEntryPerPage || data.length },
+      const expandableRows = (h("gc-cell-expandable", { class: { 'is-loading': this.loadingGroupIndex.includes(`${index}`) }, index: index, fieldName: fieldName, value: value, total: total, totalText: totalText, tooltipMessage: tooltipMessage, numberOfEntryPerPage: numberOfEntryPerPage || data.length, maxWidth: this.maxWidthInExpandRow },
         this.loadingGroupIndex.includes(`${index}`) && (h("div", { class: "loading-section" },
           h("gc-spinner", null))),
-        rows));
+        rows.length > 0 ? rows : h("div", null, "No data")));
       collapsedRows.push(expandableRows);
     });
     return (h("div", { style: { maxHeight: this.maxHeight }, class: "gc__table-body" }, collapsedRows));
@@ -552,7 +553,7 @@ export class GcTable {
           'gc__table-loading': this.isLoading,
         } },
         h("div", { class: "table-scroll-container", style: {
-            overflow: countCurrentCol.length <= DEFAULT_MAXIMUM_TO_SCALE && !this.isStopScaleWidth ? 'hidden' : 'auto',
+            overflow: countCurrentCol.length <= DEFAULT_MAXIMUM_TO_SCALE && !this.isStopScaleWidth || (this.isExpandable && this.totalExpanded === 0) ? 'hidden' : 'auto',
             position: this.showTooltip ? 'static' : 'inherit',
           } },
           this.isExpandable ? this.renderHeaderWithExpandableRows() : this.renderHeader(),
@@ -1138,6 +1139,24 @@ export class GcTable {
         "text": ""
       },
       "defaultValue": "[]"
+    },
+    "maxWidthInExpandRow": {
+      "type": "string",
+      "mutable": false,
+      "complexType": {
+        "original": "string",
+        "resolved": "string",
+        "references": {}
+      },
+      "required": false,
+      "optional": false,
+      "docs": {
+        "tags": [],
+        "text": ""
+      },
+      "attribute": "max-width-in-expand-row",
+      "reflect": false,
+      "defaultValue": "''"
     }
   }; }
   static get states() { return {

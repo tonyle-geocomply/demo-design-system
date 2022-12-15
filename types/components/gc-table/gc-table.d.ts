@@ -65,6 +65,7 @@ export declare class GcTable {
   isExpandable: boolean;
   treeData: string | any[];
   loadingGroupIndex: any[];
+  maxWidthInExpandRow: string;
   private hoveredCell;
   private isSelectAll;
   private showingColumns;

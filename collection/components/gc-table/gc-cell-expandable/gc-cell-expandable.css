@@ -5,6 +5,7 @@
 }
 .gc__steps-section {
   overflow: hidden;
+  background: white;
 }
 .gc__steps-section.open {
   overflow: unset;
@@ -16,7 +17,6 @@
   display: flex;
   align-items: center;
   padding-left: 12px;
-  width: calc(97vw + 10px);
   position: sticky;
   left: 0;
 }
