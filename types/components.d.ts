@@ -54,6 +54,53 @@ export namespace Components {
          */
         "type": string;
     }
+    interface GcCellExpandable {
+        /**
+          * close the step item
+         */
+        "closeItem": () => Promise<void>;
+        /**
+          * Disabled in step
+         */
+        "disabled": boolean;
+        "fieldName": string;
+        /**
+          * index of step item from top to bottom
+         */
+        "index": string;
+        "maxHeight": string;
+        /**
+          * The mutation observer config to listen for content changes in the step item
+         */
+        "mutationObserverConfig": { childList: boolean; subtree: boolean; };
+        "numberOfEntryPerPage": number;
+        /**
+          * step item is open or opening (css transition)
+         */
+        "open": boolean;
+        /**
+          * open the step item
+         */
+        "openItem": () => Promise<void>;
+        /**
+          * Should open in step
+         */
+        "shouldOpen": boolean;
+        /**
+          * The status in step
+         */
+        "status": string;
+        /**
+          * The tooltip message
+         */
+        "tooltipMessage": string;
+        "total": number;
+        /**
+          * The total text
+         */
+        "totalText": string;
+        "value": string;
+    }
     interface GcCellInvalid {
         /**
           * The error message
@@ -606,11 +653,13 @@ export namespace Components {
         "gcId": string;
         "isBordered"?: boolean;
         "isCustomHeader": boolean;
+        "isExpandable": boolean;
         "isLoading"?: false;
         "isNoBorderedAll"?: boolean;
         "isNoBorderedEmptyState": boolean;
         "isStripe"?: boolean;
         "keyField": string;
+        "loadingGroupIndex": any[];
         "maxHeight": string;
         "page": number;
         "pageSize": number;
@@ -624,6 +673,7 @@ export namespace Components {
         "sortOrder": 'asc' | 'desc' | '';
         "sortable": boolean;
         "totalItems": number;
+        "treeData": string | any[];
     }
     interface GcTabs {
     }
@@ -786,6 +836,10 @@ export interface GcButtonCustomEvent<T> extends CustomEvent<T> {
     detail: T;
     target: HTMLGcButtonElement;
 }
+export interface GcCellExpandableCustomEvent<T> extends CustomEvent<T> {
+    detail: T;
+    target: HTMLGcCellExpandableElement;
+}
 export interface GcCheckboxCustomEvent<T> extends CustomEvent<T> {
     detail: T;
     target: HTMLGcCheckboxElement;
@@ -862,6 +916,12 @@ declare global {
     var HTMLGcButtonElement: {
         prototype: HTMLGcButtonElement;
         new (): HTMLGcButtonElement;
+    };
+    interface HTMLGcCellExpandableElement extends Components.GcCellExpandable, HTMLStencilElement {
+    }
+    var HTMLGcCellExpandableElement: {
+        prototype: HTMLGcCellExpandableElement;
+        new (): HTMLGcCellExpandableElement;
     };
     interface HTMLGcCellInvalidElement extends Components.GcCellInvalid, HTMLStencilElement {
     }
@@ -1064,6 +1124,7 @@ declare global {
     interface HTMLElementTagNameMap {
         "gc-alert": HTMLGcAlertElement;
         "gc-button": HTMLGcButtonElement;
+        "gc-cell-expandable": HTMLGcCellExpandableElement;
         "gc-cell-invalid": HTMLGcCellInvalidElement;
         "gc-checkbox": HTMLGcCheckboxElement;
         "gc-drag-container": HTMLGcDragContainerElement;
@@ -1151,6 +1212,57 @@ declare namespace LocalJSX {
           * The type name
          */
         "type"?: string;
+    }
+    interface GcCellExpandable {
+        /**
+          * Disabled in step
+         */
+        "disabled"?: boolean;
+        "fieldName"?: string;
+        /**
+          * index of step item from top to bottom
+         */
+        "index"?: string;
+        "maxHeight"?: string;
+        /**
+          * The mutation observer config to listen for content changes in the step item
+         */
+        "mutationObserverConfig"?: { childList: boolean; subtree: boolean; };
+        "numberOfEntryPerPage"?: number;
+        /**
+          * triggered when the step item is opened
+         */
+        "onCloseExpandableRowsEvent"?: (event: GcCellExpandableCustomEvent<any>) => void;
+        /**
+          * triggered when the content of the step item changes
+         */
+        "onContentChanged"?: (event: GcCellExpandableCustomEvent<any>) => void;
+        /**
+          * triggered when the step item is opened
+         */
+        "onOpenExpandableRowsEvent"?: (event: GcCellExpandableCustomEvent<any>) => void;
+        /**
+          * step item is open or opening (css transition)
+         */
+        "open"?: boolean;
+        /**
+          * Should open in step
+         */
+        "shouldOpen"?: boolean;
+        /**
+          * The status in step
+         */
+        "status"?: string;
+        /**
+          * The tooltip message
+         */
+        "tooltipMessage"?: string;
+        "total"?: number;
+        /**
+          * The total text
+         */
+        "totalText"?: string;
+        "value"?: string;
     }
     interface GcCellInvalid {
         /**
@@ -1725,16 +1837,19 @@ declare namespace LocalJSX {
         "gcId"?: string;
         "isBordered"?: boolean;
         "isCustomHeader"?: boolean;
+        "isExpandable"?: boolean;
         "isLoading"?: false;
         "isNoBorderedAll"?: boolean;
         "isNoBorderedEmptyState"?: boolean;
         "isStripe"?: boolean;
         "keyField"?: string;
+        "loadingGroupIndex"?: any[];
         "maxHeight"?: string;
         "onGc:change-page"?: (event: GcTableCustomEvent<any>) => void;
         "onGc:clear-empty-state"?: (event: GcTableCustomEvent<any>) => void;
         "onGc:sort"?: (event: GcTableCustomEvent<any>) => void;
         "onGc:table-cell-click"?: (event: GcTableCustomEvent<any>) => void;
+        "onGc:table-collapse-change"?: (event: GcTableCustomEvent<any>) => void;
         "onGc:table-select-change"?: (event: GcTableCustomEvent<any>) => void;
         "onGc:table-setting-change"?: (event: GcTableCustomEvent<any>) => void;
         "page"?: number;
@@ -1749,6 +1864,7 @@ declare namespace LocalJSX {
         "sortOrder"?: 'asc' | 'desc' | '';
         "sortable"?: boolean;
         "totalItems"?: number;
+        "treeData"?: string | any[];
     }
     interface GcTabs {
         /**
@@ -1921,6 +2037,7 @@ declare namespace LocalJSX {
     interface IntrinsicElements {
         "gc-alert": GcAlert;
         "gc-button": GcButton;
+        "gc-cell-expandable": GcCellExpandable;
         "gc-cell-invalid": GcCellInvalid;
         "gc-checkbox": GcCheckbox;
         "gc-drag-container": GcDragContainer;
@@ -1962,6 +2079,7 @@ declare module "@stencil/core" {
         interface IntrinsicElements {
             "gc-alert": LocalJSX.GcAlert & JSXBase.HTMLAttributes<HTMLGcAlertElement>;
             "gc-button": LocalJSX.GcButton & JSXBase.HTMLAttributes<HTMLGcButtonElement>;
+            "gc-cell-expandable": LocalJSX.GcCellExpandable & JSXBase.HTMLAttributes<HTMLGcCellExpandableElement>;
             "gc-cell-invalid": LocalJSX.GcCellInvalid & JSXBase.HTMLAttributes<HTMLGcCellInvalidElement>;
             "gc-checkbox": LocalJSX.GcCheckbox & JSXBase.HTMLAttributes<HTMLGcCheckboxElement>;
             "gc-drag-container": LocalJSX.GcDragContainer & JSXBase.HTMLAttributes<HTMLGcDragContainerElement>;

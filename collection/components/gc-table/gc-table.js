@@ -61,6 +61,9 @@ export class GcTable {
     this.isCustomHeader = false;
     this.isNoBorderedEmptyState = false;
     this.maxHeight = '';
+    this.isExpandable = false;
+    this.treeData = [];
+    this.loadingGroupIndex = [];
     this.hoveredCell = {};
     this.isSelectAll = false;
     this.showingColumns = {};
@@ -68,6 +71,7 @@ export class GcTable {
     this.showTooltip = false;
     this.clickedCell = {};
     this.isStopScaleWidth = false;
+    this.totalExpanded = 0;
     this.onSelectAllClick = () => {
       let selectedRowKeys = [];
       this.isSelectAll = !this.isSelectAll;
@@ -159,6 +163,14 @@ export class GcTable {
   handleResize(ev) {
     this.isStopScaleWidth = ev.target.innerWidth <= DEFAULT_SCREEN_WIDTH_TO_STOP_SCALE;
   }
+  handleOpenExpandableRowsEvent(evt) {
+    this.totalExpanded += 1;
+    this.gcTableCollapseChange.emit({ index: evt.detail.index, expanded: true });
+  }
+  handleCloseExpandableRowsEvent(evt) {
+    this.totalExpanded -= 1;
+    this.gcTableCollapseChange.emit({ index: evt.detail.index, expanded: false });
+  }
   onSelectChange(selectedRowKeys) {
     this.selectedRowKeys = selectedRowKeys;
     this.gcSelectChange.emit({ value: this.selectedRowKeys, isSelectAll: this.isSelectAll });
@@ -237,6 +249,48 @@ export class GcTable {
         h("div", { class: "fixed-columns columns-container", style: { position: countCurrentCol.length <= DEFAULT_MAXIMUM_TO_SCALE && !this.isStopScaleWidth ? 'relative' : 'sticky' } }, fixedCols),
         h("div", { class: "scrollable-columns columns-container" }, scrollCols),
         h("div", { class: "fixed-right-columns columns-container", style: { position: countCurrentCol.length <= DEFAULT_MAXIMUM_TO_SCALE && !this.isStopScaleWidth ? 'relative' : 'sticky' } }, fixedLastCol))));
+  }
+  renderHeaderWithExpandableRows() {
+    const scrollCols = [];
+    const columnsWithPos = this.getColumns().map(col => (Object.assign(Object.assign({}, col), { pos: this.posColumns[col.name] })));
+    columnsWithPos.sort((a, b) => a.pos - b.pos);
+    const countCurrentCol = Object.keys(this.showingColumns) && Object.keys(this.showingColumns).filter(key => this.showingColumns[key] && key !== 'custom_actions');
+    columnsWithPos.forEach((col, i) => {
+      if (this.showingColumns[col.name]) {
+        let colWidth = countCurrentCol && countCurrentCol.length > 0 ? `${100 / countCurrentCol.length}%` : DEFAULT_CELL_WIDTH;
+        if (countCurrentCol.length > DEFAULT_MAXIMUM_TO_SCALE || (countCurrentCol.length <= DEFAULT_MAXIMUM_TO_SCALE && this.isStopScaleWidth))
+          colWidth = i === columnsWithPos.length - 1 ? DEFAULT_CELL_WIDTH : col.width || this.getColumns()[i].width;
+        const colEl = (h("div", { onClick: () => {
+            if (!this.sortable || !col.sortable)
+              return;
+            if (this.sortBy === col.name) {
+              if (this.sortOrder === 'asc')
+                this.sortOrder = 'desc';
+              else {
+                this.sortBy = null;
+              }
+            }
+            else {
+              this.sortBy = col.name;
+              this.sortOrder = 'asc';
+            }
+            this.gcSort.emit({ sortBy: this.sortBy, sortOrder: this.sortOrder });
+          }, class: { gc__col: true, sort: this.sortBy === col.name || col.sortable }, style: { width: colWidth, background: this.background, padding: col.padding } },
+          h("div", { class: "col-content" },
+            h("div", { class: "col-text", style: { padding: col.paddingText || '' } }, col.label),
+            h("div", { class: "col-actions" }, (() => {
+              if (!this.sortable || !col.sortable || columnsWithPos.length === 1)
+                return;
+              return (h("div", { class: "gc__table-arrow" },
+                h("gc-icon", { class: { disabled: this.sortBy === col.name && this.sortOrder === 'desc' }, name: "fa-regular fa-chevron-up", size: "13px", "font-weight": "bold" }),
+                h("gc-icon", { class: { 'disabled': this.sortBy === col.name && this.sortOrder === 'asc', 'down-arrow': true }, name: "fa-regular fa-chevron-down", size: "13px", "font-weight": "bold" })));
+            })()))));
+        scrollCols.push(colEl);
+      }
+    });
+    return (h("div", { class: { 'header-with-expandable': true, 'transition': this.totalExpanded > 0 } },
+      h("div", { class: "gc__row" },
+        h("div", { class: "scrollable-columns columns-container" }, scrollCols))));
   }
   renderActions(row, column, conditionToDisplayActions) {
     return conditionToDisplayActions ? (h("div", { class: { gc__actions: true } }, column.actions.map(action => {
@@ -331,13 +385,59 @@ export class GcTable {
         h("div", { class: "scrollable-columns columns-container" }, scrollCols),
         h("div", { class: "fixed-right-columns columns-container", style: { position: countCurrentCol.length <= DEFAULT_MAXIMUM_TO_SCALE && !this.isStopScaleWidth ? 'relative' : 'sticky' } }, fixedLastCol)));
     });
-    return h("div", { style: { maxHeight: this.maxHeight }, class: "gc__table-body" }, rows);
+    return (h("div", { style: { maxHeight: this.maxHeight }, class: "gc__table-body" }, rows));
+  }
+  renderBodyWithExpandableRows() {
+    const treeData = [...this.getTreeData()];
+    const collapsedRows = [];
+    treeData.forEach(expandedRow => {
+      const rows = [];
+      const { index, field_name: fieldName, value, total, tooltip_message: tooltipMessage, total_text: totalText, data = [], number_of_entry_per_page: numberOfEntryPerPage = 0 } = expandedRow;
+      data.forEach((row, idx) => {
+        const scrollCols = [];
+        const columnsWithPos = this.getColumns().map(col => (Object.assign(Object.assign({}, col), { pos: this.posColumns[col.name] })));
+        columnsWithPos.sort((a, b) => a.pos - b.pos);
+        const countCurrentCol = Object.keys(this.showingColumns) && Object.keys(this.showingColumns).filter(key => this.showingColumns[key] && key !== 'custom_actions');
+        columnsWithPos.forEach((column, i) => {
+          var _a;
+          if (this.showingColumns[column.name]) {
+            let colWidth = countCurrentCol && countCurrentCol.length > 0 ? `${100 / countCurrentCol.length}%` : DEFAULT_CELL_WIDTH;
+            if (countCurrentCol.length > DEFAULT_MAXIMUM_TO_SCALE || (countCurrentCol.length <= DEFAULT_MAXIMUM_TO_SCALE && this.isStopScaleWidth))
+              colWidth = i === columnsWithPos.length - 1 ? DEFAULT_CELL_WIDTH : column.width || this.getColumns()[i].width;
+            const conditionToDisplayActions = row.actions && row.actions[column.name] && column.actions && column.actions.length > 0 && ((_a = this.hoveredCell) === null || _a === void 0 ? void 0 : _a.row) === row;
+            const colEl = (h("div", { class: { 'gc__col': true, 'col-hover': this.hoveredCell.row === row && this.hoveredCell.column === column, 'col-center': column.center }, style: {
+                width: colWidth,
+                background: this.customRows && this.customRowsBackground && this.customRows.includes(`${idx}`) ? this.customRowsBackground : this.background,
+                padding: column.padding,
+              }, onMouseOver: () => this.onCellMouseOver(row, column), onMouseOut: () => this.onCellMouseOut(), onClick: () => {
+                const selection = window.getSelection();
+                if (selection.type != 'Range')
+                  this.onCellClick(row, column);
+              } },
+              h("div", { class: "col-content" }, this.renderColumnContent(row, column, conditionToDisplayActions))));
+            scrollCols.push(colEl);
+          }
+        });
+        rows.push(h("div", { class: { 'gc__row': true, 'row-hover': this.hoveredCell.row === row }, style: {
+            background: this.customRows && this.customRowsBackground && this.customRows.includes(`${idx}`) ? this.customRowsBackground : '',
+            border: this.customRows && this.customRowsBorder && this.customRows.includes(`${idx}`) ? this.customRowsBorder : '',
+          } },
+          h("div", { class: "scrollable-columns columns-container" }, scrollCols)));
+      });
+      const expandableRows = (h("gc-cell-expandable", { class: { 'is-loading': this.loadingGroupIndex.includes(`${index}`) }, index: index, fieldName: fieldName, value: value, total: total, totalText: totalText, tooltipMessage: tooltipMessage, numberOfEntryPerPage: numberOfEntryPerPage || data.length },
+        this.loadingGroupIndex.includes(`${index}`) && (h("div", { class: "loading-section" },
+          h("gc-spinner", null))),
+        rows));
+      collapsedRows.push(expandableRows);
+    });
+    return (h("div", { style: { maxHeight: this.maxHeight }, class: "gc__table-body" }, collapsedRows));
   }
   getTotalItems() {
     let totalItems = this.totalItems;
+    const length = this.isExpandable ? this.getTreeData().length : this.getData().length;
     if (this.paginate && !this.serverSide)
-      totalItems = this.totalItems || this.getData().length;
-    return totalItems || this.getData().length;
+      totalItems = this.totalItems || length;
+    return totalItems || length;
   }
   getData() {
     if (this.data) {
@@ -350,6 +450,19 @@ export class GcTable {
         }
       }
       return this.data;
+    }
+  }
+  getTreeData() {
+    if (this.treeData) {
+      if (typeof this.treeData === 'string') {
+        try {
+          return JSON.parse(this.treeData);
+        }
+        catch (e) {
+          return [];
+        }
+      }
+      return this.treeData;
     }
   }
   getColumns() {
@@ -425,11 +538,12 @@ export class GcTable {
   }
   render() {
     const countCurrentCol = Object.keys(this.showingColumns) && Object.keys(this.showingColumns).filter(key => this.showingColumns[key]);
+    const conditionShowing = this.isExpandable ? this.getTreeData().length > 0 : this.getData().length > 0;
     return (h(Host, { class: { 'is-loading': this.isLoading } },
       this.isLoading && (h("div", { class: "loading-section" },
         h("gc-spinner", null))),
       this.renderSettingColumns(),
-      this.getData().length > 0 ? (h("div", { style: { border: this.isNoBorderedAll && !this.isStripe ? '0' : '' }, class: {
+      conditionShowing ? (h("div", { style: { border: this.isNoBorderedAll && !this.isStripe ? '0' : '' }, class: {
           'gc__table': true,
           'sortable': this.sortable,
           'paginate': this.paginate,
@@ -441,8 +555,8 @@ export class GcTable {
             overflow: countCurrentCol.length <= DEFAULT_MAXIMUM_TO_SCALE && !this.isStopScaleWidth ? 'hidden' : 'auto',
             position: this.showTooltip ? 'static' : 'inherit',
           } },
-          this.renderHeader(),
-          this.renderBody()),
+          this.isExpandable ? this.renderHeaderWithExpandableRows() : this.renderHeader(),
+          this.isExpandable ? this.renderBodyWithExpandableRows() : this.renderBody()),
         this.paginate && (h("div", { style: { background: this.background }, class: "table-footer" }, this.renderPagination())))) : (this.renderEmptyState())));
   }
   renderEmptyState() {
@@ -972,6 +1086,58 @@ export class GcTable {
       "attribute": "max-height",
       "reflect": false,
       "defaultValue": "''"
+    },
+    "isExpandable": {
+      "type": "boolean",
+      "mutable": false,
+      "complexType": {
+        "original": "boolean",
+        "resolved": "boolean",
+        "references": {}
+      },
+      "required": false,
+      "optional": false,
+      "docs": {
+        "tags": [],
+        "text": ""
+      },
+      "attribute": "is-expandable",
+      "reflect": false,
+      "defaultValue": "false"
+    },
+    "treeData": {
+      "type": "string",
+      "mutable": false,
+      "complexType": {
+        "original": "string | any[]",
+        "resolved": "any[] | string",
+        "references": {}
+      },
+      "required": false,
+      "optional": false,
+      "docs": {
+        "tags": [],
+        "text": ""
+      },
+      "attribute": "tree-data",
+      "reflect": false,
+      "defaultValue": "[]"
+    },
+    "loadingGroupIndex": {
+      "type": "unknown",
+      "mutable": false,
+      "complexType": {
+        "original": "any[]",
+        "resolved": "any[]",
+        "references": {}
+      },
+      "required": false,
+      "optional": false,
+      "docs": {
+        "tags": [],
+        "text": ""
+      },
+      "defaultValue": "[]"
     }
   }; }
   static get states() { return {
@@ -981,7 +1147,8 @@ export class GcTable {
     "posColumns": {},
     "showTooltip": {},
     "clickedCell": {},
-    "isStopScaleWidth": {}
+    "isStopScaleWidth": {},
+    "totalExpanded": {}
   }; }
   static get events() { return [{
       "method": "gcCellClick",
@@ -1073,6 +1240,21 @@ export class GcTable {
         "resolved": "any",
         "references": {}
       }
+    }, {
+      "method": "gcTableCollapseChange",
+      "name": "gc:table-collapse-change",
+      "bubbles": true,
+      "cancelable": true,
+      "composed": true,
+      "docs": {
+        "tags": [],
+        "text": ""
+      },
+      "complexType": {
+        "original": "any",
+        "resolved": "any",
+        "references": {}
+      }
     }]; }
   static get elementRef() { return "elm"; }
   static get watchers() { return [{
@@ -1100,5 +1282,17 @@ export class GcTable {
       "target": "window",
       "capture": false,
       "passive": true
+    }, {
+      "name": "openExpandableRowsEvent",
+      "method": "handleOpenExpandableRowsEvent",
+      "target": undefined,
+      "capture": false,
+      "passive": false
+    }, {
+      "name": "closeExpandableRowsEvent",
+      "method": "handleCloseExpandableRowsEvent",
+      "target": undefined,
+      "capture": false,
+      "passive": false
     }]; }
 }

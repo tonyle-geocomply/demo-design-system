@@ -25,6 +25,7 @@
     "./components/gc-step/gc-step.js",
     "./components/gc-steps/gc-steps.js",
     "./components/gc-table/gc-table.js",
+    "./components/gc-table/gc-cell-expandable/gc-cell-expandable.js",
     "./components/gc-table/gc-cell-invalid/gc-cell-invalid.js",
     "./components/gc-tabs/gc-tabs.js",
     "./components/gc-tabs/gc-tab/gc-tab.js",

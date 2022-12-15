@@ -14,10 +14,10 @@ const GcCellInvalid$1 = /*@__PURE__*/ proxyCustomElement(class extends HTMLEleme
     /**
      * The tooltip position
      */
-    this.tooltipPosition = 'bottom';
+    this.tooltipPosition = 'bottom-end';
   }
   render() {
-    return (h("div", { class: "gc__cell-invalid" }, this.message ? (h("gc-dropdown", { id: "tootip", trigger: "hover", positions: this.tooltipPosition }, h("gc-icon", { name: "fa-regular fa-circle-exclamation", size: "23px", color: "var(--gc-color-red)" }), h("div", { slot: "gc__dropdown-content", class: "menu", style: { padding: '16px' } }, h("div", null, this.message)))) : (h("gc-icon", { name: "fa-regular fa-square-info", size: "14px", color: "var(--gc-color-primary)" }))));
+    return (h("div", { class: "gc__cell-invalid" }, this.message ? (h("gc-dropdown", { trigger: "hover", positions: this.tooltipPosition }, h("gc-icon", { name: "fa-regular fa-circle-exclamation", size: "23px", color: "var(--gc-color-red)" }), h("div", { slot: "gc__dropdown-content", class: "menu", style: { padding: '16px' } }, h("div", null, this.message)))) : (h("gc-icon", { name: "fa-regular fa-square-info", size: "14px", color: "var(--gc-color-primary)" }))));
   }
   static get style() { return gcCellInvalidCss; }
 }, [1, "gc-cell-invalid", {

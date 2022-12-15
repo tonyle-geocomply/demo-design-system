@@ -1,5 +1,6 @@
 import { proxyCustomElement, HTMLElement, createEvent, h, Host } from '@stencil/core/internal/client';
-import { d as defineCustomElement$e } from './gc-button2.js';
+import { d as defineCustomElement$f } from './gc-button2.js';
+import { d as defineCustomElement$e } from './gc-cell-expandable2.js';
 import { d as defineCustomElement$d } from './gc-checkbox2.js';
 import { d as defineCustomElement$c } from './gc-drag-container2.js';
 import { d as defineCustomElement$b } from './gc-draggable-item2.js';
@@ -13,7 +14,7 @@ import { d as defineCustomElement$4 } from './gc-pagination2.js';
 import { d as defineCustomElement$3 } from './gc-spinner2.js';
 import { d as defineCustomElement$2 } from './gc-tooltip2.js';
 
-const gcTableCss = ":host{display:block;height:100%;--table-border-color:var(--gc-color-second-grey);--z-index-table-header:12;--z-index-fixed-col:13;--font-weight-table-header:600}:host(.is-loading){position:relative}.gc__table{height:100%;border:1px solid var(--table-border-color);font-size:12px}.gc__table-loading{opacity:0.3}.gc__table .table-scroll-container{position:relative;overflow:auto;height:100%}.empty-table{display:flex;align-items:center;justify-content:center;flex-direction:column;padding:24px;border:1px solid var(--gc-color-second-grey);background:var(--gc-color-contrast-white)}.empty-table-no-bordered{border:none}.empty-title{margin-bottom:14px}.gc__table.paginate .table-scroll-container{height:calc(100% - 2.4375rem)}.gc__table .table-scroll-container::-webkit-scrollbar{width:6px;height:6px}.gc__table .table-scroll-container::-webkit-scrollbar-track{border-radius:5px;background:var(--gc-color-second-grey)}.gc__table .table-scroll-container::-webkit-scrollbar-thumb{border-radius:5px;background:var(--gc-color-primary)}.gc__table .pagination{display:flex;border-top:1px solid var(--table-border-color)}.gc__table .pagination .form-control{margin:0}.gc__table .pagination .select{margin:0;--input-border-radius:none;--input-border-style:none;border-left:1px solid var(--table-border-color);border-right:1px solid var(--table-border-color)}.gc__table .pagination .page-sizes-select{margin-inline-start:v(--spacing-3)}.gc__table .pagination .pagination-item-count{margin-inline-start:v(--spacing-4);flex:1;display:flex;align-items:center}.gc__row{display:flex;box-sizing:border-box;height:100%}.gc__row .columns-container{display:flex}.gc__row .gc__col{margin:0;box-sizing:border-box;vertical-align:middle;line-height:normal;border-right:1px solid var(--gc-color-second-grey);border-bottom:1px solid var(--gc-color-second-grey)}.gc__row .gc__col .col-content{display:flex;align-items:center;height:100%;justify-content:space-between}.gc__row .gc__col .col-content .col-text{padding:0 14px 0 14px;flex:1;display:block;word-break:break-word}.header .gc__row .gc__col .col-content .col-text{word-break:inherit}.gc__row .gc__col .col-content .col-action{--button-border-radius:none}.gc__row .gc__col .col-content .col-action.has-focus{z-index:12}.gc__row .gc__col.center .col-content{justify-content:center}.gc__row .gc__col:last-child{flex:1}.gc__row .fixed-columns{position:sticky;left:0;background:inherit}.gc__row .fixed-right-columns{position:sticky;right:0;background:inherit}.header .fixed-columns{background:var(--gc-color-second-blue);z-index:var(--z-index-fixed-col)}.gc__row .scrollable-columns{flex:1}.header{z-index:var(--z-index-table-header);font-weight:var(--font-weight-table-header);text-transform:uppercase;position:sticky;top:0;background:var(--gc-color-second-blue);color:var(--gc-color-contrast-white);height:50px;min-width:fit-content}.gc__table-body{min-width:fit-content}.header .left-panel{position:sticky;top:0;left:0}.header .gc__col{border-bottom:1px solid var(--table-border-color)}.header .gc__col.sort{cursor:pointer}.gc__table-body .gc__row{min-height:66px;height:auto}.gc__table-body>.gc__row:nth-child(even){background-color:var(--gc-color-contrast-grey)}.gc__table-body>.gc__row:nth-child(odd){background-color:var(--gc-color-contrast-white)}.gc__table-body>div.gc__row::nth-child(even)>div.fixed-columns.columns-container>div>div{background-color:var(--gc-color-contrast-grey)}.gc__table-body>div.gc__row:nth-child(odd)>div.fixed-columns.columns-container>div>div{background-color:var(--gc-color-second-white)}.gc__table-body .gc__row .gc__col:focus{outline:none;z-index:1}.gc__table-body .left-panel{position:sticky;left:0}.table-footer{height:66px;background-color:var(--gc-color-contrast-white)}.table-footer .pagination{height:100%;padding:0 30px}.table-footer .pagination .pagination-right{display:flex;align-items:center}:host(.show-full-content) .gc__table-body .col-text{overflow:initial;white-space:initial;text-overflow:initial}.empty-data{text-align:center;position:absolute;margin:auto;top:46px;right:0;bottom:0;left:0;border-radius:3px;height:max-content;}.gc__table-arrow{display:grid}.header gc-icon{opacity:0.5}gc-icon.disabled{opacity:1}gc-icon.down-arrow{margin-top:-4px}.gc__row .gc__col .col-content .col-actions{margin-right:14px}.col-center{text-align:center}.gc__table-setting{font-weight:600;font-size:12px;display:flex;align-items:center;justify-content:space-between;background:var(--gc-color-contrast-white);padding:12px 30px 8px 30px;border-left:1px solid var(--gc-color-second-grey);border-right:1px solid var(--gc-color-second-grey)}.gc__table-setting .dropdown{min-width:473px}.gc__table-setting .gc__table-setting-cols-text{padding:14px 20px;display:flex;align-items:center;border-bottom:1px solid var(--gc-color-second-grey)}.gc__table-setting .gc__table-setting-cols-title{margin-left:12px}.gc__table-setting .gc__table-setting-cols{display:grid;padding:17px 20px;row-gap:17px;column-gap:17px;grid-auto-flow:column;grid-template-rows:1fr 1fr 1fr 1fr 1fr 1fr}.gc__table-setting .gc__table-setting-cols.less-cols{grid-template-rows:1fr 1fr 1fr 1fr}.gc__table-setting .gc__table-setting-col-item{display:flex;align-items:center}.gc__table-setting .gc__table-setting-col-item .sc-gc-checkbox-h{margin-bottom:0;margin-left:8px;line-height:13px;max-width:150px;white-space:nowrap;overflow:hidden;text-overflow:ellipsis}.gc__table-setting .gc__table-setting-col-item gc-icon{cursor:move}.gc__table-setting .gc__table-setting-col-item.disabled{cursor:not-allowed}.gc__table-setting label.gc__label.sc-gc-checkbox{color:var(--gc-color-text-grey)}.gc__table-no-stripe .gc__table-body>.gc__row:nth-child(odd){background-color:inherit}.gc__table-no-stripe .gc__table-body>.gc__row:nth-child(even){background-color:inherit}.gc__table-no-stripe .gc__table-body>div.gc__row:nth-child(odd)>div.fixed-columns.columns-container>div>div{background-color:inherit}.gc__table-no-stripe .gc__table-body>div.gc__row:nth-child(even)>div.fixed-columns.columns-container>div>div{background-color:inherit}.gc__table-no-stripe .header,.gc__table-no-stripe .header .fixed-columns{background-color:inherit;color:var(--gc-color-text-grey)}.gc__table-no-border .gc__row .gc__col{border-right:0}.loading-section{width:50%;height:50%;overflow:auto;margin:auto;position:absolute;top:0;left:0;bottom:0;right:0;z-index:9999999999}.gc__actions{margin-top:5px;display:flex}.gc__btn-action{margin-right:5px;display:none}.gc__btn-action.active{animation:fadeInShow 0.2s;display:block}.gc__table-setting-manage-title{font-weight:600;font-size:12px;line-height:17px;color:#51666C}@keyframes fadeInShow{0%{opacity:0;transform:scale(0)}100%{opacity:1;transform:scale(1)}}";
+const gcTableCss = ":host{display:block;height:100%;--table-border-color:var(--gc-color-second-grey);--z-index-table-header:12;--z-index-fixed-col:13;--font-weight-table-header:600}:host(.is-loading){position:relative}.gc__table{height:100%;border:1px solid var(--table-border-color);font-size:12px}.gc__table-loading{opacity:0.3}.gc__table .table-scroll-container{position:relative;overflow:auto;height:100%}.empty-table{display:flex;align-items:center;justify-content:center;flex-direction:column;padding:24px;border:1px solid var(--gc-color-second-grey);background:var(--gc-color-contrast-white)}.empty-table-no-bordered{border:none}.empty-title{margin-bottom:14px}.gc__table.paginate .table-scroll-container{height:calc(100% - 2.4375rem)}.gc__table .table-scroll-container::-webkit-scrollbar{width:6px;height:6px}.gc__table .table-scroll-container::-webkit-scrollbar-track{border-radius:5px;background:var(--gc-color-second-grey)}.gc__table .table-scroll-container::-webkit-scrollbar-thumb{border-radius:5px;background:var(--gc-color-primary)}.gc__table .pagination{display:flex;border-top:1px solid var(--table-border-color)}.gc__table .pagination .form-control{margin:0}.gc__table .pagination .select{margin:0;--input-border-radius:none;--input-border-style:none;border-left:1px solid var(--table-border-color);border-right:1px solid var(--table-border-color)}.gc__table .pagination .page-sizes-select{margin-inline-start:v(--spacing-3)}.gc__table .pagination .pagination-item-count{margin-inline-start:v(--spacing-4);flex:1;display:flex;align-items:center}.gc__row{display:flex;box-sizing:border-box;height:100%}.gc__row .columns-container{display:flex}.gc__row .gc__col{margin:0;box-sizing:border-box;vertical-align:middle;line-height:normal;border-right:1px solid var(--gc-color-second-grey);border-bottom:1px solid var(--gc-color-second-grey)}.gc__row .gc__col .col-content{display:flex;align-items:center;height:100%;justify-content:space-between}.gc__row .gc__col .col-content .col-text{padding:0 14px 0 14px;flex:1;display:block;word-break:break-word}.header .gc__row .gc__col .col-content .col-text{word-break:inherit}.gc__row .gc__col .col-content .col-action{--button-border-radius:none}.gc__row .gc__col .col-content .col-action.has-focus{z-index:12}.gc__row .gc__col.center .col-content{justify-content:center}.gc__row .gc__col:last-child{flex:1}.gc__row .fixed-columns{position:sticky;left:0;background:inherit}.gc__row .fixed-right-columns{position:sticky;right:0;background:inherit}.header .fixed-columns{background:var(--gc-color-second-blue);z-index:var(--z-index-fixed-col)}.gc__row .scrollable-columns{flex:1}.header{z-index:var(--z-index-table-header);font-weight:var(--font-weight-table-header);text-transform:uppercase;position:sticky;top:0;background:var(--gc-color-second-blue);color:var(--gc-color-contrast-white);height:50px;min-width:fit-content}.header-with-expandable{z-index:var(--z-index-table-header);font-weight:var(--font-weight-table-header);text-transform:uppercase;position:sticky;top:0;background:var(--gc-color-second-blue);color:var(--gc-color-contrast-white);opacity:0;min-width:fit-content;transition:opacity 2s linear;height:0px;transform:translateY(-50px)}.header-with-expandable.transition{opacity:1;height:50px;transform:translateY(0px)}.gc__table-body{min-width:fit-content}.header .left-panel{position:sticky;top:0;left:0}.header .gc__col{border-bottom:1px solid var(--table-border-color)}.header .gc__col.sort{cursor:pointer}.gc__table-body .gc__row{min-height:66px;height:auto}.gc__table-body>.gc__row:nth-child(even){background-color:var(--gc-color-contrast-grey)}.gc__table-body>.gc__row:nth-child(odd){background-color:var(--gc-color-contrast-white)}.gc__table-body>div.gc__row::nth-child(even)>div.fixed-columns.columns-container>div>div{background-color:var(--gc-color-contrast-grey)}.gc__table-body>div.gc__row:nth-child(odd)>div.fixed-columns.columns-container>div>div{background-color:var(--gc-color-second-white)}.gc__table-body .gc__row .gc__col:focus{outline:none;z-index:1}.gc__table-body .left-panel{position:sticky;left:0}.table-footer{height:66px;background-color:var(--gc-color-contrast-white)}.table-footer .pagination{height:100%;padding:0 30px}.table-footer .pagination .pagination-right{display:flex;align-items:center}:host(.show-full-content) .gc__table-body .col-text{overflow:initial;white-space:initial;text-overflow:initial}.empty-data{text-align:center;position:absolute;margin:auto;top:46px;right:0;bottom:0;left:0;border-radius:3px;height:max-content;}.gc__table-arrow{display:grid}.header gc-icon{opacity:0.5}.header-with-expandable gc-icon{opacity:0.5}gc-icon.disabled{opacity:1}gc-icon.down-arrow{margin-top:-4px}.gc__row .gc__col .col-content .col-actions{margin-right:14px}.col-center{text-align:center}.gc__table-setting{font-weight:600;font-size:12px;display:flex;align-items:center;justify-content:space-between;background:var(--gc-color-contrast-white);padding:12px 30px 8px 30px;border-left:1px solid var(--gc-color-second-grey);border-right:1px solid var(--gc-color-second-grey)}.gc__table-setting .dropdown{min-width:473px}.gc__table-setting .gc__table-setting-cols-text{padding:14px 20px;display:flex;align-items:center;border-bottom:1px solid var(--gc-color-second-grey)}.gc__table-setting .gc__table-setting-cols-title{margin-left:12px}.gc__table-setting .gc__table-setting-cols{display:grid;padding:17px 20px;row-gap:17px;column-gap:17px;grid-auto-flow:column;grid-template-rows:1fr 1fr 1fr 1fr 1fr 1fr}.gc__table-setting .gc__table-setting-cols.less-cols{grid-template-rows:1fr 1fr 1fr 1fr}.gc__table-setting .gc__table-setting-col-item{display:flex;align-items:center}.gc__table-setting .gc__table-setting-col-item .sc-gc-checkbox-h{margin-bottom:0;margin-left:8px;line-height:13px;max-width:150px;white-space:nowrap;overflow:hidden;text-overflow:ellipsis}.gc__table-setting .gc__table-setting-col-item gc-icon{cursor:move}.gc__table-setting .gc__table-setting-col-item.disabled{cursor:not-allowed}.gc__table-setting label.gc__label.sc-gc-checkbox{color:var(--gc-color-text-grey)}.gc__table-no-stripe .gc__table-body>.gc__row:nth-child(odd){background-color:inherit}.gc__table-no-stripe .gc__table-body>.gc__row:nth-child(even){background-color:inherit}.gc__table-no-stripe .gc__table-body>div.gc__row:nth-child(odd)>div.fixed-columns.columns-container>div>div{background-color:inherit}.gc__table-no-stripe .gc__table-body>div.gc__row:nth-child(even)>div.fixed-columns.columns-container>div>div{background-color:inherit}.gc__table-no-stripe .header,.gc__table-no-stripe .header .fixed-columns{background-color:inherit;color:var(--gc-color-text-grey)}.gc__table-no-border .gc__row .gc__col{border-right:0}.loading-section{width:50%;height:50%;overflow:auto;margin:auto;position:absolute;top:0;left:0;bottom:0;right:0;z-index:9999999999}.gc__actions{margin-top:5px;display:flex}.gc__btn-action{margin-right:5px;display:none}.gc__btn-action.active{animation:fadeInShow 0.2s;display:block}.gc__table-setting-manage-title{font-weight:600;font-size:12px;line-height:17px;color:#51666C}@keyframes fadeInShow{0%{opacity:0;transform:scale(0)}100%{opacity:1;transform:scale(1)}}";
 
 const DEFAULT_CELL_WIDTH = '16vw'; // in vw
 const DEFAULT_MAXIMUM_TO_SCALE = 6;
@@ -30,6 +31,7 @@ const GcTable$1 = /*@__PURE__*/ proxyCustomElement(class extends HTMLElement {
     this.gcChangePage = createEvent(this, "gc:change-page", 7);
     this.gcClearEmptyState = createEvent(this, "gc:clear-empty-state", 7);
     this.gcTableSettingChange = createEvent(this, "gc:table-setting-change", 7);
+    this.gcTableCollapseChange = createEvent(this, "gc:table-collapse-change", 7);
     /**
      * Grid columns configuration.
      * [
@@ -81,6 +83,9 @@ const GcTable$1 = /*@__PURE__*/ proxyCustomElement(class extends HTMLElement {
     this.isCustomHeader = false;
     this.isNoBorderedEmptyState = false;
     this.maxHeight = '';
+    this.isExpandable = false;
+    this.treeData = [];
+    this.loadingGroupIndex = [];
     this.hoveredCell = {};
     this.isSelectAll = false;
     this.showingColumns = {};
@@ -88,6 +93,7 @@ const GcTable$1 = /*@__PURE__*/ proxyCustomElement(class extends HTMLElement {
     this.showTooltip = false;
     this.clickedCell = {};
     this.isStopScaleWidth = false;
+    this.totalExpanded = 0;
     this.onSelectAllClick = () => {
       let selectedRowKeys = [];
       this.isSelectAll = !this.isSelectAll;
@@ -179,6 +185,14 @@ const GcTable$1 = /*@__PURE__*/ proxyCustomElement(class extends HTMLElement {
   handleResize(ev) {
     this.isStopScaleWidth = ev.target.innerWidth <= DEFAULT_SCREEN_WIDTH_TO_STOP_SCALE;
   }
+  handleOpenExpandableRowsEvent(evt) {
+    this.totalExpanded += 1;
+    this.gcTableCollapseChange.emit({ index: evt.detail.index, expanded: true });
+  }
+  handleCloseExpandableRowsEvent(evt) {
+    this.totalExpanded -= 1;
+    this.gcTableCollapseChange.emit({ index: evt.detail.index, expanded: false });
+  }
   onSelectChange(selectedRowKeys) {
     this.selectedRowKeys = selectedRowKeys;
     this.gcSelectChange.emit({ value: this.selectedRowKeys, isSelectAll: this.isSelectAll });
@@ -245,6 +259,41 @@ const GcTable$1 = /*@__PURE__*/ proxyCustomElement(class extends HTMLElement {
       }
     });
     return (h("div", { class: "header" }, h("div", { class: "gc__row" }, h("div", { class: "fixed-columns columns-container", style: { position: countCurrentCol.length <= DEFAULT_MAXIMUM_TO_SCALE && !this.isStopScaleWidth ? 'relative' : 'sticky' } }, fixedCols), h("div", { class: "scrollable-columns columns-container" }, scrollCols), h("div", { class: "fixed-right-columns columns-container", style: { position: countCurrentCol.length <= DEFAULT_MAXIMUM_TO_SCALE && !this.isStopScaleWidth ? 'relative' : 'sticky' } }, fixedLastCol))));
+  }
+  renderHeaderWithExpandableRows() {
+    const scrollCols = [];
+    const columnsWithPos = this.getColumns().map(col => (Object.assign(Object.assign({}, col), { pos: this.posColumns[col.name] })));
+    columnsWithPos.sort((a, b) => a.pos - b.pos);
+    const countCurrentCol = Object.keys(this.showingColumns) && Object.keys(this.showingColumns).filter(key => this.showingColumns[key] && key !== 'custom_actions');
+    columnsWithPos.forEach((col, i) => {
+      if (this.showingColumns[col.name]) {
+        let colWidth = countCurrentCol && countCurrentCol.length > 0 ? `${100 / countCurrentCol.length}%` : DEFAULT_CELL_WIDTH;
+        if (countCurrentCol.length > DEFAULT_MAXIMUM_TO_SCALE || (countCurrentCol.length <= DEFAULT_MAXIMUM_TO_SCALE && this.isStopScaleWidth))
+          colWidth = i === columnsWithPos.length - 1 ? DEFAULT_CELL_WIDTH : col.width || this.getColumns()[i].width;
+        const colEl = (h("div", { onClick: () => {
+            if (!this.sortable || !col.sortable)
+              return;
+            if (this.sortBy === col.name) {
+              if (this.sortOrder === 'asc')
+                this.sortOrder = 'desc';
+              else {
+                this.sortBy = null;
+              }
+            }
+            else {
+              this.sortBy = col.name;
+              this.sortOrder = 'asc';
+            }
+            this.gcSort.emit({ sortBy: this.sortBy, sortOrder: this.sortOrder });
+          }, class: { gc__col: true, sort: this.sortBy === col.name || col.sortable }, style: { width: colWidth, background: this.background, padding: col.padding } }, h("div", { class: "col-content" }, h("div", { class: "col-text", style: { padding: col.paddingText || '' } }, col.label), h("div", { class: "col-actions" }, (() => {
+          if (!this.sortable || !col.sortable || columnsWithPos.length === 1)
+            return;
+          return (h("div", { class: "gc__table-arrow" }, h("gc-icon", { class: { disabled: this.sortBy === col.name && this.sortOrder === 'desc' }, name: "fa-regular fa-chevron-up", size: "13px", "font-weight": "bold" }), h("gc-icon", { class: { 'disabled': this.sortBy === col.name && this.sortOrder === 'asc', 'down-arrow': true }, name: "fa-regular fa-chevron-down", size: "13px", "font-weight": "bold" })));
+        })()))));
+        scrollCols.push(colEl);
+      }
+    });
+    return (h("div", { class: { 'header-with-expandable': true, 'transition': this.totalExpanded > 0 } }, h("div", { class: "gc__row" }, h("div", { class: "scrollable-columns columns-container" }, scrollCols))));
   }
   renderActions(row, column, conditionToDisplayActions) {
     return conditionToDisplayActions ? (h("div", { class: { gc__actions: true } }, column.actions.map(action => {
@@ -330,13 +379,54 @@ const GcTable$1 = /*@__PURE__*/ proxyCustomElement(class extends HTMLElement {
           border: this.customRows && this.customRowsBorder && this.customRows.includes(`${idx}`) ? this.customRowsBorder : '',
         } }, h("div", { class: "fixed-columns columns-container", style: { position: countCurrentCol.length <= DEFAULT_MAXIMUM_TO_SCALE && !this.isStopScaleWidth ? 'relative' : 'sticky' } }, fixedCols), h("div", { class: "scrollable-columns columns-container" }, scrollCols), h("div", { class: "fixed-right-columns columns-container", style: { position: countCurrentCol.length <= DEFAULT_MAXIMUM_TO_SCALE && !this.isStopScaleWidth ? 'relative' : 'sticky' } }, fixedLastCol)));
     });
-    return h("div", { style: { maxHeight: this.maxHeight }, class: "gc__table-body" }, rows);
+    return (h("div", { style: { maxHeight: this.maxHeight }, class: "gc__table-body" }, rows));
+  }
+  renderBodyWithExpandableRows() {
+    const treeData = [...this.getTreeData()];
+    const collapsedRows = [];
+    treeData.forEach(expandedRow => {
+      const rows = [];
+      const { index, field_name: fieldName, value, total, tooltip_message: tooltipMessage, total_text: totalText, data = [], number_of_entry_per_page: numberOfEntryPerPage = 0 } = expandedRow;
+      data.forEach((row, idx) => {
+        const scrollCols = [];
+        const columnsWithPos = this.getColumns().map(col => (Object.assign(Object.assign({}, col), { pos: this.posColumns[col.name] })));
+        columnsWithPos.sort((a, b) => a.pos - b.pos);
+        const countCurrentCol = Object.keys(this.showingColumns) && Object.keys(this.showingColumns).filter(key => this.showingColumns[key] && key !== 'custom_actions');
+        columnsWithPos.forEach((column, i) => {
+          var _a;
+          if (this.showingColumns[column.name]) {
+            let colWidth = countCurrentCol && countCurrentCol.length > 0 ? `${100 / countCurrentCol.length}%` : DEFAULT_CELL_WIDTH;
+            if (countCurrentCol.length > DEFAULT_MAXIMUM_TO_SCALE || (countCurrentCol.length <= DEFAULT_MAXIMUM_TO_SCALE && this.isStopScaleWidth))
+              colWidth = i === columnsWithPos.length - 1 ? DEFAULT_CELL_WIDTH : column.width || this.getColumns()[i].width;
+            const conditionToDisplayActions = row.actions && row.actions[column.name] && column.actions && column.actions.length > 0 && ((_a = this.hoveredCell) === null || _a === void 0 ? void 0 : _a.row) === row;
+            const colEl = (h("div", { class: { 'gc__col': true, 'col-hover': this.hoveredCell.row === row && this.hoveredCell.column === column, 'col-center': column.center }, style: {
+                width: colWidth,
+                background: this.customRows && this.customRowsBackground && this.customRows.includes(`${idx}`) ? this.customRowsBackground : this.background,
+                padding: column.padding,
+              }, onMouseOver: () => this.onCellMouseOver(row, column), onMouseOut: () => this.onCellMouseOut(), onClick: () => {
+                const selection = window.getSelection();
+                if (selection.type != 'Range')
+                  this.onCellClick(row, column);
+              } }, h("div", { class: "col-content" }, this.renderColumnContent(row, column, conditionToDisplayActions))));
+            scrollCols.push(colEl);
+          }
+        });
+        rows.push(h("div", { class: { 'gc__row': true, 'row-hover': this.hoveredCell.row === row }, style: {
+            background: this.customRows && this.customRowsBackground && this.customRows.includes(`${idx}`) ? this.customRowsBackground : '',
+            border: this.customRows && this.customRowsBorder && this.customRows.includes(`${idx}`) ? this.customRowsBorder : '',
+          } }, h("div", { class: "scrollable-columns columns-container" }, scrollCols)));
+      });
+      const expandableRows = (h("gc-cell-expandable", { class: { 'is-loading': this.loadingGroupIndex.includes(`${index}`) }, index: index, fieldName: fieldName, value: value, total: total, totalText: totalText, tooltipMessage: tooltipMessage, numberOfEntryPerPage: numberOfEntryPerPage || data.length }, this.loadingGroupIndex.includes(`${index}`) && (h("div", { class: "loading-section" }, h("gc-spinner", null))), rows));
+      collapsedRows.push(expandableRows);
+    });
+    return (h("div", { style: { maxHeight: this.maxHeight }, class: "gc__table-body" }, collapsedRows));
   }
   getTotalItems() {
     let totalItems = this.totalItems;
+    const length = this.isExpandable ? this.getTreeData().length : this.getData().length;
     if (this.paginate && !this.serverSide)
-      totalItems = this.totalItems || this.getData().length;
-    return totalItems || this.getData().length;
+      totalItems = this.totalItems || length;
+    return totalItems || length;
   }
   getData() {
     if (this.data) {
@@ -349,6 +439,19 @@ const GcTable$1 = /*@__PURE__*/ proxyCustomElement(class extends HTMLElement {
         }
       }
       return this.data;
+    }
+  }
+  getTreeData() {
+    if (this.treeData) {
+      if (typeof this.treeData === 'string') {
+        try {
+          return JSON.parse(this.treeData);
+        }
+        catch (e) {
+          return [];
+        }
+      }
+      return this.treeData;
     }
   }
   getColumns() {
@@ -391,7 +494,8 @@ const GcTable$1 = /*@__PURE__*/ proxyCustomElement(class extends HTMLElement {
   }
   render() {
     const countCurrentCol = Object.keys(this.showingColumns) && Object.keys(this.showingColumns).filter(key => this.showingColumns[key]);
-    return (h(Host, { class: { 'is-loading': this.isLoading } }, this.isLoading && (h("div", { class: "loading-section" }, h("gc-spinner", null))), this.renderSettingColumns(), this.getData().length > 0 ? (h("div", { style: { border: this.isNoBorderedAll && !this.isStripe ? '0' : '' }, class: {
+    const conditionShowing = this.isExpandable ? this.getTreeData().length > 0 : this.getData().length > 0;
+    return (h(Host, { class: { 'is-loading': this.isLoading } }, this.isLoading && (h("div", { class: "loading-section" }, h("gc-spinner", null))), this.renderSettingColumns(), conditionShowing ? (h("div", { style: { border: this.isNoBorderedAll && !this.isStripe ? '0' : '' }, class: {
         'gc__table': true,
         'sortable': this.sortable,
         'paginate': this.paginate,
@@ -401,7 +505,7 @@ const GcTable$1 = /*@__PURE__*/ proxyCustomElement(class extends HTMLElement {
       } }, h("div", { class: "table-scroll-container", style: {
         overflow: countCurrentCol.length <= DEFAULT_MAXIMUM_TO_SCALE && !this.isStopScaleWidth ? 'hidden' : 'auto',
         position: this.showTooltip ? 'static' : 'inherit',
-      } }, this.renderHeader(), this.renderBody()), this.paginate && (h("div", { style: { background: this.background }, class: "table-footer" }, this.renderPagination())))) : (this.renderEmptyState())));
+      } }, this.isExpandable ? this.renderHeaderWithExpandableRows() : this.renderHeader(), this.isExpandable ? this.renderBodyWithExpandableRows() : this.renderBody()), this.paginate && (h("div", { style: { background: this.background }, class: "table-footer" }, this.renderPagination())))) : (this.renderEmptyState())));
   }
   renderEmptyState() {
     if (this.customEmptyState) {
@@ -445,19 +549,23 @@ const GcTable$1 = /*@__PURE__*/ proxyCustomElement(class extends HTMLElement {
     "isCustomHeader": [4, "is-custom-header"],
     "isNoBorderedEmptyState": [4, "is-no-bordered-empty-state"],
     "maxHeight": [1, "max-height"],
+    "isExpandable": [4, "is-expandable"],
+    "treeData": [1, "tree-data"],
+    "loadingGroupIndex": [16],
     "hoveredCell": [32],
     "isSelectAll": [32],
     "showingColumns": [32],
     "posColumns": [32],
     "showTooltip": [32],
     "clickedCell": [32],
-    "isStopScaleWidth": [32]
-  }, [[0, "gc:change-page", "handleChangePage"], [0, "gc:toggle-tooltip", "handleToggleTooltip"], [9, "resize", "handleResize"]]]);
+    "isStopScaleWidth": [32],
+    "totalExpanded": [32]
+  }, [[0, "gc:change-page", "handleChangePage"], [0, "gc:toggle-tooltip", "handleToggleTooltip"], [9, "resize", "handleResize"], [0, "openExpandableRowsEvent", "handleOpenExpandableRowsEvent"], [0, "closeExpandableRowsEvent", "handleCloseExpandableRowsEvent"]]]);
 function defineCustomElement$1() {
   if (typeof customElements === "undefined") {
     return;
   }
-  const components = ["gc-table", "gc-button", "gc-checkbox", "gc-drag-container", "gc-draggable-item", "gc-dropdown", "gc-h2", "gc-icon", "gc-link", "gc-menu", "gc-menu-item", "gc-pagination", "gc-spinner", "gc-tooltip"];
+  const components = ["gc-table", "gc-button", "gc-cell-expandable", "gc-checkbox", "gc-drag-container", "gc-draggable-item", "gc-dropdown", "gc-h2", "gc-icon", "gc-link", "gc-menu", "gc-menu-item", "gc-pagination", "gc-spinner", "gc-tooltip"];
   components.forEach(tagName => { switch (tagName) {
     case "gc-table":
       if (!customElements.get(tagName)) {
@@ -465,6 +573,11 @@ function defineCustomElement$1() {
       }
       break;
     case "gc-button":
+      if (!customElements.get(tagName)) {
+        defineCustomElement$f();
+      }
+      break;
+    case "gc-cell-expandable":
       if (!customElements.get(tagName)) {
         defineCustomElement$e();
       }
