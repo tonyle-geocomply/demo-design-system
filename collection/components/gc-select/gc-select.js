@@ -37,6 +37,7 @@ export class GcSelect {
     this.showLoader = false;
     this.isOpen = false;
     this.configAria = {};
+    this.type = 'default';
     /**
      *  [{
      *    label: 'Shivaji Varma',
@@ -670,6 +671,24 @@ export class GcSelect {
       "attribute": "config-aria",
       "reflect": true,
       "defaultValue": "{}"
+    },
+    "type": {
+      "type": "string",
+      "mutable": false,
+      "complexType": {
+        "original": "string",
+        "resolved": "string",
+        "references": {}
+      },
+      "required": false,
+      "optional": false,
+      "docs": {
+        "tags": [],
+        "text": ""
+      },
+      "attribute": "type",
+      "reflect": false,
+      "defaultValue": "'default'"
     },
     "items": {
       "type": "string",

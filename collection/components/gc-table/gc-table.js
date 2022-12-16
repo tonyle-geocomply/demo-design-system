@@ -65,6 +65,7 @@ export class GcTable {
     this.treeData = [];
     this.loadingGroupIndex = [];
     this.maxWidthInExpandRow = '';
+    this.groupByFields = [];
     this.hoveredCell = {};
     this.isSelectAll = false;
     this.showingColumns = {};
@@ -73,6 +74,7 @@ export class GcTable {
     this.clickedCell = {};
     this.isStopScaleWidth = false;
     this.totalExpanded = 0;
+    this.selectedGroupBy = 'Select Grouping';
     this.onSelectAllClick = () => {
       let selectedRowKeys = [];
       this.isSelectAll = !this.isSelectAll;
@@ -169,7 +171,9 @@ export class GcTable {
     this.gcTableCollapseChange.emit({ index: evt.detail.index, expanded: true });
   }
   handleCloseExpandableRowsEvent(evt) {
-    this.totalExpanded -= 1;
+    if (this.totalExpanded > 0) {
+      this.totalExpanded -= 1;
+    }
     this.gcTableCollapseChange.emit({ index: evt.detail.index, expanded: false });
   }
   onSelectChange(selectedRowKeys) {
@@ -191,6 +195,10 @@ export class GcTable {
     if (this.gcClearEmptyState) {
       this.gcClearEmptyState.emit({});
     }
+  }
+  onSelectGroupByMenu(field) {
+    this.selectedGroupBy = field.label;
+    this.gcTableGroupByChange.emit(field);
   }
   renderHeader() {
     const fixedCols = [];
@@ -524,17 +532,29 @@ export class GcTable {
           " ",
           +totalItems === 1 ? 'entry' : 'entries',
           " found matching applied filters:")),
-        h("div", null, this.settingColumns && (h("gc-dropdown", { id: `dropdown_${this.gcId}` },
-          h("gc-link", { icon: "fa-solid fa-table-layout", color: "#51666C" },
-            h("span", { class: "gc__table-setting-manage-title" }, "Manage Table Columns")),
-          h("div", { slot: "gc__dropdown-content", class: "dropdown" },
-            h("div", { class: "gc__table-setting-cols-text" },
-              h("gc-icon", { color: "red", name: "fa-regular fa-square-info" }),
-              h("gc-h2", { class: "gc__table-setting-cols-title" }, "Manage Table Columns")),
-            h("gc-drag-container", { "onGc:drop": this.onDrop, "class-container": `gc__table-setting-cols ${columns.length < 6 ? 'less-cols' : ''}`, "class-daggable": ".draggable-item", group: "table-setting-cols" }, columns.map(col => (h("gc-draggable-item", { "data-col-name": col.name, "data-col-check": `${this.showingColumns[col.name]}`, key: `${this.gcId}_${col.name}`, class: { 'draggable-item': !col.alwaysDisplay } },
-              h("div", { key: `${this.gcId}_${col.name}`, class: { 'gc__table-setting-col-item': true, 'disabled': col.alwaysDisplay } },
-                h("gc-icon", { color: "var(--gc-color-secondary-grey)", name: "fa-solid fa-grip-dots-vertical" }),
-                h("gc-checkbox", { disabled: col.alwaysDisplay || false, "gc-name": `${this.gcId}_${col.name}`, label: col.label, checked: col.alwaysDisplay || this.showingColumns[col.name], "onGc:change": e => this.onCheck(e, col.name) }))))))))))));
+        h("div", { style: { display: 'flex' } },
+          !!(this.groupByFields.length > 0) && (h("div", null,
+            h("gc-icon", { color: "var(--gc-color-primary)", name: "fa-regular fa-layer-group", size: "14px" }),
+            "\u00A0",
+            h("b", null, "Group by"),
+            ":\u00A0",
+            h("gc-dropdown", { id: "dropdown_group_by", trigger: "click", allowForceClose: true },
+              h("gc-link", { color: "var(--gc-color-primary)" },
+                h("span", { class: "gc__table-setting-manage-title-group-by" }, this.selectedGroupBy)),
+              h("gc-menu", { slot: "gc__dropdown-content", class: "menu-no-border", style: { width: '200px' } }, this.groupByFields.map((field, idx) => (h("gc-menu-item", { background: "white", value: field.value, "onGc:menu-item-click": () => this.onSelectGroupByMenu(field) },
+                h("span", { style: { opacity: idx === 0 ? '0.5' : '1' } }, field.label)))))))),
+          !!(this.groupByFields.length > 0) && h("div", { class: "gc__table-divider" }),
+          this.settingColumns && (h("gc-dropdown", { id: `dropdown_${this.gcId}` },
+            h("gc-link", { icon: "fa-solid fa-table-layout", color: "#51666C" },
+              h("span", { class: "gc__table-setting-manage-title" }, "Manage Table Columns")),
+            h("div", { slot: "gc__dropdown-content", class: "dropdown" },
+              h("div", { class: "gc__table-setting-cols-text" },
+                h("gc-icon", { color: "red", name: "fa-regular fa-square-info" }),
+                h("gc-h2", { class: "gc__table-setting-cols-title" }, "Manage Table Columns")),
+              h("gc-drag-container", { "onGc:drop": this.onDrop, "class-container": `gc__table-setting-cols ${columns.length < 6 ? 'less-cols' : ''}`, "class-daggable": ".draggable-item", group: "table-setting-cols" }, columns.map(col => (h("gc-draggable-item", { "data-col-name": col.name, "data-col-check": `${this.showingColumns[col.name]}`, key: `${this.gcId}_${col.name}`, class: { 'draggable-item': !col.alwaysDisplay } },
+                h("div", { key: `${this.gcId}_${col.name}`, class: { 'gc__table-setting-col-item': true, 'disabled': col.alwaysDisplay } },
+                  h("gc-icon", { color: "var(--gc-color-secondary-grey)", name: "fa-solid fa-grip-dots-vertical" }),
+                  h("gc-checkbox", { disabled: col.alwaysDisplay || false, "gc-name": `${this.gcId}_${col.name}`, label: col.label, checked: col.alwaysDisplay || this.showingColumns[col.name], "onGc:change": e => this.onCheck(e, col.name) }))))))))))));
     }
   }
   render() {
@@ -553,7 +573,7 @@ export class GcTable {
           'gc__table-loading': this.isLoading,
         } },
         h("div", { class: "table-scroll-container", style: {
-            overflow: countCurrentCol.length <= DEFAULT_MAXIMUM_TO_SCALE && !this.isStopScaleWidth || (this.isExpandable && this.totalExpanded === 0) ? 'hidden' : 'auto',
+            overflow: (countCurrentCol.length <= DEFAULT_MAXIMUM_TO_SCALE && !this.isStopScaleWidth) || (this.isExpandable && this.totalExpanded === 0) ? 'hidden' : 'auto',
             position: this.showTooltip ? 'static' : 'inherit',
           } },
           this.isExpandable ? this.renderHeaderWithExpandableRows() : this.renderHeader(),
@@ -1157,6 +1177,22 @@ export class GcTable {
       "attribute": "max-width-in-expand-row",
       "reflect": false,
       "defaultValue": "''"
+    },
+    "groupByFields": {
+      "type": "unknown",
+      "mutable": false,
+      "complexType": {
+        "original": "any[]",
+        "resolved": "any[]",
+        "references": {}
+      },
+      "required": false,
+      "optional": false,
+      "docs": {
+        "tags": [],
+        "text": ""
+      },
+      "defaultValue": "[]"
     }
   }; }
   static get states() { return {
@@ -1167,7 +1203,8 @@ export class GcTable {
     "showTooltip": {},
     "clickedCell": {},
     "isStopScaleWidth": {},
-    "totalExpanded": {}
+    "totalExpanded": {},
+    "selectedGroupBy": {}
   }; }
   static get events() { return [{
       "method": "gcCellClick",
@@ -1262,6 +1299,21 @@ export class GcTable {
     }, {
       "method": "gcTableCollapseChange",
       "name": "gc:table-collapse-change",
+      "bubbles": true,
+      "cancelable": true,
+      "composed": true,
+      "docs": {
+        "tags": [],
+        "text": ""
+      },
+      "complexType": {
+        "original": "any",
+        "resolved": "any",
+        "references": {}
+      }
+    }, {
+      "method": "gcTableGroupByChange",
+      "name": "gc:table-group-by-change",
       "bubbles": true,
       "cancelable": true,
       "composed": true,

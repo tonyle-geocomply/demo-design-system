@@ -66,6 +66,7 @@ export declare class GcTable {
   treeData: string | any[];
   loadingGroupIndex: any[];
   maxWidthInExpandRow: string;
+  groupByFields: any[];
   private hoveredCell;
   private isSelectAll;
   private showingColumns;
@@ -74,6 +75,7 @@ export declare class GcTable {
   private clickedCell;
   private isStopScaleWidth;
   private totalExpanded;
+  private selectedGroupBy;
   gcCellClick: EventEmitter;
   gcSelectChange: EventEmitter;
   gcSort: EventEmitter;
@@ -81,6 +83,7 @@ export declare class GcTable {
   gcClearEmptyState: EventEmitter;
   gcTableSettingChange: EventEmitter;
   gcTableCollapseChange: EventEmitter;
+  gcTableGroupByChange: EventEmitter;
   watchColumnsPropHandler(newValue: any): void;
   watchSettingTablePropHandler(newSetting: any): void;
   handleChangePage(ev: any): void;
@@ -96,6 +99,7 @@ export declare class GcTable {
   onCellClick(row: any, column: any): void;
   onCheck(e: any, name: string): void;
   onClearEmptyState(): void;
+  onSelectGroupByMenu(field: any): void;
   onDrop: (e: any) => void;
   renderHeader(): any;
   renderHeaderWithExpandableRows(): any;

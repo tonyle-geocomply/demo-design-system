@@ -70,6 +70,7 @@ export class GcMenuItem {
             'has-focus': this.hasFocus,
             'start-slot-has-content': this.startSlotHasContent,
             'end-slot-has-content': this.endSlotHasContent,
+            'menu-item-white': this.background === 'white',
             [this.class]: this.class ? true : false,
           }, tabindex: this.tabindex, onBlur: this.blurHandler, onFocus: this.focusHandler, onClick: this.clickHandler, onMouseDown: this.mouseDownHandler, onKeyDown: this.keyDownHandler, onMouseEnter: this.mouseEnterHandler, onMouseLeave: this.mouseLeaveHandler, "aria-disabled": this.disabled },
           h("div", { style: this.getStyles(), class: "item-section slot-main" },
@@ -260,6 +261,23 @@ export class GcMenuItem {
         "text": "The color of dot"
       },
       "attribute": "dot",
+      "reflect": false
+    },
+    "background": {
+      "type": "string",
+      "mutable": false,
+      "complexType": {
+        "original": "string",
+        "resolved": "string",
+        "references": {}
+      },
+      "required": false,
+      "optional": true,
+      "docs": {
+        "tags": [],
+        "text": "The background"
+      },
+      "attribute": "background",
       "reflect": false
     }
   }; }

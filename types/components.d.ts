@@ -146,6 +146,7 @@ export namespace Components {
     interface GcDraggableItem {
     }
     interface GcDropdown {
+        "allowForceClose": boolean;
         /**
           * If true, the user cannot interact with the button. Defaults to `false`.
          */
@@ -373,6 +374,10 @@ export namespace Components {
     }
     interface GcMenuItem {
         /**
+          * The background
+         */
+        "background"?: string;
+        /**
           * The class name
          */
         "class"?: string;
@@ -539,6 +544,7 @@ export namespace Components {
           * The input state. Possible values are: `"success"`, `"error"`, `"warning"`, 'default'. Defaults to `"default"`.
          */
         "state": 'success' | 'error' | 'warning' | 'default';
+        "type": string;
         /**
           * The input field value.
          */
@@ -652,6 +658,7 @@ export namespace Components {
         "data": string | any[];
         "emptyState": any;
         "gcId": string;
+        "groupByFields": any[];
         "isBordered"?: boolean;
         "isCustomHeader": boolean;
         "isExpandable": boolean;
@@ -1319,6 +1326,7 @@ declare namespace LocalJSX {
     interface GcDraggableItem {
     }
     interface GcDropdown {
+        "allowForceClose"?: boolean;
         /**
           * If true, the user cannot interact with the button. Defaults to `false`.
          */
@@ -1550,6 +1558,10 @@ declare namespace LocalJSX {
     }
     interface GcMenuItem {
         /**
+          * The background
+         */
+        "background"?: string;
+        /**
           * The class name
          */
         "class"?: string;
@@ -1721,6 +1733,7 @@ declare namespace LocalJSX {
           * The input state. Possible values are: `"success"`, `"error"`, `"warning"`, 'default'. Defaults to `"default"`.
          */
         "state"?: 'success' | 'error' | 'warning' | 'default';
+        "type"?: string;
         /**
           * The input field value.
          */
@@ -1838,6 +1851,7 @@ declare namespace LocalJSX {
         "data"?: string | any[];
         "emptyState"?: any;
         "gcId"?: string;
+        "groupByFields"?: any[];
         "isBordered"?: boolean;
         "isCustomHeader"?: boolean;
         "isExpandable"?: boolean;
@@ -1854,6 +1868,7 @@ declare namespace LocalJSX {
         "onGc:sort"?: (event: GcTableCustomEvent<any>) => void;
         "onGc:table-cell-click"?: (event: GcTableCustomEvent<any>) => void;
         "onGc:table-collapse-change"?: (event: GcTableCustomEvent<any>) => void;
+        "onGc:table-group-by-change"?: (event: GcTableCustomEvent<any>) => void;
         "onGc:table-select-change"?: (event: GcTableCustomEvent<any>) => void;
         "onGc:table-setting-change"?: (event: GcTableCustomEvent<any>) => void;
         "page"?: number;

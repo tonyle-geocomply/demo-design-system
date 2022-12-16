@@ -1,6 +1,7 @@
 :host {
   display: block;
   border-bottom: 1px solid var(--gc-color-second-grey);
+  font-weight: 400;
 }
 .menu-item {
   cursor: pointer;
@@ -10,6 +11,9 @@
   align-items: center;
   color: var(--gc-color-text-grey);
   outline: none;
+}
+.menu-item-white {
+  background: white;
 }
 .menu-item .item-section {
   display: flex;

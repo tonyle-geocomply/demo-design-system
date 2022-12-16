@@ -47,6 +47,7 @@ export declare class GcSelect implements ComponentInterface {
   showLoader: boolean;
   isOpen: boolean;
   configAria: any;
+  type: string;
   /**
    *  [{
    *    label: 'Shivaji Varma',

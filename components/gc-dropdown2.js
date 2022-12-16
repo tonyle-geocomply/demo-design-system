@@ -42,6 +42,7 @@ const GcDropdown = /*@__PURE__*/ proxyCustomElement(class extends HTMLElement {
     this.positions = 'bottom,bottom-right,top,top-right,bottom-left,top-left';
     this.items = null;
     this.trigger = 'click';
+    this.allowForceClose = false;
     this.hasFocus = false;
     this.position = '';
   }
@@ -117,18 +118,24 @@ const GcDropdown = /*@__PURE__*/ proxyCustomElement(class extends HTMLElement {
       this.toggle();
     }
   }
+  handleClickDropdown() {
+    if (this.allowForceClose) {
+      this.toggle();
+    }
+  }
   render() {
-    return (h(Host, null, h("div", { onClick: () => this.handleClick(), onMouseEnter: () => this.handleHover(), onMouseLeave: () => this.handleHover(), class: "slot-container", id: "host-element", "aria-describedby": "tooltip", ref: elm => (this.containerElm = elm) }, h("slot", null)), h("div", { class: "gc__dropdown-content", id: "tooltip", role: "tooltip", ref: elm => (this.dropdownElm = elm) }, this.renderItems(), h("slot", { name: "gc__dropdown-content" }), h("div", { id: "arrow", "data-popper-arrow": true }))));
+    return (h(Host, null, h("div", { onClick: () => this.handleClick(), onMouseEnter: () => this.handleHover(), onMouseLeave: () => this.handleHover(), class: "slot-container", id: "host-element", "aria-describedby": "tooltip", ref: elm => (this.containerElm = elm) }, h("slot", null)), h("div", { onClick: () => this.handleClickDropdown(), class: "gc__dropdown-content", id: "tooltip", role: "tooltip", ref: elm => (this.dropdownElm = elm) }, this.renderItems(), h("slot", { name: "gc__dropdown-content" }), h("div", { id: "arrow", "data-popper-arrow": true }))));
   }
   get elm() { return this; }
   static get style() { return gcDropdownCss; }
 }, [1, "gc-dropdown", {
     "size": [1],
-    "isOpen": [1028, "is-open"],
+    "isOpen": [1540, "is-open"],
     "disabled": [4],
     "positions": [1],
     "items": [16],
     "trigger": [1],
+    "allowForceClose": [4, "allow-force-close"],
     "hasFocus": [32],
     "position": [32]
   }, [[8, "click", "windowClick"]]]);

@@ -35,6 +35,10 @@ export declare class GcMenuItem {
    */
   dot?: string;
   /**
+  * The background
+  */
+  background?: string;
+  /**
    * Emitted when the menu item is clicked.
    */
   goatMenuItemClick: EventEmitter;

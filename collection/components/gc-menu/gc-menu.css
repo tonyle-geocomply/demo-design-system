@@ -11,6 +11,10 @@
   border-bottom-right-radius: 5px;
 }
 
+:host(.menu-no-border) .menu {
+  border: 0px;
+}
+
 ::slotted(*:last-child) {
   border-bottom: 0px;
 }

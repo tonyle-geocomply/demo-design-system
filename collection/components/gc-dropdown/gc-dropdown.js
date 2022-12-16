@@ -33,6 +33,7 @@ export class GcDropdown {
     this.positions = 'bottom,bottom-right,top,top-right,bottom-left,top-left';
     this.items = null;
     this.trigger = 'click';
+    this.allowForceClose = false;
     this.hasFocus = false;
     this.position = '';
   }
@@ -111,11 +112,16 @@ export class GcDropdown {
       this.toggle();
     }
   }
+  handleClickDropdown() {
+    if (this.allowForceClose) {
+      this.toggle();
+    }
+  }
   render() {
     return (h(Host, null,
       h("div", { onClick: () => this.handleClick(), onMouseEnter: () => this.handleHover(), onMouseLeave: () => this.handleHover(), class: "slot-container", id: "host-element", "aria-describedby": "tooltip", ref: elm => (this.containerElm = elm) },
         h("slot", null)),
-      h("div", { class: "gc__dropdown-content", id: "tooltip", role: "tooltip", ref: elm => (this.dropdownElm = elm) },
+      h("div", { onClick: () => this.handleClickDropdown(), class: "gc__dropdown-content", id: "tooltip", role: "tooltip", ref: elm => (this.dropdownElm = elm) },
         this.renderItems(),
         h("slot", { name: "gc__dropdown-content" }),
         h("div", { id: "arrow", "data-popper-arrow": true }))));
@@ -162,7 +168,7 @@ export class GcDropdown {
         "text": ""
       },
       "attribute": "is-open",
-      "reflect": false,
+      "reflect": true,
       "defaultValue": "false"
     },
     "disabled": {
@@ -234,6 +240,24 @@ export class GcDropdown {
       "attribute": "trigger",
       "reflect": false,
       "defaultValue": "'click'"
+    },
+    "allowForceClose": {
+      "type": "boolean",
+      "mutable": false,
+      "complexType": {
+        "original": "boolean",
+        "resolved": "boolean",
+        "references": {}
+      },
+      "required": false,
+      "optional": false,
+      "docs": {
+        "tags": [],
+        "text": ""
+      },
+      "attribute": "allow-force-close",
+      "reflect": false,
+      "defaultValue": "false"
     }
   }; }
   static get states() { return {

@@ -386,8 +386,22 @@ gc-icon.down-arrow {
   color: #51666C;
 }
 
+.gc__table-setting-manage-title-group-by {
+  font-weight: 600;
+  font-size: 12px;
+  line-height: 17px;
+  color: var(--gc-color-primary);
+  cursor: pointer;
+}
+
 .gc__table-body > gc-cell-expandable:nth-child(even) > header {background-color: var(--gc-color-contrast-grey);}
 .gc__table-body > gc-cell-expandable:nth-child(odd) > header {background-color: var(--gc-color-contrast-white);}
+
+.gc__table-divider {
+  width: 1px;
+  background-color: #E0E0E0;
+  margin: 0 16px;
+}
 
 @keyframes fadeInShow {
   0% {

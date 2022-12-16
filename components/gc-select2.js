@@ -48,6 +48,7 @@ const GcSelect = /*@__PURE__*/ proxyCustomElement(class extends HTMLElement {
     this.showLoader = false;
     this.isOpen = false;
     this.configAria = {};
+    this.type = 'default';
     /**
      *  [{
      *    label: 'Shivaji Varma',
@@ -432,6 +433,7 @@ const GcSelect = /*@__PURE__*/ proxyCustomElement(class extends HTMLElement {
     "showLoader": [4, "show-loader"],
     "isOpen": [1028, "is-open"],
     "configAria": [1544, "config-aria"],
+    "type": [1],
     "items": [1],
     "positions": [1],
     "clearable": [4],
