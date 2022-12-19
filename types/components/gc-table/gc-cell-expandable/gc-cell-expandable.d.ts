@@ -49,6 +49,10 @@ export declare class GcCellExpandable {
    * The total text
    */
   totalText: string;
+  /**
+   * The link to redirect
+   */
+  linkTo: string;
   stateChanged(value: any): void;
   /**
    * triggered when the step item is opened

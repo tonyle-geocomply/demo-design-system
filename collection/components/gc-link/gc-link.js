@@ -12,6 +12,11 @@ export class GcLink {
   onClickIcon() {
     window.open(this.gcTo, this.target);
   }
+  onClick(e) {
+    e.preventDefault();
+    e.stopPropagation();
+    window.open(this.gcTo, this.target);
+  }
   render() {
     if (this.icon) {
       return (h("div", { style: { display: 'flex', alignItems: 'baseline', cursor: 'pointer', fontSize: this.size } },
@@ -19,7 +24,7 @@ export class GcLink {
         h("a", { target: this.target, style: { color: this.color || 'var(--gc-color-primary)', marginLeft: '8px' }, class: this.getClassName(), id: this.gcId, href: this.gcTo },
           h("slot", null))));
     }
-    return (h("a", { target: this.target, style: { color: this.color || 'var(--gc-color-primary)', fontSize: this.size }, class: this.getClassName(), id: this.gcId, href: this.gcTo },
+    return (h("a", { onClick: e => this.onClick(e), target: this.target, style: { color: this.color || 'var(--gc-color-primary)', fontSize: this.size }, class: this.getClassName(), id: this.gcId, href: this.gcTo },
       h("slot", null)));
   }
   static get is() { return "gc-link"; }

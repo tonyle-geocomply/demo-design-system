@@ -89,6 +89,8 @@ const GcTable$1 = /*@__PURE__*/ proxyCustomElement(class extends HTMLElement {
     this.loadingGroupIndex = [];
     this.maxWidthInExpandRow = '';
     this.groupByFields = [];
+    this.groupByValue = '';
+    this.expandedRows = [];
     this.hoveredCell = {};
     this.isSelectAll = false;
     this.showingColumns = {};
@@ -136,6 +138,18 @@ const GcTable$1 = /*@__PURE__*/ proxyCustomElement(class extends HTMLElement {
       emitValues = Object.assign(Object.assign(Object.assign({}, emitValues), newValue), { [swapCol]: { hidden: !this.showingColumns[swapCol], position: values.oldPos } });
       this.gcTableSettingChange.emit(emitValues);
     };
+  }
+  watchGroupByValuePropHandler(newValue) {
+    if (this.isExpandable) {
+      this.totalExpanded = 0;
+      let foundGroudBy = undefined;
+      if (this.groupByFields.length > 0) {
+        foundGroudBy = this.groupByFields.find(field => field.value == newValue);
+      }
+      if (foundGroudBy) {
+        this.selectedGroupBy = foundGroudBy.label;
+      }
+    }
   }
   watchColumnsPropHandler(newValue) {
     let currentColumns = newValue;
@@ -396,7 +410,7 @@ const GcTable$1 = /*@__PURE__*/ proxyCustomElement(class extends HTMLElement {
     const collapsedRows = [];
     treeData.forEach(expandedRow => {
       const rows = [];
-      const { index, field_name: fieldName, value, total, tooltip_message: tooltipMessage, total_text: totalText, data = [], number_of_entry_per_page: numberOfEntryPerPage = 0, } = expandedRow;
+      const { index, field_name: fieldName, value, total, tooltip_message: tooltipMessage, total_text: totalText, link_to: linkTo, data = [], number_of_entry_per_page: numberOfEntryPerPage = 0, } = expandedRow;
       data.forEach((row, idx) => {
         const scrollCols = [];
         const columnsWithPos = this.getColumns().map(col => (Object.assign(Object.assign({}, col), { pos: this.posColumns[col.name] })));
@@ -426,7 +440,7 @@ const GcTable$1 = /*@__PURE__*/ proxyCustomElement(class extends HTMLElement {
             border: this.customRows && this.customRowsBorder && this.customRows.includes(`${idx}`) ? this.customRowsBorder : '',
           } }, h("div", { class: "scrollable-columns columns-container" }, scrollCols)));
       });
-      const expandableRows = (h("gc-cell-expandable", { class: { 'is-loading': this.loadingGroupIndex.includes(`${index}`) }, index: index, fieldName: fieldName, value: value, total: total, totalText: totalText, tooltipMessage: tooltipMessage, numberOfEntryPerPage: numberOfEntryPerPage || data.length, maxWidth: this.maxWidthInExpandRow }, this.loadingGroupIndex.includes(`${index}`) && (h("div", { class: "loading-section" }, h("gc-spinner", null))), rows.length > 0 ? rows : h("div", null, "No data")));
+      const expandableRows = (h("gc-cell-expandable", { class: { 'is-loading': this.loadingGroupIndex.includes(`${index}`) }, index: index, fieldName: fieldName, value: value, total: total, totalText: totalText, linkTo: linkTo, tooltipMessage: tooltipMessage, numberOfEntryPerPage: numberOfEntryPerPage || data.length, maxWidth: this.maxWidthInExpandRow }, this.loadingGroupIndex.includes(`${index}`) && (h("div", { class: "loading-section" }, h("gc-spinner", null))), rows.length > 0 ? rows : h("div", null, "No data")));
       collapsedRows.push(expandableRows);
     });
     return (h("div", { style: { maxHeight: this.maxHeight }, class: "gc__table-body" }, collapsedRows));
@@ -486,6 +500,15 @@ const GcTable$1 = /*@__PURE__*/ proxyCustomElement(class extends HTMLElement {
       res = Object.assign(Object.assign({}, res), { [col.name]: this.settingTable && this.settingTable[col.name] ? this.settingTable[col.name].position : idx });
       return res;
     }, {});
+    if (this.isExpandable) {
+      let foundGroudBy = undefined;
+      if (this.groupByFields.length > 0) {
+        foundGroudBy = this.groupByFields.find(field => field.value == this.groupByValue);
+      }
+      if (foundGroudBy) {
+        this.selectedGroupBy = foundGroudBy.label;
+      }
+    }
   }
   renderPagination() {
     let totalItems = this.getTotalItems();
@@ -525,6 +548,7 @@ const GcTable$1 = /*@__PURE__*/ proxyCustomElement(class extends HTMLElement {
   }
   get elm() { return this; }
   static get watchers() { return {
+    "groupByValue": ["watchGroupByValuePropHandler"],
     "columns": ["watchColumnsPropHandler"],
     "settingTable": ["watchSettingTablePropHandler"]
   }; }
@@ -564,6 +588,8 @@ const GcTable$1 = /*@__PURE__*/ proxyCustomElement(class extends HTMLElement {
     "loadingGroupIndex": [16],
     "maxWidthInExpandRow": [1, "max-width-in-expand-row"],
     "groupByFields": [16],
+    "groupByValue": [1, "group-by-value"],
+    "expandedRows": [1040],
     "hoveredCell": [32],
     "isSelectAll": [32],
     "showingColumns": [32],

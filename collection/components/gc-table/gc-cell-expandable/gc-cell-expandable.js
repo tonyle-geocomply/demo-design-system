@@ -42,6 +42,10 @@ export class GcCellExpandable {
      * The total text
      */
     this.totalText = '';
+    /**
+     * The link to redirect
+     */
+    this.linkTo = '';
   }
   get style() {
     return {
@@ -145,7 +149,7 @@ export class GcCellExpandable {
               h("b", null, this.value)),
             this.total > 0 ? h("div", { class: "divider" }) : null,
             this.total > 0 ? (h("gc-dropdown", { trigger: "hover", positions: "bottom-end" },
-              h("gc-link", null,
+              h("gc-link", { gcTo: this.linkTo, target: "_blank" },
                 h("b", null,
                   this.total,
                   " total ",
@@ -413,6 +417,24 @@ export class GcCellExpandable {
         "text": "The total text"
       },
       "attribute": "total-text",
+      "reflect": false,
+      "defaultValue": "''"
+    },
+    "linkTo": {
+      "type": "string",
+      "mutable": false,
+      "complexType": {
+        "original": "string",
+        "resolved": "string",
+        "references": {}
+      },
+      "required": false,
+      "optional": false,
+      "docs": {
+        "tags": [],
+        "text": "The link to redirect"
+      },
+      "attribute": "link-to",
       "reflect": false,
       "defaultValue": "''"
     }

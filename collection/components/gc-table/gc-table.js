@@ -66,6 +66,8 @@ export class GcTable {
     this.loadingGroupIndex = [];
     this.maxWidthInExpandRow = '';
     this.groupByFields = [];
+    this.groupByValue = '';
+    this.expandedRows = [];
     this.hoveredCell = {};
     this.isSelectAll = false;
     this.showingColumns = {};
@@ -113,6 +115,18 @@ export class GcTable {
       emitValues = Object.assign(Object.assign(Object.assign({}, emitValues), newValue), { [swapCol]: { hidden: !this.showingColumns[swapCol], position: values.oldPos } });
       this.gcTableSettingChange.emit(emitValues);
     };
+  }
+  watchGroupByValuePropHandler(newValue) {
+    if (this.isExpandable) {
+      this.totalExpanded = 0;
+      let foundGroudBy = undefined;
+      if (this.groupByFields.length > 0) {
+        foundGroudBy = this.groupByFields.find(field => field.value == newValue);
+      }
+      if (foundGroudBy) {
+        this.selectedGroupBy = foundGroudBy.label;
+      }
+    }
   }
   watchColumnsPropHandler(newValue) {
     let currentColumns = newValue;
@@ -401,7 +415,7 @@ export class GcTable {
     const collapsedRows = [];
     treeData.forEach(expandedRow => {
       const rows = [];
-      const { index, field_name: fieldName, value, total, tooltip_message: tooltipMessage, total_text: totalText, data = [], number_of_entry_per_page: numberOfEntryPerPage = 0, } = expandedRow;
+      const { index, field_name: fieldName, value, total, tooltip_message: tooltipMessage, total_text: totalText, link_to: linkTo, data = [], number_of_entry_per_page: numberOfEntryPerPage = 0, } = expandedRow;
       data.forEach((row, idx) => {
         const scrollCols = [];
         const columnsWithPos = this.getColumns().map(col => (Object.assign(Object.assign({}, col), { pos: this.posColumns[col.name] })));
@@ -433,7 +447,7 @@ export class GcTable {
           } },
           h("div", { class: "scrollable-columns columns-container" }, scrollCols)));
       });
-      const expandableRows = (h("gc-cell-expandable", { class: { 'is-loading': this.loadingGroupIndex.includes(`${index}`) }, index: index, fieldName: fieldName, value: value, total: total, totalText: totalText, tooltipMessage: tooltipMessage, numberOfEntryPerPage: numberOfEntryPerPage || data.length, maxWidth: this.maxWidthInExpandRow },
+      const expandableRows = (h("gc-cell-expandable", { class: { 'is-loading': this.loadingGroupIndex.includes(`${index}`) }, index: index, fieldName: fieldName, value: value, total: total, totalText: totalText, linkTo: linkTo, tooltipMessage: tooltipMessage, numberOfEntryPerPage: numberOfEntryPerPage || data.length, maxWidth: this.maxWidthInExpandRow },
         this.loadingGroupIndex.includes(`${index}`) && (h("div", { class: "loading-section" },
           h("gc-spinner", null))),
         rows.length > 0 ? rows : h("div", null, "No data")));
@@ -496,6 +510,15 @@ export class GcTable {
       res = Object.assign(Object.assign({}, res), { [col.name]: this.settingTable && this.settingTable[col.name] ? this.settingTable[col.name].position : idx });
       return res;
     }, {});
+    if (this.isExpandable) {
+      let foundGroudBy = undefined;
+      if (this.groupByFields.length > 0) {
+        foundGroudBy = this.groupByFields.find(field => field.value == this.groupByValue);
+      }
+      if (foundGroudBy) {
+        this.selectedGroupBy = foundGroudBy.label;
+      }
+    }
   }
   renderPagination() {
     let totalItems = this.getTotalItems();
@@ -1193,6 +1216,40 @@ export class GcTable {
         "text": ""
       },
       "defaultValue": "[]"
+    },
+    "groupByValue": {
+      "type": "string",
+      "mutable": false,
+      "complexType": {
+        "original": "string",
+        "resolved": "string",
+        "references": {}
+      },
+      "required": false,
+      "optional": false,
+      "docs": {
+        "tags": [],
+        "text": ""
+      },
+      "attribute": "group-by-value",
+      "reflect": false,
+      "defaultValue": "''"
+    },
+    "expandedRows": {
+      "type": "unknown",
+      "mutable": true,
+      "complexType": {
+        "original": "any[]",
+        "resolved": "any[]",
+        "references": {}
+      },
+      "required": false,
+      "optional": false,
+      "docs": {
+        "tags": [],
+        "text": ""
+      },
+      "defaultValue": "[]"
     }
   }; }
   static get states() { return {
@@ -1329,6 +1386,9 @@ export class GcTable {
     }]; }
   static get elementRef() { return "elm"; }
   static get watchers() { return [{
+      "propName": "groupByValue",
+      "methodName": "watchGroupByValuePropHandler"
+    }, {
       "propName": "columns",
       "methodName": "watchColumnsPropHandler"
     }, {

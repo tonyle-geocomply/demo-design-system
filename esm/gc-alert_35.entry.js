@@ -136,6 +136,10 @@ const GcCellExpandable = class {
      * The total text
      */
     this.totalText = '';
+    /**
+     * The link to redirect
+     */
+    this.linkTo = '';
   }
   get style() {
     return {
@@ -227,7 +231,7 @@ const GcCellExpandable = class {
     return this.calculatedHeight;
   }
   render() {
-    return (h(Host, null, h("header", { class: { 'gc__head-opening': this.open, 'gc__head': true }, onClick: () => this.toggle() }, h("div", { class: "gc__step-item-title", style: { width: this.maxWidth || 'calc(97vw + 10px)' } }, h("div", { class: { 'transitioning-rotate': this.open, 'gc__step-item-icon': true }, onTransitionEnd: () => this.handleTransitionEnd() }, h("gc-icon", { name: "fa-regular fa-chevron-down", color: "var(--gc-color-primary)", size: "12px" })), h("div", { class: "gc__step-item-title--content" }, h("div", null, this.fieldName, ": ", h("b", null, this.value)), this.total > 0 ? h("div", { class: "divider" }) : null, this.total > 0 ? (h("gc-dropdown", { trigger: "hover", positions: "bottom-end" }, h("gc-link", null, h("b", null, this.total, " total ", this.totalText)), h("div", { slot: "gc__dropdown-content", style: { padding: '16px' } }, h("div", null, this.tooltipMessage)))) : null), h("div", { class: "gc__step-item-title--entry" }, this.numberOfEntryPerPage > 0 && this.open ? `Showing last ${this.numberOfEntryPerPage} of ${this.total} entries` : null))), h("section", { class: { 'gc__steps-section': true, 'transitioning': this.transitioning, 'open': this.open }, style: this.style }, h("div", null, h("slot", null)))));
+    return (h(Host, null, h("header", { class: { 'gc__head-opening': this.open, 'gc__head': true }, onClick: () => this.toggle() }, h("div", { class: "gc__step-item-title", style: { width: this.maxWidth || 'calc(97vw + 10px)' } }, h("div", { class: { 'transitioning-rotate': this.open, 'gc__step-item-icon': true }, onTransitionEnd: () => this.handleTransitionEnd() }, h("gc-icon", { name: "fa-regular fa-chevron-down", color: "var(--gc-color-primary)", size: "12px" })), h("div", { class: "gc__step-item-title--content" }, h("div", null, this.fieldName, ": ", h("b", null, this.value)), this.total > 0 ? h("div", { class: "divider" }) : null, this.total > 0 ? (h("gc-dropdown", { trigger: "hover", positions: "bottom-end" }, h("gc-link", { gcTo: this.linkTo, target: "_blank" }, h("b", null, this.total, " total ", this.totalText)), h("div", { slot: "gc__dropdown-content", style: { padding: '16px' } }, h("div", null, this.tooltipMessage)))) : null), h("div", { class: "gc__step-item-title--entry" }, this.numberOfEntryPerPage > 0 && this.open ? `Showing last ${this.numberOfEntryPerPage} of ${this.total} entries` : null))), h("section", { class: { 'gc__steps-section': true, 'transitioning': this.transitioning, 'open': this.open }, style: this.style }, h("div", null, h("slot", null)))));
   }
   get element() { return getElement(this); }
   static get watchers() { return {
@@ -5294,11 +5298,16 @@ const GcLink = class {
   onClickIcon() {
     window.open(this.gcTo, this.target);
   }
+  onClick(e) {
+    e.preventDefault();
+    e.stopPropagation();
+    window.open(this.gcTo, this.target);
+  }
   render() {
     if (this.icon) {
       return (h("div", { style: { display: 'flex', alignItems: 'baseline', cursor: 'pointer', fontSize: this.size } }, h("gc-icon", { onClick: () => this.onClickIcon(), name: this.icon, size: this.size || '13px', color: "#397FF7" }), h("a", { target: this.target, style: { color: this.color || 'var(--gc-color-primary)', marginLeft: '8px' }, class: this.getClassName(), id: this.gcId, href: this.gcTo }, h("slot", null))));
     }
-    return (h("a", { target: this.target, style: { color: this.color || 'var(--gc-color-primary)', fontSize: this.size }, class: this.getClassName(), id: this.gcId, href: this.gcTo }, h("slot", null)));
+    return (h("a", { onClick: e => this.onClick(e), target: this.target, style: { color: this.color || 'var(--gc-color-primary)', fontSize: this.size }, class: this.getClassName(), id: this.gcId, href: this.gcTo }, h("slot", null)));
   }
 };
 GcLink.style = typographyCss;
@@ -6645,6 +6654,8 @@ const GcTable = class {
     this.loadingGroupIndex = [];
     this.maxWidthInExpandRow = '';
     this.groupByFields = [];
+    this.groupByValue = '';
+    this.expandedRows = [];
     this.hoveredCell = {};
     this.isSelectAll = false;
     this.showingColumns = {};
@@ -6692,6 +6703,18 @@ const GcTable = class {
       emitValues = Object.assign(Object.assign(Object.assign({}, emitValues), newValue), { [swapCol]: { hidden: !this.showingColumns[swapCol], position: values.oldPos } });
       this.gcTableSettingChange.emit(emitValues);
     };
+  }
+  watchGroupByValuePropHandler(newValue) {
+    if (this.isExpandable) {
+      this.totalExpanded = 0;
+      let foundGroudBy = undefined;
+      if (this.groupByFields.length > 0) {
+        foundGroudBy = this.groupByFields.find(field => field.value == newValue);
+      }
+      if (foundGroudBy) {
+        this.selectedGroupBy = foundGroudBy.label;
+      }
+    }
   }
   watchColumnsPropHandler(newValue) {
     let currentColumns = newValue;
@@ -6952,7 +6975,7 @@ const GcTable = class {
     const collapsedRows = [];
     treeData.forEach(expandedRow => {
       const rows = [];
-      const { index, field_name: fieldName, value, total, tooltip_message: tooltipMessage, total_text: totalText, data = [], number_of_entry_per_page: numberOfEntryPerPage = 0, } = expandedRow;
+      const { index, field_name: fieldName, value, total, tooltip_message: tooltipMessage, total_text: totalText, link_to: linkTo, data = [], number_of_entry_per_page: numberOfEntryPerPage = 0, } = expandedRow;
       data.forEach((row, idx) => {
         const scrollCols = [];
         const columnsWithPos = this.getColumns().map(col => (Object.assign(Object.assign({}, col), { pos: this.posColumns[col.name] })));
@@ -6982,7 +7005,7 @@ const GcTable = class {
             border: this.customRows && this.customRowsBorder && this.customRows.includes(`${idx}`) ? this.customRowsBorder : '',
           } }, h("div", { class: "scrollable-columns columns-container" }, scrollCols)));
       });
-      const expandableRows = (h("gc-cell-expandable", { class: { 'is-loading': this.loadingGroupIndex.includes(`${index}`) }, index: index, fieldName: fieldName, value: value, total: total, totalText: totalText, tooltipMessage: tooltipMessage, numberOfEntryPerPage: numberOfEntryPerPage || data.length, maxWidth: this.maxWidthInExpandRow }, this.loadingGroupIndex.includes(`${index}`) && (h("div", { class: "loading-section" }, h("gc-spinner", null))), rows.length > 0 ? rows : h("div", null, "No data")));
+      const expandableRows = (h("gc-cell-expandable", { class: { 'is-loading': this.loadingGroupIndex.includes(`${index}`) }, index: index, fieldName: fieldName, value: value, total: total, totalText: totalText, linkTo: linkTo, tooltipMessage: tooltipMessage, numberOfEntryPerPage: numberOfEntryPerPage || data.length, maxWidth: this.maxWidthInExpandRow }, this.loadingGroupIndex.includes(`${index}`) && (h("div", { class: "loading-section" }, h("gc-spinner", null))), rows.length > 0 ? rows : h("div", null, "No data")));
       collapsedRows.push(expandableRows);
     });
     return (h("div", { style: { maxHeight: this.maxHeight }, class: "gc__table-body" }, collapsedRows));
@@ -7042,6 +7065,15 @@ const GcTable = class {
       res = Object.assign(Object.assign({}, res), { [col.name]: this.settingTable && this.settingTable[col.name] ? this.settingTable[col.name].position : idx });
       return res;
     }, {});
+    if (this.isExpandable) {
+      let foundGroudBy = undefined;
+      if (this.groupByFields.length > 0) {
+        foundGroudBy = this.groupByFields.find(field => field.value == this.groupByValue);
+      }
+      if (foundGroudBy) {
+        this.selectedGroupBy = foundGroudBy.label;
+      }
+    }
   }
   renderPagination() {
     let totalItems = this.getTotalItems();
@@ -7081,6 +7113,7 @@ const GcTable = class {
   }
   get elm() { return getElement(this); }
   static get watchers() { return {
+    "groupByValue": ["watchGroupByValuePropHandler"],
     "columns": ["watchColumnsPropHandler"],
     "settingTable": ["watchSettingTablePropHandler"]
   }; }

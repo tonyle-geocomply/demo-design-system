@@ -67,6 +67,8 @@ export declare class GcTable {
   loadingGroupIndex: any[];
   maxWidthInExpandRow: string;
   groupByFields: any[];
+  groupByValue: string;
+  expandedRows: any[];
   private hoveredCell;
   private isSelectAll;
   private showingColumns;
@@ -84,6 +86,7 @@ export declare class GcTable {
   gcTableSettingChange: EventEmitter;
   gcTableCollapseChange: EventEmitter;
   gcTableGroupByChange: EventEmitter;
+  watchGroupByValuePropHandler(newValue: string): void;
   watchColumnsPropHandler(newValue: any): void;
   watchSettingTablePropHandler(newSetting: any): void;
   handleChangePage(ev: any): void;

@@ -68,6 +68,10 @@ export namespace Components {
           * index of step item from top to bottom
          */
         "index": string;
+        /**
+          * The link to redirect
+         */
+        "linkTo": string;
         "maxHeight": string;
         "maxWidth": string;
         /**
@@ -657,8 +661,10 @@ export namespace Components {
          */
         "data": string | any[];
         "emptyState": any;
+        "expandedRows": any[];
         "gcId": string;
         "groupByFields": any[];
+        "groupByValue": string;
         "isBordered"?: boolean;
         "isCustomHeader": boolean;
         "isExpandable": boolean;
@@ -1232,6 +1238,10 @@ declare namespace LocalJSX {
           * index of step item from top to bottom
          */
         "index"?: string;
+        /**
+          * The link to redirect
+         */
+        "linkTo"?: string;
         "maxHeight"?: string;
         "maxWidth"?: string;
         /**
@@ -1850,8 +1860,10 @@ declare namespace LocalJSX {
          */
         "data"?: string | any[];
         "emptyState"?: any;
+        "expandedRows"?: any[];
         "gcId"?: string;
         "groupByFields"?: any[];
+        "groupByValue"?: string;
         "isBordered"?: boolean;
         "isCustomHeader"?: boolean;
         "isExpandable"?: boolean;
