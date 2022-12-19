@@ -5,6 +5,10 @@ export class GcLink {
      * target link
      */
     this.target = '_self';
+    /**
+   * Stop propagation
+   */
+    this.stopPropagation = false;
   }
   getClassName() {
     return this.class ? `gc-link ${this.class}` : 'gc-link';
@@ -13,9 +17,11 @@ export class GcLink {
     window.open(this.gcTo, this.target);
   }
   onClick(e) {
-    e.preventDefault();
-    e.stopPropagation();
-    window.open(this.gcTo, this.target);
+    if (this.stopPropagation) {
+      e.preventDefault();
+      e.stopPropagation();
+      window.open(this.gcTo, this.target);
+    }
   }
   render() {
     if (this.icon) {
@@ -155,6 +161,24 @@ export class GcLink {
       },
       "attribute": "size",
       "reflect": false
+    },
+    "stopPropagation": {
+      "type": "boolean",
+      "mutable": false,
+      "complexType": {
+        "original": "boolean",
+        "resolved": "boolean",
+        "references": {}
+      },
+      "required": false,
+      "optional": false,
+      "docs": {
+        "tags": [],
+        "text": "Stop propagation"
+      },
+      "attribute": "stop-propagation",
+      "reflect": false,
+      "defaultValue": "false"
     }
   }; }
 }

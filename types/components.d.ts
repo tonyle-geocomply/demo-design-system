@@ -362,6 +362,10 @@ export namespace Components {
          */
         "size"?: string;
         /**
+          * Stop propagation
+         */
+        "stopPropagation": boolean;
+        /**
           * target link
          */
         "target"?: string;
@@ -1555,6 +1559,10 @@ declare namespace LocalJSX {
           * Size of link
          */
         "size"?: string;
+        /**
+          * Stop propagation
+         */
+        "stopPropagation"?: boolean;
         /**
           * target link
          */

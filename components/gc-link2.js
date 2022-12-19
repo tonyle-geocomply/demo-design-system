@@ -12,6 +12,10 @@ const GcLink = /*@__PURE__*/ proxyCustomElement(class extends HTMLElement {
      * target link
      */
     this.target = '_self';
+    /**
+   * Stop propagation
+   */
+    this.stopPropagation = false;
   }
   getClassName() {
     return this.class ? `gc-link ${this.class}` : 'gc-link';
@@ -20,9 +24,11 @@ const GcLink = /*@__PURE__*/ proxyCustomElement(class extends HTMLElement {
     window.open(this.gcTo, this.target);
   }
   onClick(e) {
-    e.preventDefault();
-    e.stopPropagation();
-    window.open(this.gcTo, this.target);
+    if (this.stopPropagation) {
+      e.preventDefault();
+      e.stopPropagation();
+      window.open(this.gcTo, this.target);
+    }
   }
   render() {
     if (this.icon) {
@@ -38,7 +44,8 @@ const GcLink = /*@__PURE__*/ proxyCustomElement(class extends HTMLElement {
     "icon": [1],
     "color": [1],
     "target": [1],
-    "size": [1]
+    "size": [1],
+    "stopPropagation": [4, "stop-propagation"]
   }]);
 function defineCustomElement() {
   if (typeof customElements === "undefined") {

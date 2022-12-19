@@ -27,6 +27,10 @@ export declare class GcLink {
    * Size of link
    */
   size?: string;
+  /**
+ * Stop propagation
+ */
+  stopPropagation: boolean;
   private getClassName;
   private onClickIcon;
   private onClick;

@@ -235,7 +235,7 @@ const GcCellExpandable = class {
     return this.calculatedHeight;
   }
   render() {
-    return (index$1.h(index$1.Host, null, index$1.h("header", { class: { 'gc__head-opening': this.open, 'gc__head': true }, onClick: () => this.toggle() }, index$1.h("div", { class: "gc__step-item-title", style: { width: this.maxWidth || 'calc(97vw + 10px)' } }, index$1.h("div", { class: { 'transitioning-rotate': this.open, 'gc__step-item-icon': true }, onTransitionEnd: () => this.handleTransitionEnd() }, index$1.h("gc-icon", { name: "fa-regular fa-chevron-down", color: "var(--gc-color-primary)", size: "12px" })), index$1.h("div", { class: "gc__step-item-title--content" }, index$1.h("div", null, this.fieldName, ": ", index$1.h("b", null, this.value)), this.total > 0 ? index$1.h("div", { class: "divider" }) : null, this.total > 0 ? (index$1.h("gc-dropdown", { trigger: "hover", positions: "bottom-end" }, index$1.h("gc-link", { gcTo: this.linkTo, target: "_blank" }, index$1.h("b", null, this.total, " total ", this.totalText)), index$1.h("div", { slot: "gc__dropdown-content", style: { padding: '16px' } }, index$1.h("div", null, this.tooltipMessage)))) : null), index$1.h("div", { class: "gc__step-item-title--entry" }, this.numberOfEntryPerPage > 0 && this.open ? `Showing last ${this.numberOfEntryPerPage} of ${this.total} entries` : null))), index$1.h("section", { class: { 'gc__steps-section': true, 'transitioning': this.transitioning, 'open': this.open }, style: this.style }, index$1.h("div", null, index$1.h("slot", null)))));
+    return (index$1.h(index$1.Host, null, index$1.h("header", { class: { 'gc__head-opening': this.open, 'gc__head': true }, onClick: () => this.toggle() }, index$1.h("div", { class: "gc__step-item-title", style: { width: this.maxWidth || 'calc(97vw + 10px)' } }, index$1.h("div", { class: { 'transitioning-rotate': this.open, 'gc__step-item-icon': true }, onTransitionEnd: () => this.handleTransitionEnd() }, index$1.h("gc-icon", { name: "fa-regular fa-chevron-down", color: "var(--gc-color-primary)", size: "12px" })), index$1.h("div", { class: "gc__step-item-title--content" }, index$1.h("div", null, this.fieldName, ": ", index$1.h("b", null, this.value)), this.total > 0 ? index$1.h("div", { class: "divider" }) : null, this.total > 0 ? (index$1.h("gc-dropdown", { trigger: "hover", positions: "right" }, index$1.h("gc-link", { gcTo: this.linkTo, target: "_blank", stopPropagation: true }, index$1.h("b", null, this.total, " total ", this.totalText)), index$1.h("div", { slot: "gc__dropdown-content", style: { padding: '16px' } }, index$1.h("div", null, this.tooltipMessage)))) : null), index$1.h("div", { class: "gc__step-item-title--entry" }, this.numberOfEntryPerPage > 0 && this.open ? `Showing last ${this.numberOfEntryPerPage} of ${this.total} entries` : null))), index$1.h("section", { class: { 'gc__steps-section': true, 'transitioning': this.transitioning, 'open': this.open }, style: this.style }, index$1.h("div", null, index$1.h("slot", null)))));
   }
   get element() { return index$1.getElement(this); }
   static get watchers() { return {
@@ -5295,6 +5295,10 @@ const GcLink = class {
      * target link
      */
     this.target = '_self';
+    /**
+   * Stop propagation
+   */
+    this.stopPropagation = false;
   }
   getClassName() {
     return this.class ? `gc-link ${this.class}` : 'gc-link';
@@ -5303,9 +5307,11 @@ const GcLink = class {
     window.open(this.gcTo, this.target);
   }
   onClick(e) {
-    e.preventDefault();
-    e.stopPropagation();
-    window.open(this.gcTo, this.target);
+    if (this.stopPropagation) {
+      e.preventDefault();
+      e.stopPropagation();
+      window.open(this.gcTo, this.target);
+    }
   }
   render() {
     if (this.icon) {
