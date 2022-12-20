@@ -126,3 +126,8 @@
 #tooltip[data-popper-placement^='right'] > #arrow {
   left: -12px;
 }
+
+.suffix-arrow {
+  margin-left: 12px;
+  color: var(--gc-color-primary);
+}

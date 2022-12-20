@@ -165,6 +165,7 @@ export namespace Components {
           * The button size. Possible values are: `"sm"`, `"md"`, `"lg"`. Defaults to `"md"`.
          */
         "size": 'sm' | 'md' | 'lg';
+        "suffixArrow": boolean;
         "trigger": 'click' | 'hover';
     }
     interface GcFormField {
@@ -1355,6 +1356,7 @@ declare namespace LocalJSX {
           * The button size. Possible values are: `"sm"`, `"md"`, `"lg"`. Defaults to `"md"`.
          */
         "size"?: 'sm' | 'md' | 'lg';
+        "suffixArrow"?: boolean;
         "trigger"?: 'click' | 'hover';
     }
     interface GcFormField {
@@ -1887,6 +1889,7 @@ declare namespace LocalJSX {
         "onGc:clear-empty-state"?: (event: GcTableCustomEvent<any>) => void;
         "onGc:sort"?: (event: GcTableCustomEvent<any>) => void;
         "onGc:table-cell-click"?: (event: GcTableCustomEvent<any>) => void;
+        "onGc:table-child-data-change"?: (event: GcTableCustomEvent<any>) => void;
         "onGc:table-collapse-change"?: (event: GcTableCustomEvent<any>) => void;
         "onGc:table-group-by-change"?: (event: GcTableCustomEvent<any>) => void;
         "onGc:table-select-change"?: (event: GcTableCustomEvent<any>) => void;

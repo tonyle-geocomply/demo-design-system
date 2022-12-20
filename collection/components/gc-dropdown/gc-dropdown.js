@@ -34,8 +34,10 @@ export class GcDropdown {
     this.items = null;
     this.trigger = 'click';
     this.allowForceClose = false;
+    this.suffixArrow = false;
     this.hasFocus = false;
     this.position = '';
+    this.isToggle = false;
   }
   getPosition(position) {
     switch (position) {
@@ -72,12 +74,14 @@ export class GcDropdown {
   }
   toggle() {
     if (!this.dropdownElm.hasAttribute('data-show')) {
+      this.isToggle = true;
       this.dropdownElm.setAttribute('data-show', '');
       // We need to tell Popper to update the tooltip position
       // after we show the tooltip, otherwise it will be incorrect
       this.popperInstance.update();
       return;
     }
+    this.isToggle = false;
     this.dropdownElm.removeAttribute('data-show');
   }
   windowClick(evt) {
@@ -88,6 +92,7 @@ export class GcDropdown {
       }
     }
     this.dropdownElm.removeAttribute('data-show');
+    this.isToggle = false;
   }
   componentDidLoad() {
     this.popperInstance = createPopper(this.containerElm, this.dropdownElm, {
@@ -120,7 +125,9 @@ export class GcDropdown {
   render() {
     return (h(Host, null,
       h("div", { onClick: () => this.handleClick(), onMouseEnter: () => this.handleHover(), onMouseLeave: () => this.handleHover(), class: "slot-container", id: "host-element", "aria-describedby": "tooltip", ref: elm => (this.containerElm = elm) },
-        h("slot", null)),
+        h("slot", null),
+        this.suffixArrow ? h("span", { class: "suffix-arrow" },
+          h("gc-icon", { size: "12px", name: `fa-solid fa-caret-${this.isToggle ? 'up' : 'down'}` })) : null),
       h("div", { onClick: () => this.handleClickDropdown(), class: "gc__dropdown-content", id: "tooltip", role: "tooltip", ref: elm => (this.dropdownElm = elm) },
         this.renderItems(),
         h("slot", { name: "gc__dropdown-content" }),
@@ -258,11 +265,30 @@ export class GcDropdown {
       "attribute": "allow-force-close",
       "reflect": false,
       "defaultValue": "false"
+    },
+    "suffixArrow": {
+      "type": "boolean",
+      "mutable": false,
+      "complexType": {
+        "original": "boolean",
+        "resolved": "boolean",
+        "references": {}
+      },
+      "required": false,
+      "optional": false,
+      "docs": {
+        "tags": [],
+        "text": ""
+      },
+      "attribute": "suffix-arrow",
+      "reflect": false,
+      "defaultValue": "false"
     }
   }; }
   static get states() { return {
     "hasFocus": {},
-    "position": {}
+    "position": {},
+    "isToggle": {}
   }; }
   static get elementRef() { return "elm"; }
   static get listeners() { return [{

@@ -32,12 +32,14 @@ export declare class GcDropdown implements ComponentInterface {
   items: any[];
   trigger: 'click' | 'hover';
   allowForceClose: boolean;
+  suffixArrow: boolean;
   private containerElm?;
   private dropdownElm?;
   private popperInstance;
   elm: HTMLElement;
   hasFocus: boolean;
   position: any;
+  isToggle: boolean;
   getPosition(position: any): any;
   componentWillLoad(): void;
   renderItems(): any;

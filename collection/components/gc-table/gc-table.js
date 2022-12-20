@@ -134,15 +134,7 @@ export class GcTable {
   }
   watchExpandedRowsPropHandler(expandedRows) {
     if (expandedRows.length > 0) {
-      const children = this.elm.shadowRoot.querySelectorAll('gc-cell-expandable');
-      children.forEach((_, idx) => {
-        if (expandedRows.includes(`${idx}`)) {
-          children[idx].openItem();
-        }
-        else {
-          children[idx].closeItem();
-        }
-      });
+      this.gcTableChildDataChange.emit({ expandedRows });
     }
   }
   watchColumnsPropHandler(newValue) {
@@ -467,7 +459,9 @@ export class GcTable {
       const expandableRows = (h("gc-cell-expandable", { class: { 'is-loading': this.loadingGroupIndex.includes(`${index}`) }, index: index, fieldName: fieldName, value: value, total: total, totalText: totalText, linkTo: linkTo, tooltipMessage: tooltipMessage, numberOfEntryPerPage: numberOfEntryPerPage || data.length, maxWidth: this.maxWidthInExpandRow },
         this.loadingGroupIndex.includes(`${index}`) && (h("div", { class: "loading-section" },
           h("gc-spinner", null))),
-        rows.length > 0 ? rows : h("div", null, "No data")));
+        rows.length > 0 ? rows : (h("div", { class: { 'empty-child-table': true, 'empty-table-no-bordered': true } },
+          h("div", null,
+            h("gc-h2", null, "There is no records found matching applied filters"))))));
       collapsedRows.push(expandableRows);
     });
     return (h("div", { style: { maxHeight: this.maxHeight }, class: "gc__table-body" }, collapsedRows));
@@ -578,7 +572,7 @@ export class GcTable {
             "\u00A0",
             h("b", null, "Group by"),
             ":\u00A0",
-            h("gc-dropdown", { id: "dropdown_group_by", trigger: "click", allowForceClose: true },
+            h("gc-dropdown", { id: "dropdown_group_by", trigger: "click", allowForceClose: true, suffixArrow: true },
               h("gc-link", { color: "var(--gc-color-primary)" },
                 h("span", { class: "gc__table-setting-manage-title-group-by" }, this.selectedGroupBy)),
               h("gc-menu", { slot: "gc__dropdown-content", class: "menu-no-border", style: { width: '200px' } }, this.groupByFields.map((field, idx) => (h("gc-menu-item", { background: "white", value: field.value, "onGc:menu-item-click": () => this.onSelectGroupByMenu(field) },
@@ -1388,6 +1382,21 @@ export class GcTable {
     }, {
       "method": "gcTableGroupByChange",
       "name": "gc:table-group-by-change",
+      "bubbles": true,
+      "cancelable": true,
+      "composed": true,
+      "docs": {
+        "tags": [],
+        "text": ""
+      },
+      "complexType": {
+        "original": "any",
+        "resolved": "any",
+        "references": {}
+      }
+    }, {
+      "method": "gcTableChildDataChange",
+      "name": "gc:table-child-data-change",
       "bubbles": true,
       "cancelable": true,
       "composed": true,
