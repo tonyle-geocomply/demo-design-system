@@ -117,13 +117,13 @@ export class GcTable {
     };
   }
   watchGroupByValuePropHandler(newValue) {
+    if (!newValue) {
+      this.selectedGroupBy = 'Select Grouping';
+      return;
+    }
     if (this.isExpandable) {
       this.totalExpanded = 0;
       let foundGroudBy = undefined;
-      if (!newValue) {
-        this.selectedGroupBy = 'Select Grouping';
-        return;
-      }
       if (this.groupByFields.length > 0) {
         foundGroudBy = this.groupByFields.find(field => field.value == newValue);
       }
