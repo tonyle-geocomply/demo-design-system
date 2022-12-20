@@ -87,6 +87,7 @@ export declare class GcTable {
   gcTableCollapseChange: EventEmitter;
   gcTableGroupByChange: EventEmitter;
   watchGroupByValuePropHandler(newValue: string): void;
+  watchExpandedRowsPropHandler(expandedRows: any): void;
   watchColumnsPropHandler(newValue: any): void;
   watchSettingTablePropHandler(newSetting: any): void;
   handleChangePage(ev: any): void;

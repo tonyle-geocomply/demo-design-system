@@ -6714,12 +6714,29 @@ const GcTable = class {
     if (this.isExpandable) {
       this.totalExpanded = 0;
       let foundGroudBy = undefined;
+      if (!newValue) {
+        this.selectedGroupBy = 'Select Grouping';
+        return;
+      }
       if (this.groupByFields.length > 0) {
         foundGroudBy = this.groupByFields.find(field => field.value == newValue);
       }
       if (foundGroudBy) {
         this.selectedGroupBy = foundGroudBy.label;
       }
+    }
+  }
+  watchExpandedRowsPropHandler(expandedRows) {
+    if (expandedRows.length > 0) {
+      const children = this.elm.shadowRoot.querySelectorAll('gc-cell-expandable');
+      children.forEach((_, idx) => {
+        if (expandedRows.includes(`${idx}`)) {
+          children[idx].openItem();
+        }
+        else {
+          children[idx].closeItem();
+        }
+      });
     }
   }
   watchColumnsPropHandler(newValue) {
@@ -7120,6 +7137,7 @@ const GcTable = class {
   get elm() { return getElement(this); }
   static get watchers() { return {
     "groupByValue": ["watchGroupByValuePropHandler"],
+    "expandedRows": ["watchExpandedRowsPropHandler"],
     "columns": ["watchColumnsPropHandler"],
     "settingTable": ["watchSettingTablePropHandler"]
   }; }
