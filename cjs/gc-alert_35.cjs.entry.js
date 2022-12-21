@@ -6817,6 +6817,9 @@ const GcTable = class {
       return Object.assign(Object.assign({}, res), { [key]: { hidden: !this.showingColumns[key], position: this.posColumns && this.posColumns[key] !== undefined ? this.posColumns[key] : idx } });
     }, {});
     this.gcTableSettingChange.emit(emitValues);
+    if (this.totalExpanded > 0) {
+      this.gcTableChildDataChange.emit({ expandedRows: this.expandedRows });
+    }
   }
   onClearEmptyState() {
     if (this.gcClearEmptyState) {
