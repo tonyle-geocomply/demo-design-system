@@ -138,10 +138,10 @@ export class GcCellExpandable {
   }
   render() {
     return (h(Host, null,
-      h("header", { class: { 'gc__head-opening': this.open, 'gc__head': true }, onClick: () => this.toggle() },
+      h("header", { class: { 'gc__head-opening': this.open, 'gc__head': true } },
         h("div", { class: "gc__step-item-title", style: { width: this.maxWidth || 'calc(97vw + 10px)' } },
-          h("div", { class: { 'transitioning-rotate': this.open, 'gc__step-item-icon': true }, onTransitionEnd: () => this.handleTransitionEnd() },
-            h("gc-icon", { name: "fa-regular fa-chevron-down", color: "var(--gc-color-primary)", size: "12px" })),
+          h("div", { onClick: () => this.toggle(), class: { 'transitioning-rotate': this.open, 'gc__step-item-icon': true }, onTransitionEnd: () => this.handleTransitionEnd() },
+            h("gc-icon", { name: "fa-solid fa-chevron-down", color: "var(--gc-color-primary)", size: "10px" })),
           h("div", { class: "gc__step-item-title--content" },
             h("div", null,
               this.fieldName,

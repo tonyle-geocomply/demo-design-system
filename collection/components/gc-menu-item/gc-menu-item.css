@@ -3,6 +3,14 @@
   border-bottom: 1px solid var(--gc-color-second-grey);
   font-weight: 400;
 }
+:host(*:last-child) .menu-item-white {
+  border-bottom-right-radius: 6px;
+  border-bottom-left-radius: 6px;
+}
+:host(*:first-child) .menu-item-white {
+  border-top-right-radius: 6px;
+  border-top-left-radius: 6px;
+}
 .menu-item {
   cursor: pointer;
   padding: 14px;

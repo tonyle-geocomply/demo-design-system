@@ -561,6 +561,7 @@ export class GcTable {
       const columnsWithPos = this.getColumns().map((col, idx) => (Object.assign(Object.assign({}, col), { pos: this.settingTable && this.settingTable[col.name] ? this.settingTable[col.name].position : idx })));
       columnsWithPos.sort((a, b) => a.pos - b.pos);
       const columns = columnsWithPos.filter(col => col.name !== 'custom_actions');
+      const filteredGroupByFields = this.groupByFields.filter(field => field.label != this.selectedGroupBy);
       return (h("div", { style: { background: this.background, border: this.isNoBorderedAll ? '0' : '' }, class: "gc__table-setting" },
         this.customEmptyState || this.isNoBorderedAll || this.isCustomHeader ? (h("div", null,
           h("slot", { name: "gc__table-setting-title" }))) : (h("slot", { name: "gc__table-setting-title" },
@@ -578,8 +579,8 @@ export class GcTable {
             h("gc-dropdown", { id: "dropdown_group_by", trigger: "click", allowForceClose: true, suffixArrow: true },
               h("gc-link", { color: "var(--gc-color-primary)" },
                 h("span", { class: "gc__table-setting-manage-title-group-by" }, this.selectedGroupBy)),
-              h("gc-menu", { slot: "gc__dropdown-content", class: "menu-no-border", style: { width: '200px' } }, this.groupByFields.map((field, idx) => (h("gc-menu-item", { background: "white", value: field.value, "onGc:menu-item-click": () => this.onSelectGroupByMenu(field) },
-                h("span", { style: { opacity: idx === 0 ? '0.5' : '1' } }, field.label)))))))),
+              h("gc-menu", { slot: "gc__dropdown-content", class: "menu-no-border", style: { width: '200px' } }, filteredGroupByFields.map(field => (h("gc-menu-item", { background: "white", value: field.value, "onGc:menu-item-click": () => this.onSelectGroupByMenu(field) },
+                h("span", { style: { opacity: field.value === '' ? '0.5' : '1' } }, field.label)))))))),
           !!(this.groupByFields.length > 0) && h("div", { class: "gc__table-divider" }),
           this.settingColumns && (h("gc-dropdown", { id: `dropdown_${this.gcId}` },
             h("gc-link", { icon: "fa-solid fa-table-layout", color: "#51666C" },
