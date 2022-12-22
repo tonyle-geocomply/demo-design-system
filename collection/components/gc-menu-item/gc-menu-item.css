@@ -11,6 +11,10 @@
   border-top-right-radius: 6px;
   border-top-left-radius: 6px;
 }
+:host(*:first-child) .menu-item-white:hover {
+  border-top-right-radius: 0px;
+  border-top-left-radius: 0px;
+}
 .menu-item {
   cursor: pointer;
   padding: 14px;

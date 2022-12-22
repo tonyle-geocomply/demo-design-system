@@ -21,6 +21,7 @@
   left: 0;
 }
 .gc__step-item-icon {
+  cursor: pointer;
   border-radius: 50%;
   border-width: 1px;
   border-style: solid;
@@ -51,7 +52,6 @@
   transition: max-height .35s ease;
 }
 header.gc__head {
-  cursor: pointer;
   border-bottom: 1px solid var(--gc-color-second-grey);
   height: 60px;
   display: flex;

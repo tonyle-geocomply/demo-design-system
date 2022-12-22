@@ -116,6 +116,13 @@ export class GcTable {
       this.gcTableSettingChange.emit(emitValues);
     };
   }
+  watchTreeDataPropHandler(newValue) {
+    if (typeof newValue !== 'string') {
+      if (newValue && newValue.length === 0) {
+        this.totalExpanded = 0;
+      }
+    }
+  }
   watchGroupByValuePropHandler(newValue) {
     if (!newValue) {
       this.selectedGroupBy = 'Select Grouping';
@@ -462,9 +469,7 @@ export class GcTable {
       const expandableRows = (h("gc-cell-expandable", { class: { 'is-loading': this.loadingGroupIndex.includes(`${index}`) }, index: index, fieldName: fieldName, value: value, total: total, totalText: totalText, linkTo: linkTo, tooltipMessage: tooltipMessage, numberOfEntryPerPage: numberOfEntryPerPage || data.length, maxWidth: this.maxWidthInExpandRow },
         this.loadingGroupIndex.includes(`${index}`) && (h("div", { class: "loading-section" },
           h("gc-spinner", null))),
-        rows.length > 0 ? rows : (h("div", { class: { 'empty-child-table': true, 'empty-table-no-bordered': true } },
-          h("div", null,
-            h("gc-h2", null, "There is no records found matching applied filters"))))));
+        rows));
       collapsedRows.push(expandableRows);
     });
     return (h("div", { style: { maxHeight: this.maxHeight }, class: "gc__table-body" }, collapsedRows));
@@ -574,8 +579,7 @@ export class GcTable {
           !!(this.groupByFields.length > 0) && (h("div", null,
             h("gc-icon", { color: "var(--gc-color-primary)", name: "fa-regular fa-layer-group", size: "14px" }),
             "\u00A0",
-            h("b", null, "Group by"),
-            ":\u00A0",
+            h("b", { style: { marginRight: '6px' } }, "Group by:"),
             h("gc-dropdown", { id: "dropdown_group_by", trigger: "click", allowForceClose: true, suffixArrow: true },
               h("gc-link", { color: "var(--gc-color-primary)" },
                 h("span", { class: "gc__table-setting-manage-title-group-by" }, this.selectedGroupBy)),
@@ -611,7 +615,10 @@ export class GcTable {
           'gc__table-loading': this.isLoading,
         } },
         h("div", { class: "table-scroll-container", style: {
-            overflow: (countCurrentCol.length <= DEFAULT_MAXIMUM_TO_SCALE && !this.isStopScaleWidth) || (this.isExpandable && this.totalExpanded === 0) ? 'hidden' : 'auto',
+            overflow: (countCurrentCol.length <= DEFAULT_MAXIMUM_TO_SCALE && !this.isStopScaleWidth) ||
+              (this.isExpandable && this.totalExpanded === 0 && countCurrentCol.length <= DEFAULT_MAXIMUM_TO_SCALE)
+              ? 'hidden'
+              : 'auto',
             position: this.showTooltip ? 'static' : 'inherit',
           } },
           this.isExpandable ? this.renderHeaderWithExpandableRows() : this.renderHeader(),
@@ -1416,6 +1423,9 @@ export class GcTable {
     }]; }
   static get elementRef() { return "elm"; }
   static get watchers() { return [{
+      "propName": "treeData",
+      "methodName": "watchTreeDataPropHandler"
+    }, {
       "propName": "groupByValue",
       "methodName": "watchGroupByValuePropHandler"
     }, {
