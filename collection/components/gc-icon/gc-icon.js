@@ -28,12 +28,6 @@ export class GcIcon {
       h("i", { class: this.name, style: { fontSize: this.getSize(), color: this.color, fontWeight: this.fontWeight } })));
   }
   static get is() { return "gc-icon"; }
-  static get originalStyleUrls() { return {
-    "$": ["../../global/fontawesome-pro/css/all.min.css"]
-  }; }
-  static get styleUrls() { return {
-    "$": ["../../global/fontawesome-pro/css/all.min.css"]
-  }; }
   static get properties() { return {
     "name": {
       "type": "string",
