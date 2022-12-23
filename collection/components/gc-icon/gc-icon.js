@@ -25,10 +25,15 @@ export class GcIcon {
   }
   render() {
     return (h(Host, null,
-      h("link", { rel: "stylesheet", href: "/fontawesome-pro/fontawesome.min.css" }),
-      h("i", { class: this.name, style: { fontSize: this.getSize(), color: this.color, fontWeight: this.fontWeight } })));
+      h("i", { id: "icon", class: this.name, style: { fontSize: this.getSize(), color: this.color, fontWeight: this.fontWeight } })));
   }
   static get is() { return "gc-icon"; }
+  static get originalStyleUrls() { return {
+    "$": ["../../global/fontawesome-pro/css/fontawesome.min.css"]
+  }; }
+  static get styleUrls() { return {
+    "$": ["../../global/fontawesome-pro/css/fontawesome.min.css"]
+  }; }
   static get properties() { return {
     "name": {
       "type": "string",
