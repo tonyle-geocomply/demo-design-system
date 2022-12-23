@@ -27,7 +27,7 @@ const GcIcon = /*@__PURE__*/ proxyCustomElement(class extends HTMLElement {
     return size;
   }
   render() {
-    return (h(Host, null, h("i", { class: this.name, style: { fontSize: this.getSize(), color: this.color, fontWeight: this.fontWeight } })));
+    return (h(Host, null, h("link", { rel: "stylesheet", href: "/fontawesome-pro/fontawesome.min.css" }), h("i", { class: this.name, style: { fontSize: this.getSize(), color: this.color, fontWeight: this.fontWeight } })));
   }
 }, [0, "gc-icon", {
     "name": [513],

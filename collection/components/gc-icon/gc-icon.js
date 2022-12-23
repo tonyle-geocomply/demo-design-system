@@ -25,6 +25,7 @@ export class GcIcon {
   }
   render() {
     return (h(Host, null,
+      h("link", { rel: "stylesheet", href: "/fontawesome-pro/fontawesome.min.css" }),
       h("i", { class: this.name, style: { fontSize: this.getSize(), color: this.color, fontWeight: this.fontWeight } })));
   }
   static get is() { return "gc-icon"; }

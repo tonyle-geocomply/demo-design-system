@@ -5244,7 +5244,7 @@ const GcIcon = class {
     return size;
   }
   render() {
-    return (index$1.h(index$1.Host, null, index$1.h("i", { class: this.name, style: { fontSize: this.getSize(), color: this.color, fontWeight: this.fontWeight } })));
+    return (index$1.h(index$1.Host, null, index$1.h("link", { rel: "stylesheet", href: "/fontawesome-pro/fontawesome.min.css" }), index$1.h("i", { class: this.name, style: { fontSize: this.getSize(), color: this.color, fontWeight: this.fontWeight } })));
   }
 };
 
