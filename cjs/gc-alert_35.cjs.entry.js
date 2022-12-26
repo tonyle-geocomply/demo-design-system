@@ -6730,6 +6730,7 @@ const GcTable = class {
   watchGroupByValuePropHandler(newValue) {
     if (!newValue) {
       this.selectedGroupBy = 'Select Grouping';
+      this.onRefresh();
       return;
     }
     if (this.isExpandable) {
@@ -6809,6 +6810,12 @@ const GcTable = class {
       this.totalExpanded -= 1;
     }
     this.gcTableCollapseChange.emit({ index: evt.detail.index, expanded: false });
+  }
+  onRefresh() {
+    var _a, _b;
+    if ((_a = this.elm) === null || _a === void 0 ? void 0 : _a.forceUpdate) {
+      (_b = this.elm) === null || _b === void 0 ? void 0 : _b.forceUpdate();
+    }
   }
   onSelectChange(selectedRowKeys) {
     this.selectedRowKeys = selectedRowKeys;
@@ -7040,7 +7047,7 @@ const GcTable = class {
             border: this.customRows && this.customRowsBorder && this.customRows.includes(`${idx}`) ? this.customRowsBorder : '',
           } }, index$1.h("div", { class: "scrollable-columns columns-container" }, scrollCols)));
       });
-      const expandableRows = (index$1.h("gc-cell-expandable", { class: { 'is-loading': this.loadingGroupIndex.includes(`${index}`) }, index: index, fieldName: fieldName, value: value, total: total, totalText: totalText, linkTo: linkTo, tooltipMessage: tooltipMessage, numberOfEntryPerPage: numberOfEntryPerPage || data.length, maxWidth: this.maxWidthInExpandRow }, this.loadingGroupIndex.includes(`${index}`) && (index$1.h("div", { class: "loading-section" }, index$1.h("gc-spinner", null))), rows));
+      const expandableRows = (index$1.h("gc-cell-expandable", { class: { 'is-loading': this.loadingGroupIndex.includes(`${index}`) }, index: index, fieldName: fieldName, value: value, total: total, totalText: totalText, linkTo: linkTo, tooltipMessage: tooltipMessage, numberOfEntryPerPage: numberOfEntryPerPage || data.length, maxWidth: this.maxWidthInExpandRow }, this.loadingGroupIndex.includes(`${index}`) && index$1.h("div", { class: "loading-section" }, rows.length >= 4 ? index$1.h("gc-spinner", null) : null), rows));
       collapsedRows.push(expandableRows);
     });
     return (index$1.h("div", { style: { maxHeight: this.maxHeight }, class: "gc__table-body" }, collapsedRows));
@@ -7138,7 +7145,7 @@ const GcTable = class {
         'gc__table-loading': this.isLoading,
       } }, index$1.h("div", { class: "table-scroll-container", style: {
         overflow: (countCurrentCol.length <= DEFAULT_MAXIMUM_TO_SCALE && !this.isStopScaleWidth) ||
-          (this.isExpandable && this.totalExpanded === 0 && countCurrentCol.length <= DEFAULT_MAXIMUM_TO_SCALE)
+          (this.isExpandable && this.totalExpanded === 0)
           ? 'hidden'
           : 'auto',
         position: this.showTooltip ? 'static' : 'inherit',

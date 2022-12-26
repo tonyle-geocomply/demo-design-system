@@ -5,7 +5,7 @@ import { EventEmitter } from '../../stencil-public-runtime';
  * @img /assets/img/table.png
  */
 export declare class GcTable {
-  elm: HTMLElement;
+  elm: any;
   /**
    * Grid columns configuration.
    * [
@@ -97,6 +97,7 @@ export declare class GcTable {
   handleResize(ev: any): void;
   handleOpenExpandableRowsEvent(evt: any): void;
   handleCloseExpandableRowsEvent(evt: any): void;
+  onRefresh(): void;
   onSelectAllClick: () => void;
   onRowSelectClick: (row: any) => void;
   onCellMouseOver: (row: any, column: any) => void;

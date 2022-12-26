@@ -150,6 +150,7 @@ const GcTable$1 = /*@__PURE__*/ proxyCustomElement(class extends HTMLElement {
   watchGroupByValuePropHandler(newValue) {
     if (!newValue) {
       this.selectedGroupBy = 'Select Grouping';
+      this.onRefresh();
       return;
     }
     if (this.isExpandable) {
@@ -229,6 +230,12 @@ const GcTable$1 = /*@__PURE__*/ proxyCustomElement(class extends HTMLElement {
       this.totalExpanded -= 1;
     }
     this.gcTableCollapseChange.emit({ index: evt.detail.index, expanded: false });
+  }
+  onRefresh() {
+    var _a, _b;
+    if ((_a = this.elm) === null || _a === void 0 ? void 0 : _a.forceUpdate) {
+      (_b = this.elm) === null || _b === void 0 ? void 0 : _b.forceUpdate();
+    }
   }
   onSelectChange(selectedRowKeys) {
     this.selectedRowKeys = selectedRowKeys;
@@ -460,7 +467,7 @@ const GcTable$1 = /*@__PURE__*/ proxyCustomElement(class extends HTMLElement {
             border: this.customRows && this.customRowsBorder && this.customRows.includes(`${idx}`) ? this.customRowsBorder : '',
           } }, h("div", { class: "scrollable-columns columns-container" }, scrollCols)));
       });
-      const expandableRows = (h("gc-cell-expandable", { class: { 'is-loading': this.loadingGroupIndex.includes(`${index}`) }, index: index, fieldName: fieldName, value: value, total: total, totalText: totalText, linkTo: linkTo, tooltipMessage: tooltipMessage, numberOfEntryPerPage: numberOfEntryPerPage || data.length, maxWidth: this.maxWidthInExpandRow }, this.loadingGroupIndex.includes(`${index}`) && (h("div", { class: "loading-section" }, h("gc-spinner", null))), rows));
+      const expandableRows = (h("gc-cell-expandable", { class: { 'is-loading': this.loadingGroupIndex.includes(`${index}`) }, index: index, fieldName: fieldName, value: value, total: total, totalText: totalText, linkTo: linkTo, tooltipMessage: tooltipMessage, numberOfEntryPerPage: numberOfEntryPerPage || data.length, maxWidth: this.maxWidthInExpandRow }, this.loadingGroupIndex.includes(`${index}`) && h("div", { class: "loading-section" }, rows.length >= 4 ? h("gc-spinner", null) : null), rows));
       collapsedRows.push(expandableRows);
     });
     return (h("div", { style: { maxHeight: this.maxHeight }, class: "gc__table-body" }, collapsedRows));
@@ -558,7 +565,7 @@ const GcTable$1 = /*@__PURE__*/ proxyCustomElement(class extends HTMLElement {
         'gc__table-loading': this.isLoading,
       } }, h("div", { class: "table-scroll-container", style: {
         overflow: (countCurrentCol.length <= DEFAULT_MAXIMUM_TO_SCALE && !this.isStopScaleWidth) ||
-          (this.isExpandable && this.totalExpanded === 0 && countCurrentCol.length <= DEFAULT_MAXIMUM_TO_SCALE)
+          (this.isExpandable && this.totalExpanded === 0)
           ? 'hidden'
           : 'auto',
         position: this.showTooltip ? 'static' : 'inherit',
