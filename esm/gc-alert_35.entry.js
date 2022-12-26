@@ -6668,6 +6668,7 @@ const GcTable = class {
     this.groupByFields = [];
     this.groupByValue = '';
     this.expandedRows = [];
+    this.width = '';
     this.hoveredCell = {};
     this.isSelectAll = false;
     this.showingColumns = {};
@@ -6726,7 +6727,6 @@ const GcTable = class {
   watchGroupByValuePropHandler(newValue) {
     if (!newValue) {
       this.selectedGroupBy = 'Select Grouping';
-      this.onRefresh();
       return;
     }
     if (this.isExpandable) {
@@ -7140,10 +7140,8 @@ const GcTable = class {
         'gc__table-no-border': !this.isBordered,
         'gc__table-loading': this.isLoading,
       } }, h("div", { class: "table-scroll-container", style: {
-        overflow: (countCurrentCol.length <= DEFAULT_MAXIMUM_TO_SCALE && !this.isStopScaleWidth) ||
-          (this.isExpandable && this.totalExpanded === 0)
-          ? 'hidden'
-          : 'auto',
+        overflow: (countCurrentCol.length <= DEFAULT_MAXIMUM_TO_SCALE && !this.isStopScaleWidth) || (this.isExpandable && this.totalExpanded === 0) ? 'hidden' : 'auto',
+        width: this.isExpandable && this.totalExpanded === 0 ? this.width : '',
         position: this.showTooltip ? 'static' : 'inherit',
       } }, this.isExpandable ? this.renderHeaderWithExpandableRows() : this.renderHeader(), this.isExpandable ? this.renderBodyWithExpandableRows() : this.renderBody()), this.paginate && (h("div", { style: { background: this.background }, class: "table-footer" }, this.renderPagination())))) : (this.renderEmptyState())));
   }

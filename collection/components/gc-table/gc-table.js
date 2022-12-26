@@ -68,6 +68,7 @@ export class GcTable {
     this.groupByFields = [];
     this.groupByValue = '';
     this.expandedRows = [];
+    this.width = '';
     this.hoveredCell = {};
     this.isSelectAll = false;
     this.showingColumns = {};
@@ -126,7 +127,6 @@ export class GcTable {
   watchGroupByValuePropHandler(newValue) {
     if (!newValue) {
       this.selectedGroupBy = 'Select Grouping';
-      this.onRefresh();
       return;
     }
     if (this.isExpandable) {
@@ -621,10 +621,8 @@ export class GcTable {
           'gc__table-loading': this.isLoading,
         } },
         h("div", { class: "table-scroll-container", style: {
-            overflow: (countCurrentCol.length <= DEFAULT_MAXIMUM_TO_SCALE && !this.isStopScaleWidth) ||
-              (this.isExpandable && this.totalExpanded === 0)
-              ? 'hidden'
-              : 'auto',
+            overflow: (countCurrentCol.length <= DEFAULT_MAXIMUM_TO_SCALE && !this.isStopScaleWidth) || (this.isExpandable && this.totalExpanded === 0) ? 'hidden' : 'auto',
+            width: this.isExpandable && this.totalExpanded === 0 ? this.width : '',
             position: this.showTooltip ? 'static' : 'inherit',
           } },
           this.isExpandable ? this.renderHeaderWithExpandableRows() : this.renderHeader(),
@@ -1278,6 +1276,24 @@ export class GcTable {
         "text": ""
       },
       "defaultValue": "[]"
+    },
+    "width": {
+      "type": "string",
+      "mutable": false,
+      "complexType": {
+        "original": "string",
+        "resolved": "string",
+        "references": {}
+      },
+      "required": false,
+      "optional": false,
+      "docs": {
+        "tags": [],
+        "text": ""
+      },
+      "attribute": "width",
+      "reflect": false,
+      "defaultValue": "''"
     }
   }; }
   static get states() { return {

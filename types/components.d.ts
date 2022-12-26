@@ -694,6 +694,7 @@ export namespace Components {
         "sortable": boolean;
         "totalItems": number;
         "treeData": string | any[];
+        "width": string;
     }
     interface GcTabs {
     }
@@ -1907,6 +1908,7 @@ declare namespace LocalJSX {
         "sortable"?: boolean;
         "totalItems"?: number;
         "treeData"?: string | any[];
+        "width"?: string;
     }
     interface GcTabs {
         /**

@@ -92,6 +92,7 @@ const GcTable$1 = /*@__PURE__*/ proxyCustomElement(class extends HTMLElement {
     this.groupByFields = [];
     this.groupByValue = '';
     this.expandedRows = [];
+    this.width = '';
     this.hoveredCell = {};
     this.isSelectAll = false;
     this.showingColumns = {};
@@ -150,7 +151,6 @@ const GcTable$1 = /*@__PURE__*/ proxyCustomElement(class extends HTMLElement {
   watchGroupByValuePropHandler(newValue) {
     if (!newValue) {
       this.selectedGroupBy = 'Select Grouping';
-      this.onRefresh();
       return;
     }
     if (this.isExpandable) {
@@ -564,10 +564,8 @@ const GcTable$1 = /*@__PURE__*/ proxyCustomElement(class extends HTMLElement {
         'gc__table-no-border': !this.isBordered,
         'gc__table-loading': this.isLoading,
       } }, h("div", { class: "table-scroll-container", style: {
-        overflow: (countCurrentCol.length <= DEFAULT_MAXIMUM_TO_SCALE && !this.isStopScaleWidth) ||
-          (this.isExpandable && this.totalExpanded === 0)
-          ? 'hidden'
-          : 'auto',
+        overflow: (countCurrentCol.length <= DEFAULT_MAXIMUM_TO_SCALE && !this.isStopScaleWidth) || (this.isExpandable && this.totalExpanded === 0) ? 'hidden' : 'auto',
+        width: this.isExpandable && this.totalExpanded === 0 ? this.width : '',
         position: this.showTooltip ? 'static' : 'inherit',
       } }, this.isExpandable ? this.renderHeaderWithExpandableRows() : this.renderHeader(), this.isExpandable ? this.renderBodyWithExpandableRows() : this.renderBody()), this.paginate && (h("div", { style: { background: this.background }, class: "table-footer" }, this.renderPagination())))) : (this.renderEmptyState())));
   }
@@ -623,6 +621,7 @@ const GcTable$1 = /*@__PURE__*/ proxyCustomElement(class extends HTMLElement {
     "groupByFields": [16],
     "groupByValue": [1, "group-by-value"],
     "expandedRows": [1040],
+    "width": [1],
     "hoveredCell": [32],
     "isSelectAll": [32],
     "showingColumns": [32],
