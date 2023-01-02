@@ -59,6 +59,9 @@
   background-color: var(--gc-color-background-disabled);
   opacity: 0.2;
 }
+.menu-item.disabled.menu-item-white.active, .menu-item.disabled.menu-item-white {
+  background-color: white;
+}
 .menu-item.disabled:hover, .menu-item.disabled.has-focus:not(.active) {
   color: var(--gc-color-disabled);
   background-color: var(--gc-color-background-disabled);

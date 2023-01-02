@@ -49,6 +49,7 @@ const GcSelect = /*@__PURE__*/ proxyCustomElement(class extends HTMLElement {
     this.isOpen = false;
     this.configAria = {};
     this.type = 'default';
+    this.background = '';
     /**
      *  [{
      *    label: 'Shivaji Varma',
@@ -363,7 +364,7 @@ const GcSelect = /*@__PURE__*/ proxyCustomElement(class extends HTMLElement {
         'start-slot-has-content': this.startSlotHasContent,
         'end-slot-has-content': this.endSlotHasContent,
         'has-error': this.isError,
-      } }, h("div", { class: "slot-container start" }, h("slot", { name: "start" })), (() => {
+      }, style: { background: this.background } }, h("div", { class: "slot-container start" }, h("slot", { name: "start" })), (() => {
       if (this.search !== 'none' && this.isOpen) {
         return (h("input", Object.assign({ class: {
             'input input-native': true,
@@ -394,7 +395,7 @@ const GcSelect = /*@__PURE__*/ proxyCustomElement(class extends HTMLElement {
       const filteredItems = this.filterItems();
       return (h("gc-menu", { class: "menu", empty: filteredItems.length == 0, ref: el => (this.menuElm = el) }, (() => {
         return filteredItems.map(item => {
-          return (h("gc-menu-item", { disabled: item.disabled, dot: item.dot, color: item.color, value: item.value, label: item.label }, item.label || item.value));
+          return (h("gc-menu-item", { background: this.background, disabled: item.disabled, dot: item.dot, color: item.color, value: item.value, label: item.label }, item.label || item.value));
         });
       })()));
     }
@@ -434,6 +435,7 @@ const GcSelect = /*@__PURE__*/ proxyCustomElement(class extends HTMLElement {
     "isOpen": [1028, "is-open"],
     "configAria": [1544, "config-aria"],
     "type": [1],
+    "background": [513],
     "items": [1],
     "positions": [1],
     "clearable": [4],

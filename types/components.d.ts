@@ -54,6 +54,32 @@ export namespace Components {
          */
         "type": string;
     }
+    interface GcCard {
+        /**
+          * The height of card
+         */
+        "background": string;
+        /**
+          * The class name
+         */
+        "class"?: string;
+        /**
+          * The heading in header
+         */
+        "heading"?: string;
+        /**
+          * The height of card
+         */
+        "height": string;
+        /**
+          * The icon in header
+         */
+        "icon"?: string;
+        /**
+          * The width of card
+         */
+        "width": string;
+    }
     interface GcCellExpandable {
         /**
           * close the step item
@@ -484,6 +510,7 @@ export namespace Components {
         "width"?: string;
     }
     interface GcSelect {
+        "background": string;
         /**
           * The class name
          */
@@ -938,6 +965,12 @@ declare global {
         prototype: HTMLGcButtonElement;
         new (): HTMLGcButtonElement;
     };
+    interface HTMLGcCardElement extends Components.GcCard, HTMLStencilElement {
+    }
+    var HTMLGcCardElement: {
+        prototype: HTMLGcCardElement;
+        new (): HTMLGcCardElement;
+    };
     interface HTMLGcCellExpandableElement extends Components.GcCellExpandable, HTMLStencilElement {
     }
     var HTMLGcCellExpandableElement: {
@@ -1145,6 +1178,7 @@ declare global {
     interface HTMLElementTagNameMap {
         "gc-alert": HTMLGcAlertElement;
         "gc-button": HTMLGcButtonElement;
+        "gc-card": HTMLGcCardElement;
         "gc-cell-expandable": HTMLGcCellExpandableElement;
         "gc-cell-invalid": HTMLGcCellInvalidElement;
         "gc-checkbox": HTMLGcCheckboxElement;
@@ -1233,6 +1267,32 @@ declare namespace LocalJSX {
           * The type name
          */
         "type"?: string;
+    }
+    interface GcCard {
+        /**
+          * The height of card
+         */
+        "background"?: string;
+        /**
+          * The class name
+         */
+        "class"?: string;
+        /**
+          * The heading in header
+         */
+        "heading"?: string;
+        /**
+          * The height of card
+         */
+        "height"?: string;
+        /**
+          * The icon in header
+         */
+        "icon"?: string;
+        /**
+          * The width of card
+         */
+        "width"?: string;
     }
     interface GcCellExpandable {
         /**
@@ -1681,6 +1741,7 @@ declare namespace LocalJSX {
         "width"?: string;
     }
     interface GcSelect {
+        "background"?: string;
         /**
           * The class name
          */
@@ -2081,6 +2142,7 @@ declare namespace LocalJSX {
     interface IntrinsicElements {
         "gc-alert": GcAlert;
         "gc-button": GcButton;
+        "gc-card": GcCard;
         "gc-cell-expandable": GcCellExpandable;
         "gc-cell-invalid": GcCellInvalid;
         "gc-checkbox": GcCheckbox;
@@ -2123,6 +2185,7 @@ declare module "@stencil/core" {
         interface IntrinsicElements {
             "gc-alert": LocalJSX.GcAlert & JSXBase.HTMLAttributes<HTMLGcAlertElement>;
             "gc-button": LocalJSX.GcButton & JSXBase.HTMLAttributes<HTMLGcButtonElement>;
+            "gc-card": LocalJSX.GcCard & JSXBase.HTMLAttributes<HTMLGcCardElement>;
             "gc-cell-expandable": LocalJSX.GcCellExpandable & JSXBase.HTMLAttributes<HTMLGcCellExpandableElement>;
             "gc-cell-invalid": LocalJSX.GcCellInvalid & JSXBase.HTMLAttributes<HTMLGcCellInvalidElement>;
             "gc-checkbox": LocalJSX.GcCheckbox & JSXBase.HTMLAttributes<HTMLGcCheckboxElement>;

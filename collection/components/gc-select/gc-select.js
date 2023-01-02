@@ -38,6 +38,7 @@ export class GcSelect {
     this.isOpen = false;
     this.configAria = {};
     this.type = 'default';
+    this.background = '';
     /**
      *  [{
      *    label: 'Shivaji Varma',
@@ -356,7 +357,7 @@ export class GcSelect {
             'start-slot-has-content': this.startSlotHasContent,
             'end-slot-has-content': this.endSlotHasContent,
             'has-error': this.isError,
-          } },
+          }, style: { background: this.background } },
           h("div", { class: "slot-container start" },
             h("slot", { name: "start" })),
           (() => {
@@ -396,7 +397,7 @@ export class GcSelect {
       const filteredItems = this.filterItems();
       return (h("gc-menu", { class: "menu", empty: filteredItems.length == 0, ref: el => (this.menuElm = el) }, (() => {
         return filteredItems.map(item => {
-          return (h("gc-menu-item", { disabled: item.disabled, dot: item.dot, color: item.color, value: item.value, label: item.label }, item.label || item.value));
+          return (h("gc-menu-item", { background: this.background, disabled: item.disabled, dot: item.dot, color: item.color, value: item.value, label: item.label }, item.label || item.value));
         });
       })()));
     }
@@ -689,6 +690,24 @@ export class GcSelect {
       "attribute": "type",
       "reflect": false,
       "defaultValue": "'default'"
+    },
+    "background": {
+      "type": "string",
+      "mutable": false,
+      "complexType": {
+        "original": "string",
+        "resolved": "string",
+        "references": {}
+      },
+      "required": false,
+      "optional": false,
+      "docs": {
+        "tags": [],
+        "text": ""
+      },
+      "attribute": "background",
+      "reflect": true,
+      "defaultValue": "''"
     },
     "items": {
       "type": "string",

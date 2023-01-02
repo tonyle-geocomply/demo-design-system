@@ -1,0 +1,18 @@
+.gc__card {
+  border: 1px solid var(--gc-color-second-grey);
+  border-radius: 5px 5px 0px 0px;
+  box-sizing: border-box;
+}
+
+.gc__card-heading {
+  height: 20%;
+  display: flex;
+  align-items: center;
+  border-bottom: 1px solid var(--gc-color-second-grey);
+  padding: 0 20px;
+  font-weight: 600;
+}
+
+.gc__card-heading gc-icon {
+  margin-right: 8px;
+}

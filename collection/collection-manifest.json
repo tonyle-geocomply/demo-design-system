@@ -2,6 +2,7 @@
   "entries": [
     "./components/gc-alert/gc-alert.js",
     "./components/gc-button/gc-button.js",
+    "./components/gc-card/gc-card.js",
     "./components/gc-checkbox/gc-checkbox.js",
     "./components/gc-drag-container/gc-drag-container.js",
     "./components/gc-draggable-item/gc-draggable-item.js",
