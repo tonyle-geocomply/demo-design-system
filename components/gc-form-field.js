@@ -34,6 +34,10 @@ const GcFormField$1 = /*@__PURE__*/ proxyCustomElement(class extends HTMLElement
      * Is error
      */
     this.isError = false;
+    /**
+     * Background
+     */
+    this.background = '';
   }
   handleSearchSelect(evt) {
     var _a;
@@ -52,7 +56,7 @@ const GcFormField$1 = /*@__PURE__*/ proxyCustomElement(class extends HTMLElement
   renderField() {
     switch (this.type) {
       case 'select':
-        return (h("gc-select", { search: this.search, items: this.items, "gc-id": this.gcId, "gc-name": this.gcName, value: this.value, defaultValue: this.defaultValue, disabled: this.disabled, placeholder: this.placeholder, "onGc:change": e => this.handleChange(e), "onGc:search": e => this.handleSearchSelect(e), "is-error": !!this.errorText || this.isError }));
+        return (h("gc-select", { background: this.background, search: this.search, items: this.items, "gc-id": this.gcId, "gc-name": this.gcName, value: this.value, defaultValue: this.defaultValue, disabled: this.disabled, placeholder: this.placeholder, "onGc:change": e => this.handleChange(e), "onGc:search": e => this.handleSearchSelect(e), "is-error": !!this.errorText || this.isError }));
       case 'textarea':
         return (h("gc-textarea", { "gc-id": this.gcId, "gc-name": this.gcName, value: this.value, disabled: this.disabled, placeholder: this.placeholder, "onGc:change": e => this.handleChange(e), "is-error": !!this.errorText || this.isError, cols: this.cols, rows: this.rows, height: this.height, maxlength: this.maxlength, resize: this.resize }));
       default:
@@ -83,7 +87,8 @@ const GcFormField$1 = /*@__PURE__*/ proxyCustomElement(class extends HTMLElement
     "height": [1],
     "defaultValue": [1, "default-value"],
     "resize": [1],
-    "isError": [4, "is-error"]
+    "isError": [4, "is-error"],
+    "background": [1]
   }]);
 function defineCustomElement$1() {
   if (typeof customElements === "undefined") {

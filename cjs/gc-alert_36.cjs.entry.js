@@ -5168,6 +5168,10 @@ const GcFormField = class {
      * Is error
      */
     this.isError = false;
+    /**
+     * Background
+     */
+    this.background = '';
   }
   handleSearchSelect(evt) {
     var _a;
@@ -5186,7 +5190,7 @@ const GcFormField = class {
   renderField() {
     switch (this.type) {
       case 'select':
-        return (index$1.h("gc-select", { search: this.search, items: this.items, "gc-id": this.gcId, "gc-name": this.gcName, value: this.value, defaultValue: this.defaultValue, disabled: this.disabled, placeholder: this.placeholder, "onGc:change": e => this.handleChange(e), "onGc:search": e => this.handleSearchSelect(e), "is-error": !!this.errorText || this.isError }));
+        return (index$1.h("gc-select", { background: this.background, search: this.search, items: this.items, "gc-id": this.gcId, "gc-name": this.gcName, value: this.value, defaultValue: this.defaultValue, disabled: this.disabled, placeholder: this.placeholder, "onGc:change": e => this.handleChange(e), "onGc:search": e => this.handleSearchSelect(e), "is-error": !!this.errorText || this.isError }));
       case 'textarea':
         return (index$1.h("gc-textarea", { "gc-id": this.gcId, "gc-name": this.gcName, value: this.value, disabled: this.disabled, placeholder: this.placeholder, "onGc:change": e => this.handleChange(e), "is-error": !!this.errorText || this.isError, cols: this.cols, rows: this.rows, height: this.height, maxlength: this.maxlength, resize: this.resize }));
       default:

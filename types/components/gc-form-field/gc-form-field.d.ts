@@ -81,6 +81,10 @@ export declare class GcFormField {
    */
   isError: boolean;
   /**
+   * Background
+   */
+  background?: string;
+  /**
    * Emitted when the value has changed.
    */
   gcFieldChange: EventEmitter;

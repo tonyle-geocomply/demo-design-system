@@ -196,6 +196,10 @@ export namespace Components {
     }
     interface GcFormField {
         /**
+          * Background
+         */
+        "background"?: string;
+        /**
           * Specifies the visible width of a text area
          */
         "cols"?: number;
@@ -1421,6 +1425,10 @@ declare namespace LocalJSX {
         "trigger"?: 'click' | 'hover';
     }
     interface GcFormField {
+        /**
+          * Background
+         */
+        "background"?: string;
         /**
           * Specifies the visible width of a text area
          */
