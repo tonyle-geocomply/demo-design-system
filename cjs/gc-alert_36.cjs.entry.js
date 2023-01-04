@@ -9702,12 +9702,8 @@ const GcUpload = class {
     if ((_a = e === null || e === void 0 ? void 0 : e.target) === null || _a === void 0 ? void 0 : _a.files) {
       const file = e.target.files[0];
       const sizeInMb = (file === null || file === void 0 ? void 0 : file.size) / 1024 / 1024;
-      if (file && !file.type.includes(this.acceptType)) {
-        this.gcUploadError.emit({ file: e.target.files[0], errorMessage: 'Type not accepted' });
-        return;
-      }
       if (file && sizeInMb > this.maxFileSize) {
-        this.gcUploadError.emit({ file: e.target.files[0], errorMessage: 'Type not accepted' });
+        this.gcUploadError.emit({ file: e.target.files[0], errorMessage: 'Size not accepted' });
         return;
       }
       this.gcUploadSuccess.emit({ file: e.target.files[0] });
