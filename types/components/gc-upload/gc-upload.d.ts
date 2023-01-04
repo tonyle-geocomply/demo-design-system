@@ -21,13 +21,16 @@ export declare class GcUpload {
    * Custom how to display
    */
   isCustom?: boolean;
+  maxFileSize?: number;
   dragging: boolean;
   progress: number;
   fileName: string;
   disableState: boolean;
+  errorState: string;
   gcUploadedFile: EventEmitter;
   gcUploadProgress: EventEmitter;
   gcUploadCompleted: EventEmitter;
+  gcUploadError: EventEmitter;
   private getIcon;
   private getAcceptFiles;
   componentDidLoad(): void;

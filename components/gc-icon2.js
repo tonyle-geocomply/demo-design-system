@@ -29,14 +29,15 @@ const GcIcon = /*@__PURE__*/ proxyCustomElement(class extends HTMLElement {
     return size;
   }
   render() {
-    return (h(Host, null, h("i", { class: this.name, style: { fontSize: this.getSize(), color: this.color, fontWeight: this.fontWeight } })));
+    return (h(Host, null, h("i", { class: this.name, style: Object.assign({ fontSize: this.getSize(), color: this.color, fontWeight: this.fontWeight }, this.customStyle) })));
   }
   static get style() { return allMinCss; }
 }, [0, "gc-icon", {
     "name": [513],
     "size": [513],
     "color": [513],
-    "fontWeight": [513, "font-weight"]
+    "fontWeight": [513, "font-weight"],
+    "customStyle": [520, "custom-style"]
   }]);
 function defineCustomElement() {
   if (typeof customElements === "undefined") {

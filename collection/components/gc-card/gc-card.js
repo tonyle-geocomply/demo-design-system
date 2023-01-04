@@ -8,7 +8,7 @@ export class GcCard {
     /**
      * The height of card
      */
-    this.height = '231px';
+    this.height = 'auto';
     /**
      * The height of card
      */
@@ -84,7 +84,7 @@ export class GcCard {
       },
       "attribute": "height",
       "reflect": false,
-      "defaultValue": "'231px'"
+      "defaultValue": "'auto'"
     },
     "background": {
       "type": "string",

@@ -71,6 +71,15 @@ input[type="file"] {
   font-weight: 600;
 }
 
+.gc__dropzone-body--error {
+  margin-top: 15px;
+}
+
+.gc__dropzone-body--error .error-text {
+  color: var(--gc-color-red);
+  margin-bottom: 8px;
+}
+
 .gc__dropzone-filename {
   font-size: 12px;
   margin-top: 8px;

@@ -1,7 +1,7 @@
 import { proxyCustomElement, HTMLElement, h } from '@stencil/core/internal/client';
 import { d as defineCustomElement$2 } from './gc-icon2.js';
 
-const gcCardCss = ".gc__card.sc-gc-card{border:1px solid var(--gc-color-second-grey);border-radius:5px 5px 0px 0px;box-sizing:border-box}.gc__card-heading.sc-gc-card{height:20%;display:flex;align-items:center;border-bottom:1px solid var(--gc-color-second-grey);padding:0 20px;font-weight:600}.gc__card-heading.sc-gc-card gc-icon.sc-gc-card{margin-right:8px}";
+const gcCardCss = ".gc__card.sc-gc-card{border:1px solid var(--gc-color-second-grey);border-radius:5px 5px 0px 0px;box-sizing:border-box}.gc__card-heading.sc-gc-card{height:55px;display:flex;align-items:center;border-bottom:1px solid var(--gc-color-second-grey);padding:0 20px;font-weight:600}.gc__card-heading.sc-gc-card gc-icon.sc-gc-card{margin-right:8px}";
 
 const GcCard$1 = /*@__PURE__*/ proxyCustomElement(class extends HTMLElement {
   constructor() {
@@ -14,7 +14,7 @@ const GcCard$1 = /*@__PURE__*/ proxyCustomElement(class extends HTMLElement {
     /**
      * The height of card
      */
-    this.height = '231px';
+    this.height = 'auto';
     /**
      * The height of card
      */

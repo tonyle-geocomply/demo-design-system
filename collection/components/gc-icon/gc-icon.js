@@ -25,7 +25,7 @@ export class GcIcon {
   }
   render() {
     return (h(Host, null,
-      h("i", { class: this.name, style: { fontSize: this.getSize(), color: this.color, fontWeight: this.fontWeight } })));
+      h("i", { class: this.name, style: Object.assign({ fontSize: this.getSize(), color: this.color, fontWeight: this.fontWeight }, this.customStyle) })));
   }
   static get is() { return "gc-icon"; }
   static get originalStyleUrls() { return {
@@ -105,6 +105,23 @@ export class GcIcon {
       "attribute": "font-weight",
       "reflect": true,
       "defaultValue": "''"
+    },
+    "customStyle": {
+      "type": "any",
+      "mutable": false,
+      "complexType": {
+        "original": "any",
+        "resolved": "any",
+        "references": {}
+      },
+      "required": false,
+      "optional": true,
+      "docs": {
+        "tags": [],
+        "text": ""
+      },
+      "attribute": "custom-style",
+      "reflect": true
     }
   }; }
 }

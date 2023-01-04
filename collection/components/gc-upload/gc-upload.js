@@ -24,10 +24,12 @@ export class GcUpload {
      * Custom how to display
      */
     this.isCustom = false;
+    this.maxFileSize = 0.001;
     this.dragging = false;
     this.progress = 0;
     this.fileName = '';
     this.disableState = false;
+    this.errorState = '';
   }
   getIcon() {
     return getIconExtension(this.acceptType);
@@ -37,13 +39,16 @@ export class GcUpload {
   }
   componentDidLoad() {
     if (!this.isCustom) {
-      const dropzone = new Dropzone(this.container, Object.assign({ disablePreviews: true, clickable: this.disabled || !this.disableState, acceptedFiles: this.getAcceptFiles() }, this.option));
+      const dropzone = new Dropzone(this.container, Object.assign({ disablePreviews: true, clickable: this.disabled || !this.disableState, acceptedFiles: this.getAcceptFiles(), maxFilesize: this.maxFileSize || 1, url: () => '' }, this.option));
+      dropzone.autoDiscover = false;
       if (dropzone && dropzone.on) {
         dropzone.on('addedfile', file => {
           this.gcUploadedFile.emit({ file });
         });
         dropzone.on('uploadprogress', (file, progress, bytesSent) => {
+          console.log(file);
           this.dragging = false;
+          this.errorState = '';
           this.fileName = file.upload.filename;
           this.disableState = true;
           this.progress = Math.floor(progress * 1);
@@ -63,6 +68,16 @@ export class GcUpload {
         dropzone.on('dragleave', () => {
           this.dragging = false;
         });
+        dropzone.on('error', (file, errorMessage) => {
+          this.dragging = false;
+          if (errorMessage.includes('type')) {
+            this.errorState = 'type-error';
+          }
+          if (errorMessage.includes('big')) {
+            this.errorState = 'size-error';
+          }
+          this.gcUploadedFile.emit({ file, errorMessage });
+        });
       }
     }
   }
@@ -73,14 +88,29 @@ export class GcUpload {
     }
   }
   render() {
+    if (this.errorState) {
+      return (h(Host, null,
+        h("form", { id: "dropzone", 
+          // action="/upload"
+          class: { 'dropzone': true, 'dropzone-dragging': this.dragging }, ref: el => (this.container = el), style: { width: this.width } },
+          h("div", { class: "dz-message" },
+            h("div", { class: "gc__dropzone-icon" }, this.errorState === 'type-error' ? (h("gc-icon", { customStyle: { '--fa-primary-color': 'var(--gc-color-red)', 'fontSize': '60px', '--fa-secondary-color': '#D0D8E0' }, name: "fa-duotone fa-circle-exclamation" })) : (h("gc-icon", { customStyle: { '--fa-primary-color': 'var(--gc-color-red)', 'fontSize': '60px', '--fa-secondary-color': '#D0D8E0' }, name: "fa-duotone fa-file-circle-xmark" }))),
+            h("div", { class: "gc__dropzone-body gc__dropzone-body--error" },
+              h("div", { class: "error-text" }, this.errorState === 'type-error' ? 'Could not load your file, the format is invalid.' : 'Your file too large and can not be uploaded!'),
+              h("div", null, this.errorState === 'type-error' ? `Please try again with *.${this.acceptType} file format` : 'Please reduce the file size and try again!')),
+            h("div", { class: "gc__dropzone-buttons" },
+              h("gc-button", { id: "browse_files", type: "primary", "padding-text": "30px", height: "32px" }, "Browse Files"))))));
+    }
     if (this.isCustom) {
       return (h(Host, null,
         h("label", { htmlFor: "file-upload", class: "custom-file-upload" },
           h("slot", null)),
-        h("input", { accept: this.getAcceptFiles(), id: "file-upload", type: "file", onChange: (e) => this.handleChange(e) })));
+        h("input", { accept: this.getAcceptFiles(), id: "file-upload", type: "file", onChange: e => this.handleChange(e) })));
     }
     return (h(Host, null,
-      h("form", { id: "dropzone", action: "/upload", class: { 'dropzone': true, 'dropzone-dragging': this.dragging }, ref: el => (this.container = el), style: { width: this.width } },
+      h("form", { id: "dropzone", 
+        // action="/upload"
+        class: { 'dropzone': true, 'dropzone-dragging': this.dragging }, ref: el => (this.container = el), style: { width: this.width } },
         h("div", { class: "dz-message" },
           !this.fileName && (h("div", { class: "gc__dropzone-heading" },
             h("slot", { name: "gc__dropzone-heading" }))),
@@ -198,13 +228,32 @@ export class GcUpload {
       "attribute": "is-custom",
       "reflect": false,
       "defaultValue": "false"
+    },
+    "maxFileSize": {
+      "type": "number",
+      "mutable": false,
+      "complexType": {
+        "original": "number",
+        "resolved": "number",
+        "references": {}
+      },
+      "required": false,
+      "optional": true,
+      "docs": {
+        "tags": [],
+        "text": ""
+      },
+      "attribute": "max-file-size",
+      "reflect": false,
+      "defaultValue": "0.001"
     }
   }; }
   static get states() { return {
     "dragging": {},
     "progress": {},
     "fileName": {},
-    "disableState": {}
+    "disableState": {},
+    "errorState": {}
   }; }
   static get events() { return [{
       "method": "gcUploadedFile",
@@ -239,6 +288,21 @@ export class GcUpload {
     }, {
       "method": "gcUploadCompleted",
       "name": "gc:upload-completed",
+      "bubbles": true,
+      "cancelable": true,
+      "composed": true,
+      "docs": {
+        "tags": [],
+        "text": ""
+      },
+      "complexType": {
+        "original": "any",
+        "resolved": "any",
+        "references": {}
+      }
+    }, {
+      "method": "gcUploadError",
+      "name": "gc:upload-error",
       "bubbles": true,
       "cancelable": true,
       "composed": true,

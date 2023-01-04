@@ -91,7 +91,7 @@ const GcButton = class {
 };
 GcButton.style = gcButtonCss;
 
-const gcCardCss = ".gc__card.sc-gc-card{border:1px solid var(--gc-color-second-grey);border-radius:5px 5px 0px 0px;box-sizing:border-box}.gc__card-heading.sc-gc-card{height:20%;display:flex;align-items:center;border-bottom:1px solid var(--gc-color-second-grey);padding:0 20px;font-weight:600}.gc__card-heading.sc-gc-card gc-icon.sc-gc-card{margin-right:8px}";
+const gcCardCss = ".gc__card.sc-gc-card{border:1px solid var(--gc-color-second-grey);border-radius:5px 5px 0px 0px;box-sizing:border-box}.gc__card-heading.sc-gc-card{height:55px;display:flex;align-items:center;border-bottom:1px solid var(--gc-color-second-grey);padding:0 20px;font-weight:600}.gc__card-heading.sc-gc-card gc-icon.sc-gc-card{margin-right:8px}";
 
 const GcCard = class {
   constructor(hostRef) {
@@ -103,7 +103,7 @@ const GcCard = class {
     /**
      * The height of card
      */
-    this.height = '231px';
+    this.height = 'auto';
     /**
      * The height of card
      */
@@ -5277,7 +5277,7 @@ const GcIcon = class {
     return size;
   }
   render() {
-    return (index$1.h(index$1.Host, null, index$1.h("i", { class: this.name, style: { fontSize: this.getSize(), color: this.color, fontWeight: this.fontWeight } })));
+    return (index$1.h(index$1.Host, null, index$1.h("i", { class: this.name, style: Object.assign({ fontSize: this.getSize(), color: this.color, fontWeight: this.fontWeight }, this.customStyle) })));
   }
 };
 GcIcon.style = allMinCss;
@@ -9608,7 +9608,7 @@ function $3ed269f2f0fb224b$var$__guardMethod__(obj, methodName, transform) {
     else return undefined;
 }
 
-const gcUploadCss = ":host{display:block}input[type=\"file\"]{display:none}.dropzone{background:var(--gc-color-contrast-grey);border-radius:5px;border:1px dashed var(--gc-color-fourth-grey);border-image:none;padding:30px 22px;cursor:pointer;height:100%;min-height:275px}.dropzone-dragging{opacity:0.5;background:#ECF5FE;border:1px dashed var(--gc-color-primary)}.gc__dropzone-heading,.gc__dropzone-body,.gc__dropzone-buttons,.gc__dropzone-notes,.gc__dropzone-icon{text-align:center}.gc__dropzone-heading{font-size:14px;font-weight:600}.gc__dropzone-extension{margin-top:10px}.gc__dropzone-body{margin-top:10px}.gc__dropzone-buttons{margin-top:20px}.gc__dropzone-notes{margin-top:20px;font-style:italic;font-size:12px;font-weight:400}.gc__dropzone-icon{font-size:14px;color:var(--gc-color-primary);margin-top:15px}.gc__dropzone-type{color:var(--gc-color-fourth-grey);font-size:12px;margin-top:8px}.gc__dropzone-body div{font-weight:400}.gc__dropzone-body b{font-weight:600}.gc__dropzone-filename{font-size:12px;margin-top:8px;text-align:center;font-weight:400}";
+const gcUploadCss = ":host{display:block}input[type=\"file\"]{display:none}.dropzone{background:var(--gc-color-contrast-grey);border-radius:5px;border:1px dashed var(--gc-color-fourth-grey);border-image:none;padding:30px 22px;cursor:pointer;height:100%;min-height:275px}.dropzone-dragging{opacity:0.5;background:#ECF5FE;border:1px dashed var(--gc-color-primary)}.gc__dropzone-heading,.gc__dropzone-body,.gc__dropzone-buttons,.gc__dropzone-notes,.gc__dropzone-icon{text-align:center}.gc__dropzone-heading{font-size:14px;font-weight:600}.gc__dropzone-extension{margin-top:10px}.gc__dropzone-body{margin-top:10px}.gc__dropzone-buttons{margin-top:20px}.gc__dropzone-notes{margin-top:20px;font-style:italic;font-size:12px;font-weight:400}.gc__dropzone-icon{font-size:14px;color:var(--gc-color-primary);margin-top:15px}.gc__dropzone-type{color:var(--gc-color-fourth-grey);font-size:12px;margin-top:8px}.gc__dropzone-body div{font-weight:400}.gc__dropzone-body b{font-weight:600}.gc__dropzone-body--error{margin-top:15px}.gc__dropzone-body--error .error-text{color:var(--gc-color-red);margin-bottom:8px}.gc__dropzone-filename{font-size:12px;margin-top:8px;text-align:center;font-weight:400}";
 
 const TIMEOUT = 700;
 const GcUpload = class {
@@ -9617,6 +9617,7 @@ const GcUpload = class {
     this.gcUploadedFile = index$1.createEvent(this, "gc:uploaded-file", 7);
     this.gcUploadProgress = index$1.createEvent(this, "gc:upload-progress", 7);
     this.gcUploadCompleted = index$1.createEvent(this, "gc:upload-completed", 7);
+    this.gcUploadError = index$1.createEvent(this, "gc:upload-error", 7);
     /**
      * Width of upload
      */
@@ -9637,10 +9638,12 @@ const GcUpload = class {
      * Custom how to display
      */
     this.isCustom = false;
+    this.maxFileSize = 0.001;
     this.dragging = false;
     this.progress = 0;
     this.fileName = '';
     this.disableState = false;
+    this.errorState = '';
   }
   getIcon() {
     return getIconExtension(this.acceptType);
@@ -9650,13 +9653,16 @@ const GcUpload = class {
   }
   componentDidLoad() {
     if (!this.isCustom) {
-      const dropzone = new $3ed269f2f0fb224b$export$2e2bcd8739ae039(this.container, Object.assign({ disablePreviews: true, clickable: this.disabled || !this.disableState, acceptedFiles: this.getAcceptFiles() }, this.option));
+      const dropzone = new $3ed269f2f0fb224b$export$2e2bcd8739ae039(this.container, Object.assign({ disablePreviews: true, clickable: this.disabled || !this.disableState, acceptedFiles: this.getAcceptFiles(), maxFilesize: this.maxFileSize || 1, url: () => '' }, this.option));
+      dropzone.autoDiscover = false;
       if (dropzone && dropzone.on) {
         dropzone.on('addedfile', file => {
           this.gcUploadedFile.emit({ file });
         });
         dropzone.on('uploadprogress', (file, progress, bytesSent) => {
+          console.log(file);
           this.dragging = false;
+          this.errorState = '';
           this.fileName = file.upload.filename;
           this.disableState = true;
           this.progress = Math.floor(progress * 1);
@@ -9676,6 +9682,16 @@ const GcUpload = class {
         dropzone.on('dragleave', () => {
           this.dragging = false;
         });
+        dropzone.on('error', (file, errorMessage) => {
+          this.dragging = false;
+          if (errorMessage.includes('type')) {
+            this.errorState = 'type-error';
+          }
+          if (errorMessage.includes('big')) {
+            this.errorState = 'size-error';
+          }
+          this.gcUploadedFile.emit({ file, errorMessage });
+        });
       }
     }
   }
@@ -9686,10 +9702,17 @@ const GcUpload = class {
     }
   }
   render() {
-    if (this.isCustom) {
-      return (index$1.h(index$1.Host, null, index$1.h("label", { htmlFor: "file-upload", class: "custom-file-upload" }, index$1.h("slot", null)), index$1.h("input", { accept: this.getAcceptFiles(), id: "file-upload", type: "file", onChange: (e) => this.handleChange(e) })));
+    if (this.errorState) {
+      return (index$1.h(index$1.Host, null, index$1.h("form", { id: "dropzone",
+        // action="/upload"
+        class: { 'dropzone': true, 'dropzone-dragging': this.dragging }, ref: el => (this.container = el), style: { width: this.width } }, index$1.h("div", { class: "dz-message" }, index$1.h("div", { class: "gc__dropzone-icon" }, this.errorState === 'type-error' ? (index$1.h("gc-icon", { customStyle: { '--fa-primary-color': 'var(--gc-color-red)', 'fontSize': '60px', '--fa-secondary-color': '#D0D8E0' }, name: "fa-duotone fa-circle-exclamation" })) : (index$1.h("gc-icon", { customStyle: { '--fa-primary-color': 'var(--gc-color-red)', 'fontSize': '60px', '--fa-secondary-color': '#D0D8E0' }, name: "fa-duotone fa-file-circle-xmark" }))), index$1.h("div", { class: "gc__dropzone-body gc__dropzone-body--error" }, index$1.h("div", { class: "error-text" }, this.errorState === 'type-error' ? 'Could not load your file, the format is invalid.' : 'Your file too large and can not be uploaded!'), index$1.h("div", null, this.errorState === 'type-error' ? `Please try again with *.${this.acceptType} file format` : 'Please reduce the file size and try again!')), index$1.h("div", { class: "gc__dropzone-buttons" }, index$1.h("gc-button", { id: "browse_files", type: "primary", "padding-text": "30px", height: "32px" }, "Browse Files"))))));
     }
-    return (index$1.h(index$1.Host, null, index$1.h("form", { id: "dropzone", action: "/upload", class: { 'dropzone': true, 'dropzone-dragging': this.dragging }, ref: el => (this.container = el), style: { width: this.width } }, index$1.h("div", { class: "dz-message" }, !this.fileName && (index$1.h("div", { class: "gc__dropzone-heading" }, index$1.h("slot", { name: "gc__dropzone-heading" }))), index$1.h("div", { class: "gc__dropzone-icon" }, index$1.h("gc-icon", { name: `fa-regular ${this.getIcon()}`, size: "40px", color: "var(--gc-color-primary)" }), index$1.h("div", { class: "gc__dropzone-extension" }, "*.", this.acceptType)), !!this.fileName && index$1.h("div", { class: "gc__dropzone-filename" }, this.fileName), !this.fileName && (index$1.h("div", { class: "gc__dropzone-body" }, index$1.h("slot", { name: "gc__dropzone-body" }))), !this.fileName && (index$1.h("div", { class: "gc__dropzone-buttons" }, index$1.h("gc-button", { id: "browse_files", type: "primary", "padding-text": "30px", height: "32px" }, "Browse Files"), index$1.h("div", { class: "gc__dropzone-type" }, "Drop your *.", this.acceptType, " file here"))), !this.fileName && (index$1.h("div", { class: "gc__dropzone-notes" }, index$1.h("slot", { name: "gc__dropzone-notes" }))))), !!this.progress && index$1.h("gc-progress", { percent: this.progress, width: `calc(${this.width} + 45px)` })));
+    if (this.isCustom) {
+      return (index$1.h(index$1.Host, null, index$1.h("label", { htmlFor: "file-upload", class: "custom-file-upload" }, index$1.h("slot", null)), index$1.h("input", { accept: this.getAcceptFiles(), id: "file-upload", type: "file", onChange: e => this.handleChange(e) })));
+    }
+    return (index$1.h(index$1.Host, null, index$1.h("form", { id: "dropzone",
+      // action="/upload"
+      class: { 'dropzone': true, 'dropzone-dragging': this.dragging }, ref: el => (this.container = el), style: { width: this.width } }, index$1.h("div", { class: "dz-message" }, !this.fileName && (index$1.h("div", { class: "gc__dropzone-heading" }, index$1.h("slot", { name: "gc__dropzone-heading" }))), index$1.h("div", { class: "gc__dropzone-icon" }, index$1.h("gc-icon", { name: `fa-regular ${this.getIcon()}`, size: "40px", color: "var(--gc-color-primary)" }), index$1.h("div", { class: "gc__dropzone-extension" }, "*.", this.acceptType)), !!this.fileName && index$1.h("div", { class: "gc__dropzone-filename" }, this.fileName), !this.fileName && (index$1.h("div", { class: "gc__dropzone-body" }, index$1.h("slot", { name: "gc__dropzone-body" }))), !this.fileName && (index$1.h("div", { class: "gc__dropzone-buttons" }, index$1.h("gc-button", { id: "browse_files", type: "primary", "padding-text": "30px", height: "32px" }, "Browse Files"), index$1.h("div", { class: "gc__dropzone-type" }, "Drop your *.", this.acceptType, " file here"))), !this.fileName && (index$1.h("div", { class: "gc__dropzone-notes" }, index$1.h("slot", { name: "gc__dropzone-notes" }))))), !!this.progress && index$1.h("gc-progress", { percent: this.progress, width: `calc(${this.width} + 45px)` })));
   }
 };
 GcUpload.style = gcUploadCss;

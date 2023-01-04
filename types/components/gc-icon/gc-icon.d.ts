@@ -7,6 +7,7 @@ export declare class GcIcon {
   size: 'sm' | 'md' | 'lg' | 'xl' | string;
   color: string;
   fontWeight: string;
+  customStyle?: any;
   private getSize;
   render(): any;
 }

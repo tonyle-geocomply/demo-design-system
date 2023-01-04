@@ -308,6 +308,7 @@ export namespace Components {
     }
     interface GcIcon {
         "color": string;
+        "customStyle"?: any;
         "fontWeight": string;
         "name": string;
         /**
@@ -874,6 +875,7 @@ export namespace Components {
           * Custom how to display
          */
         "isCustom"?: boolean;
+        "maxFileSize"?: number;
         /**
           * Option
          */
@@ -1542,6 +1544,7 @@ declare namespace LocalJSX {
     }
     interface GcIcon {
         "color"?: string;
+        "customStyle"?: any;
         "fontWeight"?: string;
         "name"?: string;
         /**
@@ -2135,7 +2138,9 @@ declare namespace LocalJSX {
           * Custom how to display
          */
         "isCustom"?: boolean;
+        "maxFileSize"?: number;
         "onGc:upload-completed"?: (event: GcUploadCustomEvent<any>) => void;
+        "onGc:upload-error"?: (event: GcUploadCustomEvent<any>) => void;
         "onGc:upload-progress"?: (event: GcUploadCustomEvent<any>) => void;
         "onGc:uploaded-file"?: (event: GcUploadCustomEvent<any>) => void;
         /**
