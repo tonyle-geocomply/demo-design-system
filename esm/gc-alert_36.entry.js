@@ -9650,13 +9650,11 @@ const GcUpload = class {
   componentDidLoad() {
     if (!this.isCustom) {
       const dropzone = new $3ed269f2f0fb224b$export$2e2bcd8739ae039(this.container, Object.assign({ disablePreviews: true, clickable: this.disabled || !this.disableState, acceptedFiles: this.getAcceptFiles(), maxFilesize: this.maxFileSize || 1, url: () => '' }, this.option));
-      dropzone.autoDiscover = false;
       if (dropzone && dropzone.on) {
         dropzone.on('addedfile', file => {
           this.gcUploadedFile.emit({ file });
         });
         dropzone.on('uploadprogress', (file, progress, bytesSent) => {
-          console.log(file);
           this.dragging = false;
           this.errorState = '';
           this.fileName = file.upload.filename;
@@ -9686,7 +9684,7 @@ const GcUpload = class {
           if (errorMessage.includes('big')) {
             this.errorState = 'size-error';
           }
-          this.gcUploadedFile.emit({ file, errorMessage });
+          this.gcUploadError.emit({ file, errorMessage });
         });
       }
     }

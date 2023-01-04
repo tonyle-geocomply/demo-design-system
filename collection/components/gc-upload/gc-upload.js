@@ -40,13 +40,11 @@ export class GcUpload {
   componentDidLoad() {
     if (!this.isCustom) {
       const dropzone = new Dropzone(this.container, Object.assign({ disablePreviews: true, clickable: this.disabled || !this.disableState, acceptedFiles: this.getAcceptFiles(), maxFilesize: this.maxFileSize || 1, url: () => '' }, this.option));
-      dropzone.autoDiscover = false;
       if (dropzone && dropzone.on) {
         dropzone.on('addedfile', file => {
           this.gcUploadedFile.emit({ file });
         });
         dropzone.on('uploadprogress', (file, progress, bytesSent) => {
-          console.log(file);
           this.dragging = false;
           this.errorState = '';
           this.fileName = file.upload.filename;
@@ -76,7 +74,7 @@ export class GcUpload {
           if (errorMessage.includes('big')) {
             this.errorState = 'size-error';
           }
-          this.gcUploadedFile.emit({ file, errorMessage });
+          this.gcUploadError.emit({ file, errorMessage });
         });
       }
     }
