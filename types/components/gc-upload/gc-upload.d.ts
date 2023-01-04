@@ -30,6 +30,7 @@ export declare class GcUpload {
   gcUploadedFile: EventEmitter;
   gcUploadProgress: EventEmitter;
   gcUploadCompleted: EventEmitter;
+  gcUploadSuccess: EventEmitter;
   gcUploadError: EventEmitter;
   private getIcon;
   private getAcceptFiles;

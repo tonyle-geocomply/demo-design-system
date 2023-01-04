@@ -24,7 +24,7 @@ export class GcUpload {
      * Custom how to display
      */
     this.isCustom = false;
-    this.maxFileSize = 0.001;
+    this.maxFileSize = 250;
     this.dragging = false;
     this.progress = 0;
     this.fileName = '';
@@ -58,7 +58,7 @@ export class GcUpload {
             this.progress = 0;
             this.disableState = false;
           }, TIMEOUT);
-          this.gcUploadCompleted.emit(file);
+          this.gcUploadCompleted.emit({ file });
         });
         dropzone.on('dragover', () => {
           this.dragging = true;
@@ -76,21 +76,32 @@ export class GcUpload {
           }
           this.gcUploadError.emit({ file, errorMessage });
         });
+        dropzone.on('success', file => {
+          this.gcUploadSuccess.emit({ file });
+        });
       }
     }
   }
   handleChange(e) {
     var _a;
     if ((_a = e === null || e === void 0 ? void 0 : e.target) === null || _a === void 0 ? void 0 : _a.files) {
-      this.gcUploadedFile.emit({ file: e.target.files[0] });
+      const file = e.target.files[0];
+      const sizeInMb = (file === null || file === void 0 ? void 0 : file.size) / 1024 / 1024;
+      if (file && !file.type.includes(this.acceptType)) {
+        this.gcUploadError.emit({ file: e.target.files[0], errorMessage: 'Type not accepted' });
+        return;
+      }
+      if (file && sizeInMb > this.maxFileSize) {
+        this.gcUploadError.emit({ file: e.target.files[0], errorMessage: 'Type not accepted' });
+        return;
+      }
+      this.gcUploadSuccess.emit({ file: e.target.files[0] });
     }
   }
   render() {
     if (this.errorState) {
       return (h(Host, null,
-        h("form", { id: "dropzone", 
-          // action="/upload"
-          class: { 'dropzone': true, 'dropzone-dragging': this.dragging }, ref: el => (this.container = el), style: { width: this.width } },
+        h("form", { id: "dropzone", class: { 'dropzone': true, 'dropzone-dragging': this.dragging }, ref: el => (this.container = el), style: { width: this.width } },
           h("div", { class: "dz-message" },
             h("div", { class: "gc__dropzone-icon" }, this.errorState === 'type-error' ? (h("gc-icon", { customStyle: { '--fa-primary-color': 'var(--gc-color-red)', 'fontSize': '60px', '--fa-secondary-color': '#D0D8E0' }, name: "fa-duotone fa-circle-exclamation" })) : (h("gc-icon", { customStyle: { '--fa-primary-color': 'var(--gc-color-red)', 'fontSize': '60px', '--fa-secondary-color': '#D0D8E0' }, name: "fa-duotone fa-file-circle-xmark" }))),
             h("div", { class: "gc__dropzone-body gc__dropzone-body--error" },
@@ -243,7 +254,7 @@ export class GcUpload {
       },
       "attribute": "max-file-size",
       "reflect": false,
-      "defaultValue": "0.001"
+      "defaultValue": "250"
     }
   }; }
   static get states() { return {
@@ -286,6 +297,21 @@ export class GcUpload {
     }, {
       "method": "gcUploadCompleted",
       "name": "gc:upload-completed",
+      "bubbles": true,
+      "cancelable": true,
+      "composed": true,
+      "docs": {
+        "tags": [],
+        "text": ""
+      },
+      "complexType": {
+        "original": "any",
+        "resolved": "any",
+        "references": {}
+      }
+    }, {
+      "method": "gcUploadSuccess",
+      "name": "gc:upload-success",
       "bubbles": true,
       "cancelable": true,
       "composed": true,

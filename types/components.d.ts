@@ -2142,6 +2142,7 @@ declare namespace LocalJSX {
         "onGc:upload-completed"?: (event: GcUploadCustomEvent<any>) => void;
         "onGc:upload-error"?: (event: GcUploadCustomEvent<any>) => void;
         "onGc:upload-progress"?: (event: GcUploadCustomEvent<any>) => void;
+        "onGc:upload-success"?: (event: GcUploadCustomEvent<any>) => void;
         "onGc:uploaded-file"?: (event: GcUploadCustomEvent<any>) => void;
         /**
           * Option

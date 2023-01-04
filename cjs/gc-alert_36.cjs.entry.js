@@ -9617,6 +9617,7 @@ const GcUpload = class {
     this.gcUploadedFile = index$1.createEvent(this, "gc:uploaded-file", 7);
     this.gcUploadProgress = index$1.createEvent(this, "gc:upload-progress", 7);
     this.gcUploadCompleted = index$1.createEvent(this, "gc:upload-completed", 7);
+    this.gcUploadSuccess = index$1.createEvent(this, "gc:upload-success", 7);
     this.gcUploadError = index$1.createEvent(this, "gc:upload-error", 7);
     /**
      * Width of upload
@@ -9638,7 +9639,7 @@ const GcUpload = class {
      * Custom how to display
      */
     this.isCustom = false;
-    this.maxFileSize = 0.001;
+    this.maxFileSize = 250;
     this.dragging = false;
     this.progress = 0;
     this.fileName = '';
@@ -9672,7 +9673,7 @@ const GcUpload = class {
             this.progress = 0;
             this.disableState = false;
           }, TIMEOUT);
-          this.gcUploadCompleted.emit(file);
+          this.gcUploadCompleted.emit({ file });
         });
         dropzone.on('dragover', () => {
           this.dragging = true;
@@ -9690,20 +9691,31 @@ const GcUpload = class {
           }
           this.gcUploadError.emit({ file, errorMessage });
         });
+        dropzone.on('success', file => {
+          this.gcUploadSuccess.emit({ file });
+        });
       }
     }
   }
   handleChange(e) {
     var _a;
     if ((_a = e === null || e === void 0 ? void 0 : e.target) === null || _a === void 0 ? void 0 : _a.files) {
-      this.gcUploadedFile.emit({ file: e.target.files[0] });
+      const file = e.target.files[0];
+      const sizeInMb = (file === null || file === void 0 ? void 0 : file.size) / 1024 / 1024;
+      if (file && !file.type.includes(this.acceptType)) {
+        this.gcUploadError.emit({ file: e.target.files[0], errorMessage: 'Type not accepted' });
+        return;
+      }
+      if (file && sizeInMb > this.maxFileSize) {
+        this.gcUploadError.emit({ file: e.target.files[0], errorMessage: 'Type not accepted' });
+        return;
+      }
+      this.gcUploadSuccess.emit({ file: e.target.files[0] });
     }
   }
   render() {
     if (this.errorState) {
-      return (index$1.h(index$1.Host, null, index$1.h("form", { id: "dropzone",
-        // action="/upload"
-        class: { 'dropzone': true, 'dropzone-dragging': this.dragging }, ref: el => (this.container = el), style: { width: this.width } }, index$1.h("div", { class: "dz-message" }, index$1.h("div", { class: "gc__dropzone-icon" }, this.errorState === 'type-error' ? (index$1.h("gc-icon", { customStyle: { '--fa-primary-color': 'var(--gc-color-red)', 'fontSize': '60px', '--fa-secondary-color': '#D0D8E0' }, name: "fa-duotone fa-circle-exclamation" })) : (index$1.h("gc-icon", { customStyle: { '--fa-primary-color': 'var(--gc-color-red)', 'fontSize': '60px', '--fa-secondary-color': '#D0D8E0' }, name: "fa-duotone fa-file-circle-xmark" }))), index$1.h("div", { class: "gc__dropzone-body gc__dropzone-body--error" }, index$1.h("div", { class: "error-text" }, this.errorState === 'type-error' ? 'Could not load your file, the format is invalid.' : 'Your file too large and can not be uploaded!'), index$1.h("div", null, this.errorState === 'type-error' ? `Please try again with *.${this.acceptType} file format` : 'Please reduce the file size and try again!')), index$1.h("div", { class: "gc__dropzone-buttons" }, index$1.h("gc-button", { id: "browse_files", type: "primary", "padding-text": "30px", height: "32px" }, "Browse Files"))))));
+      return (index$1.h(index$1.Host, null, index$1.h("form", { id: "dropzone", class: { 'dropzone': true, 'dropzone-dragging': this.dragging }, ref: el => (this.container = el), style: { width: this.width } }, index$1.h("div", { class: "dz-message" }, index$1.h("div", { class: "gc__dropzone-icon" }, this.errorState === 'type-error' ? (index$1.h("gc-icon", { customStyle: { '--fa-primary-color': 'var(--gc-color-red)', 'fontSize': '60px', '--fa-secondary-color': '#D0D8E0' }, name: "fa-duotone fa-circle-exclamation" })) : (index$1.h("gc-icon", { customStyle: { '--fa-primary-color': 'var(--gc-color-red)', 'fontSize': '60px', '--fa-secondary-color': '#D0D8E0' }, name: "fa-duotone fa-file-circle-xmark" }))), index$1.h("div", { class: "gc__dropzone-body gc__dropzone-body--error" }, index$1.h("div", { class: "error-text" }, this.errorState === 'type-error' ? 'Could not load your file, the format is invalid.' : 'Your file too large and can not be uploaded!'), index$1.h("div", null, this.errorState === 'type-error' ? `Please try again with *.${this.acceptType} file format` : 'Please reduce the file size and try again!')), index$1.h("div", { class: "gc__dropzone-buttons" }, index$1.h("gc-button", { id: "browse_files", type: "primary", "padding-text": "30px", height: "32px" }, "Browse Files"))))));
     }
     if (this.isCustom) {
       return (index$1.h(index$1.Host, null, index$1.h("label", { htmlFor: "file-upload", class: "custom-file-upload" }, index$1.h("slot", null)), index$1.h("input", { accept: this.getAcceptFiles(), id: "file-upload", type: "file", onChange: e => this.handleChange(e) })));
