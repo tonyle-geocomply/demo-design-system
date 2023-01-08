@@ -25,6 +25,7 @@ export class GcUpload {
      */
     this.isCustom = false;
     this.maxFileSize = 250;
+    this.maxFiles = null;
     this.dragging = false;
     this.progress = 0;
     this.fileName = '';
@@ -39,7 +40,7 @@ export class GcUpload {
   }
   componentDidLoad() {
     if (!this.isCustom) {
-      const dropzone = new Dropzone(this.container, Object.assign({ disablePreviews: true, clickable: this.disabled || !this.disableState, acceptedFiles: this.getAcceptFiles(), maxFilesize: this.maxFileSize || 1, url: () => '' }, this.option));
+      const dropzone = new Dropzone(this.container, Object.assign({ disablePreviews: true, clickable: this.disabled || !this.disableState, acceptedFiles: this.getAcceptFiles(), maxFilesize: this.maxFileSize || 1, maxFiles: this.maxFiles || 1, url: () => '' }, this.option));
       if (dropzone && dropzone.on) {
         dropzone.on('addedfile', file => {
           this.gcUploadedFile.emit({ file });
@@ -251,6 +252,24 @@ export class GcUpload {
       "attribute": "max-file-size",
       "reflect": false,
       "defaultValue": "250"
+    },
+    "maxFiles": {
+      "type": "any",
+      "mutable": false,
+      "complexType": {
+        "original": "any",
+        "resolved": "any",
+        "references": {}
+      },
+      "required": false,
+      "optional": true,
+      "docs": {
+        "tags": [],
+        "text": ""
+      },
+      "attribute": "max-files",
+      "reflect": false,
+      "defaultValue": "null"
     }
   }; }
   static get states() { return {

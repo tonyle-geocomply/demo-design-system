@@ -5009,7 +5009,7 @@ var createPopper = /*#__PURE__*/popperGenerator({
   defaultModifiers: defaultModifiers
 }); // eslint-disable-next-line import/no-unused-modules
 
-const gcDropdownCss = ":host{display:inline-block;height:var(--dropdown-height, auto)}#tooltip{display:none;border:1px solid var(--gc-color-second-grey);border-radius:6px;background-color:var(--gc-color-contrast-white);font-size:13px;z-index:var(--gc-z-index-gc__dropdown-content)}#tooltip[data-show]{display:block}#arrow,#arrow::before{position:absolute;width:8px;height:8px;background:inherit}#arrow{visibility:hidden}#tooltip[data-popper-placement^='bottom']>#arrow::before{visibility:visible;content:'';width:0;height:0;top:-5px;border-left:8px solid transparent;border-right:8px solid transparent;border-bottom:8px solid var(--gc-color-second-grey)}#tooltip[data-popper-placement^='bottom']>#arrow::after{visibility:visible;content:'';width:0;height:0;top:-4px;position:absolute;border-left:8px solid transparent;border-right:8px solid transparent;border-bottom:8px solid white}#tooltip[data-popper-placement^='right']>#arrow::before{visibility:visible;content:'';width:0;height:0;top:0px;left:-1px;border-left:8px solid transparent;border-right:8px solid transparent;border-bottom:8px solid var(--gc-color-second-grey);background:transparent;rotate:270deg}#tooltip[data-popper-placement^='right']>#arrow::after{visibility:visible;content:'';width:0;height:0;top:0px;position:absolute;border-left:8px solid transparent;border-right:8px solid transparent;border-bottom:8px solid white;background:transparent;rotate:270deg}#tooltip[data-popper-placement^='left']>#arrow::before{visibility:visible;content:'';width:0;height:0;top:0px;left:-1px;border-left:8px solid transparent;border-right:8px solid transparent;border-bottom:8px solid var(--gc-color-second-grey);background:transparent;rotate:360deg}#tooltip[data-popper-placement^='left']>#arrow::after{visibility:visible;content:'';width:0;height:0;top:0px;position:absolute;border-left:8px solid transparent;border-right:8px solid transparent;border-bottom:8px solid white;background:transparent;rotate:360deg}#tooltip[data-popper-placement^='top']>#arrow{bottom:-4px}#tooltip[data-popper-placement^='bottom']>#arrow{top:-4px}#tooltip[data-popper-placement^='left']>#arrow{right:-4px}#tooltip[data-popper-placement^='right']>#arrow{left:-12px}.suffix-arrow{margin-left:12px;color:var(--gc-color-primary)}";
+const gcDropdownCss = ":host{display:inline-block;height:var(--dropdown-height, auto)}#tooltip{display:none;border:1px solid var(--gc-color-second-grey);border-radius:6px;background-color:var(--gc-color-contrast-white);font-size:13px;z-index:var(--gc-z-index-gc__dropdown-content)}#tooltip[data-show]{display:block}#arrow,#arrow::before{position:absolute;width:8px;height:8px;background:none}#arrow{visibility:hidden}#tooltip[data-popper-placement^='bottom']>#arrow::before{visibility:visible;content:'';width:0;height:0;top:-5px;border-left:8px solid transparent;border-right:8px solid transparent;border-bottom:8px solid var(--gc-color-second-grey)}#tooltip[data-popper-placement^='bottom']>#arrow::after{visibility:visible;content:'';width:0;height:0;top:-4px;position:absolute;border-left:8px solid transparent;border-right:8px solid transparent;border-bottom:8px solid white}#tooltip[data-popper-placement^='right']>#arrow::before{visibility:visible;content:'';width:0;height:0;top:0px;left:-1px;border-left:8px solid transparent;border-right:8px solid transparent;border-bottom:8px solid var(--gc-color-second-grey);background:transparent;rotate:270deg}#tooltip[data-popper-placement^='right']>#arrow::after{visibility:visible;content:'';width:0;height:0;top:0px;position:absolute;border-left:8px solid transparent;border-right:8px solid transparent;border-bottom:8px solid white;background:transparent;rotate:270deg}#tooltip[data-popper-placement^='left']>#arrow::before{visibility:visible;content:'';width:0;height:0;top:0px;left:-1px;border-left:8px solid transparent;border-right:8px solid transparent;border-bottom:8px solid var(--gc-color-second-grey);background:transparent;rotate:360deg}#tooltip[data-popper-placement^='left']>#arrow::after{visibility:visible;content:'';width:0;height:0;top:0px;position:absolute;border-left:8px solid transparent;border-right:8px solid transparent;border-bottom:8px solid white;background:transparent;rotate:360deg}#tooltip[data-popper-placement^='top']>#arrow{bottom:-4px}#tooltip[data-popper-placement^='bottom']>#arrow{top:-4px}#tooltip[data-popper-placement^='left']>#arrow{right:-4px}#tooltip[data-popper-placement^='right']>#arrow{left:-12px}.suffix-arrow{margin-left:12px;color:var(--gc-color-primary)}";
 
 const GcDropdown = class {
   constructor(hostRef) {
@@ -5692,7 +5692,7 @@ const GcPagination = class {
 };
 GcPagination.style = gcPaginationCss;
 
-const gcProgressCss = ".progress{border-radius:16px;font-size:10px;color:#000!important;background-color:#f1f1f1!important;height:11px;margin-top:10px;animation:progress-bar-stripes 2s linear infinite}.bar{color:#fff!important;background-color:var(--gc-color-primary);border-radius:16px;font-size:10px;height:11px}.progress-text{margin-left:16px}";
+const gcProgressCss = ".progress{border-radius:16px;font-size:10px;color:#000!important;background-color:#f1f1f1!important;height:11px;margin-top:10px;animation:progress-bar-stripes 2s linear infinite}.bar{color:#fff!important;background-color:var(--gc-color-primary);border-radius:16px;font-size:10px;height:11px;text-align:center}";
 
 const GcProgress = class {
   constructor(hostRef) {
@@ -7147,6 +7147,9 @@ const GcTable = class {
   }
   renderPagination() {
     let totalItems = this.getTotalItems();
+    if (totalItems <= this.pageSize) {
+      return null;
+    }
     totalItems = totalItems ? totalItems.toLocaleString() : '';
     return (h("div", { class: "pagination" }, h("div", { class: "page-sizes-select" }), h("div", { class: "pagination-item-count" }, h("span", null, "Showing"), "\u00A0", this.pageSize * (this.page - 1) + 1, "\u00A0to\u00A0", this.pageSize * this.page < this.getTotalItems() ? this.pageSize * this.page : this.getTotalItems(), "\u00A0of\u00A0", totalItems || 0, "\u00A0", +totalItems === 1 ? 'entry' : 'entries'), h("div", { class: "pagination-right" }, h("div", { class: "table-footer-right-content" }, h("div", { class: "table-footer-right-content-pagination" }, h("gc-pagination", { activePage: this.page, total: this.getTotalItems(), pageSize: this.pageSize }))))));
   }
@@ -9636,6 +9639,7 @@ const GcUpload = class {
      */
     this.isCustom = false;
     this.maxFileSize = 250;
+    this.maxFiles = null;
     this.dragging = false;
     this.progress = 0;
     this.fileName = '';
@@ -9650,7 +9654,7 @@ const GcUpload = class {
   }
   componentDidLoad() {
     if (!this.isCustom) {
-      const dropzone = new $3ed269f2f0fb224b$export$2e2bcd8739ae039(this.container, Object.assign({ disablePreviews: true, clickable: this.disabled || !this.disableState, acceptedFiles: this.getAcceptFiles(), maxFilesize: this.maxFileSize || 1, url: () => '' }, this.option));
+      const dropzone = new $3ed269f2f0fb224b$export$2e2bcd8739ae039(this.container, Object.assign({ disablePreviews: true, clickable: this.disabled || !this.disableState, acceptedFiles: this.getAcceptFiles(), maxFilesize: this.maxFileSize || 1, maxFiles: this.maxFiles || 1, url: () => '' }, this.option));
       if (dropzone && dropzone.on) {
         dropzone.on('addedfile', file => {
           this.gcUploadedFile.emit({ file });

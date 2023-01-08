@@ -22,6 +22,7 @@ export declare class GcUpload {
    */
   isCustom?: boolean;
   maxFileSize?: number;
+  maxFiles?: any;
   dragging: boolean;
   progress: number;
   fileName: string;

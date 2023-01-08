@@ -547,6 +547,9 @@ export class GcTable {
   }
   renderPagination() {
     let totalItems = this.getTotalItems();
+    if (totalItems <= this.pageSize) {
+      return null;
+    }
     totalItems = totalItems ? totalItems.toLocaleString() : '';
     return (h("div", { class: "pagination" },
       h("div", { class: "page-sizes-select" }),

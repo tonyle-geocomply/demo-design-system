@@ -876,6 +876,7 @@ export namespace Components {
          */
         "isCustom"?: boolean;
         "maxFileSize"?: number;
+        "maxFiles"?: any;
         /**
           * Option
          */
@@ -2139,6 +2140,7 @@ declare namespace LocalJSX {
          */
         "isCustom"?: boolean;
         "maxFileSize"?: number;
+        "maxFiles"?: any;
         "onGc:upload-completed"?: (event: GcUploadCustomEvent<any>) => void;
         "onGc:upload-error"?: (event: GcUploadCustomEvent<any>) => void;
         "onGc:upload-progress"?: (event: GcUploadCustomEvent<any>) => void;

@@ -1,6 +1,6 @@
 import { proxyCustomElement, HTMLElement, h } from '@stencil/core/internal/client';
 
-const gcProgressCss = ".progress{border-radius:16px;font-size:10px;color:#000!important;background-color:#f1f1f1!important;height:11px;margin-top:10px;animation:progress-bar-stripes 2s linear infinite}.bar{color:#fff!important;background-color:var(--gc-color-primary);border-radius:16px;font-size:10px;height:11px}.progress-text{margin-left:16px}";
+const gcProgressCss = ".progress{border-radius:16px;font-size:10px;color:#000!important;background-color:#f1f1f1!important;height:11px;margin-top:10px;animation:progress-bar-stripes 2s linear infinite}.bar{color:#fff!important;background-color:var(--gc-color-primary);border-radius:16px;font-size:10px;height:11px;text-align:center}";
 
 const GcProgress = /*@__PURE__*/ proxyCustomElement(class extends HTMLElement {
   constructor() {

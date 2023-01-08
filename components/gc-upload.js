@@ -2163,6 +2163,7 @@ const GcUpload$1 = /*@__PURE__*/ proxyCustomElement(class extends HTMLElement {
      */
     this.isCustom = false;
     this.maxFileSize = 250;
+    this.maxFiles = null;
     this.dragging = false;
     this.progress = 0;
     this.fileName = '';
@@ -2177,7 +2178,7 @@ const GcUpload$1 = /*@__PURE__*/ proxyCustomElement(class extends HTMLElement {
   }
   componentDidLoad() {
     if (!this.isCustom) {
-      const dropzone = new $3ed269f2f0fb224b$export$2e2bcd8739ae039(this.container, Object.assign({ disablePreviews: true, clickable: this.disabled || !this.disableState, acceptedFiles: this.getAcceptFiles(), maxFilesize: this.maxFileSize || 1, url: () => '' }, this.option));
+      const dropzone = new $3ed269f2f0fb224b$export$2e2bcd8739ae039(this.container, Object.assign({ disablePreviews: true, clickable: this.disabled || !this.disableState, acceptedFiles: this.getAcceptFiles(), maxFilesize: this.maxFileSize || 1, maxFiles: this.maxFiles || 1, url: () => '' }, this.option));
       if (dropzone && dropzone.on) {
         dropzone.on('addedfile', file => {
           this.gcUploadedFile.emit({ file });
@@ -2251,6 +2252,7 @@ const GcUpload$1 = /*@__PURE__*/ proxyCustomElement(class extends HTMLElement {
     "option": [16],
     "isCustom": [4, "is-custom"],
     "maxFileSize": [2, "max-file-size"],
+    "maxFiles": [8, "max-files"],
     "dragging": [32],
     "progress": [32],
     "fileName": [32],
