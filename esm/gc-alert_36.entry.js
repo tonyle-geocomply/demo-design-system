@@ -9690,9 +9690,11 @@ const GcUpload = class {
             this.errorState = 'size-error';
           }
           this.gcUploadError.emit({ file, errorMessage });
+          dropzone.removeAllFiles();
         });
         dropzone.on('success', file => {
           this.gcUploadSuccess.emit({ file });
+          dropzone.removeAllFiles();
         });
       }
     }

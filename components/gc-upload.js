@@ -2214,9 +2214,11 @@ const GcUpload$1 = /*@__PURE__*/ proxyCustomElement(class extends HTMLElement {
             this.errorState = 'size-error';
           }
           this.gcUploadError.emit({ file, errorMessage });
+          dropzone.removeAllFiles();
         });
         dropzone.on('success', file => {
           this.gcUploadSuccess.emit({ file });
+          dropzone.removeAllFiles();
         });
       }
     }
