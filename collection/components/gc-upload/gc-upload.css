@@ -85,4 +85,5 @@ input[type="file"] {
   margin-top: 8px;
   text-align: center;
   font-weight: 400;
+  word-break: break-all;
 }

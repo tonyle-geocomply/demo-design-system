@@ -9611,7 +9611,7 @@ function $3ed269f2f0fb224b$var$__guardMethod__(obj, methodName, transform) {
     else return undefined;
 }
 
-const gcUploadCss = ":host{display:block}input[type=\"file\"]{display:none}.dropzone{background:var(--gc-color-contrast-grey);border-radius:5px;border:1px dashed var(--gc-color-fourth-grey);border-image:none;padding:30px 22px;cursor:pointer;height:100%;min-height:275px}.dropzone-dragging{opacity:0.5;background:#ECF5FE;border:1px dashed var(--gc-color-primary)}.gc__dropzone-heading,.gc__dropzone-body,.gc__dropzone-buttons,.gc__dropzone-notes,.gc__dropzone-icon{text-align:center}.gc__dropzone-heading{font-size:14px;font-weight:600}.gc__dropzone-extension{margin-top:10px}.gc__dropzone-body{margin-top:10px}.gc__dropzone-buttons{margin-top:20px}.gc__dropzone-notes{margin-top:20px;font-style:italic;font-size:12px;font-weight:400}.gc__dropzone-icon{font-size:14px;color:var(--gc-color-primary);margin-top:15px}.gc__dropzone-type{color:var(--gc-color-fourth-grey);font-size:12px;margin-top:8px}.gc__dropzone-body div{font-weight:400}.gc__dropzone-body b{font-weight:600}.gc__dropzone-body--error{margin-top:15px}.gc__dropzone-body--error .error-text{color:var(--gc-color-red);margin-bottom:8px}.gc__dropzone-filename{font-size:12px;margin-top:8px;text-align:center;font-weight:400}";
+const gcUploadCss = ":host{display:block}input[type=\"file\"]{display:none}.dropzone{background:var(--gc-color-contrast-grey);border-radius:5px;border:1px dashed var(--gc-color-fourth-grey);border-image:none;padding:30px 22px;cursor:pointer;height:100%;min-height:275px}.dropzone-dragging{opacity:0.5;background:#ECF5FE;border:1px dashed var(--gc-color-primary)}.gc__dropzone-heading,.gc__dropzone-body,.gc__dropzone-buttons,.gc__dropzone-notes,.gc__dropzone-icon{text-align:center}.gc__dropzone-heading{font-size:14px;font-weight:600}.gc__dropzone-extension{margin-top:10px}.gc__dropzone-body{margin-top:10px}.gc__dropzone-buttons{margin-top:20px}.gc__dropzone-notes{margin-top:20px;font-style:italic;font-size:12px;font-weight:400}.gc__dropzone-icon{font-size:14px;color:var(--gc-color-primary);margin-top:15px}.gc__dropzone-type{color:var(--gc-color-fourth-grey);font-size:12px;margin-top:8px}.gc__dropzone-body div{font-weight:400}.gc__dropzone-body b{font-weight:600}.gc__dropzone-body--error{margin-top:15px}.gc__dropzone-body--error .error-text{color:var(--gc-color-red);margin-bottom:8px}.gc__dropzone-filename{font-size:12px;margin-top:8px;text-align:center;font-weight:400;word-break:break-all}";
 
 const TIMEOUT = 700;
 const GcUpload = class {
@@ -9694,11 +9694,11 @@ const GcUpload = class {
             this.errorState = 'size-error';
           }
           this.gcUploadError.emit({ file, errorMessage });
-          dropzone.removeAllFiles();
+          dropzone.removeAllFiles(true);
         });
         dropzone.on('success', file => {
           this.gcUploadSuccess.emit({ file });
-          dropzone.removeAllFiles();
+          dropzone.removeAllFiles(true);
         });
       }
     }
