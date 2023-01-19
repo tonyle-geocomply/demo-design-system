@@ -543,7 +543,7 @@ const GcTable$1 = /*@__PURE__*/ proxyCustomElement(class extends HTMLElement {
       return null;
     }
     totalItems = totalItems ? totalItems.toLocaleString() : '';
-    return (h("div", { class: "pagination" }, h("div", { class: "page-sizes-select" }), h("div", { class: "pagination-item-count" }, h("span", null, "Showing"), "\u00A0", this.pageSize * (this.page - 1) + 1, "\u00A0to\u00A0", this.pageSize * this.page < this.getTotalItems() ? this.pageSize * this.page : this.getTotalItems(), "\u00A0of\u00A0", totalItems || 0, "\u00A0", +totalItems === 1 ? 'entry' : 'entries'), h("div", { class: "pagination-right" }, h("div", { class: "table-footer-right-content" }, h("div", { class: "table-footer-right-content-pagination" }, h("gc-pagination", { activePage: this.page, total: this.getTotalItems(), pageSize: this.pageSize }))))));
+    return (h("div", { style: { background: this.background }, class: "table-footer" }, h("div", { class: "pagination" }, h("div", { class: "page-sizes-select" }), h("div", { class: "pagination-item-count" }, h("span", null, "Showing"), "\u00A0", this.pageSize * (this.page - 1) + 1, "\u00A0to\u00A0", this.pageSize * this.page < this.getTotalItems() ? this.pageSize * this.page : this.getTotalItems(), "\u00A0of\u00A0", totalItems || 0, "\u00A0", +totalItems === 1 ? 'entry' : 'entries'), h("div", { class: "pagination-right" }, h("div", { class: "table-footer-right-content" }, h("div", { class: "table-footer-right-content-pagination" }, h("gc-pagination", { activePage: this.page, total: this.getTotalItems(), pageSize: this.pageSize })))))));
   }
   renderSettingColumns() {
     if (this.settingColumns || this.customEmptyState || this.isNoBorderedAll || this.isCustomHeader) {
@@ -570,7 +570,7 @@ const GcTable$1 = /*@__PURE__*/ proxyCustomElement(class extends HTMLElement {
         overflow: (countCurrentCol.length <= DEFAULT_MAXIMUM_TO_SCALE && !this.isStopScaleWidth) || (this.isExpandable && this.totalExpanded === 0) ? 'hidden' : 'auto',
         width: this.isExpandable && this.totalExpanded === 0 ? this.width : '',
         position: this.showTooltip ? 'static' : 'inherit',
-      } }, this.isExpandable ? this.renderHeaderWithExpandableRows() : this.renderHeader(), this.isExpandable ? this.renderBodyWithExpandableRows() : this.renderBody()), this.paginate && (h("div", { style: { background: this.background }, class: "table-footer" }, this.renderPagination())))) : (this.renderEmptyState())));
+      } }, this.isExpandable ? this.renderHeaderWithExpandableRows() : this.renderHeader(), this.isExpandable ? this.renderBodyWithExpandableRows() : this.renderBody()), this.paginate && this.renderPagination())) : (this.renderEmptyState())));
   }
   renderEmptyState() {
     if (this.customEmptyState) {
