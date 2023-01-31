@@ -94,6 +94,7 @@ export namespace Components {
           * index of step item from top to bottom
          */
         "index": string;
+        "isLoading": boolean;
         /**
           * The link to redirect
          */
@@ -131,6 +132,7 @@ export namespace Components {
          */
         "totalText": string;
         "value": string;
+        "width": string;
     }
     interface GcCellInvalid {
         /**
@@ -1311,6 +1313,7 @@ declare namespace LocalJSX {
           * index of step item from top to bottom
          */
         "index"?: string;
+        "isLoading"?: boolean;
         /**
           * The link to redirect
          */
@@ -1356,6 +1359,7 @@ declare namespace LocalJSX {
          */
         "totalText"?: string;
         "value"?: string;
+        "width"?: string;
     }
     interface GcCellInvalid {
         /**

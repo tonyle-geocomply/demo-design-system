@@ -1,6 +1,6 @@
 :host(.is-loading) .gc__steps-section {
   position: relative;
-  width: 100vw;
+  width: 300px;
   opacity: 0.3;
 }
 .gc__steps-section {
