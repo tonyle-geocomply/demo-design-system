@@ -52,6 +52,29 @@
 }
 
 
+#tooltip[data-popper-placement^='bottom-'] > #arrow::before {
+  visibility: visible;
+  content: '';
+  width: 0;
+  height: 0;
+  top: -1px;
+  border-left: 4px solid transparent;
+  border-right: 4px solid transparent;
+  border-bottom: 4px solid var(--gc-color-second-grey);
+}
+
+#tooltip[data-popper-placement^='bottom-'] > #arrow::after {
+  visibility: visible;
+  content: '';
+  width: 0;
+  height: 0;
+  top: 0px;
+  position: absolute;
+  border-left: 4px solid transparent;
+  border-right: 4px solid transparent;
+  border-bottom: 4px solid white;
+}
+
 #tooltip[data-popper-placement^='right'] > #arrow::before {
   visibility: visible;
   content: '';

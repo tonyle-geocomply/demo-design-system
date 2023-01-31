@@ -4,7 +4,7 @@ export class GcCellInvalid {
     /**
      * The tooltip position
      */
-    this.tooltipPosition = 'bottom-end';
+    this.tooltipPosition = 'bottom';
   }
   render() {
     return (h("div", { class: "gc__cell-invalid" }, this.message ? (h("gc-dropdown", { trigger: "hover", positions: this.tooltipPosition },
@@ -54,7 +54,7 @@ export class GcCellInvalid {
       },
       "attribute": "tooltip-position",
       "reflect": false,
-      "defaultValue": "'bottom-end'"
+      "defaultValue": "'bottom'"
     }
   }; }
 }

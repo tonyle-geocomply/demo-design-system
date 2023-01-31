@@ -12,7 +12,7 @@ const GcCellInvalid = class {
     /**
      * The tooltip position
      */
-    this.tooltipPosition = 'bottom-end';
+    this.tooltipPosition = 'bottom';
   }
   render() {
     return (index.h("div", { class: "gc__cell-invalid" }, this.message ? (index.h("gc-dropdown", { trigger: "hover", positions: this.tooltipPosition }, index.h("gc-icon", { name: "fa-regular fa-circle-exclamation", size: "23px", color: "var(--gc-color-red)" }), index.h("div", { slot: "gc__dropdown-content", class: "menu", style: { padding: '16px' } }, index.h("div", null, this.message)))) : (index.h("gc-icon", { name: "fa-regular fa-square-info", size: "14px", color: "var(--gc-color-primary)" }))));
