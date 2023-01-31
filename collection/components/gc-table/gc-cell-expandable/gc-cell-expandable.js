@@ -8,7 +8,6 @@ export class GcCellExpandable {
     this.total = 0;
     this.numberOfEntryPerPage = 0;
     this.maxWidth = '';
-    this.width = '';
     this.transitioning = false;
     this.isResize = false;
     /**
@@ -51,7 +50,7 @@ export class GcCellExpandable {
   }
   get style() {
     return {
-      width: this.isLoading ? this.width : '',
+      width: this.isLoading ? this.maxWidth : '',
       maxHeight: this.isResize && this.open ? this.maxHeight : this.open ? this.maxHeight : '0px',
     };
   }
@@ -278,24 +277,6 @@ export class GcCellExpandable {
         "text": ""
       },
       "attribute": "max-width",
-      "reflect": false,
-      "defaultValue": "''"
-    },
-    "width": {
-      "type": "string",
-      "mutable": false,
-      "complexType": {
-        "original": "string",
-        "resolved": "string",
-        "references": {}
-      },
-      "required": false,
-      "optional": false,
-      "docs": {
-        "tags": [],
-        "text": ""
-      },
-      "attribute": "width",
       "reflect": false,
       "defaultValue": "''"
     },

@@ -8,7 +8,6 @@ export declare class GcCellExpandable {
   total: number;
   numberOfEntryPerPage: number;
   maxWidth: string;
-  width: string;
   get style(): {
     width: string;
     maxHeight: string;

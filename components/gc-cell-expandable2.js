@@ -21,7 +21,6 @@ const GcCellExpandable = /*@__PURE__*/ proxyCustomElement(class extends HTMLElem
     this.total = 0;
     this.numberOfEntryPerPage = 0;
     this.maxWidth = '';
-    this.width = '';
     this.transitioning = false;
     this.isResize = false;
     /**
@@ -64,7 +63,7 @@ const GcCellExpandable = /*@__PURE__*/ proxyCustomElement(class extends HTMLElem
   }
   get style() {
     return {
-      width: this.isLoading ? this.width : '',
+      width: this.isLoading ? this.maxWidth : '',
       maxHeight: this.isResize && this.open ? this.maxHeight : this.open ? this.maxHeight : '0px',
     };
   }
@@ -167,7 +166,6 @@ const GcCellExpandable = /*@__PURE__*/ proxyCustomElement(class extends HTMLElem
     "total": [2],
     "numberOfEntryPerPage": [2, "number-of-entry-per-page"],
     "maxWidth": [1, "max-width"],
-    "width": [1],
     "index": [1537],
     "open": [1540],
     "mutationObserverConfig": [16],

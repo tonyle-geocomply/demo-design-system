@@ -132,7 +132,6 @@ export namespace Components {
          */
         "totalText": string;
         "value": string;
-        "width": string;
     }
     interface GcCellInvalid {
         /**
@@ -1359,7 +1358,6 @@ declare namespace LocalJSX {
          */
         "totalText"?: string;
         "value"?: string;
-        "width"?: string;
     }
     interface GcCellInvalid {
         /**

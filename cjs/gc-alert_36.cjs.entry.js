@@ -133,7 +133,6 @@ const GcCellExpandable = class {
     this.total = 0;
     this.numberOfEntryPerPage = 0;
     this.maxWidth = '';
-    this.width = '';
     this.transitioning = false;
     this.isResize = false;
     /**
@@ -176,7 +175,7 @@ const GcCellExpandable = class {
   }
   get style() {
     return {
-      width: this.isLoading ? this.width : '',
+      width: this.isLoading ? this.maxWidth : '',
       maxHeight: this.isResize && this.open ? this.maxHeight : this.open ? this.maxHeight : '0px',
     };
   }
@@ -7082,7 +7081,7 @@ const GcTable = class {
             border: this.customRows && this.customRowsBorder && this.customRows.includes(`${idx}`) ? this.customRowsBorder : '',
           } }, index$1.h("div", { class: "scrollable-columns columns-container" }, scrollCols)));
       });
-      const expandableRows = (index$1.h("gc-cell-expandable", { class: { 'is-loading': this.loadingGroupIndex.includes(`${index}`) }, index: index, fieldName: fieldName, value: value, total: total, totalText: totalText, linkTo: linkTo, tooltipMessage: tooltipMessage, numberOfEntryPerPage: numberOfEntryPerPage || data.length, maxWidth: this.maxWidthInExpandRow, isLoading: this.loadingGroupIndex.includes(`${index}`), width: this.width }, this.loadingGroupIndex.includes(`${index}`) && index$1.h("div", { class: "loading-section" }, rows.length >= 4 ? index$1.h("gc-spinner", null) : null), rows));
+      const expandableRows = (index$1.h("gc-cell-expandable", { class: { 'is-loading': this.loadingGroupIndex.includes(`${index}`) }, index: index, fieldName: fieldName, value: value, total: total, totalText: totalText, linkTo: linkTo, tooltipMessage: tooltipMessage, numberOfEntryPerPage: numberOfEntryPerPage || data.length, maxWidth: this.maxWidthInExpandRow, isLoading: this.loadingGroupIndex.includes(`${index}`) }, this.loadingGroupIndex.includes(`${index}`) && index$1.h("div", { class: "loading-section" }, rows.length >= 4 ? index$1.h("gc-spinner", null) : null), rows));
       collapsedRows.push(expandableRows);
     });
     return (index$1.h("div", { style: { maxHeight: this.maxHeight }, class: "gc__table-body" }, collapsedRows));

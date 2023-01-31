@@ -473,7 +473,7 @@ export class GcTable {
           } },
           h("div", { class: "scrollable-columns columns-container" }, scrollCols)));
       });
-      const expandableRows = (h("gc-cell-expandable", { class: { 'is-loading': this.loadingGroupIndex.includes(`${index}`) }, index: index, fieldName: fieldName, value: value, total: total, totalText: totalText, linkTo: linkTo, tooltipMessage: tooltipMessage, numberOfEntryPerPage: numberOfEntryPerPage || data.length, maxWidth: this.maxWidthInExpandRow, isLoading: this.loadingGroupIndex.includes(`${index}`), width: this.width },
+      const expandableRows = (h("gc-cell-expandable", { class: { 'is-loading': this.loadingGroupIndex.includes(`${index}`) }, index: index, fieldName: fieldName, value: value, total: total, totalText: totalText, linkTo: linkTo, tooltipMessage: tooltipMessage, numberOfEntryPerPage: numberOfEntryPerPage || data.length, maxWidth: this.maxWidthInExpandRow, isLoading: this.loadingGroupIndex.includes(`${index}`) },
         this.loadingGroupIndex.includes(`${index}`) && h("div", { class: "loading-section" }, rows.length >= 4 ? h("gc-spinner", null) : null),
         rows));
       collapsedRows.push(expandableRows);
