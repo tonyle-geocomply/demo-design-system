@@ -639,8 +639,7 @@ export class GcTable {
     }
     if (this.isLoading) {
       return (h("div", { class: { 'empty-table': true, 'empty-table-no-bordered': this.isNoBorderedEmptyState, 'gc__table-loading': this.isLoading } },
-        h("div", { class: "empty-title" },
-          h("gc-h2", null, "Data is loading..."))));
+        h("div", { class: "gc__loading-distance" })));
     }
     return (h("div", { class: { 'empty-table': true, 'empty-table-no-bordered': this.isNoBorderedEmptyState, 'gc__table-loading': this.isLoading } },
       h("div", { class: "empty-title" },

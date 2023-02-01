@@ -412,6 +412,10 @@ gc-icon.down-arrow {
   margin: 0 16px;
 }
 
+.gc__loading-distance {
+  height: 100px;
+}
+
 @keyframes fadeInShow {
   0% {
       opacity: 0;
