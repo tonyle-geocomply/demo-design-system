@@ -576,6 +576,9 @@ const GcTable$1 = /*@__PURE__*/ proxyCustomElement(class extends HTMLElement {
     if (this.customEmptyState) {
       return h("div", { class: { 'gc__table-loading': this.isLoading }, innerHTML: this.customEmptyState });
     }
+    if (this.isLoading) {
+      return (h("div", { class: { 'empty-table': true, 'empty-table-no-bordered': this.isNoBorderedEmptyState, 'gc__table-loading': this.isLoading } }, h("div", { class: "empty-title" }, h("gc-h2", null, "Data is loading..."))));
+    }
     return (h("div", { class: { 'empty-table': true, 'empty-table-no-bordered': this.isNoBorderedEmptyState, 'gc__table-loading': this.isLoading } }, h("div", { class: "empty-title" }, h("gc-h2", null, "There is no records found matching applied filters")), h("gc-button", { onClick: () => this.onClearEmptyState(), type: "secondary", icon: "fa-regular fa-filter-slash" }, "Clear applied filters")));
   }
   get elm() { return this; }
