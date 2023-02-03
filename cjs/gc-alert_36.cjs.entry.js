@@ -3178,14 +3178,17 @@ const GcDragContainer = class {
   constructor(hostRef) {
     index$1.registerInstance(this, hostRef);
     this.gcDrop = index$1.createEvent(this, "gc:drop", 7);
+    this.isSwap = false;
+    this.sortable = null;
   }
   componentDidLoad() {
-    Sortable.create(this.container, {
+    this.sortable = Sortable.create(this.container, {
       animation: 150,
       group: this.group,
-      swap: true,
+      swap: this.isSwap,
       swapClass: 'ghost',
-      draggable: this.classDaggable,
+      direction: 'vertical',
+      draggable: this.classDraggable,
       onUpdate: evt => {
         var _a, _b, _c, _d;
         if (((_b = (_a = evt === null || evt === void 0 ? void 0 : evt.item) === null || _a === void 0 ? void 0 : _a.dataset) === null || _b === void 0 ? void 0 : _b.colCheck) && ((_d = (_c = evt === null || evt === void 0 ? void 0 : evt.item) === null || _c === void 0 ? void 0 : _c.dataset) === null || _d === void 0 ? void 0 : _d.colName)) {
@@ -3195,6 +3198,7 @@ const GcDragContainer = class {
               oldPos: evt.oldIndex,
               hidden: evt.item.dataset.colCheck === 'true' ? false : true,
             },
+            currentList: this.sortable.toArray(),
           });
         }
       },
@@ -3205,7 +3209,7 @@ const GcDragContainer = class {
   }
 };
 
-const gcDraggableItemCss = ".sc-gc-draggable-item-h{display:block;background:white}.sc-gc-draggable-item-h:hover{cursor:pointer}.ghost.sc-gc-draggable-item-h{background:var(--gc-color-secondary)}";
+const gcDraggableItemCss = ".sc-gc-draggable-item-h{display:block;background:white;width:fit-content}.sc-gc-draggable-item-h:hover{cursor:pointer}.ghost.sc-gc-draggable-item-h{background:var(--gc-color-secondary)}";
 
 const GcDraggableItem = class {
   constructor(hostRef) {
@@ -6707,6 +6711,7 @@ const GcTable = class {
     this.groupByValue = '';
     this.expandedRows = [];
     this.width = '';
+    this.isSWapColSettingColumns = false;
     this.hoveredCell = {};
     this.isSelectAll = false;
     this.showingColumns = {};
@@ -6742,16 +6747,14 @@ const GcTable = class {
     };
     this.onDrop = e => {
       const newValue = e.detail;
-      const values = Object.values(newValue) && Object.values(newValue)[0];
-      const swapCol = Object.keys(this.posColumns).find(key => this.posColumns[key] === values.position);
-      let emitValues = Object.keys(this.showingColumns).reduce((res, key, idx) => {
-        return Object.assign(Object.assign({}, res), { [key]: { hidden: !this.showingColumns[key], position: this.posColumns && this.posColumns[key] !== undefined ? this.posColumns[key] : idx } });
+      const currentList = newValue.currentList;
+      const emitValues = currentList.reduce((res, key, idx) => {
+        return Object.assign(Object.assign({}, res), { [key]: { hidden: !this.showingColumns[key], position: this.posColumns && this.posColumns[key] !== undefined ? this.posColumns[key] : idx + 1 } });
       }, {});
-      const newPos = Object.keys(newValue).reduce((res, key) => {
-        return Object.assign(Object.assign({}, res), { [key]: newValue[key].position });
+      const newPos = currentList.reduce((res, key, idx) => {
+        return Object.assign(Object.assign({}, res), { [key]: idx + 1 });
       }, {});
-      this.posColumns = Object.assign(Object.assign(Object.assign({}, this.posColumns), newPos), { [swapCol]: values.oldPos });
-      emitValues = Object.assign(Object.assign(Object.assign({}, emitValues), newValue), { [swapCol]: { hidden: !this.showingColumns[swapCol], position: values.oldPos } });
+      this.posColumns = Object.assign(Object.assign({}, this.posColumns), newPos);
       this.gcTableSettingChange.emit(emitValues);
     };
   }
@@ -7167,7 +7170,7 @@ const GcTable = class {
       columnsWithPos.sort((a, b) => a.pos - b.pos);
       const columns = columnsWithPos.filter(col => col.name !== 'custom_actions');
       const filteredGroupByFields = this.groupByFields.filter(field => field.label != this.selectedGroupBy);
-      return (index$1.h("div", { style: { background: this.background, border: this.isNoBorderedAll ? '0' : '' }, class: "gc__table-setting" }, this.customEmptyState || this.isNoBorderedAll || this.isCustomHeader ? (index$1.h("div", null, index$1.h("slot", { name: "gc__table-setting-title" }))) : (index$1.h("slot", { name: "gc__table-setting-title" }, "Results: ", totalItems || 0, " ", +totalItems === 1 ? 'entry' : 'entries', " found matching applied filters:")), index$1.h("div", { style: { display: 'flex' } }, !!(this.groupByFields.length > 0) && (index$1.h("div", null, index$1.h("gc-icon", { color: "var(--gc-color-primary)", name: "fa-regular fa-layer-group", size: "14px" }), "\u00A0", index$1.h("b", { style: { marginRight: '6px' } }, "Group by:"), index$1.h("gc-dropdown", { id: "dropdown_group_by", trigger: "click", allowForceClose: true, suffixArrow: true }, index$1.h("gc-link", { color: "var(--gc-color-primary)" }, index$1.h("span", { class: "gc__table-setting-manage-title-group-by" }, this.selectedGroupBy)), index$1.h("gc-menu", { slot: "gc__dropdown-content", class: "menu-no-border", style: { width: '200px' } }, filteredGroupByFields.map(field => (index$1.h("gc-menu-item", { background: "white", value: field.value, "onGc:menu-item-click": () => this.onSelectGroupByMenu(field) }, index$1.h("span", { style: { opacity: field.value === '' ? '0.5' : '1' } }, field.label)))))))), !!(this.groupByFields.length > 0) && index$1.h("div", { class: "gc__table-divider" }), this.settingColumns && (index$1.h("gc-dropdown", { id: `dropdown_${this.gcId}` }, index$1.h("gc-link", { icon: "fa-solid fa-table-layout", color: "#51666C" }, index$1.h("span", { class: "gc__table-setting-manage-title" }, "Manage Table Columns")), index$1.h("div", { slot: "gc__dropdown-content", class: "dropdown" }, index$1.h("div", { class: "gc__table-setting-cols-text" }, index$1.h("gc-icon", { color: "red", name: "fa-regular fa-square-info" }), index$1.h("gc-h2", { class: "gc__table-setting-cols-title" }, "Manage Table Columns")), index$1.h("gc-drag-container", { "onGc:drop": this.onDrop, "class-container": `gc__table-setting-cols ${columns.length < 6 ? 'less-cols' : ''}`, "class-daggable": ".draggable-item", group: "table-setting-cols" }, columns.map(col => (index$1.h("gc-draggable-item", { "data-col-name": col.name, "data-col-check": `${this.showingColumns[col.name]}`, key: `${this.gcId}_${col.name}`, class: { 'draggable-item': !col.alwaysDisplay } }, index$1.h("div", { key: `${this.gcId}_${col.name}`, class: { 'gc__table-setting-col-item': true, 'disabled': col.alwaysDisplay } }, index$1.h("gc-icon", { color: "var(--gc-color-secondary-grey)", name: "fa-solid fa-grip-dots-vertical" }), index$1.h("gc-checkbox", { disabled: col.alwaysDisplay || false, "gc-name": `${this.gcId}_${col.name}`, label: col.label, checked: col.alwaysDisplay || this.showingColumns[col.name], "onGc:change": e => this.onCheck(e, col.name) }))))))))))));
+      return (index$1.h("div", { style: { background: this.background, border: this.isNoBorderedAll ? '0' : '' }, class: "gc__table-setting" }, this.customEmptyState || this.isNoBorderedAll || this.isCustomHeader ? (index$1.h("div", null, index$1.h("slot", { name: "gc__table-setting-title" }))) : (index$1.h("slot", { name: "gc__table-setting-title" }, "Results: ", totalItems || 0, " ", +totalItems === 1 ? 'entry' : 'entries', " found matching applied filters:")), index$1.h("div", { style: { display: 'flex' } }, !!(this.groupByFields.length > 0) && (index$1.h("div", null, index$1.h("gc-icon", { color: "var(--gc-color-primary)", name: "fa-regular fa-layer-group", size: "14px" }), "\u00A0", index$1.h("b", { style: { marginRight: '6px' } }, "Group by:"), index$1.h("gc-dropdown", { id: "dropdown_group_by", trigger: "click", allowForceClose: true, suffixArrow: true }, index$1.h("gc-link", { color: "var(--gc-color-primary)" }, index$1.h("span", { class: "gc__table-setting-manage-title-group-by" }, this.selectedGroupBy)), index$1.h("gc-menu", { slot: "gc__dropdown-content", class: "menu-no-border", style: { width: '200px' } }, filteredGroupByFields.map(field => (index$1.h("gc-menu-item", { background: "white", value: field.value, "onGc:menu-item-click": () => this.onSelectGroupByMenu(field) }, index$1.h("span", { style: { opacity: field.value === '' ? '0.5' : '1' } }, field.label)))))))), !!(this.groupByFields.length > 0) && index$1.h("div", { class: "gc__table-divider" }), this.settingColumns && (index$1.h("gc-dropdown", { id: `dropdown_${this.gcId}` }, index$1.h("gc-link", { icon: "fa-solid fa-table-layout", color: "#51666C" }, index$1.h("span", { class: "gc__table-setting-manage-title" }, "Manage Table Columns")), index$1.h("div", { slot: "gc__dropdown-content", class: "dropdown" }, index$1.h("div", { class: "gc__table-setting-cols-text" }, index$1.h("gc-icon", { color: "red", name: "fa-regular fa-square-info" }), index$1.h("gc-h2", { class: "gc__table-setting-cols-title" }, "Manage Table Columns")), index$1.h("gc-drag-container", { "onGc:drop": this.onDrop, "class-container": `gc__table-setting-cols ${columns.length < 6 ? 'less-cols' : ''}`, "class-draggable": ".draggable-item", group: "table-setting-cols" }, columns.map(col => (index$1.h("gc-draggable-item", { "data-col-name": col.name, "data-col-check": `${this.showingColumns[col.name]}`, "data-id": col.name, key: `${this.gcId}_${col.name}`, class: { 'draggable-item': !col.alwaysDisplay } }, index$1.h("div", { key: `${this.gcId}_${col.name}`, class: { 'gc__table-setting-col-item': true, 'disabled': col.alwaysDisplay } }, index$1.h("gc-icon", { color: "var(--gc-color-secondary-grey)", name: "fa-solid fa-grip-dots-vertical" }), index$1.h("gc-checkbox", { disabled: col.alwaysDisplay || false, "gc-name": `${this.gcId}_${col.name}`, label: col.label, checked: col.alwaysDisplay || this.showingColumns[col.name], "onGc:change": e => this.onCheck(e, col.name) }))))))))))));
     }
   }
   render() {

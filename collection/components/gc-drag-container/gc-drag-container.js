@@ -1,14 +1,19 @@
-import { Component, Host, h, Prop, Event } from '@stencil/core';
+import { Component, Host, h, Prop, Event, State } from '@stencil/core';
 import { Sortable, Swap } from 'sortablejs/modular/sortable.core.esm';
 Sortable.mount(new Swap());
 export class GcDragContainer {
+  constructor() {
+    this.isSwap = false;
+    this.sortable = null;
+  }
   componentDidLoad() {
-    Sortable.create(this.container, {
+    this.sortable = Sortable.create(this.container, {
       animation: 150,
       group: this.group,
-      swap: true,
+      swap: this.isSwap,
       swapClass: 'ghost',
-      draggable: this.classDaggable,
+      direction: 'vertical',
+      draggable: this.classDraggable,
       onUpdate: evt => {
         var _a, _b, _c, _d;
         if (((_b = (_a = evt === null || evt === void 0 ? void 0 : evt.item) === null || _a === void 0 ? void 0 : _a.dataset) === null || _b === void 0 ? void 0 : _b.colCheck) && ((_d = (_c = evt === null || evt === void 0 ? void 0 : evt.item) === null || _c === void 0 ? void 0 : _c.dataset) === null || _d === void 0 ? void 0 : _d.colName)) {
@@ -18,6 +23,7 @@ export class GcDragContainer {
               oldPos: evt.oldIndex,
               hidden: evt.item.dataset.colCheck === 'true' ? false : true,
             },
+            currentList: this.sortable.toArray(),
           });
         }
       },
@@ -48,7 +54,7 @@ export class GcDragContainer {
       "attribute": "class-container",
       "reflect": false
     },
-    "classDaggable": {
+    "classDraggable": {
       "type": "string",
       "mutable": false,
       "complexType": {
@@ -62,7 +68,7 @@ export class GcDragContainer {
         "tags": [],
         "text": ""
       },
-      "attribute": "class-daggable",
+      "attribute": "class-draggable",
       "reflect": false
     },
     "group": {
@@ -81,7 +87,28 @@ export class GcDragContainer {
       },
       "attribute": "group",
       "reflect": false
+    },
+    "isSwap": {
+      "type": "boolean",
+      "mutable": false,
+      "complexType": {
+        "original": "boolean",
+        "resolved": "boolean",
+        "references": {}
+      },
+      "required": false,
+      "optional": false,
+      "docs": {
+        "tags": [],
+        "text": ""
+      },
+      "attribute": "is-swap",
+      "reflect": false,
+      "defaultValue": "false"
     }
+  }; }
+  static get states() { return {
+    "sortable": {}
   }; }
   static get events() { return [{
       "method": "gcDrop",

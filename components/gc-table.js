@@ -93,6 +93,7 @@ const GcTable$1 = /*@__PURE__*/ proxyCustomElement(class extends HTMLElement {
     this.groupByValue = '';
     this.expandedRows = [];
     this.width = '';
+    this.isSWapColSettingColumns = false;
     this.hoveredCell = {};
     this.isSelectAll = false;
     this.showingColumns = {};
@@ -128,16 +129,14 @@ const GcTable$1 = /*@__PURE__*/ proxyCustomElement(class extends HTMLElement {
     };
     this.onDrop = e => {
       const newValue = e.detail;
-      const values = Object.values(newValue) && Object.values(newValue)[0];
-      const swapCol = Object.keys(this.posColumns).find(key => this.posColumns[key] === values.position);
-      let emitValues = Object.keys(this.showingColumns).reduce((res, key, idx) => {
-        return Object.assign(Object.assign({}, res), { [key]: { hidden: !this.showingColumns[key], position: this.posColumns && this.posColumns[key] !== undefined ? this.posColumns[key] : idx } });
+      const currentList = newValue.currentList;
+      const emitValues = currentList.reduce((res, key, idx) => {
+        return Object.assign(Object.assign({}, res), { [key]: { hidden: !this.showingColumns[key], position: this.posColumns && this.posColumns[key] !== undefined ? this.posColumns[key] : idx + 1 } });
       }, {});
-      const newPos = Object.keys(newValue).reduce((res, key) => {
-        return Object.assign(Object.assign({}, res), { [key]: newValue[key].position });
+      const newPos = currentList.reduce((res, key, idx) => {
+        return Object.assign(Object.assign({}, res), { [key]: idx + 1 });
       }, {});
-      this.posColumns = Object.assign(Object.assign(Object.assign({}, this.posColumns), newPos), { [swapCol]: values.oldPos });
-      emitValues = Object.assign(Object.assign(Object.assign({}, emitValues), newValue), { [swapCol]: { hidden: !this.showingColumns[swapCol], position: values.oldPos } });
+      this.posColumns = Object.assign(Object.assign({}, this.posColumns), newPos);
       this.gcTableSettingChange.emit(emitValues);
     };
   }
@@ -553,7 +552,7 @@ const GcTable$1 = /*@__PURE__*/ proxyCustomElement(class extends HTMLElement {
       columnsWithPos.sort((a, b) => a.pos - b.pos);
       const columns = columnsWithPos.filter(col => col.name !== 'custom_actions');
       const filteredGroupByFields = this.groupByFields.filter(field => field.label != this.selectedGroupBy);
-      return (h("div", { style: { background: this.background, border: this.isNoBorderedAll ? '0' : '' }, class: "gc__table-setting" }, this.customEmptyState || this.isNoBorderedAll || this.isCustomHeader ? (h("div", null, h("slot", { name: "gc__table-setting-title" }))) : (h("slot", { name: "gc__table-setting-title" }, "Results: ", totalItems || 0, " ", +totalItems === 1 ? 'entry' : 'entries', " found matching applied filters:")), h("div", { style: { display: 'flex' } }, !!(this.groupByFields.length > 0) && (h("div", null, h("gc-icon", { color: "var(--gc-color-primary)", name: "fa-regular fa-layer-group", size: "14px" }), "\u00A0", h("b", { style: { marginRight: '6px' } }, "Group by:"), h("gc-dropdown", { id: "dropdown_group_by", trigger: "click", allowForceClose: true, suffixArrow: true }, h("gc-link", { color: "var(--gc-color-primary)" }, h("span", { class: "gc__table-setting-manage-title-group-by" }, this.selectedGroupBy)), h("gc-menu", { slot: "gc__dropdown-content", class: "menu-no-border", style: { width: '200px' } }, filteredGroupByFields.map(field => (h("gc-menu-item", { background: "white", value: field.value, "onGc:menu-item-click": () => this.onSelectGroupByMenu(field) }, h("span", { style: { opacity: field.value === '' ? '0.5' : '1' } }, field.label)))))))), !!(this.groupByFields.length > 0) && h("div", { class: "gc__table-divider" }), this.settingColumns && (h("gc-dropdown", { id: `dropdown_${this.gcId}` }, h("gc-link", { icon: "fa-solid fa-table-layout", color: "#51666C" }, h("span", { class: "gc__table-setting-manage-title" }, "Manage Table Columns")), h("div", { slot: "gc__dropdown-content", class: "dropdown" }, h("div", { class: "gc__table-setting-cols-text" }, h("gc-icon", { color: "red", name: "fa-regular fa-square-info" }), h("gc-h2", { class: "gc__table-setting-cols-title" }, "Manage Table Columns")), h("gc-drag-container", { "onGc:drop": this.onDrop, "class-container": `gc__table-setting-cols ${columns.length < 6 ? 'less-cols' : ''}`, "class-daggable": ".draggable-item", group: "table-setting-cols" }, columns.map(col => (h("gc-draggable-item", { "data-col-name": col.name, "data-col-check": `${this.showingColumns[col.name]}`, key: `${this.gcId}_${col.name}`, class: { 'draggable-item': !col.alwaysDisplay } }, h("div", { key: `${this.gcId}_${col.name}`, class: { 'gc__table-setting-col-item': true, 'disabled': col.alwaysDisplay } }, h("gc-icon", { color: "var(--gc-color-secondary-grey)", name: "fa-solid fa-grip-dots-vertical" }), h("gc-checkbox", { disabled: col.alwaysDisplay || false, "gc-name": `${this.gcId}_${col.name}`, label: col.label, checked: col.alwaysDisplay || this.showingColumns[col.name], "onGc:change": e => this.onCheck(e, col.name) }))))))))))));
+      return (h("div", { style: { background: this.background, border: this.isNoBorderedAll ? '0' : '' }, class: "gc__table-setting" }, this.customEmptyState || this.isNoBorderedAll || this.isCustomHeader ? (h("div", null, h("slot", { name: "gc__table-setting-title" }))) : (h("slot", { name: "gc__table-setting-title" }, "Results: ", totalItems || 0, " ", +totalItems === 1 ? 'entry' : 'entries', " found matching applied filters:")), h("div", { style: { display: 'flex' } }, !!(this.groupByFields.length > 0) && (h("div", null, h("gc-icon", { color: "var(--gc-color-primary)", name: "fa-regular fa-layer-group", size: "14px" }), "\u00A0", h("b", { style: { marginRight: '6px' } }, "Group by:"), h("gc-dropdown", { id: "dropdown_group_by", trigger: "click", allowForceClose: true, suffixArrow: true }, h("gc-link", { color: "var(--gc-color-primary)" }, h("span", { class: "gc__table-setting-manage-title-group-by" }, this.selectedGroupBy)), h("gc-menu", { slot: "gc__dropdown-content", class: "menu-no-border", style: { width: '200px' } }, filteredGroupByFields.map(field => (h("gc-menu-item", { background: "white", value: field.value, "onGc:menu-item-click": () => this.onSelectGroupByMenu(field) }, h("span", { style: { opacity: field.value === '' ? '0.5' : '1' } }, field.label)))))))), !!(this.groupByFields.length > 0) && h("div", { class: "gc__table-divider" }), this.settingColumns && (h("gc-dropdown", { id: `dropdown_${this.gcId}` }, h("gc-link", { icon: "fa-solid fa-table-layout", color: "#51666C" }, h("span", { class: "gc__table-setting-manage-title" }, "Manage Table Columns")), h("div", { slot: "gc__dropdown-content", class: "dropdown" }, h("div", { class: "gc__table-setting-cols-text" }, h("gc-icon", { color: "red", name: "fa-regular fa-square-info" }), h("gc-h2", { class: "gc__table-setting-cols-title" }, "Manage Table Columns")), h("gc-drag-container", { "onGc:drop": this.onDrop, "class-container": `gc__table-setting-cols ${columns.length < 6 ? 'less-cols' : ''}`, "class-draggable": ".draggable-item", group: "table-setting-cols" }, columns.map(col => (h("gc-draggable-item", { "data-col-name": col.name, "data-col-check": `${this.showingColumns[col.name]}`, "data-id": col.name, key: `${this.gcId}_${col.name}`, class: { 'draggable-item': !col.alwaysDisplay } }, h("div", { key: `${this.gcId}_${col.name}`, class: { 'gc__table-setting-col-item': true, 'disabled': col.alwaysDisplay } }, h("gc-icon", { color: "var(--gc-color-secondary-grey)", name: "fa-solid fa-grip-dots-vertical" }), h("gc-checkbox", { disabled: col.alwaysDisplay || false, "gc-name": `${this.gcId}_${col.name}`, label: col.label, checked: col.alwaysDisplay || this.showingColumns[col.name], "onGc:change": e => this.onCheck(e, col.name) }))))))))))));
     }
   }
   render() {
@@ -628,6 +627,7 @@ const GcTable$1 = /*@__PURE__*/ proxyCustomElement(class extends HTMLElement {
     "groupByValue": [1, "group-by-value"],
     "expandedRows": [1040],
     "width": [1],
+    "isSWapColSettingColumns": [4, "is-s-wap-col-setting-columns"],
     "hoveredCell": [32],
     "isSelectAll": [32],
     "showingColumns": [32],

@@ -1,6 +1,7 @@
 :host {
   display: block;
   background: white;
+  width: fit-content;
 }
 
 :host(:hover) {

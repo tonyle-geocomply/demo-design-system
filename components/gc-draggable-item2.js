@@ -1,6 +1,6 @@
 import { proxyCustomElement, HTMLElement, h, Host } from '@stencil/core/internal/client';
 
-const gcDraggableItemCss = ".sc-gc-draggable-item-h{display:block;background:white}.sc-gc-draggable-item-h:hover{cursor:pointer}.ghost.sc-gc-draggable-item-h{background:var(--gc-color-secondary)}";
+const gcDraggableItemCss = ".sc-gc-draggable-item-h{display:block;background:white;width:fit-content}.sc-gc-draggable-item-h:hover{cursor:pointer}.ghost.sc-gc-draggable-item-h{background:var(--gc-color-secondary)}";
 
 const GcDraggableItem = /*@__PURE__*/ proxyCustomElement(class extends HTMLElement {
   constructor() {

@@ -1,8 +1,10 @@
 import { EventEmitter } from '../../stencil-public-runtime';
 export declare class GcDragContainer {
   classContainer: string;
-  classDaggable: string;
+  classDraggable: string;
   group: string;
+  isSwap: boolean;
+  sortable: any;
   /**
    * Emitted when having change in drag and drop
    */

@@ -171,8 +171,9 @@ export namespace Components {
     }
     interface GcDragContainer {
         "classContainer": string;
-        "classDaggable": string;
+        "classDraggable": string;
         "group": string;
+        "isSwap": boolean;
     }
     interface GcDraggableItem {
     }
@@ -709,6 +710,7 @@ export namespace Components {
         "isLoading"?: false;
         "isNoBorderedAll"?: boolean;
         "isNoBorderedEmptyState": boolean;
+        "isSWapColSettingColumns": boolean;
         "isStripe"?: boolean;
         "keyField": string;
         "loadingGroupIndex": any[];
@@ -1401,8 +1403,9 @@ declare namespace LocalJSX {
     }
     interface GcDragContainer {
         "classContainer"?: string;
-        "classDaggable"?: string;
+        "classDraggable"?: string;
         "group"?: string;
+        "isSwap"?: boolean;
         /**
           * Emitted when having change in drag and drop
          */
@@ -1956,6 +1959,7 @@ declare namespace LocalJSX {
         "isLoading"?: false;
         "isNoBorderedAll"?: boolean;
         "isNoBorderedEmptyState"?: boolean;
+        "isSWapColSettingColumns"?: boolean;
         "isStripe"?: boolean;
         "keyField"?: string;
         "loadingGroupIndex"?: any[];

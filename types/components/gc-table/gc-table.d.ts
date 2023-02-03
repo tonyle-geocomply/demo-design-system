@@ -70,6 +70,7 @@ export declare class GcTable {
   groupByValue: string;
   expandedRows: any[];
   width: string;
+  isSWapColSettingColumns: boolean;
   private hoveredCell;
   private isSelectAll;
   private showingColumns;

@@ -69,6 +69,7 @@ export class GcTable {
     this.groupByValue = '';
     this.expandedRows = [];
     this.width = '';
+    this.isSWapColSettingColumns = false;
     this.hoveredCell = {};
     this.isSelectAll = false;
     this.showingColumns = {};
@@ -104,16 +105,14 @@ export class GcTable {
     };
     this.onDrop = e => {
       const newValue = e.detail;
-      const values = Object.values(newValue) && Object.values(newValue)[0];
-      const swapCol = Object.keys(this.posColumns).find(key => this.posColumns[key] === values.position);
-      let emitValues = Object.keys(this.showingColumns).reduce((res, key, idx) => {
-        return Object.assign(Object.assign({}, res), { [key]: { hidden: !this.showingColumns[key], position: this.posColumns && this.posColumns[key] !== undefined ? this.posColumns[key] : idx } });
+      const currentList = newValue.currentList;
+      const emitValues = currentList.reduce((res, key, idx) => {
+        return Object.assign(Object.assign({}, res), { [key]: { hidden: !this.showingColumns[key], position: this.posColumns && this.posColumns[key] !== undefined ? this.posColumns[key] : idx + 1 } });
       }, {});
-      const newPos = Object.keys(newValue).reduce((res, key) => {
-        return Object.assign(Object.assign({}, res), { [key]: newValue[key].position });
+      const newPos = currentList.reduce((res, key, idx) => {
+        return Object.assign(Object.assign({}, res), { [key]: idx + 1 });
       }, {});
-      this.posColumns = Object.assign(Object.assign(Object.assign({}, this.posColumns), newPos), { [swapCol]: values.oldPos });
-      emitValues = Object.assign(Object.assign(Object.assign({}, emitValues), newValue), { [swapCol]: { hidden: !this.showingColumns[swapCol], position: values.oldPos } });
+      this.posColumns = Object.assign(Object.assign({}, this.posColumns), newPos);
       this.gcTableSettingChange.emit(emitValues);
     };
   }
@@ -603,7 +602,7 @@ export class GcTable {
               h("div", { class: "gc__table-setting-cols-text" },
                 h("gc-icon", { color: "red", name: "fa-regular fa-square-info" }),
                 h("gc-h2", { class: "gc__table-setting-cols-title" }, "Manage Table Columns")),
-              h("gc-drag-container", { "onGc:drop": this.onDrop, "class-container": `gc__table-setting-cols ${columns.length < 6 ? 'less-cols' : ''}`, "class-daggable": ".draggable-item", group: "table-setting-cols" }, columns.map(col => (h("gc-draggable-item", { "data-col-name": col.name, "data-col-check": `${this.showingColumns[col.name]}`, key: `${this.gcId}_${col.name}`, class: { 'draggable-item': !col.alwaysDisplay } },
+              h("gc-drag-container", { "onGc:drop": this.onDrop, "class-container": `gc__table-setting-cols ${columns.length < 6 ? 'less-cols' : ''}`, "class-draggable": ".draggable-item", group: "table-setting-cols" }, columns.map(col => (h("gc-draggable-item", { "data-col-name": col.name, "data-col-check": `${this.showingColumns[col.name]}`, "data-id": col.name, key: `${this.gcId}_${col.name}`, class: { 'draggable-item': !col.alwaysDisplay } },
                 h("div", { key: `${this.gcId}_${col.name}`, class: { 'gc__table-setting-col-item': true, 'disabled': col.alwaysDisplay } },
                   h("gc-icon", { color: "var(--gc-color-secondary-grey)", name: "fa-solid fa-grip-dots-vertical" }),
                   h("gc-checkbox", { disabled: col.alwaysDisplay || false, "gc-name": `${this.gcId}_${col.name}`, label: col.label, checked: col.alwaysDisplay || this.showingColumns[col.name], "onGc:change": e => this.onCheck(e, col.name) }))))))))))));
@@ -1302,6 +1301,24 @@ export class GcTable {
       "attribute": "width",
       "reflect": false,
       "defaultValue": "''"
+    },
+    "isSWapColSettingColumns": {
+      "type": "boolean",
+      "mutable": false,
+      "complexType": {
+        "original": "boolean",
+        "resolved": "boolean",
+        "references": {}
+      },
+      "required": false,
+      "optional": false,
+      "docs": {
+        "tags": [],
+        "text": ""
+      },
+      "attribute": "is-s-wap-col-setting-columns",
+      "reflect": false,
+      "defaultValue": "false"
     }
   }; }
   static get states() { return {

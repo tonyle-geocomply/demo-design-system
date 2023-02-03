@@ -2881,14 +2881,17 @@ const GcDragContainer = /*@__PURE__*/ proxyCustomElement(class extends HTMLEleme
     super();
     this.__registerHost();
     this.gcDrop = createEvent(this, "gc:drop", 7);
+    this.isSwap = false;
+    this.sortable = null;
   }
   componentDidLoad() {
-    Sortable.create(this.container, {
+    this.sortable = Sortable.create(this.container, {
       animation: 150,
       group: this.group,
-      swap: true,
+      swap: this.isSwap,
       swapClass: 'ghost',
-      draggable: this.classDaggable,
+      direction: 'vertical',
+      draggable: this.classDraggable,
       onUpdate: evt => {
         var _a, _b, _c, _d;
         if (((_b = (_a = evt === null || evt === void 0 ? void 0 : evt.item) === null || _a === void 0 ? void 0 : _a.dataset) === null || _b === void 0 ? void 0 : _b.colCheck) && ((_d = (_c = evt === null || evt === void 0 ? void 0 : evt.item) === null || _c === void 0 ? void 0 : _c.dataset) === null || _d === void 0 ? void 0 : _d.colName)) {
@@ -2898,6 +2901,7 @@ const GcDragContainer = /*@__PURE__*/ proxyCustomElement(class extends HTMLEleme
               oldPos: evt.oldIndex,
               hidden: evt.item.dataset.colCheck === 'true' ? false : true,
             },
+            currentList: this.sortable.toArray(),
           });
         }
       },
@@ -2908,8 +2912,10 @@ const GcDragContainer = /*@__PURE__*/ proxyCustomElement(class extends HTMLEleme
   }
 }, [6, "gc-drag-container", {
     "classContainer": [1, "class-container"],
-    "classDaggable": [1, "class-daggable"],
-    "group": [1]
+    "classDraggable": [1, "class-draggable"],
+    "group": [1],
+    "isSwap": [4, "is-swap"],
+    "sortable": [32]
   }]);
 function defineCustomElement() {
   if (typeof customElements === "undefined") {
