@@ -7182,7 +7182,7 @@ const GcTable = class {
   render() {
     const countCurrentCol = Object.keys(this.showingColumns) && Object.keys(this.showingColumns).filter(key => this.showingColumns[key]);
     const conditionShowing = this.isExpandable ? this.getTreeData().length > 0 : this.getData().length > 0;
-    return (h(Host, null, this.renderSettingColumns(), h("div", { class: { 'is-loading': this.isLoading, 'table-data': true } }, this.isLoading && (h("div", { class: "loading-section" }, h("gc-spinner", null))), conditionShowing ? (h("div", { style: { border: this.isNoBorderedAll && !this.isStripe ? '0' : '' }, class: {
+    return (h(Host, { "data-loading": this.isLoading ? 'true' : 'false' }, this.renderSettingColumns(), h("div", { class: { 'is-loading': this.isLoading, 'table-data': true } }, this.isLoading && (h("div", { class: "loading-section" }, h("gc-spinner", null))), conditionShowing ? (h("div", { style: { border: this.isNoBorderedAll && !this.isStripe ? '0' : '' }, class: {
         'gc__table': true,
         'sortable': this.sortable,
         'paginate': this.paginate,
