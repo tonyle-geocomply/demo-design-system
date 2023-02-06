@@ -6,7 +6,7 @@
   --z-index-fixed-col: 13;
   --font-weight-table-header: 600;
 }
-:host(.is-loading) {
+.is-loading {
   position: relative;
 }
 .gc__table {

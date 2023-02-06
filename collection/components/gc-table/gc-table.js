@@ -106,11 +106,18 @@ export class GcTable {
     this.onDrop = e => {
       const newValue = e.detail;
       const currentList = newValue.currentList;
-      const emitValues = currentList.reduce((res, key, idx) => {
-        return Object.assign(Object.assign({}, res), { [key]: { hidden: !this.showingColumns[key], position: this.posColumns && this.posColumns[key] !== undefined ? this.posColumns[key] : idx + 1 } });
+      const dataColumn = this.getColumns();
+      const fixedCols = dataColumn.filter(col => col.alwaysDisplay);
+      const fixedColsValue = fixedCols.reduce((res, col, idx) => {
+        return Object.assign(Object.assign({}, res), { [col.name]: { hidden: false, position: idx } });
       }, {});
+      const fixedCount = fixedCols === null || fixedCols === void 0 ? void 0 : fixedCols.length;
+      let emitValues = currentList.reduce((res, key, idx) => {
+        return Object.assign(Object.assign({}, res), { [key]: { hidden: !this.showingColumns[key], position: idx + fixedCount } });
+      }, {});
+      emitValues = Object.assign(Object.assign({}, fixedColsValue), emitValues);
       const newPos = currentList.reduce((res, key, idx) => {
-        return Object.assign(Object.assign({}, res), { [key]: idx + 1 });
+        return Object.assign(Object.assign({}, res), { [key]: idx + fixedCount });
       }, {});
       this.posColumns = Object.assign(Object.assign({}, this.posColumns), newPos);
       this.gcTableSettingChange.emit(emitValues);
@@ -118,9 +125,7 @@ export class GcTable {
   }
   watchTreeDataPropHandler(newValue) {
     if (typeof newValue !== 'string') {
-      if (newValue && newValue.length === 0) {
-        this.totalExpanded = 0;
-      }
+      this.totalExpanded = 0;
     }
   }
   watchGroupByValuePropHandler(newValue) {
@@ -336,6 +341,7 @@ export class GcTable {
         scrollCols.push(colEl);
       }
     });
+    console.log({ totalExpand: this.totalExpanded });
     return (h("div", { class: { 'header-with-expandable': true, 'transition': this.totalExpanded > 0 } },
       h("div", { class: "gc__row" },
         h("div", { class: "scrollable-columns columns-container" }, scrollCols))));
@@ -611,26 +617,27 @@ export class GcTable {
   render() {
     const countCurrentCol = Object.keys(this.showingColumns) && Object.keys(this.showingColumns).filter(key => this.showingColumns[key]);
     const conditionShowing = this.isExpandable ? this.getTreeData().length > 0 : this.getData().length > 0;
-    return (h(Host, { class: { 'is-loading': this.isLoading } },
-      this.isLoading && (h("div", { class: "loading-section" },
-        h("gc-spinner", null))),
+    return (h(Host, null,
       this.renderSettingColumns(),
-      conditionShowing ? (h("div", { style: { border: this.isNoBorderedAll && !this.isStripe ? '0' : '' }, class: {
-          'gc__table': true,
-          'sortable': this.sortable,
-          'paginate': this.paginate,
-          'gc__table-no-stripe': !this.isStripe,
-          'gc__table-no-border': !this.isBordered,
-          'gc__table-loading': this.isLoading,
-        } },
-        h("div", { class: "table-scroll-container", style: {
-            overflow: (countCurrentCol.length <= DEFAULT_MAXIMUM_TO_SCALE && !this.isStopScaleWidth) || (this.isExpandable && this.totalExpanded === 0) ? 'hidden' : 'auto',
-            width: this.isExpandable && this.totalExpanded === 0 ? this.width : '',
-            position: this.showTooltip ? 'static' : 'inherit',
+      h("div", { class: { 'is-loading': this.isLoading, 'table-data': true } },
+        this.isLoading && (h("div", { class: "loading-section" },
+          h("gc-spinner", null))),
+        conditionShowing ? (h("div", { style: { border: this.isNoBorderedAll && !this.isStripe ? '0' : '' }, class: {
+            'gc__table': true,
+            'sortable': this.sortable,
+            'paginate': this.paginate,
+            'gc__table-no-stripe': !this.isStripe,
+            'gc__table-no-border': !this.isBordered,
+            'gc__table-loading': this.isLoading,
           } },
-          this.isExpandable ? this.renderHeaderWithExpandableRows() : this.renderHeader(),
-          this.isExpandable ? this.renderBodyWithExpandableRows() : this.renderBody()),
-        this.paginate && this.renderPagination())) : (this.renderEmptyState())));
+          h("div", { class: "table-scroll-container", style: {
+              overflow: (countCurrentCol.length <= DEFAULT_MAXIMUM_TO_SCALE && !this.isStopScaleWidth) || (this.isExpandable && this.totalExpanded === 0) ? 'hidden' : 'auto',
+              width: this.isExpandable && this.totalExpanded === 0 ? this.width : '',
+              position: this.showTooltip ? 'static' : 'inherit',
+            } },
+            this.isExpandable ? this.renderHeaderWithExpandableRows() : this.renderHeader(),
+            this.isExpandable ? this.renderBodyWithExpandableRows() : this.renderBody()),
+          this.paginate && this.renderPagination())) : (this.renderEmptyState()))));
   }
   renderEmptyState() {
     if (this.customEmptyState) {

@@ -4,12 +4,13 @@ export declare class GcDragContainer {
   classDraggable: string;
   group: string;
   isSwap: boolean;
-  sortable: any;
   /**
    * Emitted when having change in drag and drop
    */
   gcDrop: EventEmitter;
   private container;
+  private sortable;
   componentDidLoad(): void;
+  handleUpdate(evt: any): void;
   render(): any;
 }

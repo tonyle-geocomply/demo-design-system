@@ -2895,16 +2895,20 @@ const GcDragContainer = /*@__PURE__*/ proxyCustomElement(class extends HTMLEleme
       onUpdate: evt => {
         var _a, _b, _c, _d;
         if (((_b = (_a = evt === null || evt === void 0 ? void 0 : evt.item) === null || _a === void 0 ? void 0 : _a.dataset) === null || _b === void 0 ? void 0 : _b.colCheck) && ((_d = (_c = evt === null || evt === void 0 ? void 0 : evt.item) === null || _c === void 0 ? void 0 : _c.dataset) === null || _d === void 0 ? void 0 : _d.colName)) {
-          this.gcDrop.emit({
-            [evt.item.dataset.colName]: {
-              position: evt.newIndex,
-              oldPos: evt.oldIndex,
-              hidden: evt.item.dataset.colCheck === 'true' ? false : true,
-            },
-            currentList: this.sortable.toArray(),
-          });
+          this.sortable.save();
+          this.handleUpdate(evt);
         }
       },
+    });
+  }
+  handleUpdate(evt) {
+    this.gcDrop.emit({
+      [evt.item.dataset.colName]: {
+        position: evt.newIndex,
+        oldPos: evt.oldIndex,
+        hidden: evt.item.dataset.colCheck === 'true' ? false : true,
+      },
+      currentList: this.sortable.toArray(),
     });
   }
   render() {
@@ -2914,8 +2918,7 @@ const GcDragContainer = /*@__PURE__*/ proxyCustomElement(class extends HTMLEleme
     "classContainer": [1, "class-container"],
     "classDraggable": [1, "class-draggable"],
     "group": [1],
-    "isSwap": [4, "is-swap"],
-    "sortable": [32]
+    "isSwap": [4, "is-swap"]
   }]);
 function defineCustomElement() {
   if (typeof customElements === "undefined") {
