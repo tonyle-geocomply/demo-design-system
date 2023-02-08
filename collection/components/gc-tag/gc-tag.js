@@ -25,6 +25,14 @@ export class GcTag {
      * The border color of badge
      */
     this.borderColor = 'none';
+    /**
+     * The border radius of badge
+     */
+    this.borderRadius = '';
+    /**
+   * The margin of badge
+   */
+    this.margin = '';
   }
   getClassNameFromType() {
     return `gc__badge gc__badge--${this.type}`;
@@ -42,6 +50,8 @@ export class GcTag {
       borderStyle: this.type ? 'none' : 'solid',
       height: this.height,
       lineHeight: this.height,
+      borderRadius: this.borderRadius || '',
+      margin: this.margin || '',
     };
   }
   render() {
@@ -215,6 +225,42 @@ export class GcTag {
       "attribute": "border-color",
       "reflect": false,
       "defaultValue": "'none'"
+    },
+    "borderRadius": {
+      "type": "string",
+      "mutable": false,
+      "complexType": {
+        "original": "string",
+        "resolved": "string",
+        "references": {}
+      },
+      "required": false,
+      "optional": false,
+      "docs": {
+        "tags": [],
+        "text": "The border radius of badge"
+      },
+      "attribute": "border-radius",
+      "reflect": false,
+      "defaultValue": "''"
+    },
+    "margin": {
+      "type": "string",
+      "mutable": false,
+      "complexType": {
+        "original": "string",
+        "resolved": "string",
+        "references": {}
+      },
+      "required": false,
+      "optional": false,
+      "docs": {
+        "tags": [],
+        "text": "The margin of badge"
+      },
+      "attribute": "margin",
+      "reflect": false,
+      "defaultValue": "''"
     }
   }; }
 }

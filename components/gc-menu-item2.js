@@ -7,7 +7,7 @@ const GcMenuItem = /*@__PURE__*/ proxyCustomElement(class extends HTMLElement {
     super();
     this.__registerHost();
     this.__attachShadow();
-    this.goatMenuItemClick = createEvent(this, "gc:menu-item-click", 7);
+    this.gcMenuItemClick = createEvent(this, "gc:menu-item-click", 7);
     this.tabindex = 1;
     /**
      * If true, the user cannot interact with the button. Defaults to `false`.
@@ -24,7 +24,7 @@ const GcMenuItem = /*@__PURE__*/ proxyCustomElement(class extends HTMLElement {
     this.isHover = false;
     this.clickHandler = event => {
       if (!this.disabled) {
-        this.goatMenuItemClick.emit({
+        this.gcMenuItemClick.emit({
           value: this.value || '',
           color: this.color || '',
           label: this.label || '',
@@ -81,19 +81,11 @@ const GcMenuItem = /*@__PURE__*/ proxyCustomElement(class extends HTMLElement {
         }, tabindex: this.tabindex, onBlur: this.blurHandler, onFocus: this.focusHandler, onClick: this.clickHandler, onMouseDown: this.mouseDownHandler, onKeyDown: this.keyDownHandler, onMouseEnter: this.mouseEnterHandler, onMouseLeave: this.mouseLeaveHandler, "aria-disabled": this.disabled }, h("div", { style: this.getStyles(), class: "item-section slot-main" }, this.dot && h("div", { style: { background: this.dot }, class: "dot" }), h("slot", null)))));
     };
   }
-  /**
-   * Sets focus on the native `input` in `goat-input`. Use this method instead of the global
-   * `input.focus()`.
-   */
   async setFocus() {
     if (this.nativeInput) {
       this.nativeInput.focus();
     }
   }
-  /**
-   * Sets blur on the native `input` in `goat-input`. Use this method instead of the global
-   * `input.blur()`.
-   */
   async setBlur() {
     if (this.nativeInput) {
       this.nativeInput.blur();
@@ -108,9 +100,6 @@ const GcMenuItem = /*@__PURE__*/ proxyCustomElement(class extends HTMLElement {
       this.isActive = false;
   }
   componentWillLoad() {
-    // If the ion-input has a tabindex attribute we get the value
-    // and pass it down to the native input, then remove it from the
-    // goat-input to avoid causing tabbing twice on the same element
     if (this.elm.hasAttribute('tabindex')) {
       const tabindex = this.elm.getAttribute('tabindex');
       this.tabindex = tabindex !== null ? tabindex : undefined;

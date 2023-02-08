@@ -35,6 +35,14 @@ export declare class GcTag {
    * The border color of badge
    */
   borderColor: string;
+  /**
+   * The border radius of badge
+   */
+  borderRadius: string;
+  /**
+ * The margin of badge
+ */
+  margin: string;
   private getClassNameFromType;
   private getClassName;
   private getStyle;

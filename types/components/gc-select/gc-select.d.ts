@@ -62,7 +62,7 @@ export declare class GcSelect implements ComponentInterface {
    */
   clearable: boolean;
   /**
-   * Set the amount of time, in milliseconds, to wait to trigger the `goatChange` event after each keystroke.
+   * Set the amount of time, in milliseconds, to wait to trigger the `gcChange` event after each keystroke.
    */
   debounce: number;
   /**
@@ -85,15 +85,7 @@ export declare class GcSelect implements ComponentInterface {
    * Emitted when a keyboard input occurred.
    */
   gcSearch: EventEmitter;
-  /**
-   * Sets focus on the native `input` in `ion-input`. Use this method instead of the global
-   * `input.focus()`.
-   */
   setFocus(): Promise<void>;
-  /**
-   * Sets blur on the native `input` in `goat-input`. Use this method instead of the global
-   * `input.blur()`.
-   */
   setBlur(): Promise<void>;
   protected debounceChanged(): void;
   watchPropHandler(newValue: string): void;

@@ -17,7 +17,7 @@ export class GcMenuItem {
     this.isHover = false;
     this.clickHandler = event => {
       if (!this.disabled) {
-        this.goatMenuItemClick.emit({
+        this.gcMenuItemClick.emit({
           value: this.value || '',
           color: this.color || '',
           label: this.label || '',
@@ -78,19 +78,11 @@ export class GcMenuItem {
             h("slot", null)))));
     };
   }
-  /**
-   * Sets focus on the native `input` in `goat-input`. Use this method instead of the global
-   * `input.focus()`.
-   */
   async setFocus() {
     if (this.nativeInput) {
       this.nativeInput.focus();
     }
   }
-  /**
-   * Sets blur on the native `input` in `goat-input`. Use this method instead of the global
-   * `input.blur()`.
-   */
   async setBlur() {
     if (this.nativeInput) {
       this.nativeInput.blur();
@@ -105,9 +97,6 @@ export class GcMenuItem {
       this.isActive = false;
   }
   componentWillLoad() {
-    // If the ion-input has a tabindex attribute we get the value
-    // and pass it down to the native input, then remove it from the
-    // goat-input to avoid causing tabbing twice on the same element
     if (this.elm.hasAttribute('tabindex')) {
       const tabindex = this.elm.getAttribute('tabindex');
       this.tabindex = tabindex !== null ? tabindex : undefined;
@@ -289,7 +278,7 @@ export class GcMenuItem {
     "isHover": {}
   }; }
   static get events() { return [{
-      "method": "goatMenuItemClick",
+      "method": "gcMenuItemClick",
       "name": "gc:menu-item-click",
       "bubbles": true,
       "cancelable": true,
@@ -317,7 +306,7 @@ export class GcMenuItem {
         "return": "Promise<void>"
       },
       "docs": {
-        "text": "Sets focus on the native `input` in `goat-input`. Use this method instead of the global\n`input.focus()`.",
+        "text": "",
         "tags": []
       }
     },
@@ -333,7 +322,7 @@ export class GcMenuItem {
         "return": "Promise<void>"
       },
       "docs": {
-        "text": "Sets blur on the native `input` in `goat-input`. Use this method instead of the global\n`input.blur()`.",
+        "text": "",
         "tags": []
       }
     }

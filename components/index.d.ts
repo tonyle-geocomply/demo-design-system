@@ -32,6 +32,7 @@ export { GcTable as GcTable } from '../types/components/gc-table/gc-table';
 export { GcTabs as GcTabs } from '../types/components/gc-tabs/gc-tabs';
 export { GcTabsList as GcTabsList } from '../types/components/gc-tabs/gc-tabs-list/gc-tabs-list';
 export { GcTag as GcTag } from '../types/components/gc-tag/gc-tag';
+export { GcTagGroup as GcTagGroup } from '../types/components/gc-tag/gc-tag-group/gc-tag-group';
 export { GcTextarea as GcTextarea } from '../types/components/gc-textarea/gc-textarea';
 export { GcTooltip as GcTooltip } from '../types/components/gc-tooltip/gc-tooltip';
 export { GcUl as GcUl } from '../types/components/gc-ul/gc-ul';

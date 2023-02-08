@@ -31,6 +31,14 @@ const GcTag$1 = /*@__PURE__*/ proxyCustomElement(class extends HTMLElement {
      * The border color of badge
      */
     this.borderColor = 'none';
+    /**
+     * The border radius of badge
+     */
+    this.borderRadius = '';
+    /**
+   * The margin of badge
+   */
+    this.margin = '';
   }
   getClassNameFromType() {
     return `gc__badge gc__badge--${this.type}`;
@@ -48,6 +56,8 @@ const GcTag$1 = /*@__PURE__*/ proxyCustomElement(class extends HTMLElement {
       borderStyle: this.type ? 'none' : 'solid',
       height: this.height,
       lineHeight: this.height,
+      borderRadius: this.borderRadius || '',
+      margin: this.margin || '',
     };
   }
   render() {
@@ -63,7 +73,9 @@ const GcTag$1 = /*@__PURE__*/ proxyCustomElement(class extends HTMLElement {
     "background": [1],
     "color": [1],
     "borderWidth": [1, "border-width"],
-    "borderColor": [1, "border-color"]
+    "borderColor": [1, "border-color"],
+    "borderRadius": [1, "border-radius"],
+    "margin": [1]
   }]);
 function defineCustomElement$1() {
   if (typeof customElements === "undefined") {

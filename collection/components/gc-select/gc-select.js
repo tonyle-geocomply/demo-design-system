@@ -52,7 +52,7 @@ export class GcSelect {
      */
     this.clearable = false;
     /**
-     * Set the amount of time, in milliseconds, to wait to trigger the `goatChange` event after each keystroke.
+     * Set the amount of time, in milliseconds, to wait to trigger the `gcChange` event after each keystroke.
      */
     this.debounce = 300;
     /**
@@ -151,17 +151,9 @@ export class GcSelect {
       }
     };
   }
-  /**
-   * Sets focus on the native `input` in `ion-input`. Use this method instead of the global
-   * `input.focus()`.
-   */
   async setFocus() {
     this.displayElement.focus();
   }
-  /**
-   * Sets blur on the native `input` in `goat-input`. Use this method instead of the global
-   * `input.blur()`.
-   */
   async setBlur() {
     if (this.nativeInput) {
       this.nativeInput.blur();
@@ -383,16 +375,6 @@ export class GcSelect {
       return h("gc-icon", { color: "var(--gc-color-primary)", name: "fa-solid fa-caret-down", size: "10px", class: "input-action caret-down", role: "button", onClick: this.toggleList });
   }
   renderDropdownList() {
-    // if (this.search === 'managed' && !this.items.length) {
-    //   return (
-    //     <goat-menu class="menu" ref={el => (this.menuElm = el)}>
-    //       <div class="start-search">
-    //         <goat-icon name="search" size={this.size} />
-    //         <goat-text shade="secondary">Start typing to perform search</goat-text>
-    //       </div>
-    //     </goat-menu>
-    //   );
-    // }
     if (this.items) {
       const filteredItems = this.filterItems();
       return (h("gc-menu", { class: "menu", empty: filteredItems.length == 0, ref: el => (this.menuElm = el) }, (() => {
@@ -775,7 +757,7 @@ export class GcSelect {
       "optional": false,
       "docs": {
         "tags": [],
-        "text": "Set the amount of time, in milliseconds, to wait to trigger the `goatChange` event after each keystroke."
+        "text": "Set the amount of time, in milliseconds, to wait to trigger the `gcChange` event after each keystroke."
       },
       "attribute": "debounce",
       "reflect": false,
@@ -887,7 +869,7 @@ export class GcSelect {
         "return": "Promise<void>"
       },
       "docs": {
-        "text": "Sets focus on the native `input` in `ion-input`. Use this method instead of the global\n`input.focus()`.",
+        "text": "",
         "tags": []
       }
     },
@@ -903,7 +885,7 @@ export class GcSelect {
         "return": "Promise<void>"
       },
       "docs": {
-        "text": "Sets blur on the native `input` in `goat-input`. Use this method instead of the global\n`input.blur()`.",
+        "text": "",
         "tags": []
       }
     }

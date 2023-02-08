@@ -447,13 +447,7 @@ export namespace Components {
           * Menu item selection state.
          */
         "selected": boolean;
-        /**
-          * Sets blur on the native `input` in `goat-input`. Use this method instead of the global `input.blur()`.
-         */
         "setBlur": () => Promise<void>;
-        /**
-          * Sets focus on the native `input` in `goat-input`. Use this method instead of the global `input.focus()`.
-         */
         "setFocus": () => Promise<void>;
         /**
           * The menu item value.
@@ -528,7 +522,7 @@ export namespace Components {
         "clearable": boolean;
         "configAria": any;
         /**
-          * Set the amount of time, in milliseconds, to wait to trigger the `goatChange` event after each keystroke.
+          * Set the amount of time, in milliseconds, to wait to trigger the `gcChange` event after each keystroke.
          */
         "debounce": number;
         /**
@@ -570,13 +564,7 @@ export namespace Components {
           * Search type Possible values are `"none"`, `"initial"`, `"contains"`, `"managed"`. Defaults to `"none"`.
          */
         "search": 'none' | 'initial' | 'contains' | 'managed';
-        /**
-          * Sets blur on the native `input` in `goat-input`. Use this method instead of the global `input.blur()`.
-         */
         "setBlur": () => Promise<void>;
-        /**
-          * Sets focus on the native `input` in `ion-input`. Use this method instead of the global `input.focus()`.
-         */
         "setFocus": () => Promise<void>;
         "showLoader": boolean;
         /**
@@ -747,6 +735,10 @@ export namespace Components {
          */
         "borderColor": string;
         /**
+          * The border radius of badge
+         */
+        "borderRadius": string;
+        /**
           * The border width of badge
          */
         "borderWidth": string;
@@ -767,6 +759,10 @@ export namespace Components {
          */
         "height": string;
         /**
+          * The margin of badge
+         */
+        "margin": string;
+        /**
           * The type name
          */
         "type": string;
@@ -774,6 +770,10 @@ export namespace Components {
           * The width of badge
          */
         "width": string;
+    }
+    interface GcTagGroup {
+        "headingText": string;
+        "maxWidth": string;
     }
     interface GcTextarea {
         /**
@@ -1161,6 +1161,12 @@ declare global {
         prototype: HTMLGcTagElement;
         new (): HTMLGcTagElement;
     };
+    interface HTMLGcTagGroupElement extends Components.GcTagGroup, HTMLStencilElement {
+    }
+    var HTMLGcTagGroupElement: {
+        prototype: HTMLGcTagGroupElement;
+        new (): HTMLGcTagGroupElement;
+    };
     interface HTMLGcTextareaElement extends Components.GcTextarea, HTMLStencilElement {
     }
     var HTMLGcTextareaElement: {
@@ -1219,6 +1225,7 @@ declare global {
         "gc-tabs": HTMLGcTabsElement;
         "gc-tabs-list": HTMLGcTabsListElement;
         "gc-tag": HTMLGcTagElement;
+        "gc-tag-group": HTMLGcTagGroupElement;
         "gc-textarea": HTMLGcTextareaElement;
         "gc-tooltip": HTMLGcTooltipElement;
         "gc-ul": HTMLGcUlElement;
@@ -1769,7 +1776,7 @@ declare namespace LocalJSX {
         "clearable"?: boolean;
         "configAria"?: any;
         /**
-          * Set the amount of time, in milliseconds, to wait to trigger the `goatChange` event after each keystroke.
+          * Set the amount of time, in milliseconds, to wait to trigger the `gcChange` event after each keystroke.
          */
         "debounce"?: number;
         /**
@@ -2009,6 +2016,10 @@ declare namespace LocalJSX {
          */
         "borderColor"?: string;
         /**
+          * The border radius of badge
+         */
+        "borderRadius"?: string;
+        /**
           * The border width of badge
          */
         "borderWidth"?: string;
@@ -2029,6 +2040,10 @@ declare namespace LocalJSX {
          */
         "height"?: string;
         /**
+          * The margin of badge
+         */
+        "margin"?: string;
+        /**
           * The type name
          */
         "type"?: string;
@@ -2036,6 +2051,10 @@ declare namespace LocalJSX {
           * The width of badge
          */
         "width"?: string;
+    }
+    interface GcTagGroup {
+        "headingText"?: string;
+        "maxWidth"?: string;
     }
     interface GcTextarea {
         /**
@@ -2195,6 +2214,7 @@ declare namespace LocalJSX {
         "gc-tabs": GcTabs;
         "gc-tabs-list": GcTabsList;
         "gc-tag": GcTag;
+        "gc-tag-group": GcTagGroup;
         "gc-textarea": GcTextarea;
         "gc-tooltip": GcTooltip;
         "gc-ul": GcUl;
@@ -2238,6 +2258,7 @@ declare module "@stencil/core" {
             "gc-tabs": LocalJSX.GcTabs & JSXBase.HTMLAttributes<HTMLGcTabsElement>;
             "gc-tabs-list": LocalJSX.GcTabsList & JSXBase.HTMLAttributes<HTMLGcTabsListElement>;
             "gc-tag": LocalJSX.GcTag & JSXBase.HTMLAttributes<HTMLGcTagElement>;
+            "gc-tag-group": LocalJSX.GcTagGroup & JSXBase.HTMLAttributes<HTMLGcTagGroupElement>;
             "gc-textarea": LocalJSX.GcTextarea & JSXBase.HTMLAttributes<HTMLGcTextareaElement>;
             "gc-tooltip": LocalJSX.GcTooltip & JSXBase.HTMLAttributes<HTMLGcTooltipElement>;
             "gc-ul": LocalJSX.GcUl & JSXBase.HTMLAttributes<HTMLGcUlElement>;

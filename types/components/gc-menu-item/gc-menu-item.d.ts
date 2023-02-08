@@ -41,18 +41,10 @@ export declare class GcMenuItem {
   /**
    * Emitted when the menu item is clicked.
    */
-  goatMenuItemClick: EventEmitter;
+  gcMenuItemClick: EventEmitter;
   startSlotHasContent: boolean;
   endSlotHasContent: boolean;
-  /**
-   * Sets focus on the native `input` in `goat-input`. Use this method instead of the global
-   * `input.focus()`.
-   */
   setFocus(): Promise<void>;
-  /**
-   * Sets blur on the native `input` in `goat-input`. Use this method instead of the global
-   * `input.blur()`.
-   */
   setBlur(): Promise<void>;
   windowMouseUp(): void;
   windowKeyUp(evt: any): void;

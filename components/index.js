@@ -32,6 +32,7 @@ export { GcTable, defineCustomElement as defineCustomElementGcTable } from './gc
 export { GcTabs, defineCustomElement as defineCustomElementGcTabs } from './gc-tabs.js';
 export { GcTabsList, defineCustomElement as defineCustomElementGcTabsList } from './gc-tabs-list.js';
 export { GcTag, defineCustomElement as defineCustomElementGcTag } from './gc-tag.js';
+export { GcTagGroup, defineCustomElement as defineCustomElementGcTagGroup } from './gc-tag-group.js';
 export { GcTextarea, defineCustomElement as defineCustomElementGcTextarea } from './gc-textarea.js';
 export { GcTooltip, defineCustomElement as defineCustomElementGcTooltip } from './gc-tooltip.js';
 export { GcUl, defineCustomElement as defineCustomElementGcUl } from './gc-ul.js';
